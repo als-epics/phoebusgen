@@ -1,0 +1,1204 @@
+Graphics:
+  Arc:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Angle Start
+      - Angle Size
+      - Line Width
+      - Line Color
+      - Background Color
+      - Transparent
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Ellipse:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Line Width
+      - Line Color
+      - Background Color
+      - Transparent
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Label:
+    Widget:
+      - Name
+      - Class:
+        - Default
+        - Comment
+        - Section
+        - Title
+      - Macros
+      - Text
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Transparent
+      - Horizontal Alignment
+      - Vertical Alignment
+      - Rotation
+      - Auto-size
+      - Wrap Words
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+    Miscellaneous:
+      - Border Width
+      - Border Color
+  Picture:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+      - File
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Stretch to Fit
+      - Rotation
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Polygon: 
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Line Width
+      - Line Color
+      - Background Color
+      - Points
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Polyline:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Line Width
+      - Line Color
+      - Line Style
+      - Arrows
+      - Arrow Length
+      - Points
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Rectangle:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Line Width
+      - Line Color
+      - Background Color
+      - Transparent
+      - Corner Width
+      - Corner Height
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+Monitors:
+  Byte Monitor: 
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Start bit (0-31)
+      - Number of bits (1-32)
+      - Reverse bits
+      - Horizontal
+      - Square
+      - Off Color
+      - On Color
+      - Foreground Color
+      - Font
+      - Labels
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+  LED:
+    Widget:
+      - Name
+      - Class:
+        - Default
+        - ON/OFF
+        - WARNING
+      - PV Name
+      - Bit
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Off Label
+      - Off Color
+      - On Label
+      - On Color
+      - Font
+      - Foreground Color
+      - Line Color
+      - Square
+      - Labels from PV
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+  LED (Multi State):
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Line Color
+      - Square
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - States
+      - Fallback Label
+      - Fallback Color
+  Meter:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Format
+      - Precision
+      - Show Value
+      - Show Units
+      - Show Limits 
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Limits from PV
+      - Minimum
+      - Maximum
+    Miscellaneous:
+      - Needle Color
+      - Knob Color
+  Progress Bar:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Fill Color
+      - Background Color
+      - Horizontal
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Limits from PV
+      - Minimum
+      - Maximum
+  Symbol:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Nmae
+      - Symbols
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Background Color
+      - Initial Index
+      - Rotation
+      - Show Index
+      - Transparent
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Array Index
+      - Auto-size
+      - Enabled
+      - Preserve Ratio
+  Table:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name 
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Show Toolbar
+      - Columns
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Editable
+    Miscellaneous:
+      - Select Rows
+      - Selection PV
+  Tank:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Fill Color
+      - Empty Color
+      - Scale Visible
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Limits from PV
+      - Minimum
+      - Maximum
+  Text Symbol:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - Symbols
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Transparent
+      - Horizontal Alignment
+      - Vertical Alignment
+      - Rotation
+      - Wrap Words
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Array Index
+      - Enabled
+  Text Update:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Transparent
+      - Format
+      - Precision
+      - Show Units
+      - Horizontal Alignment
+      - Vertical Alignment
+      - Wrap Words
+      - Rotation
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Interactive
+    Miscellaneous:
+      - Border Width
+      - Border Color
+  Thermometer:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Fill Color
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Limits from PV
+      - Minimum
+      - Maximum
+Controls:
+  Action Button:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Actions
+      - PV Name
+      - Text
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Transparent
+      - Rotation
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Enabled
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Boolean Button:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - Bit
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Off Label
+      - Off Color
+      - Off Image
+      - On Label
+      - On Color
+      - On Image
+      - Show LED
+      - Font
+      - Foreground Color
+      - Background Color
+      - Labels from PV
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Enabled
+      - Mode
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Check Box:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - Bit
+      - Label
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Auto-size
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Enabled
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Choice Button:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Selected Color
+      - Horizontal
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Items
+      - Items from PV
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Combo Box:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Items
+      - Items from PV
+      - Editable
+      - Enabled
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  File Selector:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - File Component
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Enabled
+  Radio Button:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Horizontal
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Items
+      - Items from PV
+      - Enabled
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Scaled Slider:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Horizontal
+      - Foreground Color
+      - Background Color
+      - Transparent
+      - Font
+      - Show Scale
+      - Show minor ticks
+      - Major Ticks Pixel Dist.
+      - Scale Format
+      - Level HiHi
+      - Level High
+      - Level Low
+      - Level LoLo
+      - Show HiHi
+      - Show High
+      - Show Low
+      - Show LoLo
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Increment
+      - Minimum
+      - Maximum
+      - Limits from PV
+      - Enabled
+  Scrollbar:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Horizontal
+      - Show value tip
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Minimum
+      - Maximum
+      - Limits from PV
+      - Bar Length
+      - Increment
+      - Enabled
+  Slide Button:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - Bit
+      - Label
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Off Color
+      - On Color
+      - Font
+      - Foreground Color
+      - Auto-size
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Enabled
+      - Confirmation Dialog
+      - Confirmation Message
+      - Password
+  Spinner:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Format
+      - Precision
+      - Show Units
+      - Foreground Color
+      - Background Color
+      - Buttons on left
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm border
+      - Minimum
+      - Maximum
+      - Limits from PV
+      - Increment
+      - Enabled
+  Text Entry:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Foreground Color
+      - Background Color
+      - Format
+      - Precision
+      - Show Units
+      - Wrap Words
+      - Multi-Line
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Enabled
+    Miscellaneous:
+      - Border Width
+      - Border Color
+Plots:
+  Data Browser:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+      - File
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Show Toolbar
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Selection Value PV
+  Image:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Foreground Color
+      - Background Color
+      - Show Toolbar
+      - Color Map
+      - Color Bar:
+        - Visible
+        - Color Bar Size
+        - Scale Font
+      - X Axis:
+        - Visible
+        - Title
+        - Minimum
+        - Maximum
+        - Title Font
+        - Scale Font
+      - Y Axis:
+        - Visible
+        - Title
+        - Minimum
+        - Maximum
+        - Title Font
+        - Scale Font
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+      - Data Width
+      - Data Height
+      - Interpolation
+      - Color Mode
+      - Unsigned Data
+      - Auto-scale
+      - Log. scale
+      - Minimum
+      - Maximum
+    Miscellaneous:
+      - Cursor Info PV
+      - Cursor X PV
+      - Cursor Y PV
+      - Cursor Crosshair
+      - Regions of Interest
+  Strip Chart:
+    Widget:
+      - Name
+      - Class:
+        - Default
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Foreground Color
+      - Background Color
+      - Show Grid
+      - Title
+      - Title Font
+      - Label Font
+      - Scale Font
+      - Show Toolbar
+      - Show Legend
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Time Range
+      - Y Axes:
+        - Title
+        - Auto-scale
+        - Log. scale
+        - Minimum
+        - Maximum
+        - Show Grid
+        - Visible
+      - Traces:
+        - Name
+        - Y PV
+        - Y Axis
+        - Trace Type
+        - Color
+        - Line Width
+        - Point Type
+        - Point Size
+        - Visible
+  X/Y Plot:
+    Widget:
+      - Name
+      - Class:
+        - Default
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Foreground Color
+      - Background Color
+      - Grid Color
+      - Title
+      - Title Font
+      - Show Toolbar
+      - Show Legend
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - X Axis:
+        - Title
+        - Log. scale
+        - Auto-scale
+        - Minimum
+        - Maximum
+        - Show Grid
+        - Title Font
+        - Scale Font
+        - Visible
+      - Y Axes:
+        - Title
+        - Auto-scale
+        - Log. scale
+        - Minimum
+        - Maximum
+        - Show Grid
+        - Title Font
+        - Scale Font
+        - Visible
+      - Traces:
+        - Name
+        - Y PV
+        - X PV
+        - Error PV
+        - Y Axis
+        - Trace Type
+        - Color
+        - Line Width
+        - Line Style
+        - Point Type
+        - Point Size
+        - Visible
+    Miscellaneous:
+      - Markers
+Structure:
+  Array:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - PV Name
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Foreground Color
+      - Background Color
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+      - Alarm Border
+  Embedded Display:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+      - File
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Resize Behavior
+      - Group name
+      - Transparent
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+    Miscellaneous:
+      - Border Width
+      - Border Color
+  Group:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Style:
+        - Group Box
+        - Title Bar
+        - Line
+        - None
+      - Font
+      - Foreground Color
+      - Background Color
+      - Transparent
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Navigation Tabs:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Tabs:
+        - Name
+        - File
+        - Macros
+        - Group name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Direction:
+        - Vertical
+        - Horizontal
+      - Tab Width
+      - Tab Height
+      - Tab Spacing
+      - Selected Color
+      - Deselected Color
+      - Font
+      - Active Tab
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Tabs:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - Macros
+      - Tabs:
+        Tab Item:
+          - Name
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Font
+      - Background Color
+      - Active Tab
+      - Direction:
+        - Horizontal
+        - Vertical
+      - Tab Height
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+Miscellaneous:
+  3d Viewer:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - File
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip
+  Web Browser:
+    Widget:
+      - Name
+      - Class:
+        - Default
+      - URL
+    Position:
+      - X
+      - Y
+      - Width
+      - Height
+    Display:
+      - Visible
+      - Show toolbar
+    Behavior:
+      - Actions
+      - Rules
+      - Scripts
+      - Tool tip

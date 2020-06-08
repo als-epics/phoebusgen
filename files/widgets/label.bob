@@ -1,0 +1,7 @@
+<widget type="label" version="2.0.0">
+  <name>Label_1</name>
+  <x>150</x>
+  <y>30</y>
+  <width>200</width>
+  <height>50</height>
+</widget>

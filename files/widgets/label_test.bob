@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Empty</name>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <x>130</x>
+    <y>60</y>
+    <width>240</width>
+    <height>190</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="18.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color name="MAJOR" red="255" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <precision>2</precision>
+  </widget>
+</display>

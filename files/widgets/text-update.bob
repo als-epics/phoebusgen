@@ -1,0 +1,7 @@
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <x>40</x>
+    <y>20</y>
+    <width>190</width>
+    <height>60</height>
+  </widget>
