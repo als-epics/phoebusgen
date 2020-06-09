@@ -1,4 +1,10 @@
+sudo: false
 language: python
 python:
   - "3.8"
-script: python -m unittest discover tests
+install:
+  - pip install codecov
+script: 
+  - coverage run -m unittest discover tests
+after_success:
+  - codecov
