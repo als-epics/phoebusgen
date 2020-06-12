@@ -3,6 +3,7 @@
   <name>Empty</name>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
+    <pv_name>testPV</pv_name>
     <x>130</x>
     <y>60</y>
     <width>240</width>
@@ -16,5 +17,6 @@
       </color>
     </foreground_color>
     <precision>2</precision>
+    <horizontal_alignment>2</horizontal_alignment>
   </widget>
 </display>

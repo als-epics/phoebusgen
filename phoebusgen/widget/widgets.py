@@ -12,16 +12,18 @@ class Label(widget.Widget):
 
 
 class TextUpdate(widget.Widget):
-    def __init__(self, name, x, y, width, height):
+    def __init__(self, name, pv_name, x, y, width, height):
         super().__init__('textupdate', name, x, y, width, height)
+        p.PVName(self.root, pv_name)
 
     def add_precision(self, val):
-        prop = p.Precision(val)
-        self.root.append(prop.element)
+        p.Precision(self.root, val)
 
     def add_font(self, family=None, style=None, size=None):
-        prop = p.Font(family, style, size)
-        self.root.append(prop.element)
+        p.Font(self.root, family, style, size)
+
+    def add_horizontal_alignment(self, val):
+        p.HorizontalAlignment(self.root, val)
 
 
 
