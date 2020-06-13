@@ -1,5 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
+from properties import Property
 
 
 
@@ -20,6 +21,8 @@ class Widget(object):
 
         height_child = SubElement(self.root, 'height')
         height_child.text = str(height)
+
+        self.prop_factory = Property(self.root)
 
         if macro_list is None:
             self.macro_elem = None

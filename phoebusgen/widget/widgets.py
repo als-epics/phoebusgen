@@ -1,6 +1,5 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 import widget
-import properties as p
 
 
 class Label(widget.Widget):
@@ -14,16 +13,22 @@ class Label(widget.Widget):
 class TextUpdate(widget.Widget):
     def __init__(self, name, pv_name, x, y, width, height):
         super().__init__('textupdate', name, x, y, width, height)
-        p.PVName(self.root, pv_name)
+        self.prop_factory.add_pv_name(pv_name)
 
     def add_precision(self, val):
-        p.Precision(self.root, val)
+        self.prop_factory.add_precision(val)
 
     def add_font(self, family=None, style=None, size=None):
-        p.Font(self.root, family, style, size)
+        self.prop_factory.add_font(family, style, size)
 
     def add_horizontal_alignment(self, val):
-        p.HorizontalAlignment(self.root, val)
+        self.prop_factory.add_horizontal_alignment(val)
+
+    def add_predefined_foreground_color(self, name):
+        self.prop_factory.add_foreground_color(name, None, None, None, None)
+
+    def add_foreground_color(self, red, green, blue, alpha=255):
+        self.prop_factory.add_foreground_color(None, red, green, blue, alpha)
 
 
 

@@ -9,14 +9,11 @@
     <width>240</width>
     <height>190</height>
     <font>
-      <font family="Liberation Sans" style="BOLD" size="18.0">
+      <font family="PakTypeNaqsh" style="REGULAR" size="12.0">
       </font>
     </font>
-    <foreground_color>
-      <color name="MAJOR" red="255" green="0" blue="0">
-      </color>
-    </foreground_color>
     <precision>2</precision>
     <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
   </widget>
 </display>

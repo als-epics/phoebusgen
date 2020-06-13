@@ -52,6 +52,13 @@ class TestTextUpdateClass(unittest.TestCase):
                 foundIt = True
         self.assertTrue(foundIt)
 
+    def test_predefined_foreground_color(self):
+        self.widget.add_predefined_foreground_color('DISCONNECTED')
+        self.widget.print_widget()
+
+    def test_foreground_color(self):
+        w = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.height, self.width)
+        w.add_foreground_color(255, 255, 200)
 
     def test_add_font(self):
         self.widget.add_font()
@@ -72,7 +79,6 @@ class TestTextUpdateClass(unittest.TestCase):
         self.assertTrue(foundOuterFont)
         self.assertTrue(foundInnerFont)
         self.widget.add_horizontal_alignment('right')
-        self.widget.print_widget()
 
 
     def test_add_font_with_family(self):

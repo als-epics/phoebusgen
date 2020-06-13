@@ -1,0 +1,32 @@
+comment:
+  family: 'Liberation Sans'
+  size: '14'
+  style: 'Italic'
+default:
+  family: 'Liberation Sans'
+  size: '14'
+  style: 'Regular'
+default bold:
+  family: 'Liberation Sans'
+  size: '14'
+  style: 'Bold'
+fine print:
+  family: 'Liberation Sans'
+  size: '12'
+  style: 'Regular'
+header 1:
+  family: 'Liberation Sans'
+  size: '22'
+  style: 'Bold'
+header 2:
+  family: 'Liberation Sans'
+  size: '18'
+  style: 'Bold'
+header 3:
+  family: 'Liberation Sans'
+  size: '16'
+  style: 'Bold'
+oddball:
+  family: 'Liberation Sans'
+  size: '40'
+  style: 'Regular'

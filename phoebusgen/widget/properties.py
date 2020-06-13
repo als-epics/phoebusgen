@@ -1,34 +1,39 @@
 from xml.etree.ElementTree import Element, SubElement
+import yaml
+import os
 
 
 # TO DO : Add check if property is already available
 # TO DO : Add way to specify defaults in a config file
+# TO DO : Default property value should delete element
 class Property(object):
-    def __init__(self, prop_type, root_element, val=None):
-        self.element = Element(prop_type)
+    def __init__(self, root_element):
+        self.root = root_element
+        curr_path = os.path.dirname(__file__)
+        with open(curr_path + '/colors.yaml') as f:
+            self.predefined_colors = yaml.safe_load(f)
+        with open(curr_path + '/fonts.yaml') as f:
+            self.predefined_fonts = yaml.safe_load(f)
+
+    def generic_property(self, prop_type, val=None):
+        self.root.append(self.create_element(prop_type, val))
+
+    def create_element(self, prop_type, val=None):
+        element = Element(prop_type)
         if val is not None:
-            self.element.text = str(val)
-        root_element.append(self.element)
+            element.text = str(val)
+        return element
 
+    def add_pv_name(self, name):
+        self.generic_property('pv_name', name)
 
-class PVName(Property):
-    def __init__(self, root_element, name):
-        super().__init__('pv_name', root_element, name)
+    def add_precision(self, val):
+        self.generic_property('precision', val)
 
+    def add_show_units(self, show=True):
+        self.generic_property('show_units', show)
 
-class Precision(Property):
-    def __init__(self, root_element, val):
-        super().__init__('precision', root_element, val)
-
-
-# When true, there shouldn't be any element
-class ShowUnits(Property):
-    def __init__(self, root_element, show=True):
-        super().__init__('show_units', root_element, show)
-
-
-class HorizontalAlignment(Property):
-    def __init__(self, root_element, val):
+    def add_horizontal_alignment(self, val):
         if val.lower() == 'left':
             v = 0
         elif val.lower() == 'center':
@@ -36,20 +41,58 @@ class HorizontalAlignment(Property):
         elif val.lower() == 'right':
             v = 2
         else:
-            raise Exception('Wrong input to horizontal alightment: {}'.format(val))
-        super().__init__('horizontal_alignment', root_element, v)
+            print('Wrong input to horizontal alignment: {}. Must be Left, Center, or Right'.format(val))
+            return
+        self.generic_property('horizontal_alignment', v)
 
+    def add_vertical_alignment(self, val):
+        if val.lower() == 'top':
+            v = 0
+        elif val.lower() == 'middle':
+            v = 1
+        elif val.lower() == 'bottom':
+            v = 2
+        else:
+            print('Wrong input to vertical alignment: {}. Must be Top, Middle, or Bottom'.format(val))
+            return
+        self.generic_property('vertical_alignment', v)
 
-class Font(Property):
-    def __init__(self, root_element, family, style, size):
-        super().__init__('font', root_element)
-        if family is None:
-            family ='Liberation Sans'
-        if style is None:
-            style = 'Regular'
-        if size is None:
-            size = 14
-        SubElement(self.element, 'font', attrib={'family': family,
-                                                 'style': style,
-                                                 'size': str(size)})
+    def create_color_element(self, red, green, blue, alpha, name=None):
+        e = self.create_element('color')
+        if name is None:
+            e.attrib = {'red': red, 'blue': blue, 'green': green, 'alpha': alpha}
+        else:
+            color_list = self.predefined_colors.get(name.lower())
+            if color_list is None:
+                print('Color name is undefined')
+                return None
+            else:
+                e.attrib = color_list
+        return e
+
+    def add_foreground_color(self, name, red, green, blue, alpha):
+        e = self.create_element('foreground_color')
+        color_e = self.create_color_element(red, green, blue, alpha, name)
+        if color_e is None:
+            print('problem with color definition')
+            return
+        else:
+            e.append(color_e)
+            self.root.append(e)
+
+    def add_font(self, family, style, size, name=None):
+        e = self.create_element('font')
+        if name is not None:
+            font_attrib = self.predefined_fonts.get(name.lower())
+            if font_attrib is None:
+                print('Font name is wrong')
+                return
+        else:
+            font_attrib = {}
+            font_attrib['family'] = 'Liberation Sans' if family is None else family
+            font_attrib['style'] = 'Regular' if style is None else style
+            font_attrib['size'] = '14' if size is None else str(size)
+        SubElement(e, 'font', attrib=font_attrib)
+        self.root.append(e)
+
 
