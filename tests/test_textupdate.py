@@ -53,12 +53,71 @@ class TestTextUpdateClass(unittest.TestCase):
         self.assertTrue(foundIt)
 
     def test_predefined_foreground_color(self):
+        self.widget.remove_element('foreground_color')
+        self.assertIsNone(self.widget.find_element('foreground_color'))
+
         self.widget.add_predefined_foreground_color('DISCONNECTED')
+        foreground_element = self.widget.find_element('foreground_color')
+        self.assertIsNotNone(foreground_element)
+        color_element = foreground_element.find('color')
+        self.assertIsNotNone(color_element)
+        # alpha shouldn't be there if it is default 255 (fix in code)
+        self.assertEqual(len(color_element.attrib), 5)
+        self.assertEqual(color_element.attrib['name'], 'DISCONNECTED')
+        self.assertEqual(color_element.attrib['red'], '200')
+        self.assertEqual(color_element.attrib['green'], '0')
+        self.assertEqual(color_element.attrib['blue'], '200')
+        self.assertEqual(color_element.attrib['alpha'], '200')
 
     def test_foreground_color(self):
-        w = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.height, self.width)
-        w.add_foreground_color(255, 255, 200)
+        self.widget.remove_element('foreground_color')
+        self.assertIsNone(self.widget.find_element('foreground_color'))
 
+        self.widget.add_foreground_color(255, 255, 200)
+        foreground_element = self.widget.find_element('foreground_color')
+        self.assertIsNotNone(foreground_element)
+        color_element = foreground_element.find('color')
+        self.assertIsNotNone(color_element)
+        # alpha shouldn't be there if it is default 255 (fix in code)
+        self.assertEqual(len(color_element.attrib), 4)
+        self.assertEqual(color_element.attrib['red'], '255')
+        self.assertEqual(color_element.attrib['green'], '255')
+        self.assertEqual(color_element.attrib['blue'], '200')
+        self.assertEqual(color_element.attrib['alpha'], '255')
+
+    def test_background_color(self):
+        self.widget.remove_element('background_color')
+        self.assertIsNone(self.widget.find_element('background_color'))
+
+        self.widget.add_background_color(201, 100, 41, 2)
+        background_element = self.widget.find_element('background_color')
+        self.assertIsNotNone(background_element)
+        color_element = background_element.find('color')
+        self.assertIsNotNone(color_element)
+        # alpha shouldn't be there if it is default 255 (fix in code)
+        self.assertEqual(len(color_element.attrib), 4)
+        self.assertEqual(color_element.attrib['red'], '201')
+        self.assertEqual(color_element.attrib['green'], '100')
+        self.assertEqual(color_element.attrib['blue'], '41')
+        self.assertEqual(color_element.attrib['alpha'], '2')
+
+
+    def test_predefined_background_color(self):
+        self.widget.remove_element('background_color')
+        self.assertIsNone(self.widget.find_element('background_color'))
+
+        self.widget.add_predefined_background_color('On')
+        background_color = self.widget.find_element('background_color')
+        self.assertIsNotNone(background_color)
+        color_element = background_color.find('color')
+        self.assertIsNotNone(color_element)
+        # alpha shouldn't be there if it is default 255 (fix in code)
+        self.assertEqual(len(color_element.attrib), 5)
+        self.assertEqual(color_element.attrib['name'], 'On')
+        self.assertEqual(color_element.attrib['red'], '0')
+        self.assertEqual(color_element.attrib['green'], '255')
+        self.assertEqual(color_element.attrib['blue'], '0')
+        self.assertEqual(color_element.attrib['alpha'], '255')
 
 
 class TestTextUpdateFont(unittest.TestCase):
@@ -72,6 +131,8 @@ class TestTextUpdateFont(unittest.TestCase):
         self.widget = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
     def test_add_font(self):
+        self.widget.remove_element('font')
+        self.assertIsNone(self.widget.find_element('font'))
         self.widget.add_font()
         foundOuterFont = False
         foundInnerFont = False
@@ -92,6 +153,7 @@ class TestTextUpdateFont(unittest.TestCase):
 
     def test_add_font_with_name(self):
         self.widget.remove_element('font')
+        self.assertIsNone(self.widget.find_element('font'))
         self.widget.add_predefined_font('Header 1')
         foundOuterFont = False
         foundInnerFont = False
@@ -112,7 +174,7 @@ class TestTextUpdateFont(unittest.TestCase):
 
     def test_add_font_with_family(self):
         self.widget.remove_element('font')
-        self.assertEqual(self.widget.find_element('font'), None)
+        self.assertIsNone(self.widget.find_element('font'))
 
         foundOuterFont = False
         foundInnerFont = False
@@ -136,7 +198,7 @@ class TestTextUpdateFont(unittest.TestCase):
 
     def test_add_font_with_family_and_size(self):
         self.widget.remove_element('font')
-        self.assertEqual(self.widget.find_element('font'), None)
+        self.assertIsNone(self.widget.find_element('font'))
         foundOuterFont = False
         foundInnerFont = False
 
@@ -162,7 +224,7 @@ class TestTextUpdateFont(unittest.TestCase):
 
     def test_add_font_with_family_and_size_and_style(self):
         self.widget.remove_element('font')
-        self.assertEqual(self.widget.find_element('font'), None)
+        self.assertIsNone(self.widget.find_element('font'))
 
         fam = 'Noto Sans Sinhala Thin'
         size = 24

@@ -53,7 +53,7 @@ minor:
   green: '128'
   blue: '0'
   alpha: '255'
-off:
+'off':
   red: '60'
   green: '100'
   blue: '60'
@@ -63,7 +63,7 @@ ok:
   green: '255'
   blue: '0'
   alpha: '255'
-on:
+'on':
   red: '0'
   green: '255'
   blue: '0'

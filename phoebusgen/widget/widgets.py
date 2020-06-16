@@ -1,9 +1,9 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
-import widget
+from widget import Widget
 from _property_stubs import *
 
 
-class Label(widget.Widget):
+class Label(Widget):
     def __init__(self, name, x, y, width, height, text):
         super().__init__('label', name, x, y, width, height)
 
@@ -11,11 +11,11 @@ class Label(widget.Widget):
         text_child.text = text
 
 
-class TextUpdate(widget.Widget, PVName, Font, ForegroundColor, BackgroundColor, Transparent,
+class TextUpdate(Widget, PVName, Font, ForegroundColor, BackgroundColor, Transparent,
                  Format, Precision, ShowUnits, HorizontalAlignment, VerticalAlignment, WrapWords,
                  RotationPreDefined, Border):
     def __init__(self, name, pv_name, x, y, width, height):
-        widget.Widget.__init__(self, 'textupdate', name, x, y, width, height)
+        Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.add_pv_name(pv_name)
 
 

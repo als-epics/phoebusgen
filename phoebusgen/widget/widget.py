@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from properties import Property
+from _property import Property
 
 
 # TO DO : move macros out of widget class

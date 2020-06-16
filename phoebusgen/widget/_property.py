@@ -5,7 +5,7 @@ import os
 
 # TO DO : Add check if property is already available
 # TO DO : Add way to specify defaults in a config file
-# TO DO : Default property value should delete element
+# TO DO : Default property value should delete element (can use remove element with self.root)
 class Property(object):
     def __init__(self, root_element):
         self.root = root_element
@@ -63,10 +63,10 @@ class Property(object):
             return
         self.generic_property('vertical_alignment', v)
 
-    def create_color_element(self, root_color_elem, red, green, blue, alpha, name=None):
+    def create_color_element(self, root_color_elem, name, red, green, blue, alpha):
         sub_e = self.create_element('color')
         if name is None:
-            sub_e.attrib = {'red': red, 'blue': blue, 'green': green, 'alpha': alpha}
+            sub_e.attrib = {'red': str(red), 'blue': str(blue), 'green': str(green), 'alpha': str(alpha)}
         else:
             color_list = self.predefined_colors.get(name.lower())
             if color_list is None:
@@ -74,16 +74,17 @@ class Property(object):
                 return
             else:
                 sub_e.attrib = color_list
+                sub_e.attrib['name'] = name
         root_color_elem.append(sub_e)
         self.root.append(root_color_elem)
 
     def add_background_color(self, name, red, green, blue, alpha):
         e = self.create_element('background_color')
-        self.create_color_element(e, red, green, blue, alpha, name)
+        self.create_color_element(e, name, red, green, blue, alpha)
 
     def add_foreground_color(self, name, red, green, blue, alpha):
         e = self.create_element('foreground_color')
-        self.create_color_element(e, red, green, blue, alpha, name)
+        self.create_color_element(e, name, red, green, blue, alpha)
 
     def add_font(self, family, style, size, name):
         e = self.create_element('font')
