@@ -63,6 +63,7 @@ class Property(object):
             return
         self.generic_property('vertical_alignment', v)
 
+    # TO DO : limit RGB to 0-255
     def create_color_element(self, root_color_elem, name, red, green, blue, alpha):
         sub_e = self.create_element('color')
         if name is None:
@@ -86,6 +87,7 @@ class Property(object):
         e = self.create_element('foreground_color')
         self.create_color_element(e, name, red, green, blue, alpha)
 
+    # TO DO: Define possible fonts, possible sizes (if applicable), possible styles
     def add_font(self, family, style, size, name):
         e = self.create_element('font')
         if name is not None:
