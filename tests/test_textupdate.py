@@ -4,6 +4,9 @@ sys.path.insert(1, './phoebusgen/widget/')
 import unittest
 import widgets
 
+def create_text_update():
+    return widgets.TextUpdate('Generic TextUpdate', 'TEST:ME', 500, 300, 100, 20)
+
 
 class TestTextUpdateClass(unittest.TestCase):
     def setUp(self):
@@ -51,6 +54,17 @@ class TestTextUpdateClass(unittest.TestCase):
                 self.assertEqual(child.text, '2')
                 foundIt = True
         self.assertTrue(foundIt)
+
+
+class TestTextUpdateColors(unittest.TestCase):
+    def setUp(self):
+        self.name = 'txt1'
+        self.x = 11
+        self.y = 13
+        self.width = 16
+        self.height = 19
+        self.pv_name = 'test:pv'
+        self.widget = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
     def test_predefined_foreground_color(self):
         self.widget.remove_element('foreground_color')
@@ -100,7 +114,6 @@ class TestTextUpdateClass(unittest.TestCase):
         self.assertEqual(color_element.attrib['green'], '100')
         self.assertEqual(color_element.attrib['blue'], '41')
         self.assertEqual(color_element.attrib['alpha'], '2')
-
 
     def test_predefined_background_color(self):
         self.widget.remove_element('background_color')
@@ -240,6 +253,14 @@ class TestTextUpdateFont(unittest.TestCase):
                         self.assertEqual(c.attrib['family'], fam)
                         self.assertEqual(c.attrib['style'], style)
                         self.assertEqual(c.attrib['size'], str(size))
+
+
+class TestTextUpdateBorder(unittest.TestCase):
+    def setUp(self):
+        self.widget = create_text_update()
+
+    def test_border_width(self):
+        pass
 
 
 if __name__ == '__main__':
