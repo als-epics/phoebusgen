@@ -9,11 +9,13 @@
     <width>240</width>
     <height>190</height>
     <font>
-      <font family="PakTypeNaqsh" style="REGULAR" size="12.0">
+      <font family="Liberation Sans" style="BOLD" size="22.0">
       </font>
     </font>
+    <transparent>true</transparent>
     <precision>2</precision>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
   </widget>
 </display>

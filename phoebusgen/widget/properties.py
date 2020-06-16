@@ -30,8 +30,14 @@ class Property(object):
     def add_precision(self, val):
         self.generic_property('precision', val)
 
-    def add_show_units(self, show=True):
+    def add_show_units(self, show):
         self.generic_property('show_units', show)
+
+    def add_wrap_words(self, wrap):
+        self.generic_property('wrap_words', wrap)
+
+    def add_transparent(self, transparent):
+        self.generic_property('transparent', transparent)
 
     def add_horizontal_alignment(self, val):
         if val.lower() == 'left':
@@ -57,30 +63,29 @@ class Property(object):
             return
         self.generic_property('vertical_alignment', v)
 
-    def create_color_element(self, red, green, blue, alpha, name=None):
-        e = self.create_element('color')
+    def create_color_element(self, root_color_elem, red, green, blue, alpha, name=None):
+        sub_e = self.create_element('color')
         if name is None:
-            e.attrib = {'red': red, 'blue': blue, 'green': green, 'alpha': alpha}
+            sub_e.attrib = {'red': red, 'blue': blue, 'green': green, 'alpha': alpha}
         else:
             color_list = self.predefined_colors.get(name.lower())
             if color_list is None:
                 print('Color name is undefined')
-                return None
+                return
             else:
-                e.attrib = color_list
-        return e
+                sub_e.attrib = color_list
+        root_color_elem.append(sub_e)
+        self.root.append(root_color_elem)
+
+    def add_background_color(self, name, red, green, blue, alpha):
+        e = self.create_element('background_color')
+        self.create_color_element(e, red, green, blue, alpha, name)
 
     def add_foreground_color(self, name, red, green, blue, alpha):
         e = self.create_element('foreground_color')
-        color_e = self.create_color_element(red, green, blue, alpha, name)
-        if color_e is None:
-            print('problem with color definition')
-            return
-        else:
-            e.append(color_e)
-            self.root.append(e)
+        self.create_color_element(e, red, green, blue, alpha, name)
 
-    def add_font(self, family, style, size, name=None):
+    def add_font(self, family, style, size, name):
         e = self.create_element('font')
         if name is not None:
             font_attrib = self.predefined_fonts.get(name.lower())

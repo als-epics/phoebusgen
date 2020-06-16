@@ -77,14 +77,18 @@ class TestWidgetClass(unittest.TestCase):
                 for macro in child:
                     self.assertEqual(macro.tag, 'test')
                     self.assertEqual(macro.text, 'mac1')
+        foundIt = False
         w.add_macro('test2', 'mac2')
         self.assertEqual(len(w.root), 7)
         for child in w.root:
             if child.tag == 'macros':
                 self.assertEqual(len(child), 2)
                 for macro in child:
-                    if child.tag == 'test2':
+                    if macro.tag == 'test2':
+                        foundIt = True
                         self.assertEqual(macro.text, 'mac2')
+
+        self.assertTrue(foundIt)
 
 
 if __name__ == '__main__':

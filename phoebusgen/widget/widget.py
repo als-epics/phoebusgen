@@ -3,7 +3,8 @@ from xml.dom import minidom
 from properties import Property
 
 
-
+# TO DO : move macros out of widget class
+# TO DO : Add rest of global properties - class, tool tip, actions, rules, scripts
 class Widget(object):
     def __init__(self, w_type, name, x_pos, y_pos, width, height, macro_list=None):
         self.root = Element('widget', type=w_type, version='2.0.0')
@@ -39,6 +40,15 @@ class Widget(object):
             self.macro_elem = SubElement(self.root, 'macros')
         macro = SubElement(self.macro_elem, name)
         macro.text = val
+
+    def find_element(self, tag):
+        element = self.root.find(tag)
+        return element
+
+    def remove_element(self, tag):
+        element = self.find_element(tag)
+        if element is not None:
+            self.root.remove(element)
 
     def prettify(self, elem):
         """Return a pretty-printed XML string for the Element.

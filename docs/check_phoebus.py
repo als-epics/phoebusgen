@@ -15,6 +15,19 @@ def print_structure():
                     for val in subclass_types:
                         print("\t\t\t{}".format(val))
                     
+def print_all_props():
+    p = set()
+    with open('phoebus.yaml') as f:
+        dataMap = yaml.safe_load(f)
+        for widget_type, widgets in dataMap.items():
+            for widget_name, widget_items in widgets.items():
+                for subclass, subclass_types in widget_items.items():
+                    for val in subclass_types:
+                        if type(val) != type({}):
+                            p.add(val)
+    for v in p:
+        print(v)
+
 def check_elem(elem_type, elem):
     widget_list = []
     with open('phoebus.yaml') as f:
@@ -49,6 +62,9 @@ def check_elements(elem_type, elem):
 if __name__ == "__main__":
     if len(sys.argv) == 2:
         print_structure()
+        sys.exit(0)
+    elif len(sys.argv) == 1:
+        print_all_props()
         sys.exit(0)
     elif len(sys.argv) != 3:
         print("must specify <Class> <Property>!")
