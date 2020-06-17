@@ -33,7 +33,9 @@ class Transparent(object):
 
 
 class Format(object):
-    pass
+    def add_format(self, format):
+        self.prop_factory.add_format(format)
+
 
 class Precision(object):
     def add_precision(self, val):
@@ -61,16 +63,22 @@ class WrapWords(object):
 
 # 0, 90, 180, -90
 # text update, label, action button
-class RotationPreDefined(object):
-    pass
+class RotationStep(object):
+    def add_rotation_step(self, rotation):
+        self.prop_factory.add_rotation_step(rotation)
 
 
 # picture, symbol
-class RotationFreeForm(object):
+class Rotation(object):
     pass
 
 
 class Border(object):
-    pass
+    def add_border_width(self, width):
+        self.prop_factory.add_border_width(width)
 
+    def add_predefined_border_color(self, name):
+        self.prop_factory.add_border_color(name, None, None, None, None)
 
+    def add_border_color(self, red, green, blue, alpha=255):
+        self.prop_factory.add_border_color(None, red, green, blue, alpha)

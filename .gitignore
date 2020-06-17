@@ -5,3 +5,5 @@ __pycache__/
 
 venv/
 .idea/
+
+files/widgets/label_test.bob

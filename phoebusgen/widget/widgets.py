@@ -13,7 +13,7 @@ class Label(Widget):
 
 class TextUpdate(Widget, PVName, Font, ForegroundColor, BackgroundColor, Transparent,
                  Format, Precision, ShowUnits, HorizontalAlignment, VerticalAlignment, WrapWords,
-                 RotationPreDefined, Border):
+                 RotationStep, Border):
     def __init__(self, name, pv_name, x, y, width, height):
         Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.add_pv_name(pv_name)

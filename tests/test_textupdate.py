@@ -263,5 +263,30 @@ class TestTextUpdateBorder(unittest.TestCase):
         pass
 
 
+class TestTextUpdateProperties(unittest.TestCase):
+    #return widgets.TextUpdate('Generic TextUpdate', 'TEST:ME', 500, 300, 100, 20)
+    def setUp(self):
+        self.textupdate = create_text_update()
+
+    def generic_element_test(self, tag_name, value):
+        element = self.textupdate.find_element(tag_name)
+        self.assertIsNotNone(element)
+        self.assertEqual(element.text, value)
+
+    def test_pv_name(self):
+        tag_name = 'pv_name'
+        value = 'TEST:ME'
+        self.generic_element_test(tag_name, value)
+
+    def test_font(self):
+        tag_name = 'font'
+        value = 'Header 1'
+        self.textupdate.add_predefined_font(value)
+        font_element = self.textupdate.find_element(tag_name)
+        self.assertIsNotNone(font_element)
+        child_font_element = font_element.find(tag_name)
+        self.assertIsNotNone(child_font_element)
+
+
 if __name__ == '__main__':
     unittest.main()

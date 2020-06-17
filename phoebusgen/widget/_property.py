@@ -6,6 +6,7 @@ import os
 # TO DO : Add check if property is already available
 # TO DO : Add way to specify defaults in a config file
 # TO DO : Default property value should delete element (can use remove element with self.root)
+# TO DO : Probably should allow for 'array' input functions to also take in integer value
 class Property(object):
     def __init__(self, root_element):
         self.root = root_element
@@ -14,6 +15,12 @@ class Property(object):
             self.predefined_colors = yaml.safe_load(f)
         with open(curr_path + '/fonts.yaml') as f:
             self.predefined_fonts = yaml.safe_load(f)
+        self.rotation_steps_array = [0, 90, 180, -90]
+        self.horizontal_alignment_array = ['left', 'center', 'right']
+        self.vertical_alignment_array = ['top', 'middle', 'bottom']
+        self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
+                              'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
+                              'sexagesimal dms 360deg rad', 'binary']
 
     def generic_property(self, prop_type, val=None):
         self.root.append(self.create_element(prop_type, val))
@@ -39,26 +46,32 @@ class Property(object):
     def add_transparent(self, transparent):
         self.generic_property('transparent', transparent)
 
-    def add_horizontal_alignment(self, val):
-        if val.lower() == 'left':
-            v = 0
-        elif val.lower() == 'center':
-            v = 1
-        elif val.lower() == 'right':
-            v = 2
-        else:
+    def add_rotation(self, rotation):
+        pass
+
+    def add_rotation_step(self, rotation):
+        rotation = int(rotation)
+        try:
+            val = self.rotation_steps_array.index(rotation)
+        except ValueError:
+            print('Invalid rotation given. Must be 0, 90, 180, -90')
+            return
+        self.generic_property('rotation_step', val)
+
+    def add_horizontal_alignment(self, alignment):
+        val = str(alignment).lower()
+        try:
+            v = self.horizontal_alignment_array.index(val)
+        except ValueError:
             print('Wrong input to horizontal alignment: {}. Must be Left, Center, or Right'.format(val))
             return
         self.generic_property('horizontal_alignment', v)
 
-    def add_vertical_alignment(self, val):
-        if val.lower() == 'top':
-            v = 0
-        elif val.lower() == 'middle':
-            v = 1
-        elif val.lower() == 'bottom':
-            v = 2
-        else:
+    def add_vertical_alignment(self, alignment):
+        val = str(alignment).lower()
+        try:
+            v = self.vertical_alignment_array.index(val)
+        except ValueError:
             print('Wrong input to vertical alignment: {}. Must be Top, Middle, or Bottom'.format(val))
             return
         self.generic_property('vertical_alignment', v)
@@ -96,11 +109,29 @@ class Property(object):
                 print('Font name is wrong')
                 return
         else:
-            font_attrib = {}
-            font_attrib['family'] = 'Liberation Sans' if family is None else family
-            font_attrib['style'] = 'Regular' if style is None else style
-            font_attrib['size'] = '14' if size is None else str(size)
+            font_attrib = {'family': 'Liberation Sans' if family is None else family,
+                           'style': 'Regular' if style is None else style,
+                           'size': '14' if size is None else str(size)}
         SubElement(e, 'font', attrib=font_attrib)
         self.root.append(e)
 
+    def add_border_width(self, width):
+        try:
+            v = int(width)
+        except ValueError:
+            print('Width must be an integer, not: {}'.format(width))
+            return
+        self.generic_property('border_width', v)
 
+    def add_border_color(self, name, red, green, blue, alpha):
+        e = self.create_element('border_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_format(self, format_val):
+        val = str(format_val).lower()
+        try:
+            v = self.formats_array.index(val)
+        except ValueError:
+            print('Invalid format. Given format {}'.format(format))
+            return
+        self.generic_property('format', v)

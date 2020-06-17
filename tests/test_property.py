@@ -2,7 +2,6 @@ import sys
 sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
 import unittest
-import yaml
 from xml.etree.ElementTree import Element, SubElement
 import _property
 
@@ -105,6 +104,56 @@ class TestGenericPropertyElements(unittest.TestCase):
         tag_name = 'vertical_alignment'
         alignment = 'BOTTO'
         self.prop_factory.add_vertical_alignment(alignment)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+
+    def test_rotation_step(self):
+        tag_name = 'rotation_step'
+        rotation = -90
+        xml_rotation_value = 3
+        self.prop_factory.add_rotation_step(rotation)
+        self.generic_element_test(tag_name, xml_rotation_value)
+
+    def test_rotation_step_wrong_input(self):
+        rotation = 234
+        self.prop_factory.add_rotation_step(rotation)
+        self.assertIsNone(self.prop_factory.root.find('rotation_step'))
+
+    def test_border_width(self):
+        tag_name = 'border_width'
+        width = 5
+        self.prop_factory.add_border_width(width)
+        self.generic_element_test(tag_name, width)
+
+    def test_border_width_float(self):
+        tag_name = 'border_width'
+        width = 2.5
+        self.prop_factory.add_border_width(width)
+        self.generic_element_test(tag_name, int(width))
+
+    def test_border_width_wrong(self):
+        tag_name = 'border_width'
+        width = 'dsfds'
+        self.prop_factory.add_border_width(width)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+
+    def test_format_binary(self):
+        tag_name = 'format'
+        format = 'Binary'
+        xml_format_value = 10
+        self.prop_factory.add_format(format)
+        self.generic_element_test(tag_name, xml_format_value)
+
+    def test_format_decimal(self):
+        tag_name = 'format'
+        format = 'dEcimal'
+        xml_format_value = 1
+        self.prop_factory.add_format(format)
+        self.generic_element_test(tag_name, xml_format_value)
+
+    def test_format_wrong_input(self):
+        tag_name = 'format'
+        format = 'dsfds'
+        self.prop_factory.add_format(format)
         self.assertIsNone(self.prop_factory.root.find(tag_name))
 
 
@@ -210,7 +259,7 @@ class TestColorPropertyElements(unittest.TestCase):
         self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
-    def test_foreground_color(self):
+    def test_foreground_color_2(self):
         tag_name = 'foreground_color'
         red = '25'
         green = 265
@@ -230,7 +279,7 @@ class TestColorPropertyElements(unittest.TestCase):
         self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
-    def test_predefined_foreground_color(self):
+    def test_predefined_foreground_color_wrong(self):
         tag_name = 'foreground_color'
         red = 255
         green = 255
@@ -238,6 +287,47 @@ class TestColorPropertyElements(unittest.TestCase):
         alpha = 255
         name = 'sdaflkdasf'
         self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self.assertIsNone(self.prop_factory.root.find('color'))
+
+    def test_border_color(self):
+        tag_name = 'border_color'
+        red = 0
+        green = 0
+        blue = 0
+        alpha = 255
+        name = None
+        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_border_color_2(self):
+        tag_name = 'border_color'
+        red = 0
+        green = 0
+        blue = 21
+        alpha = 255
+        name = None
+        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_border_color(self):
+        tag_name = 'border_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 0
+        name = 'MAJOR'
+        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_border_color_wrong(self):
+        tag_name = 'border_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'sdaflkdasf'
+        self.prop_factory.add_border_color(name, red, green, blue, alpha)
         self.assertIsNone(self.prop_factory.root.find(tag_name))
         self.assertIsNone(self.prop_factory.root.find('color'))
 
