@@ -2,6 +2,7 @@ import sys
 sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
 import unittest
+import os
 import widgets
 
 def create_text_update():
@@ -264,28 +265,139 @@ class TestTextUpdateBorder(unittest.TestCase):
 
 
 class TestTextUpdateProperties(unittest.TestCase):
-    #return widgets.TextUpdate('Generic TextUpdate', 'TEST:ME', 500, 300, 100, 20)
     def setUp(self):
         self.textupdate = create_text_update()
+
+    def test_init(self):
+        curr_path = os.path.dirname(__file__)
+        with open(curr_path + '/../files/widgets/text-update.bob') as f:
+            xml = f.read()
+            self.assertEqual(xml, self.textupdate.prettify(self.textupdate.root))
 
     def generic_element_test(self, tag_name, value):
         element = self.textupdate.find_element(tag_name)
         self.assertIsNotNone(element)
-        self.assertEqual(element.text, value)
+        if value is None:
+            self.assertIsNone(element.text)
+        else:
+            self.assertEqual(element.text, str(value))
+        self.textupdate.remove_element(tag_name)
+        self.assertIsNone(self.textupdate.find_element(tag_name))
 
-    def test_pv_name(self):
-        tag_name = 'pv_name'
-        value = 'TEST:ME'
-        self.generic_element_test(tag_name, value)
+    def child_element_test(self, parent_tag, tag_name, value, attrib):
+        parent = self.textupdate.find_element(parent_tag)
+        self.assertIsNotNone(parent)
+        child = parent.find(tag_name)
+        self.assertIsNotNone(child)
+        if value is None:
+            self.assertIsNone(child.text)
+        else:
+            self.assertEqual(child.text, str(value))
+        self.assertEqual(child.attrib, attrib)
+
+        self.textupdate.remove_element(parent_tag)
+        self.assertIsNone(self.textupdate.find_element(parent_tag))
 
     def test_font(self):
         tag_name = 'font'
         value = 'Header 1'
         self.textupdate.add_predefined_font(value)
-        font_element = self.textupdate.find_element(tag_name)
-        self.assertIsNotNone(font_element)
-        child_font_element = font_element.find(tag_name)
-        self.assertIsNotNone(child_font_element)
+        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '22', 'style': 'Bold'})
+
+    def test_predefined_foreground_color(self):
+        tag_name = 'foreground_color'
+        value = 'Background'
+        self.textupdate.add_predefined_foreground_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_foreground_color(self):
+        tag_name = 'foreground_color'
+        self.textupdate.add_foreground_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+    def test_predefined_background_color(self):
+        tag_name = 'background_color'
+        value = 'MINOR'
+        self.textupdate.add_predefined_background_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128', 'blue': '0', 'alpha': '255'})
+
+    def test_foreground_color(self):
+        tag_name = 'background_color'
+        self.textupdate.add_background_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10', 'blue': '15', 'alpha': '255'})
+
+    def test_transparent(self):
+        tag_name = 'transparent'
+        value = True
+        self.textupdate.add_transparent(value)
+        self.generic_element_test(tag_name, str(value))
+
+    def test_format(self):
+        tag_name = 'format'
+        value = 'Engineering'
+        xml_value = '3'
+        self.textupdate.add_format(value)
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_precision(self):
+        tag_name = 'precision'
+        value = 25.3
+        real_value = '25'
+        self.textupdate.add_precision(value)
+        self.generic_element_test(tag_name, real_value)
+
+    def test_show_units(self):
+        tag_name = 'show_units'
+        value = False
+        self.textupdate.add_show_units(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_horizontal_alignment(self):
+        tag_name = 'horizontal_alignment'
+        value = 'Center'
+        xml_value = 1
+        self.textupdate.add_horizontal_alignment(value)
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_vertical_alignment(self):
+        tag_name = 'vertical_alignment'
+        value = 'Middle'
+        xml_value = 1
+        self.textupdate.add_vertical_alignment(value)
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_wrap_words(self):
+        tag_name = 'wrap_words'
+        value = False
+        self.textupdate.add_wrap_words(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_rotation_step(self):
+        tag_name = 'rotation_step'
+        value = 180
+        xml_value = 2
+        self.textupdate.add_rotation_step(value)
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_border_width(self):
+        tag_name = 'border_width'
+        value = 2
+        self.textupdate.add_border_width(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_border_color(self):
+        tag_name = 'border_color'
+        self.textupdate.add_border_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10', 'blue': '15', 'alpha': '255'})
+
+    def test_predefined_border_color(self):
+        tag_name = 'border_color'
+        value = 'Attention'
+        self.textupdate.add_predefined_border_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Attention', 'red': '255', 'green': '160',
+                                                          'blue': '0', 'alpha': '255'})
 
 
 if __name__ == '__main__':

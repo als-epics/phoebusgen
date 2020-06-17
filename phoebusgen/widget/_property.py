@@ -35,7 +35,12 @@ class Property(object):
         self.generic_property('pv_name', name)
 
     def add_precision(self, val):
-        self.generic_property('precision', val)
+        try:
+            v = int(val)
+        except ValueError:
+            print('Precision must be an integer, not: {}'.format(val))
+            return
+        self.generic_property('precision', v)
 
     def add_show_units(self, show):
         self.generic_property('show_units', show)
@@ -50,9 +55,13 @@ class Property(object):
         pass
 
     def add_rotation_step(self, rotation):
-        rotation = int(rotation)
         try:
-            val = self.rotation_steps_array.index(rotation)
+            value = int(rotation)
+        except ValueError:
+            print('Rotation step must be an integer, not: {}'.format(value))
+            return
+        try:
+            val = self.rotation_steps_array.index(value)
         except ValueError:
             print('Invalid rotation given. Must be 0, 90, 180, -90')
             return

@@ -50,6 +50,7 @@ class Widget(object):
         if element is not None:
             self.root.remove(element)
 
+    # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
     def prettify(self, elem):
         """Return a pretty-printed XML string for the Element.
         """
