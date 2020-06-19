@@ -280,7 +280,10 @@ class TestTextUpdateProperties(unittest.TestCase):
         if value is None:
             self.assertIsNone(element.text)
         else:
-            self.assertEqual(element.text, str(value))
+            if type(value) == bool:
+                self.assertEqual(element.text, str(value).lower())
+            else:
+                self.assertEqual(element.text, str(value))
         self.textupdate.remove_element(tag_name)
         self.assertIsNone(self.textupdate.find_element(tag_name))
 
@@ -332,7 +335,7 @@ class TestTextUpdateProperties(unittest.TestCase):
         tag_name = 'transparent'
         value = True
         self.textupdate.add_transparent(value)
-        self.generic_element_test(tag_name, str(value))
+        self.generic_element_test(tag_name, value)
 
     def test_format(self):
         tag_name = 'format'

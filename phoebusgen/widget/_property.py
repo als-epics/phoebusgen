@@ -28,7 +28,10 @@ class Property(object):
     def create_element(self, prop_type, val=None):
         element = Element(prop_type)
         if val is not None:
-            element.text = str(val)
+            if type(val) == bool:
+                element.text = str(val).lower()
+            else:
+                element.text = str(val)
         return element
 
     def add_pv_name(self, name):
@@ -144,3 +147,9 @@ class Property(object):
             print('Invalid format. Given format {}'.format(format))
             return
         self.generic_property('format', v)
+
+    def add_text(self, text):
+        self.generic_property('text', text)
+
+    def add_auto_size(self, auto):
+        self.generic_property('auto_size', auto)

@@ -61,6 +61,16 @@ class WrapWords(object):
         self.prop_factory.add_wrap_words(wrap)
 
 
+class Text(object):
+    def add_text(self, text):
+        self.prop_factory.add_text(text)
+
+
+class AutoSize(object):
+    def add_auto_size(self, auto=True):
+        self.prop_factory.add_auto_size(auto)
+
+
 # 0, 90, 180, -90
 # text update, label, action button
 class RotationStep(object):

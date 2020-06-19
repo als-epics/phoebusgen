@@ -3,12 +3,12 @@ from widget import Widget
 from _property_stubs import *
 
 
-class Label(Widget):
+class Label(Widget, Text, Font, ForegroundColor, BackgroundColor, Transparent, HorizontalAlignment,
+            RotationStep, WrapWords, AutoSize, Border):
     def __init__(self, name, x, y, width, height, text):
         super().__init__('label', name, x, y, width, height)
 
-        text_child = SubElement(self.root, 'text')
-        text_child.text = text
+        self.add_text(text)
 
 
 class TextUpdate(Widget, PVName, Font, ForegroundColor, BackgroundColor, Transparent,

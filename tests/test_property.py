@@ -17,7 +17,10 @@ class TestGenericPropertyElements(unittest.TestCase):
     def generic_element_test(self, tag_name, tag_value):
         new_element = self.prop_factory.root.find(tag_name)
         self.assertIsNotNone(new_element)
-        self.assertEqual(new_element.text, str(tag_value))
+        if type(tag_value) == bool:
+            self.assertEqual(new_element.text, str(tag_value).lower())
+        else:
+            self.assertEqual(new_element.text, str(tag_value))
         self.assertEqual(new_element.attrib, {})
         self.prop_factory.root.remove(new_element)
         self.assertIsNone(self.prop_factory.root.find(tag_name))
@@ -155,6 +158,24 @@ class TestGenericPropertyElements(unittest.TestCase):
         format = 'dsfds'
         self.prop_factory.add_format(format)
         self.assertIsNone(self.prop_factory.root.find(tag_name))
+
+    def test_auto_size_true(self):
+        tag_name = 'auto_size'
+        auto = True
+        self.prop_factory.add_auto_size(auto)
+        self.generic_element_test(tag_name, str(auto).lower())
+
+    def test_auto_size_false(self):
+        tag_name = 'auto_size'
+        auto = False
+        self.prop_factory.add_auto_size(auto)
+        self.generic_element_test(tag_name, auto)
+
+    def test_text(self):
+        tag_name = 'text'
+        text = 'TEST TEST TEST'
+        self.prop_factory.add_text(text)
+        self.generic_element_test(tag_name, text)
 
 
 class TestColorPropertyElements(unittest.TestCase):
