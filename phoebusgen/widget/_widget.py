@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from _property import Property
+from phoebusgen.widget._property import Property
 
 
 # TO DO : move macros out of widget class
@@ -58,8 +58,8 @@ class Widget(object):
         reparse_xml = minidom.parseString(rough_string)
         return reparse_xml.toprettyxml(indent="  ", newl="\n")
 
-    def print_widget(self):
-        print(self.prettify(self.root))
+    def __str__(self):
+        return self.prettify(self.root)
 
 
 if __name__ == '__main__':

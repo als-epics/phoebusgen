@@ -11,7 +11,35 @@ This module aims to provide a way to generate Phoebus xml through Python.
 - Python >= 3.5
 - [pyyaml](https://pypi.org/project/PyYAML/)
 
-# Basics
+# Install
+
+- pip install phoebusgen
+
+# Intro
+
+```
+>>> import phoebusgen.widget as w
+>>> text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
+>>> text_update_widget.add_predefined_foreground_color('OK')
+>>> print(text_update_widget)
+<?xml version="1.0" ?>
+<widget type="textupdate" version="2.0.0">
+  <name>test widget</name>
+  <x>10</x>
+  <y>20</y>
+  <width>20</width>
+  <height>50</height>
+  <pv_name>TEST:PV</pv_name>
+  <foreground_color>
+    <color red="0" green="255" blue="0" alpha="255" name="OK"/>
+  </foreground_color>
+</widget>
+
+>>>
+```
+
+
+# Modules 
 
 ## phoebusgen.widget
 
