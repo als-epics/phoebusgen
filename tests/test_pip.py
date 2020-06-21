@@ -7,7 +7,7 @@ class TestPip(unittest.TestCase):
 
         text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
         self.assertEqual(text_update_widget.find_element('pv_name').text, 'TEST:PV')
-        self.assertEqual(text_update_widget.find_element('name').text, 'test_widget')
+        self.assertEqual(text_update_widget.find_element('name').text, 'test widget')
         self.assertEqual(text_update_widget.find_element('x').text, '10')
         self.assertEqual(text_update_widget.find_element('y').text, '20')
         self.assertEqual(text_update_widget.find_element('width').text, '20')
