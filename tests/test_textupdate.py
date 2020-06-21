@@ -5,6 +5,7 @@ import unittest
 import os
 import widgets
 
+
 def create_text_update():
     return widgets.TextUpdate('Generic TextUpdate', 'TEST:ME', 500, 300, 100, 20)
 

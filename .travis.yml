@@ -1,16 +1,29 @@
-sudo: false
 language: python
-python:
-  - "3.5"
-  - "3.6"
-  - "3.7"
-  - "3.8"
-  - "3.9-dev"
-  - "nightly"
-install:
-  - pip install codecov
-  - pip install pyyaml
-script: 
-  - coverage run -m unittest discover tests -b
-after_success:
-  - codecov
+os: linux
+dist: bionic
+stages:
+  - name: Test
+  - name: Deploy
+jobs:
+  - include:
+    - stage: Unit Test
+      install:
+        - pip install codecov
+        - pip install -r requirements.txt
+      script: coverage run -m unittest discover tests -b
+      after_sucess: codecov
+    - python: "3.7"
+    - python: "3.8"
+    - python: "3.9-dev"
+    - python: "nightly"
+    - stage: Pip Test
+      install:
+        - pip install -r requirements.txt
+        - pip install .
+      script: python -m unittest test_pip.py
+    - python: "3.5"
+    - python: "3.6"
+    - python: "3.7"
+    - python: "3.8"
+    - python: "3.9-dev"
+    - python: "nightly"

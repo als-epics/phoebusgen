@@ -8,7 +8,7 @@ This module aims to provide a way to generate Phoebus xml through Python.
 
 # Requirements
 
-- Python >= 3.5
+- Python >= 3.7
 - [pyyaml](https://pypi.org/project/PyYAML/)
 
 # Install
