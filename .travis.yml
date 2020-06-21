@@ -2,15 +2,20 @@ os: linux
 dist: bionic
 language: python
 python:
+  - 3.4
   - 3.5
   - 3.6
   - 3.7
   - 3.8
   - 3.9-dev
   - nightly
+matrix:
+  allow_failures:
+    - python: 3.4
+    - python: 3.5
+    - python: 3.6
 install:
   - pip install codecov
   - pip install -r requirements.txt
-  - pip install .
 script: coverage run -m unittest discover tests -b
 after_success: codecov
