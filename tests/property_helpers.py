@@ -188,3 +188,7 @@ class TestBorder(GenericTest):
                                                           'blue': '0', 'alpha': '255'})
 
 
+class TestMacro(GenericTest):
+    def test_macro(self):
+        self.element.macro('test', 'mac1')
+        self.child_element_test('macros', 'test', 'mac1', {})

@@ -6,7 +6,7 @@ import widgets
 import property_helpers as ph
 
 
-class TestLabelClass(unittest.TestCase, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
+class TestLabelClass(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestTransparent, ph.TestHorizontalAlignment, ph.TestVerticalAlignment, ph.TestRotationStep,
                      ph.TestAutoSize, ph.TestWrapWords, ph.TestBorder):
     def setUp(self):

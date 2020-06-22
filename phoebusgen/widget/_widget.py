@@ -3,10 +3,9 @@ from xml.dom import minidom
 from phoebusgen.widget._property import Property
 
 
-# TO DO : move macros out of widget class
 # TO DO : Add rest of global properties - class, tool tip, actions, rules, scripts
 class Widget(object):
-    def __init__(self, w_type, name, x_pos, y_pos, width, height, macro_list=None):
+    def __init__(self, w_type, name, x_pos, y_pos, width, height):
         self.root = Element('widget', type=w_type, version='2.0.0')
         name_child = SubElement(self.root, 'name')
         name_child.text = name
@@ -25,21 +24,9 @@ class Widget(object):
 
         self.prop_factory = Property(self.root)
 
-        if macro_list is None:
-            self.macro_elem = None
-        else:
-            for m in macro_list:
-                self.add_macro(m['name'], m['val'])
-
     def visible(self, visible):
         child = SubElement(self.root, 'visible')
         child.text = str(visible)
-
-    def macro(self, name, val):
-        if self.macro_elem is None:
-            self.macro_elem = SubElement(self.root, 'macros')
-        macro = SubElement(self.macro_elem, name)
-        macro.text = val
 
     def find_element(self, tag):
         element = self.root.find(tag)

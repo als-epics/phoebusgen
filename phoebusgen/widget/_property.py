@@ -153,3 +153,11 @@ class Property(object):
 
     def add_auto_size(self, auto):
         self.generic_property('auto_size', auto)
+
+    def add_macro(self, name, val):
+        root_macro = self.root.find('macro')
+        if root_macro is None:
+            root_macro = SubElement(self.root, 'macros')
+        macro = SubElement(root_macro, name)
+        macro.text = val
+

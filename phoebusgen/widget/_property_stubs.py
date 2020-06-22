@@ -92,3 +92,8 @@ class Border(object):
 
     def border_color(self, red, green, blue, alpha=255):
         self.prop_factory.add_border_color(None, red, green, blue, alpha)
+
+
+class Macro(object):
+    def macro(self, name, val):
+        self.prop_factory.add_macro(name, val)
