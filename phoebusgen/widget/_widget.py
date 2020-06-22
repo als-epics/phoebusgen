@@ -31,11 +31,11 @@ class Widget(object):
             for m in macro_list:
                 self.add_macro(m['name'], m['val'])
 
-    def set_visible(self, visible):
+    def visible(self, visible):
         child = SubElement(self.root, 'visible')
         child.text = str(visible)
 
-    def add_macro(self, name, val):
+    def macro(self, name, val):
         if self.macro_elem is None:
             self.macro_elem = SubElement(self.root, 'macros')
         macro = SubElement(self.macro_elem, name)
@@ -49,6 +49,9 @@ class Widget(object):
         element = self.find_element(tag)
         if element is not None:
             self.root.remove(element)
+
+    def get_element_value(self, tag):
+        return self.find_element(tag).text
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
     def prettify(self, elem):

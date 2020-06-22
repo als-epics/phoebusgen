@@ -63,13 +63,13 @@ class TestWidgetClass(unittest.TestCase):
             elif child.tag == 'height':
                 self.assertEqual(child.text, str(self.base_height))
 
-        w.set_visible(False)
+        w.visible(False)
         self.assertEqual(len(w.root), 6)
         for child in w.root:
             if child.tag == 'visible':
                 self.assertEqual(child.text, 'False')
 
-        w.add_macro('test', 'mac1')
+        w.macro('test', 'mac1')
         self.assertEqual(len(w.root), 7)
         for child in w.root:
             if child.tag == 'macros':
@@ -78,7 +78,7 @@ class TestWidgetClass(unittest.TestCase):
                     self.assertEqual(macro.tag, 'test')
                     self.assertEqual(macro.text, 'mac1')
         foundIt = False
-        w.add_macro('test2', 'mac2')
+        w.macro('test2', 'mac2')
         self.assertEqual(len(w.root), 7)
         for child in w.root:
             if child.tag == 'macros':

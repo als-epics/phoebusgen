@@ -1,7 +1,9 @@
+<?xml version="1.0" ?>
 <widget type="label" version="2.0.0">
   <name>Label_1</name>
-  <x>150</x>
-  <y>30</y>
-  <width>200</width>
-  <height>50</height>
+  <x>10</x>
+  <y>12</y>
+  <width>14</width>
+  <height>15</height>
+  <text>TEST Label</text>
 </widget>

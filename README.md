@@ -20,7 +20,7 @@ This module aims to provide a way to generate Phoebus xml through Python.
 ```
 >>> import phoebusgen.widget as w
 >>> text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
->>> text_update_widget.add_predefined_foreground_color('OK')
+>>> text_update_widget.predefined_foreground_color('OK')
 >>> print(text_update_widget)
 <?xml version="1.0" ?>
 <widget type="textupdate" version="2.0.0">
