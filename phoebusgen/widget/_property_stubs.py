@@ -97,3 +97,44 @@ class Border(object):
 class Macro(object):
     def macro(self, name, val):
         self.prop_factory.add_macro(name, val)
+
+
+class Bit(object):
+    pass
+
+
+class Off(object):
+    pass
+
+
+class On(object):
+    pass
+
+
+class LineColor(object):
+    pass
+
+
+class Square(object):
+    pass
+
+
+class LabelsFromPV(object):
+    pass
+
+
+class AlarmBorder(object):
+    pass
+
+
+class Enabled(object):
+    pass
+
+
+# dialog, message, password
+class Confirmation(object):
+    pass
+
+
+class MultiLine(object):
+    pass

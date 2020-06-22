@@ -12,7 +12,8 @@ class TestPip(unittest.TestCase):
         self.assertEqual(text_update_widget.find_element('y').text, '20')
         self.assertEqual(text_update_widget.find_element('width').text, '20')
         self.assertEqual(text_update_widget.find_element('height').text, '50')
-        text_update_widget.add_predefined_foreground_color('OK')
+
+        text_update_widget.predefined_foreground_color('OK')
         self.assertEqual(text_update_widget.find_element('foreground_color').text, None)
         self.assertEqual(text_update_widget.find_element('foreground_color').find('color').attrib,
                          {'name': 'OK',

@@ -3,7 +3,6 @@ from xml.dom import minidom
 from phoebusgen.widget._property import Property
 
 
-# TO DO : Add rest of global properties - class, tool tip, actions, rules, scripts
 class Widget(object):
     def __init__(self, w_type, name, x_pos, y_pos, width, height):
         self.root = Element('widget', type=w_type, version='2.0.0')
@@ -27,6 +26,19 @@ class Widget(object):
     def visible(self, visible):
         child = SubElement(self.root, 'visible')
         child.text = str(visible)
+
+    def class_name(self, name):
+        pass
+
+    def rule(self, rule):
+        pass
+
+    def scripts(self, script):
+        pass
+
+    def tool_tip(self, tool_tip):
+        child = SubElement(self.root, 'tooltip')
+        child.text = tool_tip
 
     def find_element(self, tag):
         element = self.root.find(tag)

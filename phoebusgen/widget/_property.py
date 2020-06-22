@@ -160,4 +160,3 @@ class Property(object):
             root_macro = SubElement(self.root, 'macros')
         macro = SubElement(root_macro, name)
         macro.text = val
-
