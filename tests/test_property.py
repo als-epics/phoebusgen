@@ -43,6 +43,12 @@ class TestGenericPropertyElements(unittest.TestCase):
         self.prop_factory.add_show_units(show)
         self.generic_element_test(tag_name, show)
 
+    def test_multi_line(self):
+        tag_name = 'multi_line'
+        show = True
+        self.prop_factory.add_multi_line(show)
+        self.generic_element_test(tag_name, show)
+
     def test_wrap_words(self):
         tag_name = 'wrap_words'
         wrap = True

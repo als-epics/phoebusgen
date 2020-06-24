@@ -35,12 +35,14 @@ class ActionButton(Widget, PVName, Text, Font, ForegroundColor, BackgroundColor,
     """ Action button widget, req: None """
     pass
 
-# Multi-Line
+
 class TextEntry(Widget, PVName, Font, ForegroundColor, BackgroundColor, Format,
                 Precision, ShowUnits, WrapWords, MultiLine, AlarmBorder, Enabled,
                 Border):
     """ Text Entry widget, req: pv name """
-    pass
+    def __init__(self, name, pv_name, x, y, width, height):
+        Widget.__init__(self, 'textentry', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 
 if __name__ == '__main__':

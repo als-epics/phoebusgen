@@ -137,4 +137,5 @@ class Confirmation(object):
 
 
 class MultiLine(object):
-    pass
+    def multi_line(self, val):
+        self.prop_factory.add_multi_line(val)

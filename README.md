@@ -9,6 +9,7 @@ This module aims to provide a way to generate Phoebus xml through Python.
 # Requirements
 
 - Python >= 3.5
+  - Python 2.7 currently is [passing tests](https://travis-ci.org/github/tynanford/phoebusgen) but has not been throughly tested
 - [pyyaml](https://pypi.org/project/PyYAML/)
 
 # Install
@@ -45,6 +46,11 @@ pip install phoebusgen
 
 Low Level Python API to directly create Phoebus widgets
 
+Widgets Finished:
+- Label
+- Text Update
+- Text Entry
+
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
 
@@ -62,7 +68,7 @@ Example
 </display>
 
 >>> my_widget = phoebusgen.widget.TextUpdate("test", "test:PV", 10, 10 ,10 ,10)
->>> my_screen.add_element(my_widget)
+>>> my_screen.add_widget(my_widget)
 >>> print(my_screen)
 <?xml version="1.0" ?>
 <display version="2.0.0">

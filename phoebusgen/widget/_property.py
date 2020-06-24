@@ -154,6 +154,9 @@ class Property(object):
     def add_auto_size(self, auto):
         self.generic_property('auto_size', auto)
 
+    def add_multi_line(self, val):
+        self.generic_property('multi_line', val)
+
     def add_macro(self, name, val):
         root_macro = self.root.find('macro')
         if root_macro is None:

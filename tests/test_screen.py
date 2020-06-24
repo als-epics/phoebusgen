@@ -17,7 +17,7 @@ class TestScreen(unittest.TestCase):
     def test_screen_blank(self):
         self.assertEqual(len(self.test_screen.root), 1)
         element = widgets.TextUpdate('Text Update 1', 'TEST:ME', 200, 200, 160, 20)
-        self.test_screen.add_element(element)
+        self.test_screen.add_widget(element)
         self.assertEqual(len(self.test_screen.root), 2)
 
 

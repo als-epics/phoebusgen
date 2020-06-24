@@ -1,9 +1,11 @@
 import unittest
+import os
 
 
 class TestPip(unittest.TestCase):
     def test_import(self):
         import phoebusgen.widget as w
+        import phoebusgen.screen as s
 
         text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
         self.assertEqual(text_update_widget.find_element('pv_name').text, 'TEST:PV')
@@ -22,6 +24,19 @@ class TestPip(unittest.TestCase):
                           'blue': '0',
                           'alpha': '255'
                           })
+
+        my_screen = s.Screen('test screen')
+
+
+        curr_path = os.path.dirname(__file__)
+        with open(curr_path + '/../files/new.bob') as f:
+            xml = f.read()
+            self.assertEqual(xml, my_screen.prettify(my_screen.root))
+
+        self.assertEqual(len(my_screen.root), 1)
+
+        my_screen.add_widget(text_update_widget)
+        self.assertEqual(len(my_screen.root), 2)
 
 
 if __name__ == '__main__':

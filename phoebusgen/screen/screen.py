@@ -19,7 +19,7 @@ class Screen(object):
                 reparse_xml.writexml(f, indent="  ", addindent="  ", newl="\n", encoding="UTF-8")
             return True
 
-    def add_element(self, elem):
+    def add_widget(self, elem):
         self.root.append(elem.root)
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
