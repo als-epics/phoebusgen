@@ -1,7 +1,8 @@
 os: linux
-dist: bionic
+dist: xenial 
 language: python
 python:
+  - 2.7
   - 3.4
   - 3.5
   - 3.6
@@ -11,9 +12,8 @@ python:
   - nightly
 matrix:
   allow_failures:
+    - python: 2.7
     - python: 3.4
-    - python: 3.5
-    - python: 3.6
 install:
   - pip install codecov
   - pip install -r requirements.txt
