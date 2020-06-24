@@ -2,8 +2,6 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
 
 
-
-
 class Screen(object):
     def __init__(self, name, f_name=None):
         self.f_name = f_name
@@ -11,10 +9,8 @@ class Screen(object):
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
-        print (self.prettify(self.root))
-
-    def write(self, elem):
-        rough_string = tostring(elem, 'utf-8')
+    def write_screen(self):
+        rough_string = tostring(self.root, 'utf-8')
         reparse_xml = minidom.parseString(rough_string)
         if self.f_name == None:
             return False
@@ -23,12 +19,19 @@ class Screen(object):
                 reparse_xml.writexml(f, indent="  ", addindent="  ", newl="\n", encoding="UTF-8")
             return True
 
+    def add_element(self, elem):
+        self.root.append(elem.root)
+
+    # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
     def prettify(self, elem):
         """Return a pretty-printed XML string for the Element.
         """
         rough_string = tostring(elem, 'utf-8')
         reparse_xml = minidom.parseString(rough_string)
         return reparse_xml.toprettyxml(indent="  ", newl="\n")
+
+    def __str__(self):
+        return self.prettify(self.root)
 
 
 

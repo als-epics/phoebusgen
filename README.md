@@ -8,12 +8,14 @@ This module aims to provide a way to generate Phoebus xml through Python.
 
 # Requirements
 
-- Python >= 3.7
+- Python >= 3.5
 - [pyyaml](https://pypi.org/project/PyYAML/)
 
 # Install
-
-- pip install phoebusgen
+Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)
+```
+pip install phoebusgen
+```
 
 # Intro
 
@@ -34,8 +36,6 @@ This module aims to provide a way to generate Phoebus xml through Python.
     <color red="0" green="255" blue="0" alpha="255" name="OK"/>
   </foreground_color>
 </widget>
-
->>>
 ```
 
 
@@ -50,6 +50,33 @@ Example
 
 
 ## phoebusgen.screen 
+
+```
+>>> import phoebusgen.screen
+>>> import phoebusgen.widget
+>>> my_screen = phoebusgen.screen.Screen("my screen")
+>>> print(my_screen)
+<?xml version="1.0" ?>
+<display version="2.0.0">
+  <name>my screen</name>
+</display>
+
+>>> my_widget = phoebusgen.widget.TextUpdate("test", "test:PV", 10, 10 ,10 ,10)
+>>> my_screen.add_element(my_widget)
+>>> print(my_screen)
+<?xml version="1.0" ?>
+<display version="2.0.0">
+  <name>my screen</name>
+  <widget type="textupdate" version="2.0.0">
+    <name>test</name>
+    <x>10</x>
+    <y>10</y>
+    <width>10</width>
+    <height>10</height>
+    <pv_name>test:PV</pv_name>
+  </widget>
+</display>
+```
 
 
 
