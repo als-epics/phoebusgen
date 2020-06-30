@@ -1,6 +1,9 @@
 Python Module to Generate Phoebus Control Screens
 ===
 
+![Travis (.org)](https://img.shields.io/travis/tynanford/phoebusgen)
+[![codecov](https://codecov.io/gh/tynanford/phoebusgen/branch/master/graph/badge.svg)](https://codecov.io/gh/tynanford/phoebusgen)
+
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
 https://github.com/ControlSystemStudio/phoebus
 
