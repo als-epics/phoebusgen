@@ -11,6 +11,7 @@ This module aims to provide a way to generate Phoebus xml through Python.
 - Python >= 3.5
   - Python 2.7 currently is [passing tests](https://travis-ci.org/github/tynanford/phoebusgen) but has not been throughly tested
 - [pyyaml](https://pypi.org/project/PyYAML/)
+  - ```pip install pyyaml```
 
 # Install
 Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)

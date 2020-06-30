@@ -22,5 +22,6 @@ setuptools.setup(
         "Topic :: Software Development :: Code Generators"
     ],
     python_requires='>=3.5',
+    install_requires=['pyyaml>=3'],
 )
 

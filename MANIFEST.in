@@ -1,1 +1,4 @@
 include phoebusgen/widget/*.yaml
+include README.md
+include LICENSE
+include requirements.txt

@@ -192,3 +192,16 @@ class TestMacro(GenericTest):
     def test_macro(self):
         self.element.macro('test', 'mac1')
         self.child_element_test('macros', 'test', 'mac1', {})
+
+
+class TestBit(GenericTest):
+    def test_bit_with_number(self):
+        tag_name = 'bit'
+        value = 234
+        self.element.bit(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_default_bit(self):
+        tag_name = 'bit'
+        self.element.bit()
+        self.generic_element_test(tag_name, -1)

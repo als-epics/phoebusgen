@@ -55,6 +55,12 @@ class TestGenericPropertyElements(unittest.TestCase):
         self.prop_factory.add_wrap_words(wrap)
         self.generic_element_test(tag_name, wrap)
 
+    def test_bit(self):
+        tag_name = 'bit'
+        val = 124
+        self.prop_factory.add_bit(val)
+        self.generic_element_test(tag_name, val)
+
     def test_transparent(self):
         tag_name = 'transparent'
         transparent = False

@@ -163,3 +163,18 @@ class Property(object):
             root_macro = SubElement(self.root, 'macros')
         macro = SubElement(root_macro, name)
         macro.text = val
+
+    def add_bit(self, val):
+        self.generic_property('bit', val)
+
+    def add_square(self, val):
+        if type(val) is not bool:
+            print('Must be boolean input')
+        else:
+            self.generic_property('square', val)
+
+    def add_labels_from_pv(self, val):
+        if type(val) is not bool:
+            print('Must be boolean input')
+        else:
+            self.generic_property('labels_from_pv', val)

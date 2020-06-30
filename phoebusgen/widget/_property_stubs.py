@@ -100,27 +100,45 @@ class Macro(object):
 
 
 class Bit(object):
-    pass
+    def bit(self, val=-1):
+        self.prop_factory.add_bit(val)
 
 
 class Off(object):
-    pass
+    def off_color(self):
+        pass
+
+    def off_label(self):
+        pass
+
+    def off(self):
+        pass
 
 
 class On(object):
-    pass
+    def on_color(self):
+        pass
+
+    def on_label(self):
+        pass
+
+    def on(self):
+        pass
 
 
 class LineColor(object):
-    pass
+    def line_color(self):
+        pass
 
 
 class Square(object):
-    pass
+    def square(self, val):
+        self.prop_factory.add_square(val)
 
 
 class LabelsFromPV(object):
-    pass
+    def labels_from_pv(self, val):
+        self.prop_factory.add_labels_from_pv(val)
 
 
 class AlarmBorder(object):

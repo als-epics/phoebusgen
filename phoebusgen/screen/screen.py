@@ -20,7 +20,11 @@ class Screen(object):
             return True
 
     def add_widget(self, elem):
-        self.root.append(elem.root)
+        if type(elem) == list:
+            for e in elem:
+                self.root.append(e.root)
+        else:
+            self.root.append(elem.root)
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
     def prettify(self, elem):

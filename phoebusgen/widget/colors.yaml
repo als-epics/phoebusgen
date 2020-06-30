@@ -16,7 +16,7 @@ background:
 button_background:
   red: '210'
   green: '210'
-  blue: 210
+  blue: '210'
   alpha: '255'
 disconnected:
   red: '200'
