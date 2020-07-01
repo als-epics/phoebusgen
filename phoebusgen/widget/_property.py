@@ -178,3 +178,36 @@ class Property(object):
             print('Must be boolean input')
         else:
             self.generic_property('labels_from_pv', val)
+
+    def add_off_color(self, name, red, green, blue, alpha):
+        e = self.create_element('off_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_off_label(self, label):
+        self.generic_property('off_label', label)
+
+    def add_on_color(self, name, red, green, blue, alpha):
+        e = self.create_element('on_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_on_label(self, label):
+        self.generic_property('on_label', label)
+
+    def add_line_color(self, name, red, green, blue, alpha):
+        e = self.create_element('line_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_alarm_border(self, val):
+        self.generic_property('border_alarm_sensitive', val)
+
+    def add_enabled(self, val):
+        self.generic_property('enabled', val)
+
+    def add_confirmation_dialog(self, val):
+        self.generic_property('show_confirmation_dialog', val)
+
+    def add_confirmation_message(self, message):
+        self.generic_property('confirm_message', message)
+
+    def add_password(self, password):
+        self.generic_property('password', password)

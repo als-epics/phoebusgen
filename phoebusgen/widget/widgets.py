@@ -23,17 +23,25 @@ class TextUpdate(Widget, PVName, Font, ForegroundColor, BackgroundColor, Transpa
 
 # Class, Bit, Off Label, Off Color, On Label, On Color, Line Color, Square, Labels from PV,
 # Alarm border
+## What should be required in init???
 class LED(Widget, PVName, Bit, Off, On, Font, ForegroundColor, LineColor,
           Square, LabelsFromPV, AlarmBorder):
     """ LED widget, req: None """
-    pass
+    def __init__(self, name, pv_name, x, y, width, height):
+        Widget.__init__(self, 'led', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # Controls
 # Actions, Rotation, Enabled, Confirmation Dialog, Confirmation Message, Password
+
+## What should be required in init???
 class ActionButton(Widget, PVName, Text, Font, ForegroundColor, BackgroundColor,
-                   Transparent, Rotation, Enabled, Confirmation):
+                   Transparent, RotationStep, Enabled, Confirmation):
     """ Action button widget, req: None """
-    pass
+    def __init__(self, name, text, pv_name, x, y, width, height):
+        Widget.__init__(self, 'action_button', name, x, y, width, height)
+        self.pv_name(pv_name)
+        self.text(text)
 
 
 class TextEntry(Widget, PVName, Font, ForegroundColor, BackgroundColor, Format,

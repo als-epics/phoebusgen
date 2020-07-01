@@ -11,6 +11,11 @@ class GenericTest(object):
 
     def test_against_file(self):
         curr_path = os.path.dirname(__file__)
+        try:
+            open(curr_path + '../files/widgets/{}.bob'.format(self.element.root.attrib['type']))
+        except FileNotFoundError:
+            print('File Not there!')
+            return
         with open(curr_path + '/../files/widgets/{}.bob'.format(self.element.root.attrib['type'])) as f:
             xml = f.read()
             self.assertEqual(xml, self.element.prettify(self.element.root))
@@ -46,6 +51,11 @@ class GenericTest(object):
 class TestPVName(GenericTest):
     def test_pv_name(self):
         self.assertEqual(self.element.find_element('pv_name').text, self.pv_name)
+
+
+class TestText(GenericTest):
+    def test_text(self):
+        self.assertEqual(self.element.find_element('text').text, self.text)
 
 
 class TestFont(GenericTest):
@@ -149,16 +159,6 @@ class TestWrapWords(GenericTest):
         self.generic_element_test(tag_name, value)
 
 
-class TestText(GenericTest):
-    def test_text(self):
-        pass
-
-
-class TestAutoSize(GenericTest):
-    def test_auto_size(self):
-        pass
-
-
 class TestRotationStep(GenericTest):
     def test_rotation_step(self):
         tag_name = 'rotation_step'
@@ -195,13 +195,149 @@ class TestMacro(GenericTest):
 
 
 class TestBit(GenericTest):
+    tag_name = 'bit'
+
     def test_bit_with_number(self):
-        tag_name = 'bit'
         value = 234
         self.element.bit(value)
-        self.generic_element_test(tag_name, value)
+        self.generic_element_test(self.tag_name, value)
 
     def test_default_bit(self):
-        tag_name = 'bit'
         self.element.bit()
-        self.generic_element_test(tag_name, -1)
+        self.generic_element_test(self.tag_name, -1)
+
+
+class TestAutoSize(GenericTest):
+    tag_name = 'auto_size'
+
+    def test_auto_size(self):
+        val = False
+        self.element.auto_size(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_auto_size_default(self):
+        self.element.auto_size()
+        self.generic_element_test(self.tag_name, True)
+
+
+class TestMultiLine(GenericTest):
+    def test_multi_line(self):
+        tag_name = 'multi_line'
+        val = True
+        self.element.multi_line(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestSquare(GenericTest):
+    def test_square(self):
+        tag_name = 'square'
+        val = True
+        self.element.square(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestLabelsFromPV(GenericTest):
+    def test_labels_from_pv(self):
+        tag_name = 'labels_from_pv'
+        val = True
+        self.element.labels_from_pv(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestAlarmBorder(GenericTest):
+    def test_alarm_border(self):
+        tag_name = 'border_alarm_sensitive'
+        val = True
+        self.element.alarm_border(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestEnabled(GenericTest):
+    def test_enabled(self):
+        tag_name = 'enabled'
+        val = False
+        self.element.enabled(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestConfirmation(GenericTest):
+    dialog_tag = 'show_confirmation_dialog'
+    message_tag = 'confirm_message'
+    password_tag = 'password'
+    message = 'Are you sure?'
+
+    def test_confirmation_no_password(self):
+        self.element.confirmation_dialog(self.message)
+        self.generic_element_test(self.message_tag, self.message)
+        self.generic_element_test(self.dialog_tag, True)
+        self.assertIsNone(self.element.find_element(self.password_tag))
+
+    def test_confirmation_with_password(self):
+        password = '1234569999'
+        self.element.confirmation_dialog(self.message, password)
+        self.generic_element_test(self.message_tag, self.message)
+        self.generic_element_test(self.dialog_tag, True)
+        self.generic_element_test(self.password_tag, password)
+
+
+class TestLineColor(GenericTest):
+    def test_predefined_line_color(self):
+        tag_name = 'line_color'
+        value = 'Background'
+        self.element.predefined_line_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_line_color(self):
+        tag_name = 'line_color'
+        self.element.line_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+
+class TestOff(GenericTest):
+    def test_off_label(self):
+        tag_name = 'off_label'
+        value = 'This is off!'
+        self.element.off_label(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_predefined_off_color(self):
+        tag_name = 'off_color'
+        value = 'Background'
+        self.element.predefined_off_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_off_color(self):
+        tag_name = 'off_color'
+        self.element.off_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+
+class TestOn(GenericTest):
+    def test_on_label(self):
+        tag_name = 'on_label'
+        value = 'This is on!'
+        self.element.on_label(value)
+        self.generic_element_test(tag_name, value)
+
+    def test_predefined_on_color(self):
+        tag_name = 'on_color'
+        value = 'Background'
+        self.element.predefined_on_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_on_color(self):
+        tag_name = 'on_color'
+        self.element.on_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+
+class TestRotation(GenericTest):
+    pass
+
+

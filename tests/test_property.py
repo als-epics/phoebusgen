@@ -189,6 +189,66 @@ class TestGenericPropertyElements(unittest.TestCase):
         self.prop_factory.add_text(text)
         self.generic_element_test(tag_name, text)
 
+    def test_bit(self):
+        tag_name = 'bit'
+        val = 23
+        self.prop_factory.add_bit(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_square(self):
+        tag_name = 'square'
+        val = True
+        self.prop_factory.add_square(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_square_error(self):
+        tag_name = 'square'
+        val = 'dsfkj'
+        self.prop_factory.add_square(val)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+
+    def test_off_label(self):
+        tag_name = 'off_label'
+        val = 'TEST Label'
+        self.prop_factory.add_off_label(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_on_label(self):
+        tag_name = 'on_label'
+        val = 'TEST this on Label'
+        self.prop_factory.add_on_label(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_alarm_border(self):
+        tag_name = 'border_alarm_sensitive'
+        val = False
+        self.prop_factory.add_alarm_border(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_enabled(self):
+        tag_name = 'enabled'
+        val = False
+        self.prop_factory.add_enabled(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_confirmation_dialog(self):
+        tag_name = 'show_confirmation_dialog'
+        val = True
+        self.prop_factory.add_confirmation_dialog(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_confirmation_message(self):
+        tag_name = 'confirm_message'
+        val = 'Are you sure you want to make all these tests?'
+        self.prop_factory.add_confirmation_message(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_password(self):
+        tag_name = 'password'
+        val = '123456789'
+        self.prop_factory.add_password(val)
+        self.generic_element_test(tag_name, val)
+
 
 class TestColorPropertyElements(unittest.TestCase):
     def setUp(self):
@@ -238,6 +298,129 @@ class TestColorPropertyElements(unittest.TestCase):
         self.assertIsNone(child_element.text)
         # clean up so we can run multiple tests on same element
         self.prop_factory.root.remove(parent_element)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self.assertIsNone(self.prop_factory.root.find('color'))
+
+    def test_off_color(self):
+        tag_name = 'off_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = None
+        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_off_color_2(self):
+        tag_name = 'off_color'
+        red = '25'
+        green = 265
+        blue = 21
+        alpha = 32
+        name = None
+        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_off_color(self):
+        tag_name = 'off_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'OFF'
+        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_off_color_wrong(self):
+        tag_name = 'off_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'sdaflkdasf'
+        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self.assertIsNone(self.prop_factory.root.find('color'))
+
+    def test_on_color(self):
+        tag_name = 'on_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = None
+        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_on_color2(self):
+        tag_name = 'on_color'
+        red = '25'
+        green = 265
+        blue = 21
+        alpha = 32
+        name = None
+        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_on_color(self):
+        tag_name = 'on_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'OFF'
+        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_on_color_wrong(self):
+        tag_name = 'on_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'sdaflkdasf'
+        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self.assertIsNone(self.prop_factory.root.find('color'))
+
+    def test_line_color(self):
+        tag_name = 'line_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = None
+        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_line_color2(self):
+        tag_name = 'line_color'
+        red = '25'
+        green = 265
+        blue = 21
+        alpha = 32
+        name = None
+        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_line_color(self):
+        tag_name = 'line_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'OFF'
+        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_predefined_line_color_wrong(self):
+        tag_name = 'line_color'
+        red = 255
+        green = 255
+        blue = 255
+        alpha = 255
+        name = 'sdaflkdasf'
+        self.prop_factory.add_line_color(name, red, green, blue, alpha)
         self.assertIsNone(self.prop_factory.root.find(tag_name))
         self.assertIsNone(self.prop_factory.root.find('color'))
 

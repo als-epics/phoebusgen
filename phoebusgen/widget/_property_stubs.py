@@ -105,30 +105,33 @@ class Bit(object):
 
 
 class Off(object):
-    def off_color(self):
-        pass
+    def predefined_off_color(self, name):
+        self.prop_factory.add_off_color(name, None, None, None, None)
 
-    def off_label(self):
-        pass
+    def off_color(self, red, green, blue, alpha=255):
+        self.prop_factory.add_off_color(None, red, green, blue, alpha)
 
-    def off(self):
-        pass
+    def off_label(self, label):
+        self.prop_factory.add_off_label(label)
 
 
 class On(object):
-    def on_color(self):
-        pass
+    def predefined_on_color(self, name):
+        self.prop_factory.add_on_color(name, None, None, None, None)
 
-    def on_label(self):
-        pass
+    def on_color(self, red, green, blue, alpha=255):
+        self.prop_factory.add_on_color(None, red, green, blue, alpha)
 
-    def on(self):
-        pass
+    def on_label(self, label):
+        self.prop_factory.add_on_label(label)
 
 
 class LineColor(object):
-    def line_color(self):
-        pass
+    def predefined_line_color(self, name):
+        self.prop_factory.add_line_color(name, None, None, None, None)
+
+    def line_color(self, red, green, blue, alpha=255):
+        self.prop_factory.add_line_color(None, red, green, blue, alpha)
 
 
 class Square(object):
@@ -142,16 +145,21 @@ class LabelsFromPV(object):
 
 
 class AlarmBorder(object):
-    pass
+    def alarm_border(self, val):
+        self.prop_factory.add_alarm_border(val)
 
 
 class Enabled(object):
-    pass
+    def enabled(self, val):
+        self.prop_factory.add_enabled(val)
 
 
-# dialog, message, password
 class Confirmation(object):
-    pass
+    def confirmation_dialog(self, message, password=None):
+        self.prop_factory.add_confirmation_dialog(True)
+        self.prop_factory.add_confirmation_message(message)
+        if password is not None:
+            self.prop_factory.add_password(password)
 
 
 class MultiLine(object):

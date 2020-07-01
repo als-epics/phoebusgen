@@ -54,6 +54,8 @@ Widgets Finished:
 - Label
 - Text Update
 - Text Entry
+- Action Button
+- LED
 
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
