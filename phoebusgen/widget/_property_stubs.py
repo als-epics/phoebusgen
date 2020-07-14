@@ -83,6 +83,9 @@ class Rotation(object):
     pass
 
 
+class File(object):
+    pass
+
 class Border(object):
     def border_width(self, width):
         self.prop_factory.add_border_width(width)

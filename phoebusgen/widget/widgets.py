@@ -9,6 +9,12 @@ class Arc(Widget, Macro, Angle, LineWidth, LineColor, BackgroundColor, Transpare
         Widget.__init__(self, 'arc', name, x, y, width, height)
 
 
+class Ellipse(Widget, Macro, LineWidth, LineColor, BackgroundColor, Transparent):
+    """ Ellipse widget, req: none """
+    def __init__(self, name, x, y, width, height):
+        Widget.__init__(self, 'ellipse', name, x, y, width, height)
+
+
 class Rectangle(Widget, Macro, LineWidth, LineColor, BackgroundColor, Transparent, Corner):
     """ Rectangle widget, req: none """
     def __init__(self, name, x, y, width, height):

@@ -6,17 +6,6 @@ import widgets
 import property_helpers as ph
 
 
-class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor, ph.TestBackgroundColor,
-                    ph.TestTransparent, ph.TestCorner):
-    def setUp(self):
-        self.name = 'My_Rectangle'
-        self.x = 10
-        self.y = 12
-        self.width = 14
-        self.height = 15
-        self.element = widgets.Rectangle(self.name, self.x, self.y, self.width, self.height)
-
-
 class TestArc(unittest.TestCase, ph.TestMacro, ph.TestAngle, ph.TestLineWidth, ph.TestLineColor,
               ph.TestBackgroundColor, ph.TestTransparent):
     def setUp(self):
@@ -26,6 +15,28 @@ class TestArc(unittest.TestCase, ph.TestMacro, ph.TestAngle, ph.TestLineWidth, p
         self.width = 14
         self.height = 15
         self.element = widgets.Arc(self.name, self.x, self.y, self.width, self.height)
+
+
+class TestEllipse(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor, ph.TestBackgroundColor,
+                  ph.TestTransparent):
+    def setUp(self):
+        self.name = 'My_Ellipse'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.Ellipse(self.name, self.x, self.y, self.width, self.height)
+
+
+class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor, ph.TestBackgroundColor,
+                    ph.TestTransparent, ph.TestCorner):
+    def setUp(self):
+        self.name = 'My_Rectangle'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.Rectangle(self.name, self.x, self.y, self.width, self.height)
 
 
 class TestLabelClass(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
