@@ -3,6 +3,18 @@ from phoebusgen.widget._property_stubs import *
 
 # Displays
 
+class Arc(Widget, Macro, Angle, LineWidth, LineColor, BackgroundColor, Transparent):
+    """ Arc widget, req: none """
+    def __init__(self, name, x, y, width, height):
+        Widget.__init__(self, 'arc', name, x, y, width, height)
+
+
+class Rectangle(Widget, Macro, LineWidth, LineColor, BackgroundColor, Transparent, Corner):
+    """ Rectangle widget, req: none """
+    def __init__(self, name, x, y, width, height):
+        Widget.__init__(self, 'rectangle', name, x, y, width, height)
+
+
 class Label(Widget, Text, Macro, Font, ForegroundColor, BackgroundColor, Transparent, HorizontalAlignment,
             VerticalAlignment, RotationStep, WrapWords, AutoSize, Border):
     """ Label widget, req: text """
@@ -37,7 +49,7 @@ class LED(Widget, PVName, Bit, Off, On, Font, ForegroundColor, LineColor,
 ## What should be required in init???
 class ActionButton(Widget, PVName, Text, Font, ForegroundColor, BackgroundColor,
                    Transparent, RotationStep, Enabled, Confirmation):
-    """ Action button widget, req: None """
+    """ Action button widget, req: text, pv name """
     def __init__(self, name, text, pv_name, x, y, width, height):
         Widget.__init__(self, 'action_button', name, x, y, width, height)
         self.pv_name(pv_name)

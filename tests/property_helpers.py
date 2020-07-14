@@ -260,6 +260,60 @@ class TestEnabled(GenericTest):
         self.generic_element_test(tag_name, val)
 
 
+class TestLineWidth(GenericTest):
+    tag_name = 'line_width'
+
+    def test_line_width(self):
+        val = 5
+        self.element.line_width(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_line_width_wrong(self):
+        val = 'asdfs'
+        self.element.line_width(val)
+        self.generic_element_test(self.tag_name, val)
+
+
+class TestCorner(GenericTest):
+    def test_corner_width(self):
+        tag_name = 'corner_width'
+        val = 5
+        self.element.corner_width(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_corner_width_string(self):
+        tag_name = 'corner_width'
+        val = 'asdjflksdjf'
+        self.element.corner_width(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_corner_height(self):
+        tag_name = 'corner_height'
+        val = 5
+        self.element.corner_height(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_corner_height_string(self):
+        tag_name = 'corner_height'
+        val = 'asdjflksdjf'
+        self.element.corner_height(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestAngle(GenericTest):
+    def test_angle_start(self):
+        tag_name = 'start_angle'
+        val = 32
+        self.element.angle_start(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_angle_size(self):
+        tag_name = 'total_angle'
+        val = 92
+        self.element.angle_size(val)
+        self.generic_element_test(tag_name, val)
+
+
 class TestConfirmation(GenericTest):
     dialog_tag = 'show_confirmation_dialog'
     message_tag = 'confirm_message'

@@ -211,3 +211,18 @@ class Property(object):
 
     def add_password(self, password):
         self.generic_property('password', password)
+
+    def add_corner_width(self, width):
+        self.generic_property('corner_width', width)
+
+    def add_corner_height(self, height):
+        self.generic_property('corner_height', height)
+
+    def add_line_width(self, width):
+        self.generic_property('line_width', width)
+
+    def add_angle_start(self, val):
+        self.generic_property('start_angle', val)
+
+    def add_angle_size(self, val):
+        self.generic_property('total_angle', val)

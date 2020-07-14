@@ -249,6 +249,36 @@ class TestGenericPropertyElements(unittest.TestCase):
         self.prop_factory.add_password(val)
         self.generic_element_test(tag_name, val)
 
+    def test_corner_width(self):
+        tag_name = 'corner_width'
+        val = 42
+        self.prop_factory.add_corner_width(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_corner_height(self):
+        tag_name = 'corner_height'
+        val = 23
+        self.prop_factory.add_corner_height(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_line_width(self):
+        tag_name = 'line_width'
+        val = 4
+        self.prop_factory.add_line_width(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_angle_start(self):
+        tag_name = 'start_angle'
+        val = 94
+        self.prop_factory.add_angle_start(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_angle_size(self):
+        tag_name = 'total_angle'
+        val = 23
+        self.prop_factory.add_angle_size(val)
+        self.generic_element_test(tag_name, val)
+
 
 class TestColorPropertyElements(unittest.TestCase):
     def setUp(self):

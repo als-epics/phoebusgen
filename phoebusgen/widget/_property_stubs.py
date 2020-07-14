@@ -126,12 +126,28 @@ class On(object):
         self.prop_factory.add_on_label(label)
 
 
+# Arc, Ellipse, Polygon, Polyline, Rectangle, LED, LED Multi State
 class LineColor(object):
     def predefined_line_color(self, name):
         self.prop_factory.add_line_color(name, None, None, None, None)
 
     def line_color(self, red, green, blue, alpha=255):
         self.prop_factory.add_line_color(None, red, green, blue, alpha)
+
+
+# Arc, Ellipse, Polygon, Polyline, Rectangle
+class LineWidth(object):
+    def line_width(self, width):
+        self.prop_factory.add_line_width(width)
+
+
+# Rectangle
+class Corner(object):
+    def corner_width(self, width):
+        self.prop_factory.add_corner_width(width)
+
+    def corner_height(self, height):
+        self.prop_factory.add_corner_height(height)
 
 
 class Square(object):
@@ -165,3 +181,11 @@ class Confirmation(object):
 class MultiLine(object):
     def multi_line(self, val):
         self.prop_factory.add_multi_line(val)
+
+
+class Angle(object):
+    def angle_start(self, val):
+        self.prop_factory.add_angle_start(val)
+
+    def angle_size(self, val):
+        self.prop_factory.add_angle_size(val)
