@@ -51,7 +51,10 @@ pip install phoebusgen
 Low Level Python API to directly create Phoebus widgets
 
 Widgets Finished:
+- Arc
+- Ellipse
 - Label
+- Rectangle
 - Text Update
 - Text Entry
 - Action Button

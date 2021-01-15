@@ -78,14 +78,6 @@ class RotationStep(object):
         self.prop_factory.add_rotation_step(rotation)
 
 
-# picture, symbol
-class Rotation(object):
-    pass
-
-
-class File(object):
-    pass
-
 class Border(object):
     def border_width(self, width):
         self.prop_factory.add_border_width(width)
@@ -107,26 +99,35 @@ class Bit(object):
         self.prop_factory.add_bit(val)
 
 
-class Off(object):
+class OffColor(object):
     def predefined_off_color(self, name):
         self.prop_factory.add_off_color(name, None, None, None, None)
 
     def off_color(self, red, green, blue, alpha=255):
         self.prop_factory.add_off_color(None, red, green, blue, alpha)
 
+class Off(OffColor):
     def off_label(self, label):
         self.prop_factory.add_off_label(label)
 
+class OffImage(Off):
+    def off_image(self):
+        pass
 
-class On(object):
+class OnColor(object):
     def predefined_on_color(self, name):
         self.prop_factory.add_on_color(name, None, None, None, None)
 
     def on_color(self, red, green, blue, alpha=255):
         self.prop_factory.add_on_color(None, red, green, blue, alpha)
 
+class On(OnColor):
     def on_label(self, label):
         self.prop_factory.add_on_label(label)
+
+class OnImage(On):
+    def on_image(self):
+        pass
 
 
 # Arc, Ellipse, Polygon, Polyline, Rectangle, LED, LED Multi State
@@ -192,3 +193,79 @@ class Angle(object):
 
     def angle_size(self, val):
         self.prop_factory.add_angle_size(val)
+
+# picture, symbol
+class Rotation(object):
+    pass
+
+class File(object):
+    pass
+
+class StretchToFit(object):
+    pass
+
+class StartBit(object):
+    pass
+
+class NumBits(object):
+    pass
+
+class ReverseBits(object):
+    pass
+
+class Horizontal(object):
+    pass
+
+class Labels(object):
+    pass
+
+class States(object):
+    pass
+
+class Fallback(object):
+    pass
+
+class ShowValue(object):
+    pass
+
+class ShowLimits(object):
+    pass
+
+class LimitsFromPV(object):
+    pass
+
+class Minimum(object):
+    pass
+
+class Maximum(object):
+    pass
+
+class NeedleColor(object):
+    pass
+
+class KnobColor(object):
+    pass
+
+class FillColor(object):
+    pass
+
+class EmptyColor(object):
+    pass
+
+class ScaleVisible(object):
+    pass
+
+class ShowLED(object):
+    pass
+
+class Mode(object):
+    pass
+
+class Style(object):
+    pass
+
+class ResizeBehavior(object):
+    pass
+
+class GroupName(object):
+    pass
