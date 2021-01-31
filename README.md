@@ -1,7 +1,8 @@
 Python Module to Generate Phoebus Control Screens
 ===
 
-![Travis (.org)](https://img.shields.io/travis/tynanford/phoebusgen)
+Python unittest
+[![Python unittest Status](https://github.com/tynanford/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/tynanford/phoebusgen/actions)
 [![codecov](https://codecov.io/gh/tynanford/phoebusgen/branch/master/graph/badge.svg)](https://codecov.io/gh/tynanford/phoebusgen)
 
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
@@ -12,7 +13,6 @@ This module aims to provide a way to generate Phoebus xml through Python.
 # Requirements
 
 - Python >= 3.5
-  - Python 2.7 currently is [passing tests](https://travis-ci.org/github/tynanford/phoebusgen) but has not been throughly tested
 - [pyyaml](https://pypi.org/project/PyYAML/)
   - ```pip install pyyaml```
 
