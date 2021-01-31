@@ -1,88 +1,88 @@
-from phoebusgen.widget._widget import Widget
-from phoebusgen.widget._property_stubs import *
+from phoebusgen.widget._widget import _Widget
+import phoebusgen.widget.property_stubs as _p
 
 # Displays
-class Arc(Widget, Macro, Angle, LineWidth, LineColor, BackgroundColor, Transparent):
+class Arc(_Widget, _p._Macro, _p._Angle, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent):
     """ Arc widget, req: none """
     def __init__(self, name, x, y, width, height):
-        Widget.__init__(self, 'arc', name, x, y, width, height)
+        _Widget.__init__(self, 'arc', name, x, y, width, height)
 
-class Ellipse(Widget, Macro, LineWidth, LineColor, BackgroundColor, Transparent):
+class Ellipse(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent):
     """ Ellipse widget, req: none """
     def __init__(self, name, x, y, width, height):
-        Widget.__init__(self, 'ellipse', name, x, y, width, height)
+        _Widget.__init__(self, 'ellipse', name, x, y, width, height)
 
-class Label(Widget, Text, Macro, Font, ForegroundColor, BackgroundColor, Transparent, HorizontalAlignment,
-            VerticalAlignment, RotationStep, WrapWords, AutoSize, Border):
+class Label(_Widget, _p._Text, _p._Macro, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._HorizontalAlignment,
+            _p._VerticalAlignment, _p._RotationStep, _p._WrapWords, _p._AutoSize, _p._Border):
     """ Label widget, req: text """
     def __init__(self, name, text, x, y, width, height):
-        Widget.__init__(self, 'label', name, x, y, width, height)
+        _Widget.__init__(self, 'label', name, x, y, width, height)
 
         self.text(text)
 
 # TODO: File, Stretch to Fit, Rotation
-class Picture(Widget, Macro, File, StretchToFit, Rotation):
+class Picture(_Widget, _p._Macro, _p._File, _p._StretchToFit, _p._Rotation):
     pass
 
-class Rectangle(Widget, Macro, LineWidth, LineColor, BackgroundColor, Transparent, Corner):
+class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent, _p._Corner):
     """ Rectangle widget, req: none """
     def __init__(self, name, x, y, width, height):
-        Widget.__init__(self, 'rectangle', name, x, y, width, height)
+        _Widget.__init__(self, 'rectangle', name, x, y, width, height)
 
 # Monitors
 # Start bit, number of bits, reverse bits, horizontal, labels
-class ByteMonitor(Widget, PVName, StartBit, NumBits, ReverseBits, Horizontal, Square, OffColor, OnColor,
-                  ForegroundColor, Font, Labels, AlarmBorder):
+class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
+                  _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
     pass
 
-class LED(Widget, PVName, Bit, Off, On, Font, ForegroundColor, LineColor,
-          Square, LabelsFromPV, AlarmBorder):
+class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._ForegroundColor, _p._LineColor,
+          _p._Square, _p._LabelsFromPV, _p._AlarmBorder):
     """ LED widget, req: None """
     def __init__(self, name, pv_name, x, y, width, height):
-        Widget.__init__(self, 'led', name, x, y, width, height)
+        _Widget.__init__(self, 'led', name, x, y, width, height)
         self.pv_name(pv_name)
 
 # States, Fallback
-class LEDMultiState(Widget, PVName, Font, ForegroundColor, LineColor, Square, AlarmBorder, States, Fallback):
+class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square, _p._AlarmBorder, _p._States, _p._Fallback):
     pass
 
 
 # ShowValue, ShowLimits, LimitsFromPV, Minimum, Maximum, NeedleColor, KnobColor
-class Meter(Widget, PVName, ForegroundColor, BackgroundColor, Font, Format, Precision, ShowValue,
-            ShowUnits, ShowLimits, AlarmBorder, LimitsFromPV, Minimum, Maximum, NeedleColor, KnobColor):
+class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format, _p._Precision, _p._ShowValue,
+            _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum, _p._NeedleColor, _p._KnobColor):
     pass
 
 # FillColor
-class ProgressBar(Widget, PVName, FillColor, BackgroundColor, Horizontal, AlarmBorder, LimitsFromPV,
-                  Minimum, Maximum):
+class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal, _p._AlarmBorder, _p._LimitsFromPV,
+                  _p._Minimum, _p._Maximum):
     pass
 
-class Tank(Widget, PVName, Font, ForegroundColor, BackgroundColor, FillColor, EmptyColor, ScaleVisible,
-           AlarmBorder, LimitsFromPV, Minimum, Maximum):
+class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._FillColor, _p._EmptyColor, _p._ScaleVisible,
+           _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
     pass
 
-class TextUpdate(Widget, PVName, Font, ForegroundColor, BackgroundColor, Transparent,
-                 Format, Precision, ShowUnits, HorizontalAlignment, VerticalAlignment, WrapWords,
-                 RotationStep, Border):
+class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
+                 _p._Format, _p._Precision, _p._ShowUnits, _p._HorizontalAlignment, _p._VerticalAlignment, _p._WrapWords,
+                 _p._RotationStep, _p._Border):
     """ Text Update widget, req: pv name """
     def __init__(self, name, pv_name, x, y, width, height):
-        Widget.__init__(self, 'textupdate', name, x, y, width, height)
+        _Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.pv_name(pv_name)
 
-class Thermometer(Widget, PVName, FillColor, AlarmBorder, LimitsFromPV, Minimum, Maximum):
+class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
     pass
 
 # Controls
-class ActionButton(Widget, PVName, Text, Font, ForegroundColor, BackgroundColor,
-                   Transparent, RotationStep, Enabled, Confirmation):
+class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+                   _p._Transparent, _p._RotationStep, _p._Enabled, _p._Confirmation):
     """ Action button widget, req: text, pv name """
     def __init__(self, name, text, pv_name, x, y, width, height):
-        Widget.__init__(self, 'action_button', name, x, y, width, height)
+        _Widget.__init__(self, 'action_button', name, x, y, width, height)
         self.pv_name(pv_name)
         self.text(text)
 
-class BooleanButton(Widget, PVName, Bit, OffImage, OnImage, ShowLED, Font, ForegroundColor, BackgroundColor,
-                    LabelsFromPV, AlarmBorder, Enabled, Mode, Confirmation):
+class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
     pass
 
 class CheckBox():
@@ -103,19 +103,19 @@ class RadioButton():
 class ScaledSlider():
     pass
 
-class TextEntry(Widget, PVName, Font, ForegroundColor, BackgroundColor, Format,
-                Precision, ShowUnits, WrapWords, MultiLine, AlarmBorder, Enabled,
-                Border):
+class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Format,
+                _p._Precision, _p._ShowUnits, _p._WrapWords, _p._MultiLine, _p._AlarmBorder, _p._Enabled,
+                _p._Border):
     """ Text Entry widget, req: pv name """
     def __init__(self, name, pv_name, x, y, width, height):
-        Widget.__init__(self, 'textentry', name, x, y, width, height)
+        _Widget.__init__(self, 'textentry', name, x, y, width, height)
         self.pv_name(pv_name)
 
 # Structure
-class EmbeddedDisplay(Macro, File, ResizeBehavior, GroupName, Transparent, Border):
+class EmbeddedDisplay(_p._Macro, _p._File, _p._ResizeBehavior, _p._GroupName, _p._Transparent, _p._Border):
     pass
 
-class Group(Widget, Macro, Style, Font, ForegroundColor, BackgroundColor, Transparent):
+class Group(_Widget, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
     pass
 
 class Tabs():

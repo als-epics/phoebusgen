@@ -9,281 +9,281 @@ import _property
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self.prop_factory = _property.Property(self.element)
+        self._prop_factory = _property.Property(self.element)
 
     def test_init(self):
-        self.assertIsInstance(self.prop_factory.root, Element)
+        self.assertIsInstance(self._prop_factory.root, Element)
 
     def generic_element_test(self, tag_name, tag_value):
-        new_element = self.prop_factory.root.find(tag_name)
+        new_element = self._prop_factory.root.find(tag_name)
         self.assertIsNotNone(new_element)
         if type(tag_value) == bool:
             self.assertEqual(new_element.text, str(tag_value).lower())
         else:
             self.assertEqual(new_element.text, str(tag_value))
         self.assertEqual(new_element.attrib, {})
-        self.prop_factory.root.remove(new_element)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.root.remove(new_element)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_pv_name(self):
         tag_name = 'pv_name'
         pv = 'test:pv'
-        self.prop_factory.add_pv_name(pv)
+        self._prop_factory.add_pv_name(pv)
         self.generic_element_test(tag_name, pv)
 
     def test_precision(self):
         tag_name = 'precision'
         precision = 2
-        self.prop_factory.add_precision(precision)
+        self._prop_factory.add_precision(precision)
         self.generic_element_test(tag_name, precision)
 
     def test_show_units(self):
         tag_name = 'show_units'
         show = False
-        self.prop_factory.add_show_units(show)
+        self._prop_factory.add_show_units(show)
         self.generic_element_test(tag_name, show)
 
     def test_multi_line(self):
         tag_name = 'multi_line'
         show = True
-        self.prop_factory.add_multi_line(show)
+        self._prop_factory.add_multi_line(show)
         self.generic_element_test(tag_name, show)
 
     def test_wrap_words(self):
         tag_name = 'wrap_words'
         wrap = True
-        self.prop_factory.add_wrap_words(wrap)
+        self._prop_factory.add_wrap_words(wrap)
         self.generic_element_test(tag_name, wrap)
 
     def test_bit(self):
         tag_name = 'bit'
         val = 124
-        self.prop_factory.add_bit(val)
+        self._prop_factory.add_bit(val)
         self.generic_element_test(tag_name, val)
 
     def test_transparent(self):
         tag_name = 'transparent'
         transparent = False
-        self.prop_factory.add_transparent(transparent)
+        self._prop_factory.add_transparent(transparent)
         self.generic_element_test(tag_name, transparent)
 
     def test_horizontal_alignment_top(self):
         tag_name = 'horizontal_alignment'
         alignment = 'LeFT'
         xml_alignment_value = 0
-        self.prop_factory.add_horizontal_alignment(alignment)
+        self._prop_factory.add_horizontal_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_horizontal_alignment_middle(self):
         tag_name = 'horizontal_alignment'
         alignment = 'center'
         xml_alignment_value = 1
-        self.prop_factory.add_horizontal_alignment(alignment)
+        self._prop_factory.add_horizontal_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_horizontal_alignment_bottom(self):
         tag_name = 'horizontal_alignment'
         alignment = 'RIGHt'
         xml_alignment_value = 2
-        self.prop_factory.add_horizontal_alignment(alignment)
+        self._prop_factory.add_horizontal_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_horizontal_alignment_wrong_input(self):
         tag_name = 'horizontal_alignment'
         alignment = 'L'
-        self.prop_factory.add_horizontal_alignment(alignment)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.add_horizontal_alignment(alignment)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_vertical_alignment_top(self):
         tag_name = 'vertical_alignment'
         alignment = 'ToP'
         xml_alignment_value = 0
-        self.prop_factory.add_vertical_alignment(alignment)
+        self._prop_factory.add_vertical_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_vertical_alignment_middle(self):
         tag_name = 'vertical_alignment'
         alignment = 'Middle'
         xml_alignment_value = 1
-        self.prop_factory.add_vertical_alignment(alignment)
+        self._prop_factory.add_vertical_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_vertical_alignment_bottom(self):
         tag_name = 'vertical_alignment'
         alignment = 'BOTTOM'
         xml_alignment_value = 2
-        self.prop_factory.add_vertical_alignment(alignment)
+        self._prop_factory.add_vertical_alignment(alignment)
         self.generic_element_test(tag_name, xml_alignment_value)
 
     def test_vertical_alignment_wrong_input(self):
         tag_name = 'vertical_alignment'
         alignment = 'BOTTO'
-        self.prop_factory.add_vertical_alignment(alignment)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.add_vertical_alignment(alignment)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_rotation_step(self):
         tag_name = 'rotation_step'
         rotation = -90
         xml_rotation_value = 3
-        self.prop_factory.add_rotation_step(rotation)
+        self._prop_factory.add_rotation_step(rotation)
         self.generic_element_test(tag_name, xml_rotation_value)
 
     def test_rotation_step_wrong_input(self):
         rotation = 234
-        self.prop_factory.add_rotation_step(rotation)
-        self.assertIsNone(self.prop_factory.root.find('rotation_step'))
+        self._prop_factory.add_rotation_step(rotation)
+        self.assertIsNone(self._prop_factory.root.find('rotation_step'))
 
     def test_border_width(self):
         tag_name = 'border_width'
         width = 5
-        self.prop_factory.add_border_width(width)
+        self._prop_factory.add_border_width(width)
         self.generic_element_test(tag_name, width)
 
     def test_border_width_float(self):
         tag_name = 'border_width'
         width = 2.5
-        self.prop_factory.add_border_width(width)
+        self._prop_factory.add_border_width(width)
         self.generic_element_test(tag_name, int(width))
 
     def test_border_width_wrong(self):
         tag_name = 'border_width'
         width = 'dsfds'
-        self.prop_factory.add_border_width(width)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.add_border_width(width)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_format_binary(self):
         tag_name = 'format'
         format = 'Binary'
         xml_format_value = 10
-        self.prop_factory.add_format(format)
+        self._prop_factory.add_format(format)
         self.generic_element_test(tag_name, xml_format_value)
 
     def test_format_decimal(self):
         tag_name = 'format'
         format = 'dEcimal'
         xml_format_value = 1
-        self.prop_factory.add_format(format)
+        self._prop_factory.add_format(format)
         self.generic_element_test(tag_name, xml_format_value)
 
     def test_format_wrong_input(self):
         tag_name = 'format'
         format = 'dsfds'
-        self.prop_factory.add_format(format)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.add_format(format)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_auto_size_true(self):
         tag_name = 'auto_size'
         auto = True
-        self.prop_factory.add_auto_size(auto)
+        self._prop_factory.add_auto_size(auto)
         self.generic_element_test(tag_name, str(auto).lower())
 
     def test_auto_size_false(self):
         tag_name = 'auto_size'
         auto = False
-        self.prop_factory.add_auto_size(auto)
+        self._prop_factory.add_auto_size(auto)
         self.generic_element_test(tag_name, auto)
 
     def test_text(self):
         tag_name = 'text'
         text = 'TEST TEST TEST'
-        self.prop_factory.add_text(text)
+        self._prop_factory.add_text(text)
         self.generic_element_test(tag_name, text)
 
     def test_bit(self):
         tag_name = 'bit'
         val = 23
-        self.prop_factory.add_bit(val)
+        self._prop_factory.add_bit(val)
         self.generic_element_test(tag_name, val)
 
     def test_square(self):
         tag_name = 'square'
         val = True
-        self.prop_factory.add_square(val)
+        self._prop_factory.add_square(val)
         self.generic_element_test(tag_name, val)
 
     def test_square_error(self):
         tag_name = 'square'
         val = 'dsfkj'
-        self.prop_factory.add_square(val)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
+        self._prop_factory.add_square(val)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_off_label(self):
         tag_name = 'off_label'
         val = 'TEST Label'
-        self.prop_factory.add_off_label(val)
+        self._prop_factory.add_off_label(val)
         self.generic_element_test(tag_name, val)
 
     def test_on_label(self):
         tag_name = 'on_label'
         val = 'TEST this on Label'
-        self.prop_factory.add_on_label(val)
+        self._prop_factory.add_on_label(val)
         self.generic_element_test(tag_name, val)
 
     def test_alarm_border(self):
         tag_name = 'border_alarm_sensitive'
         val = False
-        self.prop_factory.add_alarm_border(val)
+        self._prop_factory.add_alarm_border(val)
         self.generic_element_test(tag_name, val)
 
     def test_enabled(self):
         tag_name = 'enabled'
         val = False
-        self.prop_factory.add_enabled(val)
+        self._prop_factory.add_enabled(val)
         self.generic_element_test(tag_name, val)
 
     def test_confirmation_dialog(self):
         tag_name = 'show_confirmation_dialog'
         val = True
-        self.prop_factory.add_confirmation_dialog(val)
+        self._prop_factory.add_confirmation_dialog(val)
         self.generic_element_test(tag_name, val)
 
     def test_confirmation_message(self):
         tag_name = 'confirm_message'
         val = 'Are you sure you want to make all these tests?'
-        self.prop_factory.add_confirmation_message(val)
+        self._prop_factory.add_confirmation_message(val)
         self.generic_element_test(tag_name, val)
 
     def test_password(self):
         tag_name = 'password'
         val = '123456789'
-        self.prop_factory.add_password(val)
+        self._prop_factory.add_password(val)
         self.generic_element_test(tag_name, val)
 
     def test_corner_width(self):
         tag_name = 'corner_width'
         val = 42
-        self.prop_factory.add_corner_width(val)
+        self._prop_factory.add_corner_width(val)
         self.generic_element_test(tag_name, val)
 
     def test_corner_height(self):
         tag_name = 'corner_height'
         val = 23
-        self.prop_factory.add_corner_height(val)
+        self._prop_factory.add_corner_height(val)
         self.generic_element_test(tag_name, val)
 
     def test_line_width(self):
         tag_name = 'line_width'
         val = 4
-        self.prop_factory.add_line_width(val)
+        self._prop_factory.add_line_width(val)
         self.generic_element_test(tag_name, val)
 
     def test_angle_start(self):
         tag_name = 'start_angle'
         val = 94
-        self.prop_factory.add_angle_start(val)
+        self._prop_factory.add_angle_start(val)
         self.generic_element_test(tag_name, val)
 
     def test_angle_size(self):
         tag_name = 'total_angle'
         val = 23
-        self.prop_factory.add_angle_size(val)
+        self._prop_factory.add_angle_size(val)
         self.generic_element_test(tag_name, val)
 
 
 class TestColorPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self.prop_factory = _property.Property(self.element)
+        self._prop_factory = _property.Property(self.element)
         self.color_dict = {'activetext': {'red': '255', 'green': '255', 'blue': '0', 'alpha': '255'},
                            'attention': {'red': '255', 'green': '160', 'blue': '0', 'alpha': '255'},
                            'background': {'red': '255', 'green': '255', 'blue': '255', 'alpha': '255'},
@@ -305,11 +305,11 @@ class TestColorPropertyElements(unittest.TestCase):
                            'write_background': {'red': '128', 'green': '255', 'blue': '255', 'alpha': '255'}}
 
     def test_init(self):
-        self.assertIsInstance(self.prop_factory.root, Element)
-        self.assertEqual(self.prop_factory.root.tag, 'test_root')
+        self.assertIsInstance(self._prop_factory.root, Element)
+        self.assertEqual(self._prop_factory.root.tag, 'test_root')
 
     def color_test(self, tag_name, name, red, green, blue, alpha):
-        parent_element = self.prop_factory.root.find(tag_name)
+        parent_element = self._prop_factory.root.find(tag_name)
         self.assertIsNotNone(parent_element)
         self.assertIsNone(parent_element.text)
         child_element = parent_element.find('color')
@@ -327,9 +327,9 @@ class TestColorPropertyElements(unittest.TestCase):
         self.assertEqual(child_element.attrib, attrib_dict)
         self.assertIsNone(child_element.text)
         # clean up so we can run multiple tests on same element
-        self.prop_factory.root.remove(parent_element)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.root.remove(parent_element)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_off_color(self):
         tag_name = 'off_color'
@@ -338,7 +338,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = None
-        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self._prop_factory.add_off_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_off_color_2(self):
@@ -348,7 +348,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 32
         name = None
-        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self._prop_factory.add_off_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_off_color(self):
@@ -358,7 +358,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'OFF'
-        self.prop_factory.add_off_color(name, red, green, blue, alpha)
+        self._prop_factory.add_off_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_off_color_wrong(self):
@@ -368,9 +368,9 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_off_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_off_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_on_color(self):
         tag_name = 'on_color'
@@ -379,7 +379,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = None
-        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self._prop_factory.add_on_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_on_color2(self):
@@ -389,7 +389,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 32
         name = None
-        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self._prop_factory.add_on_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_on_color(self):
@@ -399,7 +399,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'OFF'
-        self.prop_factory.add_on_color(name, red, green, blue, alpha)
+        self._prop_factory.add_on_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_on_color_wrong(self):
@@ -409,9 +409,9 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_on_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_on_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_line_color(self):
         tag_name = 'line_color'
@@ -420,7 +420,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = None
-        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self._prop_factory.add_line_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_line_color2(self):
@@ -430,7 +430,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 32
         name = None
-        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self._prop_factory.add_line_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_line_color(self):
@@ -440,7 +440,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'OFF'
-        self.prop_factory.add_line_color(name, red, green, blue, alpha)
+        self._prop_factory.add_line_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_line_color_wrong(self):
@@ -450,9 +450,9 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_line_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_line_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_background_color(self):
         tag_name = 'background_color'
@@ -461,7 +461,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = None
-        self.prop_factory.add_background_color(name, red, green, blue, alpha)
+        self._prop_factory.add_background_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_background_color_2(self):
@@ -471,7 +471,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 32
         name = None
-        self.prop_factory.add_background_color(name, red, green, blue, alpha)
+        self._prop_factory.add_background_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_background_color(self):
@@ -481,7 +481,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'OFF'
-        self.prop_factory.add_background_color(name, red, green, blue, alpha)
+        self._prop_factory.add_background_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_background_color_wrong(self):
@@ -491,9 +491,9 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_background_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_foreground_color(self):
         tag_name = 'foreground_color'
@@ -502,7 +502,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = None
-        self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
+        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_foreground_color_2(self):
@@ -512,7 +512,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 32
         name = None
-        self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
+        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_foreground_color(self):
@@ -522,7 +522,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'Header_Foreground'
-        self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
+        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_foreground_color_wrong(self):
@@ -532,9 +532,9 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_border_color(self):
         tag_name = 'border_color'
@@ -543,7 +543,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 0
         alpha = 255
         name = None
-        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self._prop_factory.add_border_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_border_color_2(self):
@@ -553,7 +553,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 21
         alpha = 255
         name = None
-        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self._prop_factory.add_border_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_border_color(self):
@@ -563,7 +563,7 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 0
         name = 'MAJOR'
-        self.prop_factory.add_border_color(name, red, green, blue, alpha)
+        self._prop_factory.add_border_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
 
     def test_predefined_border_color_wrong(self):
@@ -573,15 +573,15 @@ class TestColorPropertyElements(unittest.TestCase):
         blue = 255
         alpha = 255
         name = 'sdaflkdasf'
-        self.prop_factory.add_border_color(name, red, green, blue, alpha)
-        self.assertIsNone(self.prop_factory.root.find(tag_name))
-        self.assertIsNone(self.prop_factory.root.find('color'))
+        self._prop_factory.add_border_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
+        self.assertIsNone(self._prop_factory.root.find('color'))
 
 
 class TestFontPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_ROOT_tag test')
-        self.prop_factory = _property.Property(self.element)
+        self._prop_factory = _property.Property(self.element)
         self.font_dict = {'comment': {'family': 'Liberation Sans', 'size': '14', 'style': 'Italic'},
                           'default': {'family': 'Liberation Sans', 'size': '14', 'style': 'Regular'},
                           'default bold': {'family': 'Liberation Sans', 'size': '14', 'style': 'Bold'},
@@ -592,11 +592,11 @@ class TestFontPropertyElements(unittest.TestCase):
                           'oddball': {'family': 'Liberation Sans', 'size': '40', 'style': 'Regular'}}
 
     def test_init(self):
-        self.assertIsInstance(self.prop_factory.root, Element)
-        self.assertEqual(self.prop_factory.root.tag, 'test_ROOT_tag test')
+        self.assertIsInstance(self._prop_factory.root, Element)
+        self.assertEqual(self._prop_factory.root.tag, 'test_ROOT_tag test')
 
     def font_test(self, name, family, style, size):
-        outer_font_element = self.prop_factory.root.find('font')
+        outer_font_element = self._prop_factory.root.find('font')
         self.assertIsNotNone(outer_font_element)
         inner_font_element = outer_font_element.find('font')
         self.assertIsNotNone(inner_font_element)
@@ -617,15 +617,15 @@ class TestFontPropertyElements(unittest.TestCase):
         self.assertEqual(inner_font_element.attrib, attrib_dict)
         self.assertEqual(outer_font_element.attrib, {})
 
-        self.prop_factory.root.remove(outer_font_element)
-        self.assertIsNone(self.prop_factory.root.find('font'))
+        self._prop_factory.root.remove(outer_font_element)
+        self.assertIsNone(self._prop_factory.root.find('font'))
 
     def test_predefined_font(self):
         name = 'OddBall'
         family = 'dont care bc we have a name'
         style = 'Not a style'
         size = 523
-        self.prop_factory.add_font(family, style, size, name)
+        self._prop_factory.add_font(family, style, size, name)
         self.font_test(name, family, style, size)
 
     def test_predefined_font_wrong(self):
@@ -633,15 +633,15 @@ class TestFontPropertyElements(unittest.TestCase):
         family = 'dont care bc we are wrong'
         style = 'Not a style'
         size = 5
-        self.prop_factory.add_font(family, style, size, name)
-        self.assertIsNone(self.prop_factory.root.find('font'))
+        self._prop_factory.add_font(family, style, size, name)
+        self.assertIsNone(self._prop_factory.root.find('font'))
 
     def test_random_font(self):
         name = None
         family = 'Lohit Gujarati'
         style = 'Bold'
         size = 12
-        self.prop_factory.add_font(family, style, size, name)
+        self._prop_factory.add_font(family, style, size, name)
         self.font_test(name, family, style, size)
 
 

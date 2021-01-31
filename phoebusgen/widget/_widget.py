@@ -3,7 +3,7 @@ from xml.dom import minidom
 from phoebusgen.widget._property import Property
 
 
-class Widget(object):
+class _Widget(object):
     def __init__(self, w_type, name, x_pos, y_pos, width, height):
         self.root = Element('widget', type=w_type, version='2.0.0')
         name_child = SubElement(self.root, 'name')
@@ -21,7 +21,7 @@ class Widget(object):
         height_child = SubElement(self.root, 'height')
         height_child.text = str(height)
 
-        self.prop_factory = Property(self.root)
+        self._prop_factory = Property(self.root)
 
     def visible(self, visible):
         child = SubElement(self.root, 'visible')
