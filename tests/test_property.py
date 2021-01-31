@@ -3,13 +3,13 @@ sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
 import unittest
 from xml.etree.ElementTree import Element, SubElement
-import _property
+import property
 
 
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self._prop_factory = _property.Property(self.element)
+        self._prop_factory = property.Property(self.element)
 
     def test_init(self):
         self.assertIsInstance(self._prop_factory.root, Element)
@@ -283,7 +283,7 @@ class TestGenericPropertyElements(unittest.TestCase):
 class TestColorPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self._prop_factory = _property.Property(self.element)
+        self._prop_factory = property.Property(self.element)
         self.color_dict = {'activetext': {'red': '255', 'green': '255', 'blue': '0', 'alpha': '255'},
                            'attention': {'red': '255', 'green': '160', 'blue': '0', 'alpha': '255'},
                            'background': {'red': '255', 'green': '255', 'blue': '255', 'alpha': '255'},
@@ -581,7 +581,7 @@ class TestColorPropertyElements(unittest.TestCase):
 class TestFontPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_ROOT_tag test')
-        self._prop_factory = _property.Property(self.element)
+        self._prop_factory = property.Property(self.element)
         self.font_dict = {'comment': {'family': 'Liberation Sans', 'size': '14', 'style': 'Italic'},
                           'default': {'family': 'Liberation Sans', 'size': '14', 'style': 'Regular'},
                           'default bold': {'family': 'Liberation Sans', 'size': '14', 'style': 'Bold'},

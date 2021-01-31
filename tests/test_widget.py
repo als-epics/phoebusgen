@@ -2,7 +2,7 @@ import sys
 sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
 import unittest
-import _widget
+import widget
 
 
 class TestWidgetClass(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestWidgetClass(unittest.TestCase):
         self.base_height = 15
 
     def create_basic_widget(self):
-        return _widget._Widget(self.base_type, self.base_name, self.base_x,
+        return widget._Widget(self.base_type, self.base_name, self.base_x,
                                self.base_y, self.base_width, self.base_height)
 
     def test_basic_widget(self):
@@ -25,7 +25,7 @@ class TestWidgetClass(unittest.TestCase):
         y = 12
         width = 14
         height = 15
-        w = _widget._Widget(widget_type, name, x, y, width, height)
+        w = widget._Widget(widget_type, name, x, y, width, height)
         self.assertEqual(w.root.tag, 'widget')
         self.assertEqual(w.root.attrib['type'], 'label')
         self.assertEqual(w.root.attrib['version'], '2.0.0')

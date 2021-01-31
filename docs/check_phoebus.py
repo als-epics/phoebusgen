@@ -1,5 +1,6 @@
 import yaml
 import sys
+import argparse
 
 # Used to parse phoebus.yaml and check what widgets use what properties
 
@@ -20,7 +21,7 @@ def print_props(widget):
         dataMap = yaml.safe_load(f)
         for widget_type, widgets in dataMap.items():
             for widget_name, widget_items in widgets.items():
-                if widget_name.lower() == widget.lower():
+                if widget_name.lower().replace(' ', '') == widget.lower().replace(' ', ''):
                     for subclass, subclass_types in widget_items.items():
                         for val in subclass_types:
                             print(val)
@@ -71,29 +72,30 @@ def check_elements(elem_type, elem):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        if "print" in sys.argv[1].lower():
+    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Used to find information about Phoebus widgets like what properties are available for that widget, \
+            what widgets use a property, etc.')
+    subparsers = parser.add_subparsers(dest='command')
+    print_parser = subparsers.add_parser('print', help='Print either the entire Phoebus class structure, or print all properties')
+    print_parser.add_argument('mode', choices=['structure', 'all'])
+
+    widget_parser = subparsers.add_parser('widget', help='Takes 1 arg. Show all properties for a given widget')
+    widget_parser.add_argument('widget_type', type=str, action='store')
+
+    property_parser = subparsers.add_parser('property', help='Takes 2 args. Shows all widgets for a given property')
+    property_parser.add_argument('widget_class', type=str, action='store', help='help for class')
+    property_parser.add_argument('widget_property', type=str, action='store', help='help for property')
+
+    args = parser.parse_args()
+
+    if args.command == 'print':
+        if args.mode == 'all':
+            print_all_props()
+        elif args.mode == 'structure':
             print_structure()
-        else:
-            print_props(sys.argv[1])
-        sys.exit(0)
-    elif len(sys.argv) == 1:
-        print_all_props()
-        sys.exit(0)
-    elif len(sys.argv) != 3:
-        print("must specify <Class> <Property>!")
-        print("Possible Classes: Graphics, Monitors, Controls, Plots, Structure, Miscellaneous")
-        print("Property: can be single property or list of properties inside of class")
-        sys.exit(2)
-    arg_type = sys.argv[1]
-    arg = sys.argv[2]
-    arg = arg.split(',')
-    if len(arg) == 1:
-        check_elem(arg_type, arg[0])
+    elif args.command == 'widget':
+        print_props(args.widget_type)
+    elif args.command == 'property':
+        check_elem(args.widget_class, args.widget_property)
     else:
-        #l = []
-        #for a in arg:
-        #    l.append(check_elem(arg_type, arg))
-        check_elements(arg_type, arg)
-
-
+        parser.print_help()

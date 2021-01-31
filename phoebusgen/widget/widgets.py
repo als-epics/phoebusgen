@@ -1,5 +1,6 @@
-from phoebusgen.widget._widget import _Widget
-import phoebusgen.widget.property_stubs as _p
+from phoebusgen.widget.widget import _Widget
+from phoebusgen.widget import property_stubs as _p
+#import phoebusgen.widget.property_stubs as _p
 
 # Displays
 class Arc(_Widget, _p._Macro, _p._Angle, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent):

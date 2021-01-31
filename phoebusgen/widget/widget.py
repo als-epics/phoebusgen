@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from phoebusgen.widget._property import Property
+from phoebusgen.widget.property import Property
 
 
 class _Widget(object):
