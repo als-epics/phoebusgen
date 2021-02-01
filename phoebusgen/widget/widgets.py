@@ -74,7 +74,7 @@ class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
 #    pass
 
 # Controls
-class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
                    _p._Transparent, _p._RotationStep, _p._Enabled, _p._Confirmation):
     """ Action button widget, req: text, pv name """
     def __init__(self, name, text, pv_name, x, y, width, height):
@@ -86,8 +86,13 @@ class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor,
 #                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
 #    pass
 
-#class CheckBox():
-#    pass
+# Bit, PVname, label, font, foreground color, auto-size, alarm border, enabled, confirm
+class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._ForegroundColor, _p._AutoSize,
+               _p._AlarmBorder, _p._Confirmation):
+    def __init__(self, name, label, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'checkbox', name, x, y, width, height)
+        self.pv_name(pv_name)
+        self.label(label)
 
 #class ChoiceButton():
 #    pass
@@ -98,8 +103,10 @@ class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor,
 #class FileSelector():
 #    pass
 
-#class RadioButton():
-#    pass
+# PVname, font, foregroundcolor, horizontal, alarmborder, items, itemsfrompv, enabled, confirm
+class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizontal, _p._AlarmBorder,
+                  _p._Items, _p._ItemsFromPV, _p._Enabled, _p._Confirmation):
+    pass
 
 #class ScaledSlider():
 #    pass

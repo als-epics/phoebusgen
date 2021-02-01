@@ -47,7 +47,7 @@ def check_elem(elem_type, elem):
         for widget_type, widgets in dataMap.items():
             for widget_name, widget_items in widgets.items():
                 for subclass, subclass_types in widget_items.items():
-                    if subclass == elem_type:
+                    if subclass.lower().replace(' ', '')  == elem_type.lower().replace(' ', ''):
                         if elem in subclass_types:
                             widget_list.append(widget_name)
                             print(widget_name)

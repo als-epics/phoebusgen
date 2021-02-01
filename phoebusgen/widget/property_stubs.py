@@ -181,6 +181,9 @@ class _Confirmation(object):
         if password is not None:
             self._prop_factory.add_password(password)
 
+    def disable_confirmation_dialog(self):
+        self._prop_factory.add_confirmation_dialog(False)
+
 
 class _MultiLine(object):
     def multi_line(self, val):
@@ -208,6 +211,58 @@ class _StretchToFit(object):
     def stretch_to_fit(self, val):
         self._prop_factory.add_stretch_to_fit(val)
 
+class _Actions(object):
+    def action_execute_as_one(self, val):
+        self._prop_factory.add_action_execute_as_one(val)
+
+    def action_open_display(self, file, target, description=None):
+        # still needs macros
+        if description is None:
+            description = 'Open Display'
+        possible_targets = ['tab', 'replace', 'window']
+        if target.lower() not in possible_targets:
+            print('Target must be one of {}, not: {}'.format(possible_targets, target))
+            return
+        args = {'file': file, 'target': target.lower()}
+        self._prop_factory.add_action('open_display', description, args)
+
+    def action_write_pv(self, pv_name, value, description=None):
+        if description is None:
+            description = 'Write PV'
+        args = {'pv_name': pv_name, 'value': value}
+        self._prop_factory.add_action('write_pv', description, args)
+
+    def action_execute_command(self, command, description=None):
+        if description is None:
+            description = 'Execute Command'
+        args = {'command': command}
+        self._prop_factory.add_action('command', description, args)
+
+    def action_open_file(self, file, description=None):
+        if description is None:
+            description = 'Open File'
+        args = {'file': file}
+        self._prop_factory.add_action('open_file', description, args)
+
+    def action_open_webpage(self, url, description=None):
+        if description is None:
+            description = 'Open Webpage'
+        args = {'url': url}
+        self._prop_factory.add_action('open_webpage', description, args)
+
+class _Label(object):
+    def label(self, val):
+        self._prop_factory.add_label(val)
+
+class _Horizontal(object):
+    pass
+
+class _Items(object):
+    pass
+
+class _ItemsFromPV(object):
+    pass
+
 class _StartBit(object):
     pass
 
@@ -215,12 +270,6 @@ class _NumBits(object):
     pass
 
 class _ReverseBits(object):
-    pass
-
-class _Horizontal(object):
-    pass
-
-class _Labels(object):
     pass
 
 class _States(object):

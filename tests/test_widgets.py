@@ -77,6 +77,18 @@ class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForeg
         self.element = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 
+class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph.TestForegroundColor,
+                   ph.TestAutoSize, ph.TestAlarmBorder, ph.TestConfirmation, ph.TestLabel):
+    def setUp(self):
+        self.name = 'Check box 1'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.label = 'My check box'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.CheckBox(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
+
 
 
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,

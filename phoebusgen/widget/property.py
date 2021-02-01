@@ -258,7 +258,6 @@ class Property(object):
         self.generic_property('resize', v)
 
     def add_group_name(self, val):
-        print('GROUP NAME: {}'.format(val))
         self.generic_property('group_name', val)
 
     def add_style(self, style):
@@ -269,3 +268,33 @@ class Property(object):
             print('Wrong input to group style: {}'.format(val))
             return
         self.generic_property('style', v)
+
+    def add_action(self, action_type, description, args):
+        root_action = self.root.find('actions')
+        if root_action is None:
+            root_action = SubElement(self.root, 'actions')
+        action = SubElement(root_action, 'action')
+        action.attrib['type'] = action_type
+        sub = SubElement(action, 'description')
+        sub.text = description
+        for arg, val in args.items():
+            sub = SubElement(action, arg)
+            sub.text = val
+
+    def add_action_execute_as_one(self, val):
+        if type(val) == bool:
+            action = str(val).lower()
+        elif type(val) == int:
+            action = str(bool(val)).lower()
+        elif val.lower() == 'true' or val.lower() == 'false':
+            action = val.lower()
+        else:
+            print('action_execute_as_one must take a boolean value! Not: {}'.format(val))
+            return
+        root_action = self.root.find('actions')
+        if root_action is None:
+            root_action = SubElement(self.root, 'actions')
+        root_action.attrib['execute_as_one'] = action
+
+    def add_label(self, val):
+        self.generic_property('label', val)

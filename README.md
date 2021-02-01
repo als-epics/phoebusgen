@@ -57,6 +57,7 @@ Widgets Finished:
 - Picture
 - Rectangle
 - Text Update
+- Check Box
 - Text Entry
 - Action Button
 - LED

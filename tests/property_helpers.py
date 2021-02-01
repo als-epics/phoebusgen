@@ -214,16 +214,17 @@ class TestBit(GenericTest):
 
 
 class TestAutoSize(GenericTest):
-    tag_name = 'auto_size'
 
     def test_auto_size(self):
+        tag_name = 'auto_size'
         val = False
         self.element.auto_size(val)
-        self.generic_element_test(self.tag_name, val)
+        self.generic_element_test(tag_name, val)
 
     def test_auto_size_default(self):
+        tag_name = 'auto_size'
         self.element.auto_size()
-        self.generic_element_test(self.tag_name, True)
+        self.generic_element_test(tag_name, True)
 
 
 class TestMultiLine(GenericTest):
@@ -512,3 +513,8 @@ class TestStyle(GenericTest):
         self.element.no_style()
         self.generic_element_test('style', 3)
 
+
+class TestLabel(GenericTest):
+    def test_label(self):
+        tag_name = 'label'
+        self.generic_element_test(tag_name, self.label)

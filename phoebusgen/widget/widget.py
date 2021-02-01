@@ -71,6 +71,9 @@ class _Widget(object):
     def __str__(self):
         return self.prettify(self.root)
 
+    def __repr__(self):
+        return self.prettify(self.root)
+
 
 if __name__ == '__main__':
     pass
