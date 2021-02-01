@@ -31,9 +31,9 @@ class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._Background
 
 # Monitors
 # Start bit, number of bits, reverse bits, horizontal, labels
-class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
-                  _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
-    pass
+#class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
+#                  _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
+#    pass
 
 class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._ForegroundColor, _p._LineColor,
           _p._Square, _p._LabelsFromPV, _p._AlarmBorder):
@@ -43,24 +43,24 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
         self.pv_name(pv_name)
 
 # States, Fallback
-class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square, _p._AlarmBorder, _p._States, _p._Fallback):
-    pass
+#class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square, _p._AlarmBorder, _p._States, _p._Fallback):
+#    pass
 
 
 # ShowValue, ShowLimits, LimitsFromPV, Minimum, Maximum, NeedleColor, KnobColor
-class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format, _p._Precision, _p._ShowValue,
-            _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum, _p._NeedleColor, _p._KnobColor):
-    pass
+#class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format, _p._Precision, _p._ShowValue,
+#            _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum, _p._NeedleColor, _p._KnobColor):
+#    pass
 
 # FillColor, minimum, maximum, limitsfrompv
-class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal, _p._AlarmBorder, _p._LimitsFromPV,
-                  _p._Minimum, _p._Maximum):
-    pass
+#class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal, _p._AlarmBorder, _p._LimitsFromPV,
+#                  _p._Minimum, _p._Maximum):
+#    pass
 
 # fillcolor, min, max, limits, scalevisible, emptycolor
-class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._FillColor, _p._EmptyColor, _p._ScaleVisible,
-           _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
-    pass
+#class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._FillColor, _p._EmptyColor, _p._ScaleVisible,
+#           _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
+#    pass
 
 class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
                  _p._Format, _p._Precision, _p._ShowUnits, _p._HorizontalAlignment, _p._VerticalAlignment, _p._WrapWords,
@@ -70,8 +70,8 @@ class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
         _Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.pv_name(pv_name)
 
-class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
-    pass
+#class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
+#    pass
 
 # Controls
 class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
@@ -82,27 +82,27 @@ class ActionButton(_Widget, _p._PVName, _p._Text, _p._Font, _p._ForegroundColor,
         self.pv_name(pv_name)
         self.text(text)
 
-class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
-    pass
+#class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+#                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
+#    pass
 
-class CheckBox():
-    pass
+#class CheckBox():
+#    pass
 
-class ChoiceButton():
-    pass
+#class ChoiceButton():
+#    pass
 
-class ComboBox():
-    pass
+#class ComboBox():
+#    pass
 
-class FileSelector():
-    pass
+#class FileSelector():
+#    pass
 
-class RadioButton():
-    pass
+#class RadioButton():
+#    pass
 
-class ScaledSlider():
-    pass
+#class ScaledSlider():
+#    pass
 
 class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Format,
                 _p._Precision, _p._ShowUnits, _p._WrapWords, _p._MultiLine, _p._AlarmBorder, _p._Enabled,
@@ -123,10 +123,13 @@ class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._Grou
 
 
 class Group(_Widget, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
-    pass
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'group', name, x, y, width, height)
+        self.group_box()
 
-class Tabs():
-    pass
+
+#class Tabs():
+#    pass
 
 
 if __name__ == '__main__':

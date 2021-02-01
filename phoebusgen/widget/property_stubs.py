@@ -266,7 +266,18 @@ class _Mode(object):
     pass
 
 class _Style(object):
-    pass
+    def group_box(self):
+        self._prop_factory.add_style('group box')
+
+    def title_bar(self):
+        self._prop_factory.add_style('title bar')
+
+    def line(self):
+        self._prop_factory.add_style('line')
+
+    def no_style(self):
+        self._prop_factory.add_style('none')
+
 
 class _ResizeBehavior(object):
     def no_resize(self):

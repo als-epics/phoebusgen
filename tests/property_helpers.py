@@ -492,4 +492,23 @@ class TestGroupName(GenericTest):
         self.element.group_name(val)
         self.generic_element_test(tag_name, val)
 
+class TestStyle(GenericTest):
+    def test_default(self):
+       self.generic_element_test('style', 0)
+
+    def test_add_elem_twice(self):
+        self.element.group_box()
+        self.generic_element_test('style', 0)
+
+    def test_title_bar(self):
+        self.element.title_bar()
+        self.generic_element_test('style', 1)
+
+    def test_line(self):
+        self.element.line()
+        self.generic_element_test('style', 2)
+
+    def test_no_style(self):
+        self.element.no_style()
+        self.generic_element_test('style', 3)
 

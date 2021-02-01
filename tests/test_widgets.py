@@ -129,6 +129,16 @@ class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestR
         self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
 
 
+class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForegroundColor,
+                ph.TestBackgroundColor, ph.TestTransparent):
+    def setUp(self):
+        self.name = 'MyGroup Display'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
+
 
 if __name__ == '__main__':
     unittest.main()

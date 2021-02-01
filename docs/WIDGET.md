@@ -45,6 +45,9 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 - Embedded Display
   - `phoebusgen.widget.EmbeddedDisplay(name, file, x, y, width, height)`
+- Group
+  - `phoebusgen.widget.Group(name, x, y, width, height)`
+
 
 ## Miscellaneous
 

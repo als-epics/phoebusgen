@@ -42,6 +42,8 @@ class _Widget(object):
 
     def find_element(self, tag):
         elements = self.root.findall(tag)
+        # check to make sure there are not more than 1 elements
+        # we don't want duplicate tags
         if len(elements) > 1:
             print('More than 1 of the same tag!')
             return elements

@@ -23,6 +23,7 @@ class Property(object):
                               'sexagesimal dms 360deg rad', 'binary']
         self.resize_array = ['no resize', 'size content to fit widget', 'size widget to match content',
                              'stretch content to fit widget', 'crop content']
+        self.style_array = ['group box', 'title bar', 'line', 'none']
 
     def generic_property(self, prop_type, val=None):
         element = self.root.find(prop_type)
@@ -259,3 +260,12 @@ class Property(object):
     def add_group_name(self, val):
         print('GROUP NAME: {}'.format(val))
         self.generic_property('group_name', val)
+
+    def add_style(self, style):
+        val = str(style).lower()
+        try:
+            v = self.style_array.index(val)
+        except ValueError:
+            print('Wrong input to group style: {}'.format(val))
+            return
+        self.generic_property('style', v)
