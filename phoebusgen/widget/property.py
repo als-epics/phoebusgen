@@ -298,3 +298,16 @@ class Property(object):
 
     def add_label(self, val):
         self.generic_property('label', val)
+
+    def add_horizontal(self, val):
+        self.boolean_property('horizontal', val)
+
+    def add_item(self, val):
+        root_item = self.root.find('items')
+        if root_item is None:
+            root_item = SubElement(self.root, 'items')
+        sub = SubElement(root_item, 'item')
+        sub.text = val
+
+    def add_items_from_pv(self, val):
+        self.boolean_property('items_from_pv', val)

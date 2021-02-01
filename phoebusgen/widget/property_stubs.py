@@ -255,13 +255,16 @@ class _Label(object):
         self._prop_factory.add_label(val)
 
 class _Horizontal(object):
-    pass
+    def horizontal(self, val):
+        self._prop_factory.add_horizontal(val)
 
 class _Items(object):
-    pass
+    def item(self, val):
+        self._prop_factory.add_item(val)
 
 class _ItemsFromPV(object):
-    pass
+    def items_from_pv(self, val):
+        self._prop_factory.add_items_from_pv(val)
 
 class _StartBit(object):
     pass

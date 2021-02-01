@@ -89,6 +89,16 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
         self.height = 15
         self.element = widgets.CheckBox(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestHorizontal,
+                      ph.TestAlarmBorder, ph.TestItemsFromPV, ph.TestItems, ph.TestEnabled, ph.TestConfirmation):
+    def setUp(self):
+        self.name = 'Radio_1'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.RadioButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
@@ -105,7 +115,7 @@ class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegr
 
 
 class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
-                         ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation):
+                         ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions):
     def setUp(self):
         self.name = 'Label_1'
         self.pv_name = 'TEST:PV:ENTRY'

@@ -30,8 +30,6 @@ class GenericTest(object):
             if type(value) == bool:
                 self.assertEqual(element.text, str(value).lower())
             else:
-                print(element)
-                print(element.text, str(value))
                 self.assertEqual(element.text, str(value))
         self.element.remove_element(tag_name)
         self.assertIsNone(self.element.find_element(tag_name))
@@ -518,3 +516,50 @@ class TestLabel(GenericTest):
     def test_label(self):
         tag_name = 'label'
         self.generic_element_test(tag_name, self.label)
+
+class TestItemsFromPV(GenericTest):
+    def test_default(self):
+        tag_name = 'items_from_pv'
+        self.generic_element_test(tag_name, True)
+
+    def test_off(self):
+        tag_name = 'items_from_pv'
+        self.element.items_from_pv(False)
+        self.generic_element_test(tag_name, False)
+
+class TestItems(GenericTest):
+    def test_add_item(self):
+        tag_name = 'items'
+        val = 'Item Number Uno'
+        self.element.item(val)
+        self.child_element_test(tag_name, 'item', val, {})
+
+class TestActions(GenericTest):
+    def test_execute_as_one(self):
+        tag_name = 'actions'
+        self.element.action_execute_as_one(True)
+        file = 'test.bob'
+        target = 'TaB'
+        self.element.action_open_display(file, target)
+        self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
+
+    # need to get child test for child of child to work
+    #def test_open_display(self):
+    #    tag_name = 'action'
+    #    file = 'test.bob'
+    #    target = 'TaB'
+    #    self.element.action_open_display(file, target)
+    #    print(self.element)
+    #    self.child_element_test(tag_name, 'description', 'Open Display', {})
+
+
+
+class TestHorizontal(GenericTest):
+    def test_default(self):
+        tag_name = 'horizontal'
+        self.generic_element_test(tag_name, True)
+
+    def test_off(self):
+        tag_name = 'horizontal'
+        self.element.horizontal(False)
+        self.generic_element_test(tag_name, False)

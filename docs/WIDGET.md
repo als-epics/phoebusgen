@@ -38,6 +38,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.ActionButton(name, text, pv_name, x, y, width, height)`
 - Check Box
   - `phoebusgen.widget.CheckBox(name, label, pv_name, x, y, width, height)`
+- Radio Button 
+  - `phoebusgen.widget.RadioButton(name, pv_name, x, y, width, height)`
 - Text Entry
   - `phoebusgen.widget.TextEntry(name, pv_name, x, y, width, height)`
 
