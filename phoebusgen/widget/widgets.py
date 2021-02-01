@@ -17,12 +17,12 @@ class Label(_Widget, _p._Text, _p._Macro, _p._Font, _p._ForegroundColor, _p._Bac
     """ Label widget, req: text """
     def __init__(self, name, text, x, y, width, height):
         _Widget.__init__(self, 'label', name, x, y, width, height)
-
         self.text(text)
 
-# TODO: File, Stretch to Fit, Rotation
 class Picture(_Widget, _p._Macro, _p._File, _p._StretchToFit, _p._Rotation):
-    pass
+    def __init__(self, name, file, x, y, width, height):
+        _Widget.__init__(self, 'picture', name, x, y, width, height)
+        self.file(file)
 
 class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent, _p._Corner):
     """ Rectangle widget, req: none """
@@ -52,11 +52,12 @@ class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._F
             _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum, _p._NeedleColor, _p._KnobColor):
     pass
 
-# FillColor
+# FillColor, minimum, maximum, limitsfrompv
 class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal, _p._AlarmBorder, _p._LimitsFromPV,
                   _p._Minimum, _p._Maximum):
     pass
 
+# fillcolor, min, max, limits, scalevisible, emptycolor
 class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._FillColor, _p._EmptyColor, _p._ScaleVisible,
            _p._AlarmBorder, _p._LimitsFromPV, _p._Minimum, _p._Maximum):
     pass
@@ -112,8 +113,14 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
         self.pv_name(pv_name)
 
 # Structure
-class EmbeddedDisplay(_p._Macro, _p._File, _p._ResizeBehavior, _p._GroupName, _p._Transparent, _p._Border):
-    pass
+
+# ResizeBehavior, Group Name
+class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._GroupName, _p._Transparent, _p._Border):
+    def __init__(self, name, file, x, y, width, height):
+        _Widget.__init__(self, 'embedded', name, x, y, width, height)
+        self.file(file)
+        self.no_resize()
+
 
 class Group(_Widget, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
     pass

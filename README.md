@@ -54,11 +54,13 @@ Widgets Finished:
 - Arc
 - Ellipse
 - Label
+- Picture
 - Rectangle
 - Text Update
 - Text Entry
 - Action Button
 - LED
+- Embedded Display
 
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```

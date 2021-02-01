@@ -21,9 +21,36 @@ class Property(object):
         self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
                               'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
                               'sexagesimal dms 360deg rad', 'binary']
+        self.resize_array = ['no resize', 'size content to fit widget', 'size widget to match content',
+                             'stretch content to fit widget', 'crop content']
 
     def generic_property(self, prop_type, val=None):
+        element = self.root.find(prop_type)
+        if element is not None:
+            self.root.remove(element)
         self.root.append(self.create_element(prop_type, val))
+
+    def integer_property(self, prop_type, val=None):
+        if type(val) == int or type(val) == float:
+            self.generic_property(prop_type, int(val))
+        else:
+            print('Property {} must be an integer! Not: {}'.format(prop_type, val))
+
+    def number_property(self, prop_type, val):
+        if type(val) == int or type(val) == float:
+            self.generic_property(prop_type, val)
+        else:
+            print('Property {} must be a number! Not: {}'.format(prop_type, val))
+
+    def boolean_property(self, prop_type, val):
+        if type(val) == bool:
+            self.generic_property(prop_type, str(val).lower())
+        elif type(val) == int:
+            self.generic_property(prop_type, str(bool(val)).lower())
+        elif val.lower() == 'true' or val.lower() == 'false':
+            self.generic_property(prop_type, val.lower())
+        else:
+            print('Property {} must be a boolean value! Not: {}'.format(prop_type, val))
 
     def create_element(self, prop_type, val=None):
         element = Element(prop_type)
@@ -38,24 +65,19 @@ class Property(object):
         self.generic_property('pv_name', name)
 
     def add_precision(self, val):
-        try:
-            v = int(val)
-        except ValueError:
-            print('Precision must be an integer, not: {}'.format(val))
-            return
-        self.generic_property('precision', v)
+        self.integer_property('precision', val)
 
     def add_show_units(self, show):
-        self.generic_property('show_units', show)
+        self.boolean_property('show_units', show)
 
     def add_wrap_words(self, wrap):
-        self.generic_property('wrap_words', wrap)
+        self.boolean_property('wrap_words', wrap)
 
     def add_transparent(self, transparent):
-        self.generic_property('transparent', transparent)
+        self.boolean_property('transparent', transparent)
 
     def add_rotation(self, rotation):
-        pass
+        self.number_property('rotation', rotation)
 
     def add_rotation_step(self, rotation):
         try:
@@ -128,12 +150,7 @@ class Property(object):
         self.root.append(e)
 
     def add_border_width(self, width):
-        try:
-            v = int(width)
-        except ValueError:
-            print('Width must be an integer, not: {}'.format(width))
-            return
-        self.generic_property('border_width', v)
+        self.integer_property('border_width', width)
 
     def add_border_color(self, name, red, green, blue, alpha):
         e = self.create_element('border_color')
@@ -152,10 +169,10 @@ class Property(object):
         self.generic_property('text', text)
 
     def add_auto_size(self, auto):
-        self.generic_property('auto_size', auto)
+        self.boolean_property('auto_size', auto)
 
     def add_multi_line(self, val):
-        self.generic_property('multi_line', val)
+        self.boolean_property('multi_line', val)
 
     def add_macro(self, name, val):
         root_macro = self.root.find('macro')
@@ -165,19 +182,13 @@ class Property(object):
         macro.text = val
 
     def add_bit(self, val):
-        self.generic_property('bit', val)
+        self.integer_property('bit', val)
 
     def add_square(self, val):
-        if type(val) is not bool:
-            print('Must be boolean input')
-        else:
-            self.generic_property('square', val)
+        self.boolean_property('square', val)
 
     def add_labels_from_pv(self, val):
-        if type(val) is not bool:
-            print('Must be boolean input')
-        else:
-            self.generic_property('labels_from_pv', val)
+        self.boolean_property('labels_from_pv', val)
 
     def add_off_color(self, name, red, green, blue, alpha):
         e = self.create_element('off_color')
@@ -198,13 +209,13 @@ class Property(object):
         self.create_color_element(e, name, red, green, blue, alpha)
 
     def add_alarm_border(self, val):
-        self.generic_property('border_alarm_sensitive', val)
+        self.boolean_property('border_alarm_sensitive', val)
 
     def add_enabled(self, val):
-        self.generic_property('enabled', val)
+        self.boolean_property('enabled', val)
 
     def add_confirmation_dialog(self, val):
-        self.generic_property('show_confirmation_dialog', val)
+        self.boolean_property('show_confirmation_dialog', val)
 
     def add_confirmation_message(self, message):
         self.generic_property('confirm_message', message)
@@ -213,16 +224,38 @@ class Property(object):
         self.generic_property('password', password)
 
     def add_corner_width(self, width):
-        self.generic_property('corner_width', width)
+        self.integer_property('corner_width', width)
 
     def add_corner_height(self, height):
-        self.generic_property('corner_height', height)
+        self.integer_property('corner_height', height)
 
     def add_line_width(self, width):
-        self.generic_property('line_width', width)
+        self.integer_property('line_width', width)
 
     def add_angle_start(self, val):
-        self.generic_property('start_angle', val)
+        self.number_property('start_angle', val)
 
     def add_angle_size(self, val):
-        self.generic_property('total_angle', val)
+        self.number_property('total_angle', val)
+
+    def add_file(self, val):
+        self.generic_property('file', val)
+
+    def add_stretch_to_fit(self, val):
+        self.boolean_property('stretch_image', val)
+
+    def add_rotation(self, val):
+        self.number_property('rotation', val)
+
+    def add_resize_behavior(self, resize):
+        val = str(resize).lower()
+        try:
+            v = self.resize_array.index(val)
+        except ValueError:
+            print('Wrong input to resize behavior: {}'.format(val))
+            return
+        self.generic_property('resize', v)
+
+    def add_group_name(self, val):
+        print('GROUP NAME: {}'.format(val))
+        self.generic_property('group_name', val)

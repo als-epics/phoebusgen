@@ -196,13 +196,17 @@ class _Angle(object):
 
 # picture, symbol
 class _Rotation(object):
-    pass
+    def rotation(self, val):
+        self._prop_factory.add_rotation(val)
+
 
 class _File(object):
-    pass
+    def file(self, val):
+        self._prop_factory.add_file(val)
 
 class _StretchToFit(object):
-    pass
+    def stretch_to_fit(self, val):
+        self._prop_factory.add_stretch_to_fit(val)
 
 class _StartBit(object):
     pass
@@ -265,7 +269,22 @@ class _Style(object):
     pass
 
 class _ResizeBehavior(object):
-    pass
+    def no_resize(self):
+        self._prop_factory.add_resize_behavior('no resize')
+
+    def size_content_to_fit_widget(self):
+        self._prop_factory.add_resize_behavior('size content to fit widget')
+
+    def size_widget_to_match_content(self):
+        self._prop_factory.add_resize_behavior('size widget to match content')
+
+    def stretch_content_to_fit_widget(self):
+        self._prop_factory.add_resize_behavior('stretch content to fit widget')
+
+    def crop_content(self):
+        self._prop_factory.add_resize_behavior('crop content')
+
 
 class _GroupName(object):
-    pass
+    def group_name(self, val):
+        self._prop_factory.add_group_name(val)

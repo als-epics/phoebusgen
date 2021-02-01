@@ -22,6 +22,7 @@ class GenericTest(object):
 
     def generic_element_test(self, tag_name, value):
         element = self.element.find_element(tag_name)
+        self.assertFalse(isinstance(element, list))
         self.assertIsNotNone(element)
         if value is None:
             self.assertIsNone(element.text)
@@ -29,9 +30,14 @@ class GenericTest(object):
             if type(value) == bool:
                 self.assertEqual(element.text, str(value).lower())
             else:
+                print(element)
+                print(element.text, str(value))
                 self.assertEqual(element.text, str(value))
         self.element.remove_element(tag_name)
         self.assertIsNone(self.element.find_element(tag_name))
+
+    def null_test(self, tag_name):
+        self.assertIsNone(self.element._prop_factory.root.find(tag_name))
 
     def child_element_test(self, parent_tag, tag_name, value, attrib):
         parent = self.element.find_element(parent_tag)
@@ -271,7 +277,7 @@ class TestLineWidth(GenericTest):
     def test_line_width_wrong(self):
         val = 'asdfs'
         self.element.line_width(val)
-        self.generic_element_test(self.tag_name, val)
+        self.null_test(self.tag_name)
 
 
 class TestCorner(GenericTest):
@@ -285,7 +291,7 @@ class TestCorner(GenericTest):
         tag_name = 'corner_width'
         val = 'asdjflksdjf'
         self.element.corner_width(val)
-        self.generic_element_test(tag_name, val)
+        self.null_test(tag_name)
 
     def test_corner_height(self):
         tag_name = 'corner_height'
@@ -297,7 +303,7 @@ class TestCorner(GenericTest):
         tag_name = 'corner_height'
         val = 'asdjflksdjf'
         self.element.corner_height(val)
-        self.generic_element_test(tag_name, val)
+        self.null_test(tag_name)
 
 
 class TestAngle(GenericTest):
@@ -324,7 +330,8 @@ class TestConfirmation(GenericTest):
         self.element.confirmation_dialog(self.message)
         self.generic_element_test(self.message_tag, self.message)
         self.generic_element_test(self.dialog_tag, True)
-        self.assertIsNone(self.element.find_element(self.password_tag))
+        self.null_test(self.password_tag)
+        self.null_test(self.password_tag)
 
     def test_confirmation_with_password(self):
         password = '1234569999'
@@ -391,7 +398,98 @@ class TestOn(GenericTest):
                                                           'blue': '15', 'alpha': '255'})
 
 
+class TestStretchToFit(GenericTest):
+    def test_stretch_to_fit1(self):
+        tag_name = 'stretch_image'
+        val = False
+        self.element.stretch_to_fit(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_stretch_to_fit2(self):
+        tag_name = 'stretch_image'
+        val = 'false'
+        self.element.stretch_to_fit(val)
+        self.generic_element_test(tag_name, False)
+
+    def test_stretch_to_fit3(self):
+        tag_name = 'stretch_image'
+        val = True
+        self.element.stretch_to_fit(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_stretch_to_fit4(self):
+        tag_name = 'stretch_image'
+        val = 1
+        self.element.stretch_to_fit(val)
+        self.generic_element_test(tag_name, True)
+
+
+class TestFile(GenericTest):
+    # file is a constructor param for widgets (similar to x or pv_name)
+    # so we don't have to add it here, just test that it made it
+    def test_file(self):
+        tag_name = 'file'
+        self.generic_element_test(tag_name, self.file)
+
+
 class TestRotation(GenericTest):
-    pass
+    tag_name = 'rotation'
+
+    def test_rotation1(self):
+        val = 24
+        self.element.rotation(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_rotation2(self):
+        val = -12.2
+        self.element.rotation(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_rotation3(self):
+        val = 142.2
+        self.element.rotation(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_rotation4(self):
+        val = 'sadfdsf'
+        self.element.rotation(val)
+        self.null_test(self.tag_name)
+
+
+class TestResizeBehavior(GenericTest):
+    tag_name = 'resize'
+    def test_default(self):
+        self.generic_element_test(self.tag_name, 0)
+
+    def test_no_resize(self):
+        self.element.no_resize()
+        self.generic_element_test(self.tag_name, 0)
+
+    def test_size_content_to_fit_widget(self):
+        self.element.size_content_to_fit_widget()
+        self.generic_element_test(self.tag_name, 1)
+
+    def test_size_widget_to_match_content(self):
+        self.element.size_widget_to_match_content()
+        self.generic_element_test(self.tag_name, 2)
+
+
+    def test_stretch_content_to_fit_widget(self):
+        self.element.stretch_content_to_fit_widget()
+        self.generic_element_test(self.tag_name, 3)
+
+    def test_crop_content(self):
+        self.element.crop_content()
+        self.generic_element_test(self.tag_name, 4)
+
+
+class TestGroupName(GenericTest):
+    # we should be able to add property multiple times, with only the latest being added to xml
+    def test_add_twice(self):
+        tag_name = 'group_name'
+        val = 'test2'
+        self.element.group_name('test')
+        self.element.group_name(val)
+        self.generic_element_test(tag_name, val)
 
 

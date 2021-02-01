@@ -39,7 +39,7 @@ class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLi
         self.element = widgets.Rectangle(self.name, self.x, self.y, self.width, self.height)
 
 
-class TestLabelClass(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
+class TestLabel(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestTransparent, ph.TestHorizontalAlignment, ph.TestVerticalAlignment, ph.TestRotationStep,
                      ph.TestAutoSize, ph.TestWrapWords, ph.TestBorder):
     def setUp(self):
@@ -52,7 +52,18 @@ class TestLabelClass(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegr
         self.element = widgets.Label(self.name, self.text, self.x, self.y, self.width, self.height)
 
 
-class TestTextUpdateClass(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
+class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchToFit, ph.TestRotation):
+    def setUp(self):
+        self.name = 'Picture_1'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.file = '/home/user/my-pic.png'
+        self.element = widgets.Picture(self.name, self.file, self.x, self.y, self.width, self.height)
+
+
+class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
                           ph.TestBackgroundColor, ph.TestTransparent, ph.TestFormat, ph.TestPrecision,
                           ph.TestShowUnits, ph.TestHorizontalAlignment, ph.TestVerticalAlignment,
                           ph.TestWrapWords, ph.TestRotationStep, ph.TestBorder):
@@ -68,7 +79,7 @@ class TestTextUpdateClass(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.Test
 
 
 
-class TestTextEntryClass(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestWrapWords, ph.TestMultiLine,
                      ph.TestAlarmBorder, ph.TestEnabled, ph.TestBorder):
     def setUp(self):
@@ -105,6 +116,17 @@ class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOf
         self.height = 15
         self.element = widgets.LED(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+
+class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestResizeBehavior,
+                          ph.TestGroupName, ph.TestTransparent, ph.TestBorder):
+    def setUp(self):
+        self.name = 'EmbeddedDisplay'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.file = '/home/user/_my-embedded-file.bob'
+        self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
 
 
 

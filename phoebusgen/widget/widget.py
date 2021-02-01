@@ -41,8 +41,14 @@ class _Widget(object):
         child.text = tool_tip
 
     def find_element(self, tag):
-        element = self.root.find(tag)
-        return element
+        elements = self.root.findall(tag)
+        if len(elements) > 1:
+            print('More than 1 of the same tag!')
+            return elements
+        elif len(elements) == 0:
+            return None
+        else:
+            return elements[0]
 
     def remove_element(self, tag):
         element = self.find_element(tag)
