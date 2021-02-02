@@ -26,9 +26,6 @@ class Property(object):
         self.style_array = ['group box', 'title bar', 'line', 'none']
 
     def generic_property(self, prop_type, val=None):
-        element = self.root.find(prop_type)
-        if element is not None:
-            self.root.remove(element)
         self.root.append(self.create_element(prop_type, val))
 
     def integer_property(self, prop_type, val=None):
@@ -54,6 +51,9 @@ class Property(object):
             print('Property {} must be a boolean value! Not: {}'.format(prop_type, val))
 
     def create_element(self, prop_type, val=None):
+        element = self.root.find(prop_type)
+        if element is not None:
+            self.root.remove(element)
         element = Element(prop_type)
         if val is not None:
             if type(val) == bool:
@@ -111,10 +111,24 @@ class Property(object):
             return
         self.generic_property('vertical_alignment', v)
 
-    # TO DO : limit RGB to 0-255
+    def valid_rgb_value(self, val):
+        try:
+            val = int(val)
+        except ValueError:
+            print('Color RGB value must be a number! Not: {}'.format(val))
+            return False
+        if 0 <= val <= 255:
+            return True
+        else:
+            print('Color RGB must be between 0 and 255')
+            return False
+
     def create_color_element(self, root_color_elem, name, red, green, blue, alpha):
         sub_e = self.create_element('color')
         if name is None:
+            for color in [red, green, blue, alpha]:
+                if not self.valid_rgb_value(color):
+                    return
             sub_e.attrib = {'red': str(red), 'blue': str(blue), 'green': str(green), 'alpha': str(alpha)}
         else:
             color_list = self.predefined_colors.get(name.lower())
@@ -133,6 +147,10 @@ class Property(object):
 
     def add_foreground_color(self, name, red, green, blue, alpha):
         e = self.create_element('foreground_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_fill_color(self, name, red, green, blue, alpha):
+        e = self.create_element('fill_color')
         self.create_color_element(e, name, red, green, blue, alpha)
 
     # TO DO: Define possible fonts, possible sizes (if applicable), possible styles
@@ -176,11 +194,11 @@ class Property(object):
         self.boolean_property('multi_line', val)
 
     def add_macro(self, name, val):
-        root_macro = self.root.find('macro')
+        root_macro = self.root.find('macros')
         if root_macro is None:
             root_macro = SubElement(self.root, 'macros')
         macro = SubElement(root_macro, name)
-        macro.text = val
+        macro.text = str(val)
 
     def add_bit(self, val):
         self.integer_property('bit', val)
@@ -276,10 +294,10 @@ class Property(object):
         action = SubElement(root_action, 'action')
         action.attrib['type'] = action_type
         sub = SubElement(action, 'description')
-        sub.text = description
+        sub.text = str(description)
         for arg, val in args.items():
             sub = SubElement(action, arg)
-            sub.text = val
+            sub.text = str(val)
 
     def add_action_execute_as_one(self, val):
         if type(val) == bool:
@@ -311,3 +329,12 @@ class Property(object):
 
     def add_items_from_pv(self, val):
         self.boolean_property('items_from_pv', val)
+
+    def add_minimum(self, val):
+        self.number_property('minimum', val)
+
+    def add_maximum(self, val):
+        self.number_property('maximum', val)
+
+    def add_limits_from_pv(self, val):
+        self.boolean_property('limits_from_pv', val)

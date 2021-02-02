@@ -63,6 +63,17 @@ class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchTo
         self.element = widgets.Picture(self.name, self.file, self.x, self.y, self.width, self.height)
 
 
+class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.TestBackgroundColor,
+                      ph.TestHorizontal, ph.TestAlarmBorder, ph.TestLimitsFromPV, ph.TestMinMax):
+    def setUp(self):
+        self.name = 'Progress bar'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.pv_name = 'test:pv:forprogressbar'
+        self.element = widgets.ProgressBar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
                           ph.TestBackgroundColor, ph.TestTransparent, ph.TestFormat, ph.TestPrecision,
                           ph.TestShowUnits, ph.TestHorizontalAlignment, ph.TestVerticalAlignment,

@@ -37,7 +37,8 @@ class GenericTest(object):
     def null_test(self, tag_name):
         self.assertIsNone(self.element._prop_factory.root.find(tag_name))
 
-    def child_element_test(self, parent_tag, tag_name, value, attrib):
+    # for some properties (actions, macros, you can have multiple children. Pass True to do_not_remove for these
+    def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):
         parent = self.element.find_element(parent_tag)
         self.assertIsNotNone(parent)
         child = parent.find(tag_name)
@@ -48,8 +49,9 @@ class GenericTest(object):
             self.assertEqual(child.text, str(value))
         self.assertEqual(child.attrib, attrib)
 
-        self.element.remove_element(parent_tag)
-        self.assertIsNone(self.element.find_element(parent_tag))
+        if not do_not_remove:
+            self.element.remove_element(parent_tag)
+            self.assertIsNone(self.element.find_element(parent_tag))
 
 
 class TestPVName(GenericTest):
@@ -195,7 +197,9 @@ class TestBorder(GenericTest):
 class TestMacro(GenericTest):
     def test_macro(self):
         self.element.macro('test', 'mac1')
-        self.child_element_test('macros', 'test', 'mac1', {})
+        self.child_element_test('macros', 'test', 'mac1', {}, True)
+        self.element.macro('test2', 'mac2')
+        self.child_element_test('macros', 'test', 'mac1', {}, True)
 
 
 class TestBit(GenericTest):
@@ -563,3 +567,58 @@ class TestHorizontal(GenericTest):
         tag_name = 'horizontal'
         self.element.horizontal(False)
         self.generic_element_test(tag_name, False)
+
+
+class TestFillColor(GenericTest):
+    def test_predefined_fill_color(self):
+        tag_name = 'fill_color'
+        value = 'INVALID'
+        self.element.predefined_fill_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'INVALID', 'red': '255', 'green': '0',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_fill_color(self):
+        tag_name = 'fill_color'
+        self.element.fill_color(5, 10, 15, 12)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '12'})
+
+class TestLimitsFromPV(GenericTest):
+    def test_limits_off(self):
+        tag_name = 'limits_from_pv'
+        self.element.limits_from_pv(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_limits_off2(self):
+        tag_name = 'limits_from_pv'
+        self.element.limits_from_pv(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_limits_off3(self):
+        tag_name = 'limits_from_pv'
+        self.element.limits_from_pv(False)
+        self.element.limits_from_pv(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_limits_off4(self):
+        tag_name = 'limits_from_pv'
+        self.element.limits_from_pv('tsetsst')
+        self.null_test(tag_name)
+
+class TestMinMax(GenericTest):
+    def test_min_float(self):
+        tag_name = 'minimum'
+        val = 2.5
+        self.element.minimum(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_min_string(self):
+        tag_name = 'minimum'
+        self.element.minimum('asfdsf')
+        self.null_test(tag_name)
+
+    def test_max_float(self):
+        tag_name = 'maximum'
+        val = -24.2
+        self.element.maximum(val)
+        self.generic_element_test(tag_name, val)

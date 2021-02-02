@@ -344,9 +344,9 @@ class TestColorPropertyElements(unittest.TestCase):
     def test_off_color_2(self):
         tag_name = 'off_color'
         red = '25'
-        green = 265
-        blue = 21
-        alpha = 32
+        green = '12'
+        blue = 0
+        alpha = '32'
         name = None
         self._prop_factory.add_off_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
@@ -385,7 +385,7 @@ class TestColorPropertyElements(unittest.TestCase):
     def test_on_color2(self):
         tag_name = 'on_color'
         red = '25'
-        green = 265
+        green = 2
         blue = 21
         alpha = 32
         name = None
@@ -426,7 +426,7 @@ class TestColorPropertyElements(unittest.TestCase):
     def test_line_color2(self):
         tag_name = 'line_color'
         red = '25'
-        green = 265
+        green = 225
         blue = 21
         alpha = 32
         name = None
@@ -452,7 +452,6 @@ class TestColorPropertyElements(unittest.TestCase):
         name = 'sdaflkdasf'
         self._prop_factory.add_line_color(name, red, green, blue, alpha)
         self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_background_color(self):
         tag_name = 'background_color'
@@ -467,12 +466,22 @@ class TestColorPropertyElements(unittest.TestCase):
     def test_background_color_2(self):
         tag_name = 'background_color'
         red = '25'
-        green = 265
+        green = 255
         blue = 21
         alpha = 32
         name = None
         self._prop_factory.add_background_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
+
+    def test_background_color_wrong(self):
+        tag_name = 'background_color'
+        red = '25'
+        green = 265
+        blue = 21
+        alpha = 32
+        name = None
+        self._prop_factory.add_background_color(name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_predefined_background_color(self):
         tag_name = 'background_color'
@@ -493,13 +502,12 @@ class TestColorPropertyElements(unittest.TestCase):
         name = 'sdaflkdasf'
         self._prop_factory.add_background_color(name, red, green, blue, alpha)
         self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
 
     def test_foreground_color(self):
         tag_name = 'foreground_color'
         red = 255
         green = 255
-        blue = 255
+        blue = '255'
         alpha = 255
         name = None
         self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
@@ -513,7 +521,7 @@ class TestColorPropertyElements(unittest.TestCase):
         alpha = 32
         name = None
         self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
+        self.assertIsNone(self._prop_factory.root.find(tag_name))
 
     def test_predefined_foreground_color(self):
         tag_name = 'foreground_color'

@@ -56,6 +56,7 @@ Widgets Finished:
 - Label
 - Picture
 - Rectangle
+- Progress Bar
 - Text Update
 - Check Box
 - Radio Button

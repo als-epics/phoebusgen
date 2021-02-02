@@ -61,28 +61,32 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
 #    pass
 
 # FillColor, minimum, maximum, limitsfrompv
-#class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal, _p._AlarmBorder, _p._LimitsFromPV,
-#                  _p._MinMax):
-#    pass
+class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal,
+                  _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'progressbar', name, x, y, width, height)
+        self.pv_name(pv_name)
+        self.horizontal(True)
 
 # Symbols, InitialIndex, showindex, arrayindex, preserve ratio
-#class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialIndex, _p._Rotation, _p._ShowIndex, _p._Transparent,
-#             _p._AlarmBorder, _p._ArrayIndex, _p._AutoSize, _p._Enabled, _p._PreserveRatio):
-#    pass
+#class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialIndex,
+#             _p._Rotation, _p._ShowIndex, _p._Transparent, _p._AlarmBorder, _p._ArrayIndex,
+#             _p._AutoSize, _p._Enabled, _p._PreserveRatio):
 
 # Showtoolbar, columns, editable, selectrows, selectionpv
-#class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Columns, _p._AlarmBorder,
-#            _p._Editable, _p._SelectRows, _p._SelectionPV):
+#class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
+#            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
 
 # fillcolor, min, max, limitfrompv, scalevisible, emptycolor
-#class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._FillColor, _p._EmptyColor, _p._ScaleVisible,
-#           _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):
+#class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+#           _p._FillColor, _p._EmptyColor, _p._ScaleVisible, _p._AlarmBorder, _p._LimitsFromPV,
+#           _p._MinMax):
 #    pass
 
 # Symbols, arrayindex
-#class TestSymbol(_Widget, _p._PVName, _p._Symbols, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
-#                 _p._HorizontalAlignment, _p._VerticalAlignment, _p._Rotation, _p._WrapWords, _p._AlarmBorder, _p._ArrayIndex,
-#                 _p._Enabled):
+#class TestSymbol(_Widget, _p._PVName, _p._Symbols, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+#                 _p._Transparent, _p._HorizontalAlignment, _p._VerticalAlignment, _p._Rotation,
+#                 _p._WrapWords, _p._AlarmBorder, _p._ArrayIndex, _p._Enabled):
 #    pass
 
 class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,

@@ -288,13 +288,15 @@ class _ShowLimits(object):
     pass
 
 class _LimitsFromPV(object):
-    pass
+    def limits_from_pv(self, val):
+        self._prop_factory.add_limits_from_pv(val)
 
-class _Minimum(object):
-    pass
+class _MinMax(object):
+    def minimum(self, val):
+        self._prop_factory.add_minimum(val)
 
-class _Maximum(object):
-    pass
+    def maximum(self, val):
+        self._prop_factory.add_maximum(val)
 
 class _NeedleColor(object):
     pass
@@ -303,7 +305,11 @@ class _KnobColor(object):
     pass
 
 class _FillColor(object):
-    pass
+    def fill_color(self, red, green, blue, alpha=255):
+        self._prop_factory.add_fill_color(None, red, green, blue, alpha)
+
+    def predefined_fill_color(self, name):
+        self._prop_factory.add_fill_color(name, None, None, None, None)
 
 class _EmptyColor(object):
     pass
