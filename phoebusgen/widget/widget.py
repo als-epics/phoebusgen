@@ -45,7 +45,7 @@ class _Widget(object):
         # check to make sure there are not more than 1 elements
         # we don't want duplicate tags
         if len(elements) > 1:
-            print('More than 1 of the same tag!')
+            print('Warning, more than one element of the same tag! Returning a list')
             return elements
         elif len(elements) == 0:
             return None

@@ -8,6 +8,9 @@ class GenericTest(object):
         self.assertEqual(self.element.get_element_value('y'), str(self.y))
         self.assertEqual(self.element.get_element_value('width'), str(self.width))
         self.assertEqual(self.element.get_element_value('height'), str(self.height))
+        tool_tip = 'this is a test tooltip check it out!'
+        self.element.tool_tip(tool_tip)
+        self.assertEqual(self.element.get_element_value('tooltip'), tool_tip)
 
     def test_against_file(self):
         curr_path = os.path.dirname(__file__)
@@ -57,7 +60,6 @@ class GenericTest(object):
 class TestPVName(GenericTest):
     def test_pv_name(self):
         self.assertEqual(self.element.find_element('pv_name').text, self.pv_name)
-
 
 class TestText(GenericTest):
     def test_text(self):
@@ -343,6 +345,17 @@ class TestConfirmation(GenericTest):
         self.generic_element_test(self.dialog_tag, True)
         self.generic_element_test(self.password_tag, password)
 
+    def test_turn_off_confirmation(self):
+        password = 235893
+        self.element.confirmation_dialog(self.message, password)
+        self.generic_element_test(self.message_tag, self.message)
+        self.generic_element_test(self.dialog_tag, True)
+        self.generic_element_test(self.password_tag, password)
+        self.element.confirmation_dialog(self.message, password)
+        self.element.disable_confirmation_dialog()
+        self.generic_element_test(self.password_tag, password)
+        self.generic_element_test(self.message_tag, self.message)
+        self.generic_element_test(self.dialog_tag, False)
 
 class TestLineColor(GenericTest):
     def test_predefined_line_color(self):
@@ -539,6 +552,18 @@ class TestItems(GenericTest):
         self.child_element_test(tag_name, 'item', val, {})
 
 class TestActions(GenericTest):
+    def action_test(self, action_type, desc, action_args):
+        parent_element = self.element.find_element('actions')
+        self.assertTrue(len(parent_element) > 0)
+        for parent in parent_element:
+            if parent.attrib == {'type': action_type}:
+                description = parent.find('description')
+                self.assertEqual(description.text, desc)
+                for key, value in action_args.items():
+                    elem = parent.find(key)
+                    self.assertIsNotNone(elem)
+                    self.assertEqual(elem.text, value)
+
     def test_execute_as_one(self):
         tag_name = 'actions'
         self.element.action_execute_as_one(True)
@@ -547,15 +572,50 @@ class TestActions(GenericTest):
         self.element.action_open_display(file, target)
         self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
 
-    # need to get child test for child of child to work
-    #def test_open_display(self):
-    #    tag_name = 'action'
-    #    file = 'test.bob'
-    #    target = 'TaB'
-    #    self.element.action_open_display(file, target)
-    #    print(self.element)
-    #    self.child_element_test(tag_name, 'description', 'Open Display', {})
+    def test_open_display(self):
+        file = 'test.bob'
+        target = 'TaB'
+        self.element.action_open_display(file, target)
+        self.action_test('open_display', 'Open Display', {'file': file, 'target': 'tab'})
 
+    def test_open_display2(self):
+        file = 'test.bob'
+        target = 'winDow'
+        self.element.action_open_display(file, target)
+        self.action_test('open_display', 'Open Display', {'file': file, 'target': 'window'})
+
+    def test_open_display3(self):
+        file = 'test.bob'
+        target = 'replace'
+        self.element.action_open_display(file, target)
+        self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'})
+
+    def test_write_pv(self):
+        pv = 'TEST:PV'
+        value = 235
+        description = 'This is my action'
+        self.element.action_write_pv(pv, value, description)
+        self.action_test('write_pv', description, {'pv_name': pv, 'value': str(value), 'description': description})
+
+    def test_execute_command(self):
+        command = '/bin/bash /home/test.sh'
+        description = 'test description'
+        self.element.action_execute_command(command, description)
+        self.action_test('command', description, {'command': command})
+
+    def test_open_file(self):
+        file_name = '/home/my-file.pdf'
+        self.element.action_open_file(file_name)
+        self.action_test('open_file', 'Open File', {'file': file_name})
+        file = 'test.bob'
+        target = 'replace'
+        self.element.action_open_display(file, target)
+        self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'})
+
+    def test_open_webpage(self):
+        url = 'https://tynanford.com'
+        self.element.action_open_webpage(url)
+        self.action_test('open_webpage', 'Open Webpage', {'url': url})
 
 
 class TestHorizontal(GenericTest):
