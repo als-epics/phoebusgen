@@ -57,6 +57,7 @@ Widgets Finished:
 - Picture
 - Rectangle
 - Progress Bar
+- Tank
 - Text Update
 - Thermometer
 - Check Box

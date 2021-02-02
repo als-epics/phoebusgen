@@ -74,6 +74,17 @@ class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.pv_name = 'test:pv:forprogressbar'
         self.element = widgets.ProgressBar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+               ph.TestFillColor, ph.TestEmptyColor, ph.TestScaleVisible, ph.TestAlarmBorder, ph.TestLimitsFromPV):
+    def setUp(self):
+        self.name = 'my cool tank'
+        self.x = '24'
+        self.y = 12
+        self.width = 2424
+        self.height = 92
+        self.pv_name = 'TANK'
+        self.element = widgets.Tank(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
                           ph.TestBackgroundColor, ph.TestTransparent, ph.TestFormat, ph.TestPrecision,
                           ph.TestShowUnits, ph.TestHorizontalAlignment, ph.TestVerticalAlignment,

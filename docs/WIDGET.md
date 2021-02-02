@@ -31,6 +31,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.LED(name, pv_name, x, y, width, height)`
 - Progress Bar
   - `phoebusgen.widget.ProgressBar(name, pv_name, x, y, width, height)`
+- Tank 
+  - `phoebusgen.widget.Tank(name, pv_name, x, y, width, height)`
 - Text Update
   - `phoebusgen.widget.TextUpdate(name, pv_name, x, y, width, height)`
 - Thermometer 

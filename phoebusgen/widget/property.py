@@ -153,6 +153,10 @@ class Property(object):
         e = self.create_element('fill_color')
         self.create_color_element(e, name, red, green, blue, alpha)
 
+    def add_empty_color(self, name, red, green, blue, alpha):
+        e = self.create_element('empty_color')
+        self.create_color_element(e, name, red, green, blue, alpha)
+
     # TO DO: Define possible fonts, possible sizes (if applicable), possible styles
     def add_font(self, family, style, size, name):
         e = self.create_element('font')
@@ -338,3 +342,6 @@ class Property(object):
 
     def add_limits_from_pv(self, val):
         self.boolean_property('limits_from_pv', val)
+
+    def add_scale_visible(self, val):
+        self.boolean_property('scale_visible', val)

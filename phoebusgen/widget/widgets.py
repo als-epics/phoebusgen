@@ -78,14 +78,15 @@ class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._H
 #class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
 #            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
 
-# scalevisible, emptycolor
-#class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-#           _p._FillColor, _p._EmptyColor, _p._ScaleVisible, _p._AlarmBorder, _p._LimitsFromPV,
-#           _p._MinMax):
-#    pass
+class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+           _p._FillColor, _p._EmptyColor, _p._ScaleVisible, _p._AlarmBorder, _p._LimitsFromPV,
+           _p._MinMax):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'tank', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # Symbols, arrayindex
-#class TestSymbol(_Widget, _p._PVName, _p._Symbols, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+#class TextSymbol(_Widget, _p._PVName, _p._Symbols, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
 #                 _p._Transparent, _p._HorizontalAlignment, _p._VerticalAlignment, _p._Rotation,
 #                 _p._WrapWords, _p._AlarmBorder, _p._ArrayIndex, _p._Enabled):
 #    pass

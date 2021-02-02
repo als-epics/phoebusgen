@@ -312,10 +312,15 @@ class _FillColor(object):
         self._prop_factory.add_fill_color(name, None, None, None, None)
 
 class _EmptyColor(object):
-    pass
+    def empty_color(self, red, green, blue, alpha=255):
+        self._prop_factory.add_empty_color(None, red, green, blue, alpha)
+
+    def predefined_empty_color(self, name):
+        self._prop_factory.add_empty_color(name, None, None, None, None)
 
 class _ScaleVisible(object):
-    pass
+    def scale_visible(self, val):
+        self._prop_factory.add_scale_visible(val)
 
 class _ShowLED(object):
     pass

@@ -622,3 +622,24 @@ class TestMinMax(GenericTest):
         val = -24.2
         self.element.maximum(val)
         self.generic_element_test(tag_name, val)
+
+class TestEmptyColor(GenericTest):
+    def test_predefined_empty_color(self):
+        tag_name = 'empty_color'
+        #value = 'INVAlid' this should work but doesn't right now
+        value = 'INVALID'
+        self.element.predefined_empty_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'INVALID', 'red': '255', 'green': '0',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_empty_color(self):
+        tag_name = 'empty_color'
+        self.element.empty_color(5, 10, 15, 12)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '12'})
+
+class TestScaleVisible(GenericTest):
+    def test_scale_visible(self):
+        tag_name = 'scale_visible'
+        self.element.scale_visible('false')
+        self.generic_element_test(tag_name, False)
