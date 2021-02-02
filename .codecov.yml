@@ -6,3 +6,5 @@ coverage:
     patch:
       default:
         target: 80%
+fixes:
+  - "/home/runner/work/phoebusgen/phoebusgen/::"
