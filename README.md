@@ -1,7 +1,6 @@
 Python Module to Generate Phoebus Control Screens
 ===
 
-Python unittest
 [![Python unittest Status](https://github.com/tynanford/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/tynanford/phoebusgen/actions)
 [![codecov](https://codecov.io/gh/tynanford/phoebusgen/branch/master/graph/badge.svg)](https://codecov.io/gh/tynanford/phoebusgen)
 

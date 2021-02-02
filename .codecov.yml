@@ -2,9 +2,9 @@ coverage:
   status:
     project:
       default:
-        target: 70%
+        target: 80%
     patch:
       default:
-        target: 80%
+        target: 50%
   fixes:
     - "/home/runner/work/phoebusgen/phoebusgen/::"
