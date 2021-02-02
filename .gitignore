@@ -16,3 +16,5 @@ phoebusgen.egg-info/
 tests/*.bob
 
 *.swp
+
+examples/*.bob

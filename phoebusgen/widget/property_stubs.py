@@ -362,3 +362,12 @@ class _ResizeBehavior(object):
 class _GroupName(object):
     def group_name(self, val):
         self._prop_factory.add_group_name(val)
+
+
+class _Structure(object):
+    def add_widget(self, elem):
+        if type(elem) == list:
+            for e in elem:
+                self._prop_factory.root.append(e.root)
+        else:
+            self._prop_factory.root.append(elem.root)

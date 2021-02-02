@@ -216,7 +216,7 @@ class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._Grou
         self.file(file)
         self.no_resize()
 
-class Group(_Widget, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
+class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
     def __init__(self, name, x, y, width, height):
         _Widget.__init__(self, 'group', name, x, y, width, height)
         self.group_box()
