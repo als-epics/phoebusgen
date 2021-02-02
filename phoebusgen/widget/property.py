@@ -1,6 +1,5 @@
 from xml.etree.ElementTree import Element, SubElement
-import yaml
-import os
+from phoebusgen.shared_property_helpers import SharedPropertyFunctions
 
 
 # TO DO : Add check if property is already available
@@ -10,11 +9,6 @@ import os
 class Property(object):
     def __init__(self, root_element):
         self.root = root_element
-        curr_path = os.path.dirname(__file__)
-        with open(curr_path + '/colors.yaml') as f:
-            self.predefined_colors = yaml.safe_load(f)
-        with open(curr_path + '/fonts.yaml') as f:
-            self.predefined_fonts = yaml.safe_load(f)
         self.rotation_steps_array = [0, 90, 180, -90]
         self.horizontal_alignment_array = ['left', 'center', 'right']
         self.vertical_alignment_array = ['top', 'middle', 'bottom']
@@ -24,61 +18,25 @@ class Property(object):
         self.resize_array = ['no resize', 'size content to fit widget', 'size widget to match content',
                              'stretch content to fit widget', 'crop content']
         self.style_array = ['group box', 'title bar', 'line', 'none']
-
-    def generic_property(self, prop_type, val=None):
-        self.root.append(self.create_element(prop_type, val))
-
-    def integer_property(self, prop_type, val=None):
-        if type(val) == int or type(val) == float:
-            self.generic_property(prop_type, int(val))
-        else:
-            print('Property {} must be an integer! Not: {}'.format(prop_type, val))
-
-    def number_property(self, prop_type, val):
-        if type(val) == int or type(val) == float:
-            self.generic_property(prop_type, val)
-        else:
-            print('Property {} must be a number! Not: {}'.format(prop_type, val))
-
-    def boolean_property(self, prop_type, val):
-        if type(val) == bool:
-            self.generic_property(prop_type, str(val).lower())
-        elif type(val) == int:
-            self.generic_property(prop_type, str(bool(val)).lower())
-        elif val.lower() == 'true' or val.lower() == 'false':
-            self.generic_property(prop_type, val.lower())
-        else:
-            print('Property {} must be a boolean value! Not: {}'.format(prop_type, val))
-
-    def create_element(self, prop_type, val=None):
-        element = self.root.find(prop_type)
-        if element is not None:
-            self.root.remove(element)
-        element = Element(prop_type)
-        if val is not None:
-            if type(val) == bool:
-                element.text = str(val).lower()
-            else:
-                element.text = str(val)
-        return element
+        self.shared_functions = SharedPropertyFunctions(self.root)
 
     def add_pv_name(self, name):
-        self.generic_property('pv_name', name)
+        self.shared_functions.generic_property('pv_name', name)
 
     def add_precision(self, val):
-        self.integer_property('precision', val)
+        self.shared_functions.integer_property('precision', val)
 
     def add_show_units(self, show):
-        self.boolean_property('show_units', show)
+        self.shared_functions.boolean_property('show_units', show)
 
     def add_wrap_words(self, wrap):
-        self.boolean_property('wrap_words', wrap)
+        self.shared_functions.boolean_property('wrap_words', wrap)
 
     def add_transparent(self, transparent):
-        self.boolean_property('transparent', transparent)
+        self.shared_functions.boolean_property('transparent', transparent)
 
     def add_rotation(self, rotation):
-        self.number_property('rotation', rotation)
+        self.shared_functions.number_property('rotation', rotation)
 
     def add_rotation_step(self, rotation):
         try:
@@ -91,7 +49,7 @@ class Property(object):
         except ValueError:
             print('Invalid rotation given. Must be 0, 90, 180, -90')
             return
-        self.generic_property('rotation_step', val)
+        self.shared_functions.generic_property('rotation_step', val)
 
     def add_horizontal_alignment(self, alignment):
         val = str(alignment).lower()
@@ -100,7 +58,7 @@ class Property(object):
         except ValueError:
             print('Wrong input to horizontal alignment: {}. Must be Left, Center, or Right'.format(val))
             return
-        self.generic_property('horizontal_alignment', v)
+        self.shared_functions.generic_property('horizontal_alignment', v)
 
     def add_vertical_alignment(self, alignment):
         val = str(alignment).lower()
@@ -109,59 +67,29 @@ class Property(object):
         except ValueError:
             print('Wrong input to vertical alignment: {}. Must be Top, Middle, or Bottom'.format(val))
             return
-        self.generic_property('vertical_alignment', v)
-
-    def valid_rgb_value(self, val):
-        try:
-            val = int(val)
-        except ValueError:
-            print('Color RGB value must be a number! Not: {}'.format(val))
-            return False
-        if 0 <= val <= 255:
-            return True
-        else:
-            print('Color RGB must be between 0 and 255')
-            return False
-
-    def create_color_element(self, root_color_elem, name, red, green, blue, alpha):
-        sub_e = self.create_element('color')
-        if name is None:
-            for color in [red, green, blue, alpha]:
-                if not self.valid_rgb_value(color):
-                    return
-            sub_e.attrib = {'red': str(red), 'blue': str(blue), 'green': str(green), 'alpha': str(alpha)}
-        else:
-            color_list = self.predefined_colors.get(name.lower())
-            if color_list is None:
-                print('Color name is undefined')
-                return
-            else:
-                sub_e.attrib = color_list
-                sub_e.attrib['name'] = name
-        root_color_elem.append(sub_e)
-        self.root.append(root_color_elem)
+        self.shared_functions.generic_property('vertical_alignment', v)
 
     def add_background_color(self, name, red, green, blue, alpha):
-        e = self.create_element('background_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('background_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_foreground_color(self, name, red, green, blue, alpha):
-        e = self.create_element('foreground_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('foreground_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_fill_color(self, name, red, green, blue, alpha):
-        e = self.create_element('fill_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('fill_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_empty_color(self, name, red, green, blue, alpha):
-        e = self.create_element('empty_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('empty_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     # TO DO: Define possible fonts, possible sizes (if applicable), possible styles
     def add_font(self, family, style, size, name):
-        e = self.create_element('font')
+        e = self.shared_functions.create_element('font')
         if name is not None:
-            font_attrib = self.predefined_fonts.get(name.lower())
+            font_attrib = self.shared_functions.predefined_fonts.get(name.lower())
             if font_attrib is None:
                 print('Font name is wrong')
                 return
@@ -173,11 +101,11 @@ class Property(object):
         self.root.append(e)
 
     def add_border_width(self, width):
-        self.integer_property('border_width', width)
+        self.shared_functions.integer_property('border_width', width)
 
     def add_border_color(self, name, red, green, blue, alpha):
-        e = self.create_element('border_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('border_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_format(self, format_val):
         val = str(format_val).lower()
@@ -186,89 +114,85 @@ class Property(object):
         except ValueError:
             print('Invalid format. Given format {}'.format(format))
             return
-        self.generic_property('format', v)
+        self.shared_functions.generic_property('format', v)
 
     def add_text(self, text):
-        self.generic_property('text', text)
+        self.shared_functions.generic_property('text', text)
 
     def add_auto_size(self, auto):
-        self.boolean_property('auto_size', auto)
+        self.shared_functions.boolean_property('auto_size', auto)
 
     def add_multi_line(self, val):
-        self.boolean_property('multi_line', val)
+        self.shared_functions.boolean_property('multi_line', val)
 
     def add_macro(self, name, val):
-        root_macro = self.root.find('macros')
-        if root_macro is None:
-            root_macro = SubElement(self.root, 'macros')
-        macro = SubElement(root_macro, name)
-        macro.text = str(val)
+        self.shared_functions.add_macro(name, val)
 
     def add_bit(self, val):
-        self.integer_property('bit', val)
+        self.shared_functions.integer_property('bit', val)
 
     def add_square(self, val):
-        self.boolean_property('square', val)
+        self.shared_functions.boolean_property('square', val)
 
     def add_labels_from_pv(self, val):
-        self.boolean_property('labels_from_pv', val)
+        self.shared_functions.boolean_property('labels_from_pv', val)
 
     def add_off_color(self, name, red, green, blue, alpha):
-        e = self.create_element('off_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('off_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_off_label(self, label):
-        self.generic_property('off_label', label)
+        self.shared_functions.generic_property('off_label', label)
 
     def add_on_color(self, name, red, green, blue, alpha):
-        e = self.create_element('on_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('on_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_on_label(self, label):
-        self.generic_property('on_label', label)
+        self.shared_functions.generic_property('on_label', label)
 
     def add_line_color(self, name, red, green, blue, alpha):
-        e = self.create_element('line_color')
-        self.create_color_element(e, name, red, green, blue, alpha)
+        e = self.shared_functions.create_element('line_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_alarm_border(self, val):
-        self.boolean_property('border_alarm_sensitive', val)
+        self.shared_functions.boolean_property('border_alarm_sensitive', val)
 
     def add_enabled(self, val):
-        self.boolean_property('enabled', val)
+        self.shared_functions.boolean_property('enabled', val)
 
     def add_confirmation_dialog(self, val):
-        self.boolean_property('show_confirmation_dialog', val)
+        self.shared_functions.boolean_property('show_confirmation_dialog', val)
 
     def add_confirmation_message(self, message):
-        self.generic_property('confirm_message', message)
+        self.shared_functions.generic_property('confirm_message', message)
 
     def add_password(self, password):
-        self.generic_property('password', password)
+        self.shared_functions.generic_property('password', password)
 
     def add_corner_width(self, width):
-        self.integer_property('corner_width', width)
+        self.shared_functions.integer_property('corner_width', width)
 
     def add_corner_height(self, height):
-        self.integer_property('corner_height', height)
+        self.shared_functions.integer_property('corner_height', height)
 
     def add_line_width(self, width):
-        self.integer_property('line_width', width)
+        self.shared_functions.integer_property('line_width', width)
 
     def add_angle_start(self, val):
-        self.number_property('start_angle', val)
+        self.shared_functions.number_property('start_angle', val)
 
     def add_angle_size(self, val):
-        self.number_property('total_angle', val)
+        self.shared_functions.number_property('total_angle', val)
 
     def add_file(self, val):
-        self.generic_property('file', val)
+        self.shared_functions.generic_property('file', val)
 
     def add_stretch_to_fit(self, val):
-        self.boolean_property('stretch_image', val)
+        self.shared_functions.boolean_property('stretch_image', val)
 
     def add_rotation(self, val):
-        self.number_property('rotation', val)
+        self.shared_functions.number_property('rotation', val)
 
     def add_resize_behavior(self, resize):
         val = str(resize).lower()
@@ -277,10 +201,10 @@ class Property(object):
         except ValueError:
             print('Wrong input to resize behavior: {}'.format(val))
             return
-        self.generic_property('resize', v)
+        self.shared_functions.generic_property('resize', v)
 
     def add_group_name(self, val):
-        self.generic_property('group_name', val)
+        self.shared_functions.generic_property('group_name', val)
 
     def add_style(self, style):
         val = str(style).lower()
@@ -289,7 +213,7 @@ class Property(object):
         except ValueError:
             print('Wrong input to group style: {}'.format(val))
             return
-        self.generic_property('style', v)
+        self.shared_functions.generic_property('style', v)
 
     def add_action(self, action_type, description, args):
         root_action = self.root.find('actions')
@@ -319,10 +243,10 @@ class Property(object):
         root_action.attrib['execute_as_one'] = action
 
     def add_label(self, val):
-        self.generic_property('label', val)
+        self.shared_functions.generic_property('label', val)
 
     def add_horizontal(self, val):
-        self.boolean_property('horizontal', val)
+        self.shared_functions.boolean_property('horizontal', val)
 
     def add_item(self, val):
         root_item = self.root.find('items')
@@ -332,16 +256,16 @@ class Property(object):
         sub.text = val
 
     def add_items_from_pv(self, val):
-        self.boolean_property('items_from_pv', val)
+        self.shared_functions.boolean_property('items_from_pv', val)
 
     def add_minimum(self, val):
-        self.number_property('minimum', val)
+        self.shared_functions.number_property('minimum', val)
 
     def add_maximum(self, val):
-        self.number_property('maximum', val)
+        self.shared_functions.number_property('maximum', val)
 
     def add_limits_from_pv(self, val):
-        self.boolean_property('limits_from_pv', val)
+        self.shared_functions.boolean_property('limits_from_pv', val)
 
     def add_scale_visible(self, val):
-        self.boolean_property('scale_visible', val)
+        self.shared_functions.boolean_property('scale_visible', val)
