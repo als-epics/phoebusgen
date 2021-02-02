@@ -40,6 +40,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.CheckBox(name, label, pv_name, x, y, width, height)`
 - Radio Button 
   - `phoebusgen.widget.RadioButton(name, pv_name, x, y, width, height)`
+- Slide Button 
+  - `phoebusgen.widget.SlideButton(name, label, pv_name, x, y, width, height)`
 - Text Entry
   - `phoebusgen.widget.TextEntry(name, pv_name, x, y, width, height)`
 
@@ -47,6 +49,8 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 ## Structure
 
+- Array
+  - `phoebusgen.widget.Array(name, pv_name, x, y, width, height)
 - Embedded Display
   - `phoebusgen.widget.EmbeddedDisplay(name, file, x, y, width, height)`
 - Group
@@ -54,4 +58,6 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 
 ## Miscellaneous
+- 3D Viewer
+  - `phoebusgen.widget.ThreeDViewer(name, file, x, y, width, height`
 

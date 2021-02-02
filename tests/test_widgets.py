@@ -100,6 +100,19 @@ class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFore
         self.height = 15
         self.element = widgets.RadioButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestSlideButton(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestLabel, ph.TestFont, ph.TestForegroundColor,
+                      ph.TestAutoSize, ph.TestAlarmBorder, ph.TestEnabled, ph.TestConfirmation, ph.TestOffColor,
+                      ph.TestOnColor):
+    def setUp(self):
+        self.name = 'slider button'
+        self.pv_name = 'TEST:PV'
+        self.label = 'this is a slide button'
+        self.x = 24
+        self.y = 234
+        self.width = 12
+        self.height = 24
+        self.element = widgets.SlideButton(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
+
 
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestWrapWords, ph.TestMultiLine,
@@ -150,6 +163,16 @@ class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestR
         self.file = '/home/user/_my-embedded-file.bob'
         self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
 
+class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
+                ph.TestAlarmBorder):
+    def setUp(self):
+        self.name = 'test array'
+        self.x = 124
+        self.y = 1
+        self.width = 129
+        self.height = 20
+        self.pv_name = 'MY:ARRAY:PV'
+        self.element = widgets.Array(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForegroundColor,
                 ph.TestBackgroundColor, ph.TestTransparent):
@@ -160,6 +183,17 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
         self.width = 10
         self.height = 12
         self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
+
+class TestThreeDViewer(unittest.TestCase, ph.TestFile):
+    def setUp(self):
+        self.name = 'cool 3d viewer'
+        self.file = '/users/test/3dviewerfile'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.ThreeDViewer(self.name, self.file, self.x, self.y, self.width, self.height)
+
 
 
 if __name__ == '__main__':

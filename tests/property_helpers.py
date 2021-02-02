@@ -355,13 +355,7 @@ class TestLineColor(GenericTest):
                                                           'blue': '15', 'alpha': '255'})
 
 
-class TestOff(GenericTest):
-    def test_off_label(self):
-        tag_name = 'off_label'
-        value = 'This is off!'
-        self.element.off_label(value)
-        self.generic_element_test(tag_name, value)
-
+class TestOffColor(GenericTest):
     def test_predefined_off_color(self):
         tag_name = 'off_color'
         value = 'Background'
@@ -375,14 +369,14 @@ class TestOff(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
 
-
-class TestOn(GenericTest):
-    def test_on_label(self):
-        tag_name = 'on_label'
-        value = 'This is on!'
-        self.element.on_label(value)
+class TestOff(TestOffColor):
+    def test_off_label(self):
+        tag_name = 'off_label'
+        value = 'This is off!'
+        self.element.off_label(value)
         self.generic_element_test(tag_name, value)
 
+class TestOnColor(GenericTest):
     def test_predefined_on_color(self):
         tag_name = 'on_color'
         value = 'Background'
@@ -396,6 +390,12 @@ class TestOn(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
 
+class TestOn(TestOnColor):
+    def test_on_label(self):
+        tag_name = 'on_label'
+        value = 'This is on!'
+        self.element.on_label(value)
+        self.generic_element_test(tag_name, value)
 
 class TestStretchToFit(GenericTest):
     def test_stretch_to_fit1(self):

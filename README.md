@@ -59,11 +59,14 @@ Widgets Finished:
 - Text Update
 - Check Box
 - Radio Button
+- Slide Button
 - Text Entry
 - Action Button
 - LED
+- Array
 - Embedded Display
 - Group
+- 3DViewer
 
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
