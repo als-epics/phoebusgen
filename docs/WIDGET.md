@@ -33,6 +33,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.ProgressBar(name, pv_name, x, y, width, height)`
 - Text Update
   - `phoebusgen.widget.TextUpdate(name, pv_name, x, y, width, height)`
+- Thermometer 
+  - `phoebusgen.widget.Thermometer(name, pv_name, x, y, width, height)`
 
 ## Controls
 

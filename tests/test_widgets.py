@@ -88,6 +88,17 @@ class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForeg
         self.element = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 
+class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.TestAlarmBorder,
+                      ph.TestLimitsFromPV, ph.TestMinMax):
+    def setUp(self):
+        self.name = 'testing thermometer'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.pv_name = 'test:temp'
+        self.element = widgets.Thermometer(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph.TestForegroundColor,
                    ph.TestAutoSize, ph.TestAlarmBorder, ph.TestConfirmation, ph.TestLabel):
     def setUp(self):

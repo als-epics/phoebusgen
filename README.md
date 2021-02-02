@@ -58,6 +58,7 @@ Widgets Finished:
 - Rectangle
 - Progress Bar
 - Text Update
+- Thermometer
 - Check Box
 - Radio Button
 - Slide Button

@@ -51,16 +51,17 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
         self.pv_name(pv_name)
 
 # States, Fallback
-#class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square, _p._AlarmBorder, _p._States, _p._Fallback):
+#class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square,
+#                    _p._AlarmBorder, _p._States, _p._Fallback):
 #    pass
 
 
-# ShowValue, ShowLimits, LimitsFromPV, Minimum, Maximum, NeedleColor, KnobColor
-#class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format, _p._Precision, _p._ShowValue,
-#            _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax, _p._NeedleColor, _p._KnobColor):
+# ShowValue, ShowLimits, NeedleColor, KnobColor
+#class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format,
+#            _p._Precision, _p._ShowValue, _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder,
+#            _p._LimitsFromPV, _p._MinMax, _p._NeedleColor, _p._KnobColor):
 #    pass
 
-# FillColor, minimum, maximum, limitsfrompv
 class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal,
                   _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):
     def __init__(self, name, pv_name, x, y, width, height):
@@ -77,7 +78,7 @@ class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._H
 #class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
 #            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
 
-# fillcolor, min, max, limitfrompv, scalevisible, emptycolor
+# scalevisible, emptycolor
 #class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
 #           _p._FillColor, _p._EmptyColor, _p._ScaleVisible, _p._AlarmBorder, _p._LimitsFromPV,
 #           _p._MinMax):
@@ -97,9 +98,10 @@ class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
         _Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# fillcolor, limitsfrompv,min, max
-#class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):
-#    pass
+class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'thermometer', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # Controls
 class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
@@ -146,13 +148,13 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
         self.items_from_pv(True)
 
 # showscale, showminorticks, majortickspixeldist, scaleformat, levelhihi, levelhigh, levellow, levellolo, showhihi, showhigh
-# showlow, showlolo, increment, min, max, limitsfrompv
+# showlow, showlolo, increment
 #class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
 #                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsandShow, _p._AlarmBorder,
 #                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
 #    pass
 
-# showvaluetip, min, max, limitsfrompv, barlength, increment
+# showvaluetip, barlength, increment
 #class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._AlarmBorder, _p._MinMax,
 #                _p._LimitsFromPV, _p._BarLength, _p._Increment, _p._Enabled):
 #    pass
@@ -164,7 +166,7 @@ class SlideButton(_Widget, _p._PVName, _p._Bit, _p._Label, _p._OffColor, _p._OnC
         self.pv_name(pv_name)
         self.label(label)
 
-# buttonsonleft, min, max, limitsfrompv, increment
+# buttonsonleft, increment
 #class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p._ForegroundColor, _p._BackgroundColor,
 #              _p._ButtonsOnLeft, _p._AlarmBorder, _p._MinMax, _p._LimitsFromPV, _p._Increment, _p._Enabled):
 #    pass
@@ -184,7 +186,7 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 #    pass
 
 # showtoolbar, colormap, colorbar, xaxis, yaxis, datawidth, interpolation, colormode, unsigneddata, autoscale,
-# logscale, min, max, cursor, roi
+# logscale, cursor, roi
 #class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._ColorMap, _p._ColorBar,
 #            _p._XAxis, _p._YAxis, _p._AlarmBorder, _p._DataWidth, _p._Interpolation, _p._ColorMode, _p._UnsignedData,
 #            _p._AutoScale, _p._LogScale, _p._MinMax, _p._Cursor, _p._RegionsOfInterest):
