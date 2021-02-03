@@ -154,7 +154,7 @@ class Property(object):
 
     def add_font_family(self, val):
         child_elem = self.get_font_element()
-        child_elem.attrib['FAMILY'] = str(val)
+        child_elem.attrib['family'] = str(val)
 
     def add_font_style(self, val):
         if type(val) != self.FontStyle:
