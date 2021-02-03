@@ -358,19 +358,19 @@ class _Style(object):
 
 class _ResizeBehavior(object):
     def no_resize(self):
-        self._prop_factory.add_resize_behavior('no resize')
+        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.no_resize)
 
     def size_content_to_fit_widget(self):
-        self._prop_factory.add_resize_behavior('size content to fit widget')
+        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.size_content_to_fit_widget)
 
     def size_widget_to_match_content(self):
-        self._prop_factory.add_resize_behavior('size widget to match content')
+        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.size_widget_to_match_content)
 
     def stretch_content_to_fit_widget(self):
-        self._prop_factory.add_resize_behavior('stretch content to fit widget')
+        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.stretch_content_to_fit_widget)
 
     def crop_content(self):
-        self._prop_factory.add_resize_behavior('crop content')
+        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.crop_content)
 
 
 class _GroupName(object):

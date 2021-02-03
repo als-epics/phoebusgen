@@ -16,9 +16,6 @@ class Property(object):
         self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
                               'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
                               'sexagesimal dms 360deg rad', 'binary']
-        self.resize_array = ['no resize', 'size content to fit widget', 'size widget to match content',
-                             'stretch content to fit widget', 'crop content']
-        self.style_array = ['group box', 'title bar', 'line', 'none']
         self.shared_functions = _SharedPropertyFunctions(self.root)
 
     class FontStyle(Enum):
@@ -42,19 +39,6 @@ class Property(object):
         top = 0
         middle = 1
         bottom = 2
-
-    class Format(Enum):
-        default = 0
-        decimal = 1
-        exponential = 2
-        engineering = 3
-        hexadecimal = 4
-        compact = 5
-        string = 6
-        sexagesimal_hh_mm_ss = 7
-        sexagesimal_hms_24h_rad = 8
-        sexagesimal_dms_360deg_rad = 9
-        binary = 10
 
     class Resize(Enum):
         no_resize = 0
@@ -265,13 +249,9 @@ class Property(object):
         self.shared_functions.number_property('rotation', val)
 
     def add_resize_behavior(self, resize):
-        val = str(resize).lower()
-        try:
-            v = self.resize_array.index(val)
-        except ValueError:
-            print('Wrong input to resize behavior: {}'.format(val))
-            return
-        self.shared_functions.generic_property('resize', v)
+        if type(resize) != self.Resize:
+            print('Resize behavior input must be of type enum Resize. Not: {}'.format(type(resize)))
+        self.shared_functions.generic_property('resize', resize.value)
 
     def add_group_name(self, val):
         self.shared_functions.generic_property('group_name', val)
