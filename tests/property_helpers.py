@@ -69,14 +69,17 @@ class TestText(GenericTest):
 class TestFont(GenericTest):
     def test_predefined_font(self):
         tag_name = 'font'
-        self.element.font()
-        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '14', 'style': 'Regular'})
+        self.element.predefined_font('Comment')
+        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
 
-    def test_font(self):
+    def test_predefined_font2(self):
         tag_name = 'font'
         value = 'Header 1'
         self.element.predefined_font(value)
-        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '22', 'style': 'Bold'})
+        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+
+    def test_font_family(self):
+        pass
 
 
 class TestForegroundColor(GenericTest):

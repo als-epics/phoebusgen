@@ -1,5 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement
-from phoebusgen.shared_property_helpers import SharedPropertyFunctions
+from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
+from enum import Enum
 
 
 # TO DO : Add check if property is already available
@@ -18,7 +19,49 @@ class Property(object):
         self.resize_array = ['no resize', 'size content to fit widget', 'size widget to match content',
                              'stretch content to fit widget', 'crop content']
         self.style_array = ['group box', 'title bar', 'line', 'none']
-        self.shared_functions = SharedPropertyFunctions(self.root)
+        self.shared_functions = _SharedPropertyFunctions(self.root)
+
+    class FontStyle(Enum):
+        regular = 'REGULAR'
+        italic = 'ITALIC'
+        bold = 'BOLD'
+        bold_and_italic = 'BOLD_ITALIC'
+
+    class GroupStyle(Enum):
+        group_box = 0
+        title_bar = 1
+        line = 2
+        none = 3
+
+    class HorizontalAlignment(Enum):
+        left = 0
+        center = 1
+        right = 2
+
+    class VerticalAlignment(Enum):
+        top = 0
+        middle = 1
+        bottom = 2
+
+    class Format(Enum):
+        default = 0
+        decimal = 1
+        exponential = 2
+        engineering = 3
+        hexadecimal = 4
+        compact = 5
+        string = 6
+        sexagesimal_hh_mm_ss = 7
+        sexagesimal_hms_24h_rad = 8
+        sexagesimal_dms_360deg_rad = 9
+        binary = 10
+
+    class Resize(Enum):
+        no_resize = 0
+        size_content_to_fit_widget = 1
+        size_widget_to_match_content = 2
+        stretch_content_to_fit_widget = 3
+        crop_content = 4
 
     def add_pv_name(self, name):
         self.shared_functions.generic_property('pv_name', name)
@@ -42,7 +85,7 @@ class Property(object):
         try:
             value = int(rotation)
         except ValueError:
-            print('Rotation step must be an integer, not: {}'.format(value))
+            print('Rotation step must be an integer, not: {}'.format(rotation))
             return
         try:
             val = self.rotation_steps_array.index(value)
@@ -85,20 +128,47 @@ class Property(object):
         e = self.shared_functions.create_element('empty_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
-    # TO DO: Define possible fonts, possible sizes (if applicable), possible styles
-    def add_font(self, family, style, size, name):
-        e = self.shared_functions.create_element('font')
-        if name is not None:
-            font_attrib = self.shared_functions.predefined_fonts.get(name.lower())
-            if font_attrib is None:
-                print('Font name is wrong')
-                return
+    def add_named_font(self, name):
+        root_font_elem = self.shared_functions.create_element('font')
+        font_attrib = self.shared_functions.predefined_fonts.get(name.lower())
+        if font_attrib is None:
+            print('Font name is wrong')
+            return
+        font_elem = self.shared_functions.create_element('font')
+        font_attrib['style'] = font_attrib['style'].upper()
+        font_elem.attrib = font_attrib
+        root_font_elem.append(font_elem)
+        self.root.append(root_font_elem)
+
+    def get_font_element(self):
+        font_root_elem = self.root.find('font')
+        if font_root_elem is None:
+            font_root_elem = self.shared_functions.create_element('font')
+            self.root.append(font_root_elem)
+        child_font_elem = font_root_elem.find('font')
+        if child_font_elem is None:
+            child_font_elem = Element('font')
+            child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
+            font_root_elem.append(child_font_elem)
+        return child_font_elem
+
+    def add_font_family(self, val):
+        child_elem = self.get_font_element()
+        child_elem.attrib['FAMILY'] = str(val)
+
+    def add_font_style(self, val):
+        if type(val) != self.FontStyle:
+            print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
+            return
+        child_elem = self.get_font_element()
+        child_elem.attrib['style'] = val.value
+
+    def add_font_size(self, val):
+        if type(val) == int or type(val) == float:
+            child_elem = self.get_font_element()
+            child_elem.attrib['size'] = str(int(val))
         else:
-            font_attrib = {'family': 'Liberation Sans' if family is None else family,
-                           'style': 'Regular' if style is None else style,
-                           'size': '14' if size is None else str(size)}
-        SubElement(e, 'font', attrib=font_attrib)
-        self.root.append(e)
+            print('Font size must be a number! Not: {}'.format(val))
 
     def add_border_width(self, width):
         self.shared_functions.integer_property('border_width', width)
@@ -207,13 +277,10 @@ class Property(object):
         self.shared_functions.generic_property('group_name', val)
 
     def add_style(self, style):
-        val = str(style).lower()
-        try:
-            v = self.style_array.index(val)
-        except ValueError:
-            print('Wrong input to group style: {}'.format(val))
+        if type(style) != self.GroupStyle:
+            print('Input type for param to group style must be of type GroupStyle. Not: {}'.format(type(style)))
             return
-        self.shared_functions.generic_property('style', v)
+        self.shared_functions.generic_property('style', style.value)
 
     def add_action(self, action_type, description, args):
         root_action = self.root.find('actions')

@@ -1,11 +1,11 @@
 from xml.etree.ElementTree import Element, SubElement
-import os
+from os import path
 import yaml
 
-class SharedPropertyFunctions(object):
+class _SharedPropertyFunctions(object):
     def __init__(self, root_element):
         self.root = root_element
-        curr_path = os.path.dirname(__file__)
+        curr_path = path.dirname(__file__)
         with open(curr_path + '/widget/colors.yaml') as f:
             self.predefined_colors = yaml.safe_load(f)
         with open(curr_path + '/widget/fonts.yaml') as f:
@@ -84,7 +84,6 @@ class SharedPropertyFunctions(object):
                 sub_e.attrib['name'] = name
         root_color_elem.append(sub_e)
         self.root.append(root_color_elem)
-
 
 
 if __name__ == '__main__':

@@ -5,11 +5,25 @@ class _PVName(object):
 
 class _Font(object):
     def predefined_font(self, name):
-        self._prop_factory.add_font(None, None, None, name)
+        self._prop_factory.add_named_font(name)
 
-    def font(self, family=None, style=None, size=None):
-        self._prop_factory.add_font(family, style, size, None)
+    def font_family(self, family):
+        self._prop_factory.add_font_family(family)
 
+    def font_size(self, size):
+        self._prop_factory.add_font_size(size)
+
+    def font_style_bold(self):
+        self._prop_factory.add_font_style(self._prop_factory.FontStyle.bold)
+
+    def font_style_italic(self):
+        self._prop_factory.add_font_style(self._prop_factory.FontStyle.italic)
+
+    def font_style_bold_italic(self):
+        self._prop_factory.add_font_style(self._prop_factory.FontStyle.bold_and_italic)
+
+    def font_style_regular(self):
+        self._prop_factory.add_font_style(self._prop_factory.FontStyle.regular)
 
 class _ForegroundColor(object):
     def predefined_foreground_color(self, name):
@@ -330,16 +344,16 @@ class _Mode(object):
 
 class _Style(object):
     def group_box(self):
-        self._prop_factory.add_style('group box')
+        self._prop_factory.add_style(self._prop_factory.GroupStyle.group_box)
 
     def title_bar(self):
-        self._prop_factory.add_style('title bar')
+        self._prop_factory.add_style(self._prop_factory.GroupStyle.title_bar)
 
     def line(self):
-        self._prop_factory.add_style('line')
+        self._prop_factory.add_style(self._prop_factory.GroupStyle.line)
 
     def no_style(self):
-        self._prop_factory.add_style('none')
+        self._prop_factory.add_style(self._prop_factory.GroupStyle.none)
 
 
 class _ResizeBehavior(object):

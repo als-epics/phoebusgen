@@ -613,12 +613,12 @@ class TestFontPropertyElements(unittest.TestCase):
         self.assertIsNone(inner_font_element.text)
 
         if name is None:
-            attrib_dict = {'family': str(family), 'style': str(style), 'size': str(size)}
+            attrib_dict = {'family': str(family), 'style': str(style).upper(), 'size': str(size)}
         else:
             font_item = self.font_dict.get(name.lower())
             self.assertIsNotNone(font_item)
             new_family = font_item['family']
-            new_style = font_item['style']
+            new_style = str(font_item['style']).upper()
             new_size = font_item['size']
             attrib_dict = {'family': new_family, 'style': new_style, 'size': new_size}
 
@@ -633,7 +633,7 @@ class TestFontPropertyElements(unittest.TestCase):
         family = 'dont care bc we have a name'
         style = 'Not a style'
         size = 523
-        self._prop_factory.add_font(family, style, size, name)
+        self._prop_factory.add_named_font(name)
         self.font_test(name, family, style, size)
 
     def test_predefined_font_wrong(self):
@@ -641,16 +641,8 @@ class TestFontPropertyElements(unittest.TestCase):
         family = 'dont care bc we are wrong'
         style = 'Not a style'
         size = 5
-        self._prop_factory.add_font(family, style, size, name)
+        self._prop_factory.add_named_font(name)
         self.assertIsNone(self._prop_factory.root.find('font'))
-
-    def test_random_font(self):
-        name = None
-        family = 'Lohit Gujarati'
-        style = 'Bold'
-        size = 12
-        self._prop_factory.add_font(family, style, size, name)
-        self.font_test(name, family, style, size)
 
 
 if __name__ == '__main__':

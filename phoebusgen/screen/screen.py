@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from phoebusgen.shared_property_helpers import SharedPropertyFunctions
+from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
 
 class Screen(object):
@@ -9,7 +9,7 @@ class Screen(object):
         self.root = Element('display', version='2.0.0')
         name_child = SubElement(self.root, 'name')
         name_child.text = name
-        self.shared_functions = SharedPropertyFunctions(self.root)
+        self.shared_functions = _SharedPropertyFunctions(self.root)
 
     def write_screen(self, file_name=None):
         rough_string = tostring(self.root, 'utf-8')
