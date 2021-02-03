@@ -1,28 +1,40 @@
 import phoebusgen
 
-
-def make_screen():
-    example_screen = phoebusgen.screen.Screen('Phoebusgen Example 1', './example1.bob')
-
-    example_screen.width(1000)
-    example_screen.height(1000)
-    example_screen.macro('P', 'loc://example1')
-    group = phoebusgen.widget.Group('Example Group', 0, 0, 500, 400)
-    group.background_color(0, 0, 0, 50)
-    #group.predefined_font('Header 3')
-    for i in range(1, 11):
-        label = phoebusgen.widget.Label('Label{}'.format(i), 'Here is a Label', 0, (i-1)*20, 120, 20)
-        text_update = phoebusgen.widget.TextUpdate('TextUpdate{}'.format(i), '$(P):update1', 120, (i-1)*20, 120, 20)
-        comment = phoebusgen.widget.Label('Comment1'.format(i), 'Label explanation', 240, (i-1)*20, 120, 20)
-        #comment.predefined_font('Comment')
-        comment.font_style_bold_italic()
-        label.foreground_color(100, 0, 100)
-        comment.predefined_foreground_color('Attention')
-        group.add_widget([label, text_update, comment])
-
-    example_screen.add_widget(group)
-    example_screen.write_screen()
+"""
+Example 1
+    Create ./example1.bob with 3 widgets
+"""
 
 
-if __name__ == '__main__':
-    make_screen()
+pv_prefix = 'loc://example1'
+my_screen = phoebusgen.screen.Screen('Phoebusgen Example 1')
+my_screen.macro('PV_PREFIX', pv_prefix)
+my_screen.background_color(204, 255, 255)
+
+
+widgets = []
+
+# don't worry about width and height, we will use auto-size after setting font size
+title = phoebusgen.widget.Label('TitleLabel', 'Example 1 Phoebusgen Title', 0, 0, 0, 0)
+title.font_size(36)
+title.auto_size()
+widgets.append(title)
+
+pv_name = pv_prefix + ':BOOL<VEnum>(0, "OFF", "ON")'
+
+check_box = phoebusgen.widget.CheckBox('MyCheckBox', 'Boolean PV', pv_name, 0, 80, 190, 70)
+check_box.font_style_bold()
+check_box.font_size(24)
+widgets.append(check_box)
+
+led = phoebusgen.widget.LED('MyLED', pv_name, 230, 60, 140, 110)
+led.off_color(255, 0, 0)
+widgets.append(led)
+
+
+# add all widgets to our screen
+my_screen.add_widget(widgets)
+
+# write to specified file
+my_screen.write_screen('./example1.bob')
+

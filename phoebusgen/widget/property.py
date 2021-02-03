@@ -3,10 +3,6 @@ from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 from enum import Enum
 
 
-# TO DO : Add check if property is already available
-# TO DO : Add way to specify defaults in a config file
-# TO DO : Default property value should delete element (can use remove element with self.root)
-# TO DO : Probably should allow for 'array' input functions to also take in integer value
 class Property(object):
     def __init__(self, root_element):
         self.root = root_element
