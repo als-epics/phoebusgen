@@ -312,3 +312,9 @@ class Property(object):
 
     def add_scale_visible(self, val):
         self.shared_functions.boolean_property('scale_visible', val)
+
+    def add_url(self, url):
+        self.shared_functions.generic_property('url', url)
+
+    def add_show_toolbar(self, val):
+        self.shared_functions.boolean_property('show_toolbar', val)

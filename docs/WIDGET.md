@@ -64,6 +64,8 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 
 ## Miscellaneous
+- Web Browser
+  - `phoebusgen.widget.WebBrowser(name, url, x, y, width, height`
 - 3D Viewer
   - `phoebusgen.widget.ThreeDViewer(name, file, x, y, width, height`
 

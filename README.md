@@ -68,6 +68,7 @@ Widgets Finished:
 - Array
 - Embedded Display
 - Group
+- Web Browser
 - 3DViewer
 
 Example

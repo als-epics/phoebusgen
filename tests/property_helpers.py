@@ -784,3 +784,36 @@ class TestScaleVisible(GenericTest):
         tag_name = 'scale_visible'
         self.element.scale_visible('false')
         self.generic_element_test(tag_name, False)
+
+class TestUrl(GenericTest):
+    def test_url(self):
+        tag_name = 'url'
+        self.generic_element_test(tag_name, self.url)
+        val = 'https://als.lbl.gov'
+        self.element.url(val)
+        self.generic_element_test(tag_name, val)
+
+class TestShowToolbar(GenericTest):
+    def test_show_toolbar(self):
+        tag_name = 'show_toolbar'
+        val = False
+        self.element.show_toolbar(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_show_toolbar_true(self):
+        tag_name = 'show_toolbar'
+        val = True
+        self.element.show_toolbar(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_show_toolbar_wrong(self):
+        tag_name = 'show_toolbar'
+        val = 'slkajfl'
+        self.element.show_toolbar(val)
+        self.null_test(tag_name)
+
+    def test_show_toolbar_wrong(self):
+        tag_name = 'show_toolbar'
+        val = 'tRue'
+        self.element.show_toolbar(val)
+        self.generic_element_test(tag_name, True)

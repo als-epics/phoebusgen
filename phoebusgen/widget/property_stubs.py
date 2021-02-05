@@ -385,3 +385,12 @@ class _Structure(object):
                 self._prop_factory.root.append(e.root)
         else:
             self._prop_factory.root.append(elem.root)
+
+
+class _URL(object):
+    def url(self, url):
+        self._prop_factory.add_url(url)
+
+class _ShowToolbar(object):
+    def show_toolbar(self, val):
+        self._prop_factory.add_show_toolbar(val)

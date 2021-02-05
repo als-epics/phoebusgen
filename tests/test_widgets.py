@@ -228,6 +228,17 @@ class TestThreeDViewer(unittest.TestCase, ph.TestFile):
         self.element = widgets.ThreeDViewer(self.name, self.file, self.x, self.y, self.width, self.height)
 
 
+class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
+    def setUp(self):
+        self.name = 'my web browser'
+        self.url = 'https://tynanford.com'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
+
+
 
 if __name__ == '__main__':
     unittest.main()

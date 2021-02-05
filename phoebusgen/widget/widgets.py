@@ -237,9 +237,11 @@ class ThreeDViewer(_Widget, _p._File):
         _Widget.__init__(self, '3dviewer', name, x, y, width, height)
         self.file(file)
 
-# url, showtoolbar
-#class WebBrowser(_Widget, _p._URL, _p._ShowToolbar):
-#    pass
+class WebBrowser(_Widget, _p._URL, _p._ShowToolbar):
+    def __init__(self, name, url, x, y, width, height):
+        _Widget.__init__(self, 'webbrowser', name, x, y, width, height)
+        self.url(url)
+
 
 if __name__ == '__main__':
     pass
