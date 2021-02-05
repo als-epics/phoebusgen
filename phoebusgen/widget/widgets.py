@@ -168,9 +168,11 @@ class SlideButton(_Widget, _p._PVName, _p._Bit, _p._Label, _p._OffColor, _p._OnC
         self.label(label)
 
 # buttonsonleft, increment
-#class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p._ForegroundColor, _p._BackgroundColor,
-#              _p._ButtonsOnLeft, _p._AlarmBorder, _p._MinMax, _p._LimitsFromPV, _p._Increment, _p._Enabled):
-#    pass
+class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p._ForegroundColor, _p._BackgroundColor,
+              _p._ButtonsOnLeft, _p._AlarmBorder, _p._MinMax, _p._LimitsFromPV, _p._Increment, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'spinner', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Format,
                 _p._Precision, _p._ShowUnits, _p._WrapWords, _p._MultiLine, _p._AlarmBorder, _p._Enabled,

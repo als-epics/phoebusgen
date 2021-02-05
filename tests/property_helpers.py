@@ -817,3 +817,43 @@ class TestShowToolbar(GenericTest):
         val = 'tRue'
         self.element.show_toolbar(val)
         self.generic_element_test(tag_name, True)
+
+class TestButtonsOnLeft(GenericTest):
+    def test_buttons_on_left(self):
+        tag_name = 'buttons_on_left'
+        val = 'fAlse'
+        self.element.buttons_on_left(val)
+        self.generic_element_test(tag_name, False)
+
+    def test_buttons_on_left_true(self):
+        tag_name = 'buttons_on_left'
+        val = True
+        self.element.buttons_on_left(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_buttons_on_left_int(self):
+        tag_name = 'buttons_on_left'
+        val = 1
+        self.element.buttons_on_left(val)
+        self.generic_element_test(tag_name, True)
+
+class TestIncrement(GenericTest):
+    def test_increment(self):
+        tag_name = 'increment'
+        val = 12.2
+        self.element.increment(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_increment2(self):
+        tag_name = 'increment'
+        val = 2
+        self.element.increment(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_increment_wrong(self):
+        tag_name = 'increment'
+        val = 'testjlksj'
+        self.element.increment(val)
+        self.null_test(tag_name)
+
+

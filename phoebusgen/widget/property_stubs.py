@@ -394,3 +394,11 @@ class _URL(object):
 class _ShowToolbar(object):
     def show_toolbar(self, val):
         self._prop_factory.add_show_toolbar(val)
+
+class _ButtonsOnLeft(object):
+    def buttons_on_left(self, val):
+        self._prop_factory.add_buttons_on_left(val)
+
+class _Increment(object):
+    def increment(self, val):
+        self._prop_factory.add_increment(val)

@@ -318,3 +318,9 @@ class Property(object):
 
     def add_show_toolbar(self, val):
         self.shared_functions.boolean_property('show_toolbar', val)
+
+    def add_buttons_on_left(self, val):
+        self.shared_functions.boolean_property('buttons_on_left', val)
+
+    def add_increment(self, val):
+        self.shared_functions.number_property('increment', val)

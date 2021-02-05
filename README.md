@@ -62,6 +62,7 @@ Widgets Finished:
 - Check Box
 - Radio Button
 - Slide Button
+- Spinner
 - Text Entry
 - Action Button
 - LED

@@ -146,6 +146,18 @@ class TestSlideButton(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestLabel
         self.height = 24
         self.element = widgets.SlideButton(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestSpinner(unittest.TestCase, ph.TestPVName, ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestForegroundColor,
+                   ph.TestBackgroundColor, ph.TestButtonsOnLeft, ph.TestAlarmBorder, ph.TestMinMax, ph.TestLimitsFromPV,
+                   ph.TestIncrement, ph.TestEnabled):
+    def setUp(self):
+        self.name = 'SpinnerWidget'
+        self.pv_name = 'TESTpv'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.Spinner(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestWrapWords, ph.TestMultiLine,
