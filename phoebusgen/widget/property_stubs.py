@@ -386,7 +386,6 @@ class _Structure(object):
         else:
             self._prop_factory.root.append(elem.root)
 
-
 class _URL(object):
     def url(self, url):
         self._prop_factory.add_url(url)
@@ -402,3 +401,16 @@ class _ButtonsOnLeft(object):
 class _Increment(object):
     def increment(self, val):
         self._prop_factory.add_increment(val)
+
+class _FileComponent(object):
+    def file_component_full_path(self):
+        self._prop_factory.add_file_component(self._prop_factory.FileComponent.full_path)
+
+    def file_component_directory(self):
+        self._prop_factory.add_file_component(self._prop_factory.FileComponent.directory)
+
+    def file_component_name_and_extension(self):
+        self._prop_factory.add_file_component(self._prop_factory.FileComponent.name_and_extension)
+
+    def file_component_base_name(self):
+        self._prop_factory.add_file_component(self._prop_factory.FileComponent.base_name)

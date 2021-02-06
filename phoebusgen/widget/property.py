@@ -43,6 +43,12 @@ class Property(object):
         stretch_content_to_fit_widget = 3
         crop_content = 4
 
+    class FileComponent(Enum):
+        full_path = 0
+        directory = 1
+        name_and_extension = 2
+        base_name = 3
+
     def add_pv_name(self, name):
         self.shared_functions.generic_property('pv_name', name)
 
@@ -324,3 +330,9 @@ class Property(object):
 
     def add_increment(self, val):
         self.shared_functions.number_property('increment', val)
+
+    def add_file_component(self, val):
+        if type(val) != self.FileComponent:
+            print('The component parameter must be of type FileComponent enum! Not: {}'.format(type(val)))
+            return
+        self.shared_functions.generic_property('component', val.value)

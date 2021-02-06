@@ -856,4 +856,32 @@ class TestIncrement(GenericTest):
         self.element.increment(val)
         self.null_test(tag_name)
 
+class TestFileComponent(GenericTest):
+    def test_file_component(self):
+        tag_name = 'component'
+        self.element.file_component_full_path()
+        self.generic_element_test(tag_name, 0)
+
+    def test_component_directory(self):
+        tag_name = 'component'
+        self.element.file_component_directory()
+        self.generic_element_test(tag_name, 1)
+
+    def test_component_name_and_extension(self):
+        tag_name = 'component'
+        self.element.file_component_name_and_extension()
+        self.generic_element_test(tag_name, 2)
+
+    def test_component_base_name(self):
+        tag_name = 'component'
+        self.element.file_component_base_name()
+        self.generic_element_test(tag_name, 3)
+
+    def test_multiple_changes(self):
+        tag_name = 'component'
+        self.element.file_component_base_name()
+        self.generic_element_test(tag_name, 3)
+        self.element.file_component_full_path()
+        self.generic_element_test(tag_name, 0)
+
 

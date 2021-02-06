@@ -122,6 +122,17 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
         self.height = 15
         self.element = widgets.CheckBox(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestFileSelector(unittest.TestCase, ph.TestPVName, ph.TestFileComponent, ph.TestAlarmBorder, ph.TestEnabled):
+    def setUp(self):
+        self.name = 'My file selector'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.FileSelector(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+
 class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestHorizontal,
                       ph.TestAlarmBorder, ph.TestItemsFromPV, ph.TestItems, ph.TestEnabled, ph.TestConfirmation):
     def setUp(self):

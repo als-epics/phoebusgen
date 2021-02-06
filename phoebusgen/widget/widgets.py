@@ -135,9 +135,10 @@ class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._Foreground
 #               _p._ItemsFromPV, _p._Editable, _p._Enabled, _p._Confirmation):
 
 
-# filecomponent
-#class FileSelector(_Widget, _p._PVName, _p._FileComponent, _p._AlarmBorder, _p._Enabled):
-#    pass
+class FileSelector(_Widget, _p._PVName, _p._FileComponent, _p._AlarmBorder, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'fileselector', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # horizontal, items, itemsfrompv
 class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizontal, _p._AlarmBorder,
@@ -167,7 +168,6 @@ class SlideButton(_Widget, _p._PVName, _p._Bit, _p._Label, _p._OffColor, _p._OnC
         self.pv_name(pv_name)
         self.label(label)
 
-# buttonsonleft, increment
 class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p._ForegroundColor, _p._BackgroundColor,
               _p._ButtonsOnLeft, _p._AlarmBorder, _p._MinMax, _p._LimitsFromPV, _p._Increment, _p._Enabled):
     def __init__(self, name, pv_name, x, y, width, height):

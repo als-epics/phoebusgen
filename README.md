@@ -60,8 +60,9 @@ Widgets Finished:
 - Text Update
 - Thermometer
 - Check Box
+- File Selector
 - Radio Button
-- Slide Button
+- Slider Button
 - Spinner
 - Text Entry
 - Action Button
