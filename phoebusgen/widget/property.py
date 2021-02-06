@@ -49,6 +49,12 @@ class Property(object):
         name_and_extension = 2
         base_name = 3
 
+    class Mode(Enum):
+        toggle = 0
+        push = 1
+        push_inverted = 2
+
+
     def add_pv_name(self, name):
         self.shared_functions.generic_property('pv_name', name)
 
@@ -211,6 +217,12 @@ class Property(object):
         e = self.shared_functions.create_element('line_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
+    def add_on_image(self, image_file):
+        self.shared_functions.generic_property('on_image', image_file)
+
+    def add_off_image(self, image_file):
+        self.shared_functions.generic_property('off_image', image_file)
+
     def add_alarm_border(self, val):
         self.shared_functions.boolean_property('border_alarm_sensitive', val)
 
@@ -343,3 +355,12 @@ class Property(object):
     def add_selected_color(self, name, red, green, blue, alpha):
         e = self.shared_functions.create_element('selected_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_show_led(self, val):
+        self.shared_functions.generic_property('show_led', val)
+
+    def add_mode(self, val):
+        if type(val) != self.Mode:
+            print('The component parameter must be of type Mode enum! Not: {}'.format(type(val)))
+            return
+        self.shared_functions.generic_property('mode', val.value)

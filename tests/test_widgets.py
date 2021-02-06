@@ -110,6 +110,19 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.pv_name = 'test:temp'
         self.element = widgets.Thermometer(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
+                        ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
+                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation):
+    def setUp(self):
+        self.name = 'boolean button'
+        self.pv_name = 'tester_pv'
+        self.x = 23
+        self.y = 3245
+        self.width = 1
+        self.height = 2
+        self.element = widgets.BooleanButton(self.name, self.pv_name, 23.2, 3245.9, 1.1, 2.8)
+
+
 class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph.TestForegroundColor,
                    ph.TestAutoSize, ph.TestAlarmBorder, ph.TestConfirmation, ph.TestLabel):
     def setUp(self):

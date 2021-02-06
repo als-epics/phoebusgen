@@ -55,10 +55,13 @@ Widgets Finished:
 - Label
 - Picture
 - Rectangle
+- LED
 - Progress Bar
 - Tank
 - Text Update
 - Thermometer
+- Action Button
+- Boolean Button
 - Check Box
 - Choice Button
 - Combo Box
@@ -67,8 +70,6 @@ Widgets Finished:
 - Slider Button
 - Spinner
 - Text Entry
-- Action Button
-- LED
 - Array
 - Embedded Display
 - Group

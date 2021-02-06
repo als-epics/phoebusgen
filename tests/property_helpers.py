@@ -555,9 +555,6 @@ class TestRotation(GenericTest):
 
 class TestResizeBehavior(GenericTest):
     tag_name = 'resize'
-    def test_default(self):
-        self.generic_element_test(self.tag_name, 0)
-
     def test_no_resize(self):
         self.element.no_resize()
         self.generic_element_test(self.tag_name, 0)
@@ -590,19 +587,16 @@ class TestGroupName(GenericTest):
         self.generic_element_test(tag_name, val)
 
 class TestStyle(GenericTest):
-    def test_default(self):
-       self.generic_element_test('style', 0)
-
     def test_add_elem_twice(self):
-        self.element.group_box()
+        self.element.style_group_box()
         self.generic_element_test('style', 0)
 
     def test_title_bar(self):
-        self.element.title_bar()
+        self.element.style_title_bar()
         self.generic_element_test('style', 1)
 
     def test_line(self):
-        self.element.line()
+        self.element.style_line()
         self.generic_element_test('style', 2)
 
     def test_no_style(self):
@@ -915,3 +909,45 @@ class TestSelectedColor(GenericTest):
         tag_name = 'selected_color'
         self.element.selected_color(-2, 10, 15, 232)
         self.null_test('color')
+
+class TestMode(GenericTest):
+    def test_toggle(self):
+        self.element.mode_toggle()
+        self.generic_element_test('mode', 0)
+
+    def test_push(self):
+        self.element.mode_push()
+        self.generic_element_test('mode', 1)
+
+    def test_push_inverted(self):
+        self.element.mode_push_inverted()
+        self.generic_element_test('mode', 2)
+
+    def test_twice(self):
+        self.element.mode_push_inverted()
+        self.generic_element_test('mode', 2)
+        self.element.mode_toggle()
+        self.generic_element_test('mode', 0)
+        self.element.mode_toggle()
+        self.element.remove_element('mode')
+        self.null_test('mode')
+
+class TestOffImage(TestOff):
+    def test_image_file(self):
+        tag_name = 'off_image'
+        val = './test/image.png'
+        self.element.off_image(val)
+        self.generic_element_test(tag_name, val)
+
+class TestOnImage(TestOn):
+    def test_image_file(self):
+        tag_name = 'on_image'
+        val = './test/image.png'
+        self.element.on_image(val)
+        self.generic_element_test(tag_name, val)
+
+class TestShowLED(GenericTest):
+    def test_show_led(self):
+        tag_name = 'show_led'
+        self.element.show_led(False)
+        self.generic_element_test(tag_name, False)

@@ -42,6 +42,8 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 - Action Button
   - `phoebusgen.widget.ActionButton(name, text, pv_name, x, y, width, height)`
+- Boolean Button
+  - `phoebusgen.widget.BooleanButton(name, pv_name, x, y, width, height)`
 - Check Box
   - `phoebusgen.widget.CheckBox(name, label, pv_name, x, y, width, height)`
 - Choice Button 

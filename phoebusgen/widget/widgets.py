@@ -112,12 +112,12 @@ class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._For
         self.pv_name(pv_name)
         self.text(text)
 
-# offimage, onimage, showLED, mode
-#class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-#                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
-#    pass
+class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'bool_button', name, x, y, width, height)
+        self.pv_name(pv_name)
 
-# Bit, PVname, label, font, foreground color, auto-size, alarm border, enabled, confirm
 class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._ForegroundColor, _p._AutoSize,
                _p._AlarmBorder, _p._Confirmation):
     def __init__(self, name, label, pv_name, x, y, width, height):
@@ -150,13 +150,13 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
         self.pv_name(pv_name)
 
 # showscale, showminorticks, majortickspixeldist, scaleformat, levelhihi, levelhigh, levellow, levellolo, showhihi, showhigh
-# showlow, showlolo, increment
+# showlow, showlolo
 #class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
 #                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsandShow, _p._AlarmBorder,
 #                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
 #    pass
 
-# showvaluetip, barlength, increment
+# showvaluetip, barlength
 #class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._AlarmBorder, _p._MinMax,
 #                _p._LimitsFromPV, _p._BarLength, _p._Increment, _p._Enabled):
 #    pass
@@ -216,12 +216,10 @@ class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._Grou
     def __init__(self, name, file, x, y, width, height):
         _Widget.__init__(self, 'embedded', name, x, y, width, height)
         self.file(file)
-        self.no_resize()
 
 class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
     def __init__(self, name, x, y, width, height):
         _Widget.__init__(self, 'group', name, x, y, width, height)
-        self.group_box()
 
 # tab width, tab height, tab spacing, selected color, deselected color, active tab
 #class NavigationTabs(_Widget, _p._Tabs, _p._Direction, _p._TabWidth, _p._TabHeight, _p._TabSpacing, _p._SelectColor, _p._Font, _p._ActiveTab):

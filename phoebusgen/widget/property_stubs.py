@@ -125,8 +125,8 @@ class _Off(_OffColor):
         self._prop_factory.add_off_label(label)
 
 class _OffImage(_Off):
-    def off_image(self):
-        pass
+    def off_image(self, val):
+        self._prop_factory.add_off_image(val)
 
 class _OnColor(object):
     def predefined_on_color(self, name):
@@ -140,8 +140,8 @@ class _On(_OnColor):
         self._prop_factory.add_on_label(label)
 
 class _OnImage(_On):
-    def on_image(self):
-        pass
+    def on_image(self, val):
+        self._prop_factory.add_on_image(val)
 
 
 # Arc, Ellipse, Polygon, Polyline, Rectangle, LED, LED Multi State
@@ -337,19 +337,27 @@ class _ScaleVisible(object):
         self._prop_factory.add_scale_visible(val)
 
 class _ShowLED(object):
-    pass
+    def show_led(self, val):
+        self._prop_factory.add_show_led(val)
 
 class _Mode(object):
-    pass
+    def mode_toggle(self):
+        self._prop_factory.add_mode(self._prop_factory.Mode.toggle)
+
+    def mode_push(self):
+        self._prop_factory.add_mode(self._prop_factory.Mode.push)
+
+    def mode_push_inverted(self):
+        self._prop_factory.add_mode(self._prop_factory.Mode.push_inverted)
 
 class _Style(object):
-    def group_box(self):
+    def style_group_box(self):
         self._prop_factory.add_style(self._prop_factory.GroupStyle.group_box)
 
-    def title_bar(self):
+    def style_title_bar(self):
         self._prop_factory.add_style(self._prop_factory.GroupStyle.title_bar)
 
-    def line(self):
+    def style_line(self):
         self._prop_factory.add_style(self._prop_factory.GroupStyle.line)
 
     def no_style(self):
