@@ -339,3 +339,7 @@ class Property(object):
 
     def add_editable(self, val):
         self.shared_functions.boolean_property('editable', val)
+
+    def add_selected_color(self, name, red, green, blue, alpha):
+        e = self.shared_functions.create_element('selected_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)

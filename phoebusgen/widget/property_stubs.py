@@ -416,71 +416,12 @@ class _FileComponent(object):
         self._prop_factory.add_file_component(self._prop_factory.FileComponent.base_name)
 
 class _Editable(object):
-
     def editable(self, val):
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         self._prop_factory.add_editable(val)
+
+class _SelectedColor(object):
+    def selected_color(self, red, green, blue, alpha=255):
+        self._prop_factory.add_selected_color(None, red, green, blue, alpha)
+
+    def predefined_selected_color(self, name):
+        self._prop_factory.add_selected_color(name, None, None, None, None)

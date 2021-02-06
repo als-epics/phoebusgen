@@ -897,4 +897,21 @@ class TestEditable(GenericTest):
         self.element.editable('faLse')
         self.generic_element_test(tag_name, False)
 
+class TestSelectedColor(GenericTest):
+    def test_selected_color(self):
+        tag_name = 'selected_color'
+        value = 'grid'
+        self.element.predefined_selected_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'grid', 'red': '128', 'green': '128',
+                                                          'blue': '128', 'alpha': '255'})
 
+    def test_selected_color_2(self):
+        tag_name = 'selected_color'
+        self.element.selected_color(5, 10, 15, 232)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '232'})
+
+    def test_selected_color_wrong(self):
+        tag_name = 'selected_color'
+        self.element.selected_color(-2, 10, 15, 232)
+        self.null_test('color')

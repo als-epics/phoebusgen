@@ -1,7 +1,7 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
 from phoebusgen.widget.property import Property
-
+from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
 class _Widget(object):
     def __init__(self, w_type, name, x_pos, y_pos, width, height):
@@ -9,17 +9,11 @@ class _Widget(object):
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
-        x_child = SubElement(self.root, 'x')
-        x_child.text = str(x_pos)
-
-        y_child = SubElement(self.root, 'y')
-        y_child.text = str(y_pos)
-
-        width_child = SubElement(self.root, 'width')
-        width_child.text = str(width)
-
-        height_child = SubElement(self.root, 'height')
-        height_child.text = str(height)
+        shared_functions = _SharedPropertyFunctions(self.root)
+        shared_functions.integer_property('x', x_pos)
+        shared_functions.integer_property('y', y_pos)
+        shared_functions.integer_property('width', width)
+        shared_functions.integer_property('height', height)
 
         self._prop_factory = Property(self.root)
 
@@ -27,14 +21,14 @@ class _Widget(object):
         child = SubElement(self.root, 'visible')
         child.text = str(visible)
 
-    def class_name(self, name):
-        pass
+    #def class_name(self, name):
+    #    pass
 
-    def rule(self, rule):
-        pass
+    #def rule(self, rule):
+    #    pass
 
-    def scripts(self, script):
-        pass
+    #def scripts(self, script):
+    #    pass
 
     def tool_tip(self, tool_tip):
         child = SubElement(self.root, 'tooltip')

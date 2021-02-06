@@ -78,7 +78,7 @@ class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundC
                ph.TestFillColor, ph.TestEmptyColor, ph.TestScaleVisible, ph.TestAlarmBorder, ph.TestLimitsFromPV):
     def setUp(self):
         self.name = 'my cool tank'
-        self.x = '24'
+        self.x = 24
         self.y = 12
         self.width = 2424
         self.height = 92
@@ -122,12 +122,23 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
         self.height = 15
         self.element = widgets.CheckBox(self.name, self.label, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestChoiceButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+                    ph.TestSelectedColor, ph.TestHorizontal, ph.TestAlarmBorder, ph.TestItems, ph.TestItemsFromPV,
+                    ph.TestConfirmation):
+    def setUp(self):
+        self.name = 'choice box'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.ChoiceButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestComboBox(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                    ph.TestItems, ph.TestAlarmBorder, ph.TestItemsFromPV, ph.TestEditable, ph.TestEnabled, ph.TestConfirmation):
     def setUp(self):
         self.name = '1'
         self.pv_name = 'TEST:PV:BOOL'
-        self.label = 'My combo box'
         self.x = 10
         self.y = 12
         self.width = 14

@@ -60,6 +60,7 @@ Widgets Finished:
 - Text Update
 - Thermometer
 - Check Box
+- Choice Button
 - Combo Box
 - File Selector
 - Radio Button
