@@ -364,3 +364,17 @@ class Property(object):
             print('The component parameter must be of type Mode enum! Not: {}'.format(type(val)))
             return
         self.shared_functions.generic_property('mode', val.value)
+
+    def add_show_value(self, val):
+        self.shared_functions.boolean_property('show_value', val)
+
+    def add_show_limits(self, val):
+        self.shared_functions.boolean_property('show_limits', val)
+
+    def add_needle_color(self, name, red, green, blue, alpha):
+        e = self.shared_functions.create_element('needle_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_knob_color(self, name, red, green, blue, alpha):
+        e = self.shared_functions.create_element('knob_color')
+        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)

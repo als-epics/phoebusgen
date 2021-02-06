@@ -55,12 +55,12 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
 #                    _p._AlarmBorder, _p._States, _p._Fallback):
 #    pass
 
-
-# ShowValue, ShowLimits, NeedleColor, KnobColor
-#class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format,
-#            _p._Precision, _p._ShowValue, _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder,
-#            _p._LimitsFromPV, _p._MinMax, _p._NeedleColor, _p._KnobColor):
-#    pass
+class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format,
+            _p._Precision, _p._ShowValue, _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder,
+            _p._LimitsFromPV, _p._MinMax, _p._NeedleColor, _p._KnobColor):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'meter', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._Horizontal,
                   _p._AlarmBorder, _p._LimitsFromPV, _p._MinMax):

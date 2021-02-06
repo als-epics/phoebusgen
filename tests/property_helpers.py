@@ -11,6 +11,7 @@ class GenericTest(object):
         tool_tip = 'this is a test tooltip check it out!'
         self.element.tool_tip(tool_tip)
         self.assertEqual(self.element.get_element_value('tooltip'), tool_tip)
+        self.assertEqual(self.element.root.attrib['type'], self.type)
 
     def test_against_file(self):
         curr_path = os.path.dirname(__file__)
@@ -951,3 +952,52 @@ class TestShowLED(GenericTest):
         tag_name = 'show_led'
         self.element.show_led(False)
         self.generic_element_test(tag_name, False)
+
+class TestNeedleColor(GenericTest):
+    def test_predefined_needle_color(self):
+        tag_name = 'needle_color'
+        value = 'Write_Background'
+        self.element.predefined_needle_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_needle_color(self):
+        tag_name = 'needle_color'
+        self.element.needle_color(5, 10, 15, 12)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '12'})
+
+class TestKnobColor(GenericTest):
+    def test_predefined_knob_color(self):
+        tag_name = 'knob_color'
+        value = 'MINOR'
+        self.element.predefined_knob_color(value)
+        self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128',
+                                                          'blue': '0', 'alpha': '255'})
+
+    def test_knob_color(self):
+        tag_name = 'knob_color'
+        self.element.knob_color(5, 0, 255)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '0',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_knob_color_wrong(self):
+        self.element.knob_color('sdfsd', 0, 255)
+        self.null_test('color')
+
+class TestShowValue(GenericTest):
+    def test_show_value_false(self):
+        tag_name = 'show_value'
+        self.element.show_value(False)
+        self.generic_element_test(tag_name, False)
+
+class TestShowLimits(GenericTest):
+    def test_show_limits_true(self):
+        tag_name = 'show_limits'
+        self.element.show_limits(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_limits_wrong(self):
+        tag_name = 'show_limits'
+        self.element.show_limits('atsddfj')
+        self.null_test(tag_name)

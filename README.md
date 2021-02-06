@@ -56,6 +56,7 @@ Widgets Finished:
 - Picture
 - Rectangle
 - LED
+- Meter
 - Progress Bar
 - Tank
 - Text Update

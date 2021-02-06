@@ -29,6 +29,8 @@ This is a brief overview of the constructors for each widget and the methods ava
 
 - LED
   - `phoebusgen.widget.LED(name, pv_name, x, y, width, height)`
+- Meter
+  - `phoebusgen.widget.Meter(name, pv_name, x, y, width, height)`
 - Progress Bar
   - `phoebusgen.widget.ProgressBar(name, pv_name, x, y, width, height)`
 - Tank 

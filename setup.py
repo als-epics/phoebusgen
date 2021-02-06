@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="phoebusgen",
-    version="0.0.9",
+    version="0.0.10",
     author="Tynan Ford",
     author_email="tford@lbl.gov",
     description="Control screen generator for Phoebus",

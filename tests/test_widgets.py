@@ -10,6 +10,7 @@ class TestArc(unittest.TestCase, ph.TestMacro, ph.TestAngle, ph.TestLineWidth, p
               ph.TestBackgroundColor, ph.TestTransparent):
     def setUp(self):
         self.name = 'My_Arc'
+        self.type = 'arc'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -21,6 +22,7 @@ class TestEllipse(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLine
                   ph.TestTransparent):
     def setUp(self):
         self.name = 'My_Ellipse'
+        self.type = 'ellipse'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -32,6 +34,7 @@ class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLi
                     ph.TestTransparent, ph.TestCorner):
     def setUp(self):
         self.name = 'My_Rectangle'
+        self.type = 'rectangle'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -44,6 +47,7 @@ class TestLabel(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundC
                      ph.TestAutoSize, ph.TestWrapWords, ph.TestBorder):
     def setUp(self):
         self.name = 'Label_1'
+        self.type = 'label'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -55,6 +59,7 @@ class TestLabel(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundC
 class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchToFit, ph.TestRotation):
     def setUp(self):
         self.name = 'Picture_1'
+        self.type = 'picture'
         self.x = 123
         self.y = 12
         self.width = 10
@@ -62,10 +67,23 @@ class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchTo
         self.file = '/home/user/my-pic.png'
         self.element = widgets.Picture(self.name, self.file, self.x, self.y, self.width, self.height)
 
+class TestMeter(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestFont,
+                ph.TestFormat, ph.TestPrecision, ph.TestShowValue, ph.TestShowUnits, ph.TestAlarmBorder, ph.TestShowLimits,
+                ph.TestLimitsFromPV, ph.TestMinMax, ph.TestNeedleColor, ph.TestKnobColor):
+    def setUp(self):
+        self.name = 'Cool meter'
+        self.type = 'meter'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.pv_name = 'test:pv'
+        self.element = widgets.Meter(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.TestBackgroundColor,
                       ph.TestHorizontal, ph.TestAlarmBorder, ph.TestLimitsFromPV, ph.TestMinMax):
     def setUp(self):
+        self.type = 'progressbar'
         self.name = 'Progress bar'
         self.x = 123
         self.y = 12
@@ -78,6 +96,7 @@ class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundC
                ph.TestFillColor, ph.TestEmptyColor, ph.TestScaleVisible, ph.TestAlarmBorder, ph.TestLimitsFromPV):
     def setUp(self):
         self.name = 'my cool tank'
+        self.type = 'tank'
         self.x = 24
         self.y = 12
         self.width = 2424
@@ -92,6 +111,7 @@ class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForeg
     def setUp(self):
         self.pv_name = 'TEST:ME'
         self.name = 'Generic TextUpdate'
+        self.type = 'textupdate'
         self.x = 500
         self.y = 300
         self.width = 100
@@ -103,6 +123,7 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
                       ph.TestLimitsFromPV, ph.TestMinMax):
     def setUp(self):
         self.name = 'testing thermometer'
+        self.type = 'thermometer'
         self.x = 123
         self.y = 12
         self.width = 10
@@ -115,6 +136,7 @@ class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.Te
                         ph.TestEnabled, ph.TestMode, ph.TestConfirmation):
     def setUp(self):
         self.name = 'boolean button'
+        self.type = 'bool_button'
         self.pv_name = 'tester_pv'
         self.x = 23
         self.y = 3245
@@ -128,6 +150,7 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
     def setUp(self):
         self.name = 'Check box 1'
         self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'checkbox'
         self.label = 'My check box'
         self.x = 10
         self.y = 12
@@ -141,6 +164,7 @@ class TestChoiceButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFor
     def setUp(self):
         self.name = 'choice box'
         self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'choice'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -152,6 +176,7 @@ class TestComboBox(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegro
     def setUp(self):
         self.name = '1'
         self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'combo'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -162,6 +187,7 @@ class TestFileSelector(unittest.TestCase, ph.TestPVName, ph.TestFileComponent, p
     def setUp(self):
         self.name = 'My file selector'
         self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'fileselector'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -174,6 +200,7 @@ class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFore
     def setUp(self):
         self.name = 'Radio_1'
         self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'radio'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -186,6 +213,7 @@ class TestSlideButton(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestLabel
     def setUp(self):
         self.name = 'slider button'
         self.pv_name = 'TEST:PV'
+        self.type = 'slide_button'
         self.label = 'this is a slide button'
         self.x = 24
         self.y = 234
@@ -199,6 +227,7 @@ class TestSpinner(unittest.TestCase, ph.TestPVName, ph.TestFormat, ph.TestPrecis
     def setUp(self):
         self.name = 'SpinnerWidget'
         self.pv_name = 'TESTpv'
+        self.type = 'spinner'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -212,6 +241,7 @@ class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegr
     def setUp(self):
         self.name = 'Label_1'
         self.pv_name = 'TEST:PV:ENTRY'
+        self.type = 'textentry'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -223,6 +253,7 @@ class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFon
                          ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions):
     def setUp(self):
         self.name = 'Label_1'
+        self.type = 'action_button'
         self.pv_name = 'TEST:PV:ENTRY'
         self.text = 'TEST TTEST TEST'
         self.x = 10
@@ -237,6 +268,7 @@ class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOf
     def setUp(self):
         self.name = 'Label_1'
         self.pv_name = 'TEST:PV:ENTRY'
+        self.type = 'led'
         self.x = 10
         self.y = 12
         self.width = 14
@@ -248,6 +280,7 @@ class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestR
                           ph.TestGroupName, ph.TestTransparent, ph.TestBorder):
     def setUp(self):
         self.name = 'EmbeddedDisplay'
+        self.type = 'embedded'
         self.x = 123
         self.y = 12
         self.width = 10
@@ -259,6 +292,7 @@ class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroun
                 ph.TestAlarmBorder):
     def setUp(self):
         self.name = 'test array'
+        self.type = 'array'
         self.x = 124
         self.y = 1
         self.width = 129
@@ -270,6 +304,7 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
                 ph.TestBackgroundColor, ph.TestTransparent):
     def setUp(self):
         self.name = 'MyGroup Display'
+        self.type = 'group'
         self.x = 123
         self.y = 12
         self.width = 10
@@ -280,6 +315,7 @@ class TestThreeDViewer(unittest.TestCase, ph.TestFile):
     def setUp(self):
         self.name = 'cool 3d viewer'
         self.file = '/users/test/3dviewerfile'
+        self.type = '3dviewer'
         self.x = 123
         self.y = 12
         self.width = 10
@@ -291,12 +327,12 @@ class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
     def setUp(self):
         self.name = 'my web browser'
         self.url = 'https://tynanford.com'
+        self.type = 'webbrowser'
         self.x = 123
         self.y = 12
         self.width = 10
         self.height = 12
         self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
-
 
 
 if __name__ == '__main__':

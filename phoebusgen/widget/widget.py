@@ -21,6 +21,9 @@ class _Widget(object):
         child = SubElement(self.root, 'visible')
         child.text = str(visible)
 
+    def version(self, version):
+        self.root.attrib['version'] = version
+
     #def class_name(self, name):
     #    pass
 

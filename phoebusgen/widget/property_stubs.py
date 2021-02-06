@@ -296,10 +296,12 @@ class _Fallback(object):
     pass
 
 class _ShowValue(object):
-    pass
+    def show_value(self, val):
+        self._prop_factory.add_show_value(val)
 
 class _ShowLimits(object):
-    pass
+    def show_limits(self, val):
+        self._prop_factory.add_show_limits(val)
 
 class _LimitsFromPV(object):
     def limits_from_pv(self, val):
@@ -313,10 +315,18 @@ class _MinMax(object):
         self._prop_factory.add_maximum(val)
 
 class _NeedleColor(object):
-    pass
+    def needle_color(self, red, green, blue, alpha=255):
+        self._prop_factory.add_needle_color(None, red, green, blue, alpha)
+
+    def predefined_needle_color(self, name):
+        self._prop_factory.add_needle_color(name, None, None, None, None)
 
 class _KnobColor(object):
-    pass
+    def knob_color(self, red, green, blue, alpha=255):
+        self._prop_factory.add_knob_color(None, red, green, blue, alpha)
+
+    def predefined_knob_color(self, name):
+        self._prop_factory.add_knob_color(name, None, None, None, None)
 
 class _FillColor(object):
     def fill_color(self, red, green, blue, alpha=255):
@@ -433,3 +443,4 @@ class _SelectedColor(object):
 
     def predefined_selected_color(self, name):
         self._prop_factory.add_selected_color(name, None, None, None, None)
+
