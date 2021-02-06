@@ -67,14 +67,13 @@ class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._H
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'progressbar', name, x, y, width, height)
         self.pv_name(pv_name)
-        self.horizontal(True)
 
 # Symbols, InitialIndex, showindex, arrayindex, preserve ratio
 #class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialIndex,
 #             _p._Rotation, _p._ShowIndex, _p._Transparent, _p._AlarmBorder, _p._ArrayIndex,
 #             _p._AutoSize, _p._Enabled, _p._PreserveRatio):
 
-# Showtoolbar, columns, editable, selectrows, selectionpv
+# columns, selectrows, selectionpv
 #class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
 #            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
 
@@ -130,9 +129,11 @@ class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._Foreground
 #class ChoiceButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._SelectedColor, _p._Horizontal,
 #                   _p._AlarmBorder, _p._Items, _p._ItemsFromPV, _p._Confirmation):
 
-# editable
-#class ComboBox(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._AlarmBorder, _p._Items,
-#               _p._ItemsFromPV, _p._Editable, _p._Enabled, _p._Confirmation):
+class ComboBox(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._AlarmBorder, _p._Items,
+               _p._ItemsFromPV, _p._Editable, _p._Enabled, _p._Confirmation):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'combo', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 
 class FileSelector(_Widget, _p._PVName, _p._FileComponent, _p._AlarmBorder, _p._Enabled):
@@ -140,14 +141,11 @@ class FileSelector(_Widget, _p._PVName, _p._FileComponent, _p._AlarmBorder, _p._
         _Widget.__init__(self, 'fileselector', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# horizontal, items, itemsfrompv
 class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizontal, _p._AlarmBorder,
                   _p._Items, _p._ItemsFromPV, _p._Enabled, _p._Confirmation):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'radio', name, x, y, width, height)
         self.pv_name(pv_name)
-        self.horizontal(True)
-        self.items_from_pv(True)
 
 # showscale, showminorticks, majortickspixeldist, scaleformat, levelhihi, levelhigh, levellow, levellolo, showhihi, showhigh
 # showlow, showlolo, increment

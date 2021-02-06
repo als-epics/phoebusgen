@@ -616,8 +616,9 @@ class TestLabel(GenericTest):
         self.generic_element_test(tag_name, self.label)
 
 class TestItemsFromPV(GenericTest):
-    def test_default(self):
+    def test_on(self):
         tag_name = 'items_from_pv'
+        self.element.items_from_pv(True)
         self.generic_element_test(tag_name, True)
 
     def test_off(self):
@@ -702,6 +703,7 @@ class TestActions(GenericTest):
 class TestHorizontal(GenericTest):
     def test_default(self):
         tag_name = 'horizontal'
+        self.element.horizontal(True)
         self.generic_element_test(tag_name, True)
 
     def test_off(self):
@@ -883,5 +885,16 @@ class TestFileComponent(GenericTest):
         self.generic_element_test(tag_name, 3)
         self.element.file_component_full_path()
         self.generic_element_test(tag_name, 0)
+
+class TestEditable(GenericTest):
+    def test_editable_true(self):
+        tag_name = 'editable'
+        self.element.editable(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_editable_false(self):
+        tag_name = 'editable'
+        self.element.editable('faLse')
+        self.generic_element_test(tag_name, False)
 
 

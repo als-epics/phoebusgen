@@ -336,3 +336,6 @@ class Property(object):
             print('The component parameter must be of type FileComponent enum! Not: {}'.format(type(val)))
             return
         self.shared_functions.generic_property('component', val.value)
+
+    def add_editable(self, val):
+        self.shared_functions.boolean_property('editable', val)
