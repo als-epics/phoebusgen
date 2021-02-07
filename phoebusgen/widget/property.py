@@ -378,3 +378,10 @@ class Property(object):
     def add_knob_color(self, name, red, green, blue, alpha):
         e = self.shared_functions.create_element('knob_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
+
+    def add_show_value_tip(self, val):
+        self.shared_functions.boolean_property('show_value_tip', val)
+
+    def add_bar_length(self, val):
+        self.shared_functions.number_property('bar_length', val)
+

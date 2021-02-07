@@ -207,6 +207,18 @@ class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFore
         self.height = 15
         self.element = widgets.RadioButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestScrollbar(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.TestShowValueTip, ph.TestAlarmBorder,
+                    ph.TestMinMax, ph.TestLimitsFromPV, ph.TestBarLength, ph.TestIncrement, ph.TestEnabled):
+    def setUp(self):
+        self.name = 'Radio_1'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'scrollbar'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.Scrollbar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestSlideButton(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestLabel, ph.TestFont, ph.TestForegroundColor,
                       ph.TestAutoSize, ph.TestAlarmBorder, ph.TestEnabled, ph.TestConfirmation, ph.TestOffColor,
                       ph.TestOnColor):

@@ -295,6 +295,14 @@ class _States(object):
 class _Fallback(object):
     pass
 
+class _ShowValueTip(object):
+    def show_value_tip(self, val):
+        self._prop_factory.add_show_value_tip(val)
+
+class _BarLength(object):
+    def bar_length(self, val):
+        self._prop_factory.add_bar_length(val)
+
 class _ShowValue(object):
     def show_value(self, val):
         self._prop_factory.add_show_value(val)

@@ -156,10 +156,11 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
 #                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
 #    pass
 
-# showvaluetip, barlength
-#class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._AlarmBorder, _p._MinMax,
-#                _p._LimitsFromPV, _p._BarLength, _p._Increment, _p._Enabled):
-#    pass
+class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._AlarmBorder, _p._MinMax,
+                _p._LimitsFromPV, _p._BarLength, _p._Increment, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'scrollbar', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class SlideButton(_Widget, _p._PVName, _p._Bit, _p._Label, _p._OffColor, _p._OnColor, _p._Font, _p._ForegroundColor,
                   _p._AutoSize, _p._AlarmBorder, _p._Enabled, _p._Confirmation):
@@ -184,7 +185,7 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 
 # Plots
 
-# showtoolbar, selectionvaluepv
+# selectionvaluepv
 #class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
 #    pass
 

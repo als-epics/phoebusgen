@@ -56,6 +56,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.FileSelector(name, pv_name, x, y, width, height)`
 - Radio Button 
   - `phoebusgen.widget.RadioButton(name, pv_name, x, y, width, height)`
+- Scrollbar 
+  - `phoebusgen.widget.Scrollbar(name, pv_name, x, y, width, height)`
 - Slide Button 
   - `phoebusgen.widget.SlideButton(name, label, pv_name, x, y, width, height)`
 - Spinner 

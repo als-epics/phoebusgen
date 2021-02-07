@@ -1001,3 +1001,29 @@ class TestShowLimits(GenericTest):
         tag_name = 'show_limits'
         self.element.show_limits('atsddfj')
         self.null_test(tag_name)
+
+class TestShowValueTip(GenericTest):
+    def test_show_value_tip_true(self):
+        tag_name = 'show_value_tip'
+        self.element.show_value_tip(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_value_tip_false(self):
+        tag_name = 'show_value_tip'
+        self.element.show_value_tip(True)
+        self.element.show_value_tip(False)
+        self.generic_element_test(tag_name, False)
+
+class TestBarLength(GenericTest):
+    def test_bar_length(self):
+        tag_name = 'bar_length'
+        val = 2.5
+        self.element.bar_length(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_bar_length2(self):
+        tag_name = 'bar_length'
+        val = 1.0
+        self.element.bar_length(val)
+        self.generic_element_test(tag_name, val)
+

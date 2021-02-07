@@ -68,6 +68,7 @@ Widgets Finished:
 - Combo Box
 - File Selector
 - Radio Button
+- Scrollbar
 - Slider Button
 - Spinner
 - Text Entry
