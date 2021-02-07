@@ -385,3 +385,5 @@ class Property(object):
     def add_bar_length(self, val):
         self.shared_functions.number_property('bar_length', val)
 
+    def add_selection_value_pv(self, val):
+        self.shared_functions.generic_property('selection_value_pv', val)

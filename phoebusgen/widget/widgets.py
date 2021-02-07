@@ -185,9 +185,10 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 
 # Plots
 
-# selectionvaluepv
-#class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
-#    pass
+class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
+    def __init__(self, name, file, x, y, width, height):
+        _Widget.__init__(self, 'databrowser', name, x, y, width, height)
+        self.file(file)
 
 # showtoolbar, colormap, colorbar, xaxis, yaxis, datawidth, interpolation, colormode, unsigneddata, autoscale,
 # logscale, cursor, roi

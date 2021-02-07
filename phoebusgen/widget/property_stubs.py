@@ -452,3 +452,6 @@ class _SelectedColor(object):
     def predefined_selected_color(self, name):
         self._prop_factory.add_selected_color(name, None, None, None, None)
 
+class _SelectionValuePV(object):
+    def selection_value_pv(self, val):
+        self._prop_factory.add_selection_value_pv(val)

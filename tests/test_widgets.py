@@ -17,7 +17,6 @@ class TestArc(unittest.TestCase, ph.TestMacro, ph.TestAngle, ph.TestLineWidth, p
         self.height = 15
         self.element = widgets.Arc(self.name, self.x, self.y, self.width, self.height)
 
-
 class TestEllipse(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor, ph.TestBackgroundColor,
                   ph.TestTransparent):
     def setUp(self):
@@ -29,7 +28,6 @@ class TestEllipse(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLine
         self.height = 15
         self.element = widgets.Ellipse(self.name, self.x, self.y, self.width, self.height)
 
-
 class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor, ph.TestBackgroundColor,
                     ph.TestTransparent, ph.TestCorner):
     def setUp(self):
@@ -40,7 +38,6 @@ class TestRectangle(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLi
         self.width = 14
         self.height = 15
         self.element = widgets.Rectangle(self.name, self.x, self.y, self.width, self.height)
-
 
 class TestLabel(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestTransparent, ph.TestHorizontalAlignment, ph.TestVerticalAlignment, ph.TestRotationStep,
@@ -55,7 +52,6 @@ class TestLabel(unittest.TestCase, ph.TestMacro, ph.TestText, ph.TestForegroundC
         self.text = 'TEST Label'
         self.element = widgets.Label(self.name, self.text, self.x, self.y, self.width, self.height)
 
-
 class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchToFit, ph.TestRotation):
     def setUp(self):
         self.name = 'Picture_1'
@@ -66,6 +62,18 @@ class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchTo
         self.height = 12
         self.file = '/home/user/my-pic.png'
         self.element = widgets.Picture(self.name, self.file, self.x, self.y, self.width, self.height)
+
+class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOff, ph.TestFont, ph.TestForegroundColor,
+              ph.TestLineColor, ph.TestSquare, ph.TestLabelsFromPV, ph.TestAlarmBorder):
+    def setUp(self):
+        self.name = 'Label_1'
+        self.pv_name = 'TEST:PV:ENTRY'
+        self.type = 'led'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.LED(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestMeter(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestFont,
                 ph.TestFormat, ph.TestPrecision, ph.TestShowValue, ph.TestShowUnits, ph.TestAlarmBorder, ph.TestShowLimits,
@@ -118,7 +126,6 @@ class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForeg
         self.height = 20
         self.element = widgets.TextUpdate(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
-
 class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.TestAlarmBorder,
                       ph.TestLimitsFromPV, ph.TestMinMax):
     def setUp(self):
@@ -130,6 +137,19 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.height = 12
         self.pv_name = 'test:temp'
         self.element = widgets.Thermometer(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+                       ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions):
+    def setUp(self):
+        self.name = 'Label_1'
+        self.type = 'action_button'
+        self.pv_name = 'TEST:PV:ENTRY'
+        self.text = 'TEST TTEST TEST'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.ActionButton(self.name, self.text, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
                         ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
@@ -143,7 +163,6 @@ class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.Te
         self.width = 1
         self.height = 2
         self.element = widgets.BooleanButton(self.name, self.pv_name, 23.2, 3245.9, 1.1, 2.8)
-
 
 class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph.TestForegroundColor,
                    ph.TestAutoSize, ph.TestAlarmBorder, ph.TestConfirmation, ph.TestLabel):
@@ -193,7 +212,6 @@ class TestFileSelector(unittest.TestCase, ph.TestPVName, ph.TestFileComponent, p
         self.width = 14
         self.height = 15
         self.element = widgets.FileSelector(self.name, self.pv_name, self.x, self.y, self.width, self.height)
-
 
 class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestHorizontal,
                       ph.TestAlarmBorder, ph.TestItemsFromPV, ph.TestItems, ph.TestEnabled, ph.TestConfirmation):
@@ -246,7 +264,6 @@ class TestSpinner(unittest.TestCase, ph.TestPVName, ph.TestFormat, ph.TestPrecis
         self.height = 15
         self.element = widgets.Spinner(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
-
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestWrapWords, ph.TestMultiLine,
                      ph.TestAlarmBorder, ph.TestEnabled, ph.TestBorder):
@@ -260,45 +277,16 @@ class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegr
         self.height = 15
         self.element = widgets.TextEntry(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
-
-class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
-                         ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions):
+class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowToolbar, ph.TestSelectionValuePV):
     def setUp(self):
-        self.name = 'Label_1'
-        self.type = 'action_button'
-        self.pv_name = 'TEST:PV:ENTRY'
-        self.text = 'TEST TTEST TEST'
-        self.x = 10
-        self.y = 12
-        self.width = 14
-        self.height = 15
-        self.element = widgets.ActionButton(self.name, self.text, self.pv_name, self.x, self.y, self.width, self.height)
-
-
-class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOff, ph.TestFont, ph.TestForegroundColor,
-                       ph.TestLineColor, ph.TestSquare, ph.TestLabelsFromPV, ph.TestAlarmBorder):
-    def setUp(self):
-        self.name = 'Label_1'
-        self.pv_name = 'TEST:PV:ENTRY'
-        self.type = 'led'
-        self.x = 10
-        self.y = 12
-        self.width = 14
-        self.height = 15
-        self.element = widgets.LED(self.name, self.pv_name, self.x, self.y, self.width, self.height)
-
-
-class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestResizeBehavior,
-                          ph.TestGroupName, ph.TestTransparent, ph.TestBorder):
-    def setUp(self):
-        self.name = 'EmbeddedDisplay'
-        self.type = 'embedded'
-        self.x = 123
-        self.y = 12
-        self.width = 10
-        self.height = 12
-        self.file = '/home/user/_my-embedded-file.bob'
-        self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
+        self.name = 'my data browser'
+        self.file = '/home/tynan/plots/my-cool-plot.plt'
+        self.type = 'databrowser'
+        self.x = 24
+        self.y = 1224
+        self.width = 1239
+        self.height = 1
+        self.element = widgets.DataBrowser(self.name, self.file, self.x, self.y, self.width, self.height)
 
 class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestAlarmBorder):
@@ -311,6 +299,18 @@ class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroun
         self.height = 20
         self.pv_name = 'MY:ARRAY:PV'
         self.element = widgets.Array(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestResizeBehavior,
+                          ph.TestGroupName, ph.TestTransparent, ph.TestBorder):
+    def setUp(self):
+        self.name = 'EmbeddedDisplay'
+        self.type = 'embedded'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.file = '/home/user/_my-embedded-file.bob'
+        self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
 
 class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForegroundColor,
                 ph.TestBackgroundColor, ph.TestTransparent):
@@ -333,7 +333,6 @@ class TestThreeDViewer(unittest.TestCase, ph.TestFile):
         self.width = 10
         self.height = 12
         self.element = widgets.ThreeDViewer(self.name, self.file, self.x, self.y, self.width, self.height)
-
 
 class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
     def setUp(self):

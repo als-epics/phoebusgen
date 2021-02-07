@@ -66,6 +66,8 @@ This is a brief overview of the constructors for each widget and the methods ava
   - `phoebusgen.widget.TextEntry(name, pv_name, x, y, width, height)`
 
 ## Plots
+- Data Browser 
+  - `phoebusgen.widget.DataBrowser(name, file, x, y, width, height)`
 
 ## Structure
 

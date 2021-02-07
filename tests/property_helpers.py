@@ -1027,3 +1027,9 @@ class TestBarLength(GenericTest):
         self.element.bar_length(val)
         self.generic_element_test(tag_name, val)
 
+class TestSelectionValuePV(GenericTest):
+    def test_selection_value_pv(self):
+        tag_name = 'selection_value_pv'
+        val = '$(P):MY:COOL:PV'
+        self.element.selection_value_pv(val)
+        self.generic_element_test(tag_name, val)
