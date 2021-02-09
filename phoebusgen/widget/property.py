@@ -111,16 +111,7 @@ class Property(object):
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
     def add_named_font(self, name):
-        root_font_elem = self.shared_functions.create_element('font')
-        font_attrib = self.shared_functions.predefined_fonts.get(name.lower())
-        if font_attrib is None:
-            print('Font name is wrong')
-            return
-        font_elem = self.shared_functions.create_element('font')
-        font_attrib['style'] = font_attrib['style'].upper()
-        font_elem.attrib = font_attrib
-        root_font_elem.append(font_elem)
-        self.root.append(root_font_elem)
+        self.shared_functions.create_named_font_elemet(name)
 
     def get_font_element(self):
         font_root_elem = self.root.find('font')

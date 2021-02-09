@@ -6,18 +6,11 @@ sys.path.insert(1, './phoebusgen/')
 import unittest
 from xml.etree.ElementTree import Element, SubElement
 import property
-from os import path
-from enum import Enum
-from phoebusgen import _update_color_def
-
 
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
         self._prop_factory = property.Property(self.element)
-        curr_path = path.dirname(__file__)
-        predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
-        self.colors = Enum('colors', predefined_colors)
 
     def test_init(self):
         self.assertIsInstance(self._prop_factory.root, Element)
@@ -335,14 +328,6 @@ class TestFontPropertyElements(unittest.TestCase):
 
         self._prop_factory.root.remove(outer_font_element)
         self.assertIsNone(self._prop_factory.root.find('font'))
-
-    def test_predefined_font(self):
-        name = 'OddBall'
-        family = 'dont care bc we have a name'
-        style = 'Not a style'
-        size = 523
-        self._prop_factory.add_named_font(name)
-        self.font_test(name, family, style, size)
 
     def test_predefined_font_wrong(self):
         name = 'NotAFont'

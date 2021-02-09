@@ -1,12 +1,14 @@
 import os
 from enum import Enum
-from phoebusgen import _update_color_def
+from phoebusgen import _update_color_def, _update_font_def
 
 class GenericTest(object):
-    def get_colors(self):
-        curr_path = os.path.dirname(__file__)
-        predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
-        return Enum('colors', predefined_colors)
+    curr_path = os.path.dirname(__file__)
+    predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
+    colors = Enum('colors', predefined_colors)
+
+    predefined_fonts = _update_font_def(curr_path + '/../phoebusgen/config/font.def')
+    fonts = Enum('fonts', predefined_fonts)
 
     def test_basics(self):
         self.assertEqual(self.element.get_element_value('name'), self.name)
@@ -80,14 +82,13 @@ class TestFont(GenericTest):
 
     def test_predefined_font(self):
         tag_name = 'font'
-        self.element.predefined_font('Comment')
-        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
+        self.element.predefined_font(self.fonts.Comment)
+        self.child_element_test(tag_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
 
     def test_predefined_font2(self):
         tag_name = 'font'
-        value = 'Header 1'
-        self.element.predefined_font(value)
-        self.child_element_test(tag_name, 'font', None, {'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+        self.element.predefined_font(self.fonts.Header1)
+        self.child_element_test(tag_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
 
     def test_font_family(self):
         tag_name = 'font'
@@ -169,8 +170,7 @@ class TestFont(GenericTest):
 class TestForegroundColor(GenericTest):
     def test_predefined_foreground_color(self):
         tag_name = 'foreground_color'
-        colors = self.get_colors()
-        self.element.predefined_foreground_color(colors.Background)
+        self.element.predefined_foreground_color(self.colors.Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -184,8 +184,7 @@ class TestForegroundColor(GenericTest):
 class TestBackgroundColor(GenericTest):
     def test_predefined_background_color(self):
         tag_name = 'background_color'
-        colors = self.get_colors()
-        self.element.predefined_background_color(colors.MINOR)
+        self.element.predefined_background_color(self.colors.MINOR)
         self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128', 'blue': '0', 'alpha': '255'})
 
     def test_background_color(self):
@@ -315,8 +314,7 @@ class TestBorder(GenericTest):
 
     def test_predefined_border_color(self):
         tag_name = 'border_color'
-        colors = self.get_colors()
-        self.element.predefined_border_color(colors.Attention)
+        self.element.predefined_border_color(self.colors.Attention)
         self.child_element_test(tag_name, 'color', None, {'name': 'Attention', 'red': '255', 'green': '160',
                                                           'blue': '0', 'alpha': '255'})
 
@@ -485,8 +483,7 @@ class TestConfirmation(GenericTest):
 class TestLineColor(GenericTest):
     def test_predefined_line_color(self):
         tag_name = 'line_color'
-        colors = self.get_colors()
-        self.element.predefined_line_color(colors.Background)
+        self.element.predefined_line_color(self.colors.Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -500,8 +497,7 @@ class TestLineColor(GenericTest):
 class TestOffColor(GenericTest):
     def test_predefined_off_color(self):
         tag_name = 'off_color'
-        colors = self.get_colors()
-        self.element.predefined_off_color(colors.Background)
+        self.element.predefined_off_color(self.colors.Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -521,8 +517,7 @@ class TestOff(TestOffColor):
 class TestOnColor(GenericTest):
     def test_predefined_on_color(self):
         tag_name = 'on_color'
-        colors = self.get_colors()
-        self.element.predefined_on_color(colors.Background)
+        self.element.predefined_on_color(self.colors.Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -753,8 +748,7 @@ class TestHorizontal(GenericTest):
 class TestFillColor(GenericTest):
     def test_predefined_fill_color(self):
         tag_name = 'fill_color'
-        colors = self.get_colors()
-        self.element.predefined_fill_color(colors.INVALID)
+        self.element.predefined_fill_color(self.colors.INVALID)
         self.child_element_test(tag_name, 'color', None, {'name': 'INVALID', 'red': '255', 'green': '0',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -807,8 +801,7 @@ class TestMinMax(GenericTest):
 class TestEmptyColor(GenericTest):
     def test_predefined_empty_color(self):
         tag_name = 'empty_color'
-        colors = self.get_colors()
-        self.element.predefined_empty_color(colors.INVALID)
+        self.element.predefined_empty_color(self.colors.INVALID)
         self.child_element_test(tag_name, 'color', None, {'name': 'INVALID', 'red': '255', 'green': '0',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -937,8 +930,7 @@ class TestEditable(GenericTest):
 class TestSelectedColor(GenericTest):
     def test_selected_color(self):
         tag_name = 'selected_color'
-        colors = self.get_colors()
-        self.element.predefined_selected_color(colors.OK)
+        self.element.predefined_selected_color(self.colors.OK)
         self.child_element_test(tag_name, 'color', None, {'name': 'OK', 'red': '0', 'green': '255',
                                                           'blue': '0', 'alpha': '255'})
 
@@ -998,8 +990,7 @@ class TestShowLED(GenericTest):
 class TestNeedleColor(GenericTest):
     def test_predefined_needle_color(self):
         tag_name = 'needle_color'
-        colors = self.get_colors()
-        self.element.predefined_needle_color(colors.Write_Background)
+        self.element.predefined_needle_color(self.colors.Write_Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
@@ -1012,8 +1003,7 @@ class TestNeedleColor(GenericTest):
 class TestKnobColor(GenericTest):
     def test_predefined_knob_color(self):
         tag_name = 'knob_color'
-        colors = self.get_colors()
-        self.element.predefined_knob_color(colors.MINOR)
+        self.element.predefined_knob_color(self.colors.MINOR)
         self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128',
                                                           'blue': '0', 'alpha': '255'})
 

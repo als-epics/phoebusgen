@@ -12,8 +12,6 @@ This module aims to provide a way to generate Phoebus xml through Python. See ex
 # Requirements
 
 - Python >= 3.5
-- [pyyaml](https://pypi.org/project/PyYAML/)
-  - ```pip install pyyaml```
 
 # Install
 Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)
@@ -123,3 +121,6 @@ Example
 
 Place a custon color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions. 
 
+
+```my_widget.predefined_font(phoebusgen.fonts.Header1)```
+```my_widget.predefined_color(phoebusgen.colors.OK)```

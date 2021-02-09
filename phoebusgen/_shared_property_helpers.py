@@ -1,17 +1,14 @@
 from xml.etree.ElementTree import Element, SubElement
-from os import path
-import yaml
 from enum import Enum
 
 class _SharedPropertyFunctions(object):
     def __init__(self, root_element):
         self.root = root_element
-        from phoebusgen import colors, _predefined_colors
+        from phoebusgen import colors, _predefined_colors, fonts, _predefined_fonts
         self.predefined_colors = _predefined_colors
+        self.predefined_fonts = _predefined_fonts
         self.colors = colors
-        curr_path = path.dirname(__file__)
-        with open(curr_path + '/widget/fonts.yaml') as f:
-            self.predefined_fonts = yaml.safe_load(f)
+        self.fonts = fonts
 
     def add_macro(self, name, val):
         root_macro = self.root.find('macros')
@@ -77,17 +74,43 @@ class _SharedPropertyFunctions(object):
                     return
             sub_e.attrib = {'red': str(red), 'blue': str(blue), 'green': str(green), 'alpha': str(alpha)}
         else:
-            if not isinstance(name, Enum):
-                print('Predefined color input must be phoebusgen.colors.<named-color>, not: {} of type: {}'.format(name, type(name)))
-                return
-            elif isinstance(name, dict):
-                sub_e.attrib = name
-            else:
+            if isinstance(name, Enum):
                 sub_e.attrib['name'] = name.name
                 sub_e.attrib = name.value
+            elif isinstance(name, dict):
+                sub_e.attrib = name
+            elif isinstance(name, str):
+                color_attrib = self.predefined_colors.get(name)
+                if color_attrib is None:
+                    print('Color name is undefined')
+                    return
+                sub_e.attrib = color_attrib
+                sub_e.attrib['name'] = name
+            else:
+                print('Predefined color input must be phoebusgen.colors.<named-color>, not: {} of type: {}'.format(name, type(name)))
+                return
         root_color_elem.append(sub_e)
         self.root.append(root_color_elem)
 
+    def create_named_font_elemet(self, name):
+        root_font_elem = self.create_element('font')
+        child_font_elem = self.create_element('font')
+        if isinstance(name, Enum):
+            font_attrib = name.value
+        elif isinstance(name, dict):
+            font_attrib = name
+        elif isinstance(name, str):
+            font_attrib = self.predefined_fonts.get(name.lower())
+            if font_attrib is None:
+                print('Font name is undefined')
+                return
+            font_attrib['style'] = font_attrib['style'].upper()
+        else:
+            print('Predefined font input must be phoebusgen.fonts.<named-color>, not: {} of type: {}'.format(name, type(name)))
+            return
+        child_font_elem.attrib = font_attrib
+        root_font_elem.append(child_font_elem)
+        self.root.append(root_font_elem)
 
 if __name__ == '__main__':
     pass
