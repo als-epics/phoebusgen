@@ -3,9 +3,12 @@ sys.path.insert(1, '../phoebusgen/screen/')
 sys.path.insert(1, './phoebusgen/screen/')
 sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
+sys.path.insert(1, '../phoebusgen/')
+sys.path.insert(1, './phoebusgen/')
 import unittest
 import screen as s
 import widgets
+from phoebusgen import colors
 
 
 class TestScreen(unittest.TestCase):
@@ -56,7 +59,7 @@ class TestScreen(unittest.TestCase):
     def test_predefined_background_color(self):
         tag_name = 'background_color'
         value = 'MINOR'
-        self.test_screen.predefined_background_color(value)
+        self.test_screen.predefined_background_color(colors.MINOR)
         self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128', 'blue': '0', 'alpha': '255'})
 
     def test_background_color(self):

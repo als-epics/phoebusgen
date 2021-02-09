@@ -1,15 +1,23 @@
 import sys
 sys.path.insert(1, '../phoebusgen/widget/')
 sys.path.insert(1, './phoebusgen/widget/')
+sys.path.insert(1, '../phoebusgen/')
+sys.path.insert(1, './phoebusgen/')
 import unittest
 from xml.etree.ElementTree import Element, SubElement
 import property
+from os import path
+from enum import Enum
+from phoebusgen import _update_color_def
 
 
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
         self._prop_factory = property.Property(self.element)
+        curr_path = path.dirname(__file__)
+        predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
+        self.colors = Enum('colors', predefined_colors)
 
     def test_init(self):
         self.assertIsInstance(self._prop_factory.root, Element)
@@ -284,240 +292,6 @@ class TestColorPropertyElements(unittest.TestCase):
         name = None
         self._prop_factory.add_off_color(name, red, green, blue, alpha)
         self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_off_color(self):
-        tag_name = 'off_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'OFF'
-        self._prop_factory.add_off_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_off_color_wrong(self):
-        tag_name = 'off_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_off_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
-
-    def test_on_color(self):
-        tag_name = 'on_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = None
-        self._prop_factory.add_on_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_on_color2(self):
-        tag_name = 'on_color'
-        red = '25'
-        green = 2
-        blue = 21
-        alpha = 32
-        name = None
-        self._prop_factory.add_on_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_on_color(self):
-        tag_name = 'on_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'OFF'
-        self._prop_factory.add_on_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_on_color_wrong(self):
-        tag_name = 'on_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_on_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
-
-    def test_line_color(self):
-        tag_name = 'line_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = None
-        self._prop_factory.add_line_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_line_color2(self):
-        tag_name = 'line_color'
-        red = '25'
-        green = 225
-        blue = 21
-        alpha = 32
-        name = None
-        self._prop_factory.add_line_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_line_color(self):
-        tag_name = 'line_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'OFF'
-        self._prop_factory.add_line_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_line_color_wrong(self):
-        tag_name = 'line_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_line_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_background_color(self):
-        tag_name = 'background_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = None
-        self._prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_background_color_2(self):
-        tag_name = 'background_color'
-        red = '25'
-        green = 255
-        blue = 21
-        alpha = 32
-        name = None
-        self._prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_background_color_wrong(self):
-        tag_name = 'background_color'
-        red = '25'
-        green = 265
-        blue = 21
-        alpha = 32
-        name = None
-        self._prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_predefined_background_color(self):
-        tag_name = 'background_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'OFF'
-        self._prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_background_color_wrong(self):
-        tag_name = 'background_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_background_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_foreground_color(self):
-        tag_name = 'foreground_color'
-        red = 255
-        green = 255
-        blue = '255'
-        alpha = 255
-        name = None
-        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_foreground_color_2(self):
-        tag_name = 'foreground_color'
-        red = '25'
-        green = 265
-        blue = 21
-        alpha = 32
-        name = None
-        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_predefined_foreground_color(self):
-        tag_name = 'foreground_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'Header_Foreground'
-        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_foreground_color_wrong(self):
-        tag_name = 'foreground_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_foreground_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
-
-    def test_border_color(self):
-        tag_name = 'border_color'
-        red = 0
-        green = 0
-        blue = 0
-        alpha = 255
-        name = None
-        self._prop_factory.add_border_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_border_color_2(self):
-        tag_name = 'border_color'
-        red = 0
-        green = 0
-        blue = 21
-        alpha = 255
-        name = None
-        self._prop_factory.add_border_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_border_color(self):
-        tag_name = 'border_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 0
-        name = 'MAJOR'
-        self._prop_factory.add_border_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_predefined_border_color_wrong(self):
-        tag_name = 'border_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = 'sdaflkdasf'
-        self._prop_factory.add_border_color(name, red, green, blue, alpha)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
 
 
 class TestFontPropertyElements(unittest.TestCase):

@@ -33,11 +33,13 @@ def _update_color_def(file_path):
                         alpha = vals[3]
                     else:
                         alpha = 255
-                    predefined_colors[color] = {'red': vals[0], 'green': vals[1], 'blue': vals[2], 'alpha': alpha}
-    return Enum('colors', predefined_colors)
+                    predefined_colors[color] = {'name': color, 'red': str(vals[0]), 'green': str(vals[1]),
+                                                'blue': str(vals[2]), 'alpha': str(alpha)}
+    return predefined_colors
 
 def update_font_def(file_path):
     pass
 
 
-colors = _update_color_def(_color_def)
+_predefined_colors = _update_color_def(_color_def)
+colors = Enum('colors', _predefined_colors)

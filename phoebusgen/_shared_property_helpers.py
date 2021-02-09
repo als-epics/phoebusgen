@@ -1,13 +1,15 @@
 from xml.etree.ElementTree import Element, SubElement
 from os import path
 import yaml
+from enum import Enum
 
 class _SharedPropertyFunctions(object):
     def __init__(self, root_element):
         self.root = root_element
+        from phoebusgen import colors, _predefined_colors
+        self.predefined_colors = _predefined_colors
+        self.colors = colors
         curr_path = path.dirname(__file__)
-        with open(curr_path + '/widget/colors.yaml') as f:
-            self.predefined_colors = yaml.safe_load(f)
         with open(curr_path + '/widget/fonts.yaml') as f:
             self.predefined_fonts = yaml.safe_load(f)
 
@@ -75,13 +77,15 @@ class _SharedPropertyFunctions(object):
                     return
             sub_e.attrib = {'red': str(red), 'blue': str(blue), 'green': str(green), 'alpha': str(alpha)}
         else:
-            color_list = self.predefined_colors.get(name.lower())
-            if color_list is None:
-                print('Color name is undefined')
+            if not isinstance(name, Enum):
+                print('Predefined color input must be phoebusgen.colors.<named-color>, not: {} of type: {}'.format(name, type(name)))
+                print(type(self.colors))
                 return
+            elif isinstance(name, dict):
+                sub_e.attrib = name
             else:
-                sub_e.attrib = color_list
-                sub_e.attrib['name'] = name
+                sub_e.attrib['name'] = name.name
+                sub_e.attrib = name.value
         root_color_elem.append(sub_e)
         self.root.append(root_color_elem)
 
