@@ -61,13 +61,24 @@ class _ShowUnits(object):
 
 
 class _HorizontalAlignment(object):
-    def horizontal_alignment(self, val):
-        self._prop_factory.add_horizontal_alignment(val)
+    def horizontal_alignment_left(self):
+        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.left)
 
+    def horizontal_alignment_center(self):
+        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.center)
+
+    def horizontal_alignment_right(self):
+        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.right)
 
 class _VerticalAlignment(object):
-    def vertical_alignment(self, val):
-        self._prop_factory.add_vertical_alignment(val)
+    def vertical_alignment_top(self):
+        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.top)
+
+    def vertical_alignment_middle(self):
+        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.middle)
+
+    def vertical_alignment_bottom(self):
+        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.bottom)
 
 
 class _WrapWords(object):
@@ -88,9 +99,17 @@ class _AutoSize(object):
 # 0, 90, 180, -90
 # text update, label, action button
 class _RotationStep(object):
-    def rotation_step(self, rotation):
-        self._prop_factory.add_rotation_step(rotation)
+    def rotation_step_0(self):
+        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.zero)
 
+    def rotation_step_90(self):
+        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.ninety)
+
+    def rotation_step_180(self):
+        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.one_hundred_eighty)
+
+    def rotation_step_negative_90(self):
+        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.negative_ninety)
 
 class _Border(object):
     def border_width(self, width):

@@ -6,13 +6,26 @@ from enum import Enum
 class Property(object):
     def __init__(self, root_element):
         self.root = root_element
-        self.rotation_steps_array = [0, 90, 180, -90]
-        self.horizontal_alignment_array = ['left', 'center', 'right']
-        self.vertical_alignment_array = ['top', 'middle', 'bottom']
         self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
                               'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
                               'sexagesimal dms 360deg rad', 'binary']
         self.shared_functions = _SharedPropertyFunctions(self.root)
+
+    class RotationStep(Enum):
+        zero = 0
+        ninety = 1
+        one_hundred_eighty = 2
+        negative_ninety = 3
+
+    class HorizontalAlignment(Enum):
+        left = 0
+        center = 1
+        right = 2
+
+    class VerticalAlignment(Enum):
+        top = 0
+        middle = 1
+        bottom = 2
 
     class FontStyle(Enum):
         regular = 'REGULAR'
@@ -25,16 +38,6 @@ class Property(object):
         title_bar = 1
         line = 2
         none = 3
-
-    class HorizontalAlignment(Enum):
-        left = 0
-        center = 1
-        right = 2
-
-    class VerticalAlignment(Enum):
-        top = 0
-        middle = 1
-        bottom = 2
 
     class Resize(Enum):
         no_resize = 0
@@ -74,35 +77,22 @@ class Property(object):
         self.shared_functions.number_property('rotation', rotation)
 
     def add_rotation_step(self, rotation):
-        try:
-            value = int(rotation)
-        except ValueError:
-            print('Rotation step must be an integer, not: {}'.format(rotation))
+        if type(rotation) != self.RotationStep:
+            print('The component parameter must be of type Rotation enum! Not: {}'.format(type(rotation)))
             return
-        try:
-            val = self.rotation_steps_array.index(value)
-        except ValueError:
-            print('Invalid rotation given. Must be 0, 90, 180, -90')
-            return
-        self.shared_functions.generic_property('rotation_step', val)
+        self.shared_functions.generic_property('rotation_step', rotation.value)
 
     def add_horizontal_alignment(self, alignment):
-        val = str(alignment).lower()
-        try:
-            v = self.horizontal_alignment_array.index(val)
-        except ValueError:
-            print('Wrong input to horizontal alignment: {}. Must be Left, Center, or Right'.format(val))
+        if type(alignment) != self.HorizontalAlignment:
+            print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
             return
-        self.shared_functions.generic_property('horizontal_alignment', v)
+        self.shared_functions.generic_property('horizontal_alignment', alignment.value)
 
     def add_vertical_alignment(self, alignment):
-        val = str(alignment).lower()
-        try:
-            v = self.vertical_alignment_array.index(val)
-        except ValueError:
-            print('Wrong input to vertical alignment: {}. Must be Top, Middle, or Bottom'.format(val))
+        if type(alignment) != self.VerticalAlignment:
+            print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
             return
-        self.shared_functions.generic_property('vertical_alignment', v)
+        self.shared_functions.generic_property('vertical_alignment', alignment.value)
 
     def add_background_color(self, name, red, green, blue, alpha):
         e = self.shared_functions.create_element('background_color')

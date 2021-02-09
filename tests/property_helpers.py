@@ -226,20 +226,41 @@ class TestShowUnits(GenericTest):
 class TestHorizontalAlignment(GenericTest):
     def test_horizontal_alignment(self):
         tag_name = 'horizontal_alignment'
-        value = 'Center'
         xml_value = 1
-        self.element.horizontal_alignment(value)
+        self.element.horizontal_alignment_center()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_horizontal_alignment_left(self):
+        tag_name = 'horizontal_alignment'
+        xml_value = 0
+        self.element.horizontal_alignment_right()
+        self.element.horizontal_alignment_left()
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_horizontal_alignment_right(self):
+        tag_name = 'horizontal_alignment'
+        xml_value = 2
+        self.element.horizontal_alignment_right()
+        self.generic_element_test(tag_name, xml_value)
 
 class TestVerticalAlignment(GenericTest):
     def test_vertical_alignment(self):
         tag_name = 'vertical_alignment'
-        value = 'Middle'
         xml_value = 1
-        self.element.vertical_alignment(value)
+        self.element.vertical_alignment_middle()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_vertical_alignment(self):
+        tag_name = 'vertical_alignment'
+        xml_value = 0
+        self.element.vertical_alignment_top()
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_vertical_alignment(self):
+        tag_name = 'vertical_alignment'
+        xml_value = 2
+        self.element.vertical_alignment_bottom()
+        self.generic_element_test(tag_name, xml_value)
 
 class TestWrapWords(GenericTest):
     def test_wrap_words(self):
@@ -252,11 +273,28 @@ class TestWrapWords(GenericTest):
 class TestRotationStep(GenericTest):
     def test_rotation_step(self):
         tag_name = 'rotation_step'
-        value = 180
         xml_value = 2
-        self.element.rotation_step(value)
+        self.element.rotation_step_180()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_rotation_step_0(self):
+        tag_name = 'rotation_step'
+        xml_value = 0
+        self.element.rotation_step_180()
+        self.element.rotation_step_0()
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_rotation_step_90(self):
+        tag_name = 'rotation_step'
+        xml_value = 1
+        self.element.rotation_step_90()
+        self.generic_element_test(tag_name, xml_value)
+
+    def test_rotation_step_minus_90(self):
+        tag_name = 'rotation_step'
+        xml_value = 3
+        self.element.rotation_step_negative_90()
+        self.generic_element_test(tag_name, xml_value)
 
 class TestBorder(GenericTest):
     def test_border_width(self):
