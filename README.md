@@ -26,7 +26,7 @@ pip install phoebusgen
 ```
 >>> import phoebusgen.widget as w
 >>> text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
->>> text_update_widget.predefined_foreground_color('OK')
+>>> text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
 >>> print(text_update_widget)
 <?xml version="1.0" ?>
 <widget type="textupdate" version="2.0.0">
@@ -119,5 +119,7 @@ Example
 </display>
 ```
 
+# Site specific color and font definitions
 
+Place a custon color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions. 
 

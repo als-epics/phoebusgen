@@ -79,7 +79,6 @@ class _SharedPropertyFunctions(object):
         else:
             if not isinstance(name, Enum):
                 print('Predefined color input must be phoebusgen.colors.<named-color>, not: {} of type: {}'.format(name, type(name)))
-                print(type(self.colors))
                 return
             elif isinstance(name, dict):
                 sub_e.attrib = name
