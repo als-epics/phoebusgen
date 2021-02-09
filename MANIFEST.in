@@ -1,5 +1,6 @@
 include phoebusgen/config/*.def
 include phoebusgen/config/*.bcf
+include phoebusgen/examples/*.py
 include README.md
 include LICENSE
 include requirements.txt
