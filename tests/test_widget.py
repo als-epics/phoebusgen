@@ -69,6 +69,47 @@ class TestWidgetClass(unittest.TestCase):
             if child.tag == 'visible':
                 self.assertEqual(child.text, 'False')
 
+        self.base_x = 10
+        self.base_y = 12
+        self.base_width = 14
+        self.base_height = 15
+
+
+    def test_x_and_y(self):
+        w = self.create_basic_widget()
+
+        self.assertEqual(w.root.tag, 'widget')
+        self.assertEqual(w.root.attrib['type'], 'test_widget_type')
+        self.assertEqual(w.root.attrib['version'], '2.0.0')
+
+        self.assertEqual(len(w.root), 5)
+
+        w.x(24)
+        for child in w.root:
+            if child.tag == 'x':
+                self.assertEqual(child.text, str(24))
+        w.y(43)
+        for child in w.root:
+            if child.tag == 'y':
+                self.assertEqual(child.text, str(43))
+
+    def test_height_and_width(self):
+        w = self.create_basic_widget()
+
+        self.assertEqual(w.root.tag, 'widget')
+        self.assertEqual(w.root.attrib['type'], 'test_widget_type')
+        self.assertEqual(w.root.attrib['version'], '2.0.0')
+
+        self.assertEqual(len(w.root), 5)
+
+        w.height(12)
+        for child in w.root:
+            if child.tag == 'height':
+                self.assertEqual(child.text, str(12))
+        w.width(324)
+        for child in w.root:
+            if child.tag == 'width':
+                self.assertEqual(child.text, str(324))
 
 
 if __name__ == '__main__':
