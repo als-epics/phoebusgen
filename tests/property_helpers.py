@@ -501,6 +501,19 @@ class TestOffColor(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
+    def test_predefined_off_color2(self):
+        tag_name = 'off_color'
+        self.element.predefined_off_color('Background')
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_predefined_off_color3(self):
+        tag_name = 'off_color'
+        self.element.predefined_off_color({'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
     def test_off_color(self):
         tag_name = 'off_color'
         self.element.off_color(5, 10, 15)
