@@ -24,6 +24,9 @@ class _Widget(object):
     def version(self, version):
         self.root.attrib['version'] = version
 
+    def name(self, val):
+        self.shared_functions.generic_property('name', val)
+
     def width(self, val):
         self.shared_functions.integer_property('width', val)
 

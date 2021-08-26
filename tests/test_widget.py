@@ -74,6 +74,19 @@ class TestWidgetClass(unittest.TestCase):
         self.base_width = 14
         self.base_height = 15
 
+    def test_name(self):
+        w = self.create_basic_widget()
+
+        self.assertEqual(w.root.tag, 'widget')
+        self.assertEqual(w.root.attrib['type'], 'test_widget_type')
+        self.assertEqual(w.root.attrib['version'], '2.0.0')
+
+        self.assertEqual(len(w.root), 5)
+
+        w.name("awesome new name")
+        for child in w.root:
+            if child.tag == 'name':
+                self.assertEqual(child.text, "awesome new name")
 
     def test_x_and_y(self):
         w = self.create_basic_widget()
