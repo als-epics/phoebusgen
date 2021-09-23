@@ -168,8 +168,8 @@ class Property(object):
     def add_multi_line(self, val):
         self.shared_functions.boolean_property('multi_line', val)
 
-    def add_macro(self, name, val):
-        self.shared_functions.add_macro(name, val)
+    def add_macro(self, name, val, root_elem=None):
+        self.shared_functions.add_macro(name, val, root_elem)
 
     def add_bit(self, val):
         self.shared_functions.integer_property('bit', val)

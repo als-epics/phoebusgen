@@ -10,10 +10,12 @@ class _SharedPropertyFunctions(object):
         self.colors = colors
         self.fonts = fonts
 
-    def add_macro(self, name, val):
-        root_macro = self.root.find('macros')
+    def add_macro(self, name, val, root_elem=None):
+        if root_elem is None:
+            root_elem = self.root
+        root_macro = root_elem.find('macros')
         if root_macro is None:
-            root_macro = SubElement(self.root, 'macros')
+            root_macro = SubElement(root_elem, 'macros')
         macro = SubElement(root_macro, name)
         macro.text = str(val)
 
