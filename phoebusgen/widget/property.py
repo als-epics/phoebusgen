@@ -257,7 +257,7 @@ class Property(object):
             return
         self.shared_functions.generic_property('style', style.value)
 
-    def add_action(self, action_type, description, args):
+    def add_action(self, action_type, description, args, macros=None):
         root_action = self.root.find('actions')
         if root_action is None:
             root_action = SubElement(self.root, 'actions')
@@ -265,6 +265,9 @@ class Property(object):
         action.attrib['type'] = action_type
         sub = SubElement(action, 'description')
         sub.text = str(description)
+        if macros:
+            for key, val in macros.items():
+                self.add_macro(key, val, action)
         for arg, val in args.items():
             sub = SubElement(action, arg)
             sub.text = str(val)

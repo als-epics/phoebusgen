@@ -248,16 +248,19 @@ class _Actions(object):
     def action_execute_as_one(self, val):
         self._prop_factory.add_action_execute_as_one(val)
 
-    def action_open_display(self, file, target, description=None):
-        # still needs macros
+    # should actions be their own class?
+    def action_open_display(self, file, target, description=None, macros=None):
         if description is None:
             description = 'Open Display'
         possible_targets = ['tab', 'replace', 'window']
         if target.lower() not in possible_targets:
             print('Target must be one of {}, not: {}'.format(possible_targets, target))
             return
+        if macros is not None and type(macros) is not dict:
+            print('The macro parameter must be a dictionary with key=MacroName and val=MacroValue')
+            return
         args = {'file': file, 'target': target.lower()}
-        self._prop_factory.add_action('open_display', description, args)
+        self._prop_factory.add_action('open_display', description, args, macros)
 
     def action_write_pv(self, pv_name, value, description=None):
         if description is None:
