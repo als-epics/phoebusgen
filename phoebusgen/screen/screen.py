@@ -9,7 +9,7 @@ class Screen(object):
         self.root = Element('display', version='2.0.0')
         name_child = SubElement(self.root, 'name')
         name_child.text = name
-        self.shared_functions = _SharedPropertyFunctions(self.root)
+        self._shared = _SharedPropertyFunctions(self.root)
 
     def write_screen(self, file_name=None):
         rough_string = tostring(self.root, 'utf-8')
@@ -42,21 +42,21 @@ class Screen(object):
             self.root.append(elem.root)
 
     def width(self, val):
-        self.shared_functions.number_property('width', val)
+        self._shared.number_property('width', val)
 
     def height(self, val):
-        self.shared_functions.number_property('height', val)
+        self._shared.number_property('height', val)
 
     def macro(self, name, val):
-        self.shared_functions.add_macro(name, val)
+        self._shared.add_macro(name, val)
 
     def background_color(self, red, green, blue, alpha=255):
-        e = self.shared_functions.create_element('background_color')
-        self.shared_functions.create_color_element(e, None, red, green, blue, alpha)
+        e = self._shared.create_element('background_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_background_color(self, name):
-        e = self.shared_functions.create_element('background_color')
-        self.shared_functions.create_color_element(e, name, None, None, None, None)
+        e = self._shared.create_element('background_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
     def _prettify(self, elem):
