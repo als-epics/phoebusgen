@@ -42,6 +42,11 @@ class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._Background
 #class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
 #                  _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
 #    pass
+class ByteMonitor(_Widget, _p._PVName, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
+                  _p._ForegroundColor, _p._Font, _p._AlarmBorder):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'byte_monitor', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._ForegroundColor, _p._LineColor,
           _p._Square, _p._LabelsFromPV, _p._AlarmBorder):
@@ -54,6 +59,11 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
 #class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square,
 #                    _p._AlarmBorder, _p._States, _p._Fallback):
 #    pass
+class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square,
+                    _p._AlarmBorder):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'multi_state_led', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._Font, _p._Format,
             _p._Precision, _p._ShowValue, _p._ShowUnits, _p._ShowLimits, _p._AlarmBorder,
@@ -72,10 +82,21 @@ class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._H
 #class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialIndex,
 #             _p._Rotation, _p._ShowIndex, _p._Transparent, _p._AlarmBorder, _p._ArrayIndex,
 #             _p._AutoSize, _p._Enabled, _p._PreserveRatio):
+class Symbol(_Widget, _p._PVName, _p._BackgroundColor,
+             _p._Rotation, _p._Transparent, _p._AlarmBorder,
+             _p._AutoSize, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'symbol', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # columns, selectrows, selectionpv
 #class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
 #            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
+class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
+            _p._AlarmBorder, _p._Editable):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'table', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
            _p._FillColor, _p._EmptyColor, _p._ScaleVisible, _p._AlarmBorder, _p._LimitsFromPV,
@@ -89,6 +110,12 @@ class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundCol
 #                 _p._Transparent, _p._HorizontalAlignment, _p._VerticalAlignment, _p._Rotation,
 #                 _p._WrapWords, _p._AlarmBorder, _p._ArrayIndex, _p._Enabled):
 #    pass
+class TextSymbol(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
+                 _p._Transparent, _p._HorizontalAlignment, _p._VerticalAlignment, _p._Rotation,
+                 _p._WrapWords, _p._AlarmBorder, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'text-symbol', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
                  _p._Format, _p._Precision, _p._ShowUnits, _p._HorizontalAlignment, _p._VerticalAlignment, _p._WrapWords,
@@ -155,6 +182,12 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
 #                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsandShow, _p._AlarmBorder,
 #                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
 #    pass
+class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
+                   _p._AlarmBorder,
+                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'scaledslider', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._AlarmBorder, _p._MinMax,
                 _p._LimitsFromPV, _p._BarLength, _p._Increment, _p._Enabled):
@@ -196,17 +229,27 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 #            _p._XAxis, _p._YAxis, _p._AlarmBorder, _p._DataWidth, _p._Interpolation, _p._ColorMode, _p._UnsignedData,
 #            _p._AutoScale, _p._LogScale, _p._MinMax, _p._Cursor, _p._RegionsOfInterest):
 #    pass
+class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
+            _p._AlarmBorder, _p._MinMax):
+    def __init__(self, name, pv_name, x, y, width, height):
+        _Widget.__init__(self, 'image', name, x, y, width, height)
+        self.pv_name(pv_name)
 
 # showgrid, title, labelfont, scalefont, showtoolbar, tooltip, timerange, yaxes, traces
 #class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowGrid, _p._Title, _p._LabelFont, _p._ScaleFont,
 #                 _p._ShowToolbar, _p._ToolTip, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
-
+class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'stripchart', name, x, y, width, height)
 
 # gridcolor, title, showtoolbar, showlegend, xaxis, yaxes, traces, markers
 #class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._GridColor, _p._Title, _p._ShowToolbar, _p._ShowLegend,
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
+class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'xyplot', name, x, y, width, height)
 
 # Structure
 class Array(_Widget, _p._PVName, _p._Macro, _p._ForegroundColor, _p._BackgroundColor, _p._AlarmBorder):
@@ -226,11 +269,16 @@ class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._Foregrou
 # tab width, tab height, tab spacing, selected color, deselected color, active tab
 #class NavigationTabs(_Widget, _p._Tabs, _p._Direction, _p._TabWidth, _p._TabHeight, _p._TabSpacing, _p._SelectColor, _p._Font, _p._ActiveTab):
 #    pass
-
+class NavigationTabs(_Widget, _p._Font):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'navtabs', name, x, y, width, height)
 
 # tabs, active tab, direction, tab height
 #class Tabs(_Widget, _p._Macro, _p._Tabs, _p._Font, _p._BackgroundColor, _p._ActiveTab, _p._Direction, _p._TabHeight):
 #    pass
+class Tabs(_Widget, _p._Macro, _p._Font, _p._BackgroundColor):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'tabs', name, x, y, width, height)
 
 # Miscellaneous
 
