@@ -9,6 +9,8 @@ class _SharedPropertyFunctions(object):
         self.predefined_fonts = _predefined_fonts
         self.colors = colors
         self.fonts = fonts
+        self.arrow_types = {'None': 0, 'From': 1, 'To': 2, 'Both': 3}
+        self.line_styles = {'Solid': 0, 'Dashed': 1, 'Dot': 2, 'Dash-Dot': 3, 'Dash-Dot-Dot': 4}
 
     def add_macro(self, name, val, root_elem=None):
         if root_elem is None:

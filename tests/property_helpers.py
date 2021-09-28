@@ -1129,5 +1129,52 @@ class TestArrow(GenericTest):
         self.element.arrow_length(val)
         self.generic_element_test(tag_name, val)
 
+    def test_arrow_length_wrong(self):
+        tag_name = 'arrow_length'
+        val = 'asdfsdf'
+        self.element.arrow_length(val)
+        self.null_test(tag_name)
+
+    def test_arrows_from(self):
+        tag_name = 'arrows'
+        self.element.arrows_from()
+        self.generic_element_test(tag_name, 1)
+
+    def test_arrows_to(self):
+        tag_name = 'arrows'
+        self.element.arrows_to()
+        self.generic_element_test(tag_name, 2)
+
+    def test_arrows_both(self):
+        tag_name = 'arrows'
+        self.element.arrows_both()
+        self.generic_element_test(tag_name, 3)
+
+    def test_arrows_none(self):
+        tag_name = 'arrows'
+        self.element.arrows_none()
+        self.generic_element_test(tag_name, 0)
+
 class TestLineStyle(GenericTest):
-    pass
+    def test_line_style_solid(self):
+        self.element.line_style_solid()
+        print(self.element)
+        self.generic_element_test('line_style', 0)
+
+    def test_line_style_dashed(self):
+        self.element.line_style_dashed()
+        print(self.element)
+        self.generic_element_test('line_style', 1)
+
+    def test_line_style_dot(self):
+        self.element.line_style_dot()
+        print(self.element)
+        self.generic_element_test('line_style', 2)
+
+    def test_line_style_dash_dot(self):
+        self.element.line_style_dash_dot()
+        self.generic_element_test('line_style', 3)
+
+    def test_line_style_dash_dot_dot(self):
+        self.element.line_style_dash_dot_dot()
+        self.generic_element_test('line_style', 4)

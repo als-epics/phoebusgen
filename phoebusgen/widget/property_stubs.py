@@ -471,9 +471,30 @@ class _Arrow(object):
     def arrow_length(self, length):
         self._shared.integer_property('arrow_length', length)
 
-    def arrows(self, val):
-        pass
+    def arrows_none(self):
+        self._shared.generic_property('arrows', self._shared.arrow_types['None'])
+
+    def arrows_from(self):
+        self._shared.generic_property('arrows', self._shared.arrow_types['From'])
+
+    def arrows_to(self):
+        self._shared.generic_property('arrows', self._shared.arrow_types['To'])
+
+    def arrows_both(self):
+        self._shared.generic_property('arrows', self._shared.arrow_types['Both'])
 
 class _LineStyle(object):
-    def line_style(self, val):
-        pass
+    def line_style_solid(self):
+        self._shared.generic_property('line_style', self._shared.line_styles['Solid'])
+
+    def line_style_dashed(self):
+        self._shared.generic_property('line_style', self._shared.line_styles['Dashed'])
+
+    def line_style_dot(self):
+        self._shared.generic_property('line_style', self._shared.line_styles['Dot'])
+
+    def line_style_dash_dot(self):
+        self._shared.generic_property('line_style', self._shared.line_styles['Dash-Dot'])
+
+    def line_style_dash_dot_dot(self):
+        self._shared.generic_property('line_style', self._shared.line_styles['Dash-Dot-Dot'])

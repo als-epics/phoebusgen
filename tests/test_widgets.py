@@ -75,7 +75,7 @@ class TestPolygon(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLine
         self.element = widgets.Polygon(self.name, self.x, self.y, self.width, self.height)
 
 class TestPolyline(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor,
-                  ph.TestLineStyle, ph.TestPoints, ph.TestArrow):
+                   ph.TestLineStyle, ph.TestPoints, ph.TestArrow):
     def setUp(self):
         self.name = 'polyline1'
         self.type = 'polyline'
