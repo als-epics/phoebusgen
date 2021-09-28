@@ -45,46 +45,22 @@ pip install phoebusgen
 
 ## phoebusgen.widget
 
-Low Level Python API to directly create Phoebus widgets
+Low Level Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some are not fully feature complete.
 
-### Available Widgets
+### Incomplete Widgets
+- Byte Monitor
+- LED Multi State
+- Symbol
+- Table
+- Text Symbol
+- Scaled Slider
+- Image
+- Strip Chart
+- X/Y Plot
+- Navigation Tabs
+- Tabs
 
-#### Graphics 
-- Arc
-- Ellipse
-- Label
-- Picture
-- Polygon
-- Polyline
-- Rectangle
-#### Monitors
-- LED
-- Meter
-- Progress Bar
-- Tank
-- Text Update
-- Thermometer
-#### Controls
-- Action Button
-- Boolean Button
-- Check Box
-- Choice Button
-- Combo Box
-- File Selector
-- Radio Button
-- Scrollbar
-- Slider Button
-- Spinner
-- Text Entry
-#### Plots
-- Data Browser
-#### Structure
-- Array
-- Embedded Display
-- Group
-#### Miscellaneous
-- Web Browser
-- 3DViewer
+See [here](docs/widget.md) for more details on available widgets and their methods.
 
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```

@@ -18,3 +18,5 @@ tests/*.bob
 *.swp
 
 examples/*.bob
+
+local/
