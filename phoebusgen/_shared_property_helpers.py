@@ -9,8 +9,12 @@ class _SharedPropertyFunctions(object):
         self.predefined_fonts = _predefined_fonts
         self.colors = colors
         self.fonts = fonts
+        #self.font_styles = {'regular': 'REGULAR', 'italic': 'ITALIC', 'bold': 'BOLD', 'bold_and_italic': 'BOLD_ITALIC'}
         self.arrow_types = {'None': 0, 'From': 1, 'To': 2, 'Both': 3}
         self.line_styles = {'Solid': 0, 'Dashed': 1, 'Dot': 2, 'Dash-Dot': 3, 'Dash-Dot-Dot': 4}
+        self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
+                              'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
+                              'sexagesimal dms 360deg rad', 'binary']
 
     def add_macro(self, name, val, root_elem=None):
         if root_elem is None:
@@ -115,6 +119,28 @@ class _SharedPropertyFunctions(object):
         child_font_elem.attrib = font_attrib
         root_font_elem.append(child_font_elem)
         self.root.append(root_font_elem)
+
+    class FontStyle(Enum):
+        regular = 'REGULAR'
+        italic = 'ITALIC'
+        bold = 'BOLD'
+        bold_and_italic = 'BOLD_ITALIC'
+
+    class HorizontalAlignment(Enum):
+        left = 0
+        center = 1
+        right = 2
+
+    class VerticalAlignment(Enum):
+        top = 0
+        middle = 1
+        bottom = 2
+
+    class RotationStep(Enum):
+        zero = 0
+        ninety = 1
+        one_hundred_eighty = 2
+        negative_ninety = 3
 
 if __name__ == '__main__':
     pass

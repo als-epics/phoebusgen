@@ -59,7 +59,7 @@ class Screen(object):
         self.shared_functions.create_color_element(e, name, None, None, None, None)
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
-    def prettify(self, elem):
+    def _prettify(self, elem):
         """Return a pretty-printed XML string for the Element.
         """
         rough_string = tostring(elem, 'utf-8')
@@ -67,10 +67,10 @@ class Screen(object):
         return reparse_xml.toprettyxml(indent="  ", newl="\n")
 
     def __str__(self):
-        return self.prettify(self.root)
+        return self._prettify(self.root)
 
     def __repr__(self):
-        return self.prettify(self.root)
+        return self._prettify(self.root)
 
 
 if __name__ == '__main__':

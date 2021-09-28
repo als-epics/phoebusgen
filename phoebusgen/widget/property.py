@@ -11,27 +11,7 @@ class Property(object):
                               'sexagesimal dms 360deg rad', 'binary']
         self.shared_functions = _SharedPropertyFunctions(self.root)
 
-    class RotationStep(Enum):
-        zero = 0
-        ninety = 1
-        one_hundred_eighty = 2
-        negative_ninety = 3
 
-    class HorizontalAlignment(Enum):
-        left = 0
-        center = 1
-        right = 2
-
-    class VerticalAlignment(Enum):
-        top = 0
-        middle = 1
-        bottom = 2
-
-    class FontStyle(Enum):
-        regular = 'REGULAR'
-        italic = 'ITALIC'
-        bold = 'BOLD'
-        bold_and_italic = 'BOLD_ITALIC'
 
     class GroupStyle(Enum):
         group_box = 0
@@ -58,21 +38,6 @@ class Property(object):
         push_inverted = 2
 
 
-    def add_pv_name(self, name):
-        self.shared_functions.generic_property('pv_name', name)
-
-    def add_precision(self, val):
-        self.shared_functions.integer_property('precision', val)
-
-    def add_show_units(self, show):
-        self.shared_functions.boolean_property('show_units', show)
-
-    def add_wrap_words(self, wrap):
-        self.shared_functions.boolean_property('wrap_words', wrap)
-
-    def add_transparent(self, transparent):
-        self.shared_functions.boolean_property('transparent', transparent)
-
     def add_rotation(self, rotation):
         self.shared_functions.number_property('rotation', rotation)
 
@@ -82,26 +47,6 @@ class Property(object):
             return
         self.shared_functions.generic_property('rotation_step', rotation.value)
 
-    def add_horizontal_alignment(self, alignment):
-        if type(alignment) != self.HorizontalAlignment:
-            print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
-            return
-        self.shared_functions.generic_property('horizontal_alignment', alignment.value)
-
-    def add_vertical_alignment(self, alignment):
-        if type(alignment) != self.VerticalAlignment:
-            print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
-            return
-        self.shared_functions.generic_property('vertical_alignment', alignment.value)
-
-    def add_background_color(self, name, red, green, blue, alpha):
-        e = self.shared_functions.create_element('background_color')
-        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
-
-    def add_foreground_color(self, name, red, green, blue, alpha):
-        e = self.shared_functions.create_element('foreground_color')
-        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
-
     def add_fill_color(self, name, red, green, blue, alpha):
         e = self.shared_functions.create_element('fill_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
@@ -110,69 +55,8 @@ class Property(object):
         e = self.shared_functions.create_element('empty_color')
         self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
 
-    def add_named_font(self, name):
-        self.shared_functions.create_named_font_elemet(name)
-
-    def get_font_element(self):
-        font_root_elem = self.root.find('font')
-        if font_root_elem is None:
-            font_root_elem = self.shared_functions.create_element('font')
-            self.root.append(font_root_elem)
-        child_font_elem = font_root_elem.find('font')
-        if child_font_elem is None:
-            child_font_elem = Element('font')
-            child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
-            font_root_elem.append(child_font_elem)
-        return child_font_elem
-
-    def add_font_family(self, val):
-        child_elem = self.get_font_element()
-        child_elem.attrib['family'] = str(val)
-
-    def add_font_style(self, val):
-        if type(val) != self.FontStyle:
-            print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
-            return
-        child_elem = self.get_font_element()
-        child_elem.attrib['style'] = val.value
-
-    def add_font_size(self, val):
-        if type(val) == int or type(val) == float:
-            child_elem = self.get_font_element()
-            child_elem.attrib['size'] = str(int(val))
-        else:
-            print('Font size must be a number! Not: {}'.format(val))
-
-    def add_border_width(self, width):
-        self.shared_functions.integer_property('border_width', width)
-
-    def add_border_color(self, name, red, green, blue, alpha):
-        e = self.shared_functions.create_element('border_color')
-        self.shared_functions.create_color_element(e, name, red, green, blue, alpha)
-
-    def add_format(self, format_val):
-        val = str(format_val).lower()
-        try:
-            v = self.formats_array.index(val)
-        except ValueError:
-            print('Invalid format. Given format {}'.format(format))
-            return
-        self.shared_functions.generic_property('format', v)
-
-    def add_text(self, text):
-        self.shared_functions.generic_property('text', text)
-
-    def add_auto_size(self, auto):
-        self.shared_functions.boolean_property('auto_size', auto)
-
     def add_multi_line(self, val):
         self.shared_functions.boolean_property('multi_line', val)
-
-    def add_macro(self, name, val, root_elem=None):
-        self.shared_functions.add_macro(name, val, root_elem)
-
-    def add_bit(self, val):
-        self.shared_functions.integer_property('bit', val)
 
     def add_square(self, val):
         self.shared_functions.boolean_property('square', val)
@@ -267,7 +151,7 @@ class Property(object):
         sub.text = str(description)
         if macros:
             for key, val in macros.items():
-                self.add_macro(key, val, action)
+                self.shared_functions.add_macro(key, val, action)
         for arg, val in args.items():
             sub = SubElement(action, arg)
             sub.text = str(val)

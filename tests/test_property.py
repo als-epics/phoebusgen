@@ -26,109 +26,11 @@ class TestGenericPropertyElements(unittest.TestCase):
         self._prop_factory.root.remove(new_element)
         self.assertIsNone(self._prop_factory.root.find(tag_name))
 
-    def test_pv_name(self):
-        tag_name = 'pv_name'
-        pv = 'test:pv'
-        self._prop_factory.add_pv_name(pv)
-        self.generic_element_test(tag_name, pv)
-
-    def test_precision(self):
-        tag_name = 'precision'
-        precision = 2
-        self._prop_factory.add_precision(precision)
-        self.generic_element_test(tag_name, precision)
-
-    def test_show_units(self):
-        tag_name = 'show_units'
-        show = False
-        self._prop_factory.add_show_units(show)
-        self.generic_element_test(tag_name, show)
-
     def test_multi_line(self):
         tag_name = 'multi_line'
         show = True
         self._prop_factory.add_multi_line(show)
         self.generic_element_test(tag_name, show)
-
-    def test_wrap_words(self):
-        tag_name = 'wrap_words'
-        wrap = True
-        self._prop_factory.add_wrap_words(wrap)
-        self.generic_element_test(tag_name, wrap)
-
-    def test_bit(self):
-        tag_name = 'bit'
-        val = 124
-        self._prop_factory.add_bit(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_transparent(self):
-        tag_name = 'transparent'
-        transparent = False
-        self._prop_factory.add_transparent(transparent)
-        self.generic_element_test(tag_name, transparent)
-
-    def test_border_width(self):
-        tag_name = 'border_width'
-        width = 5
-        self._prop_factory.add_border_width(width)
-        self.generic_element_test(tag_name, width)
-
-    def test_border_width_float(self):
-        tag_name = 'border_width'
-        width = 2.5
-        self._prop_factory.add_border_width(width)
-        self.generic_element_test(tag_name, int(width))
-
-    def test_border_width_wrong(self):
-        tag_name = 'border_width'
-        width = 'dsfds'
-        self._prop_factory.add_border_width(width)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_format_binary(self):
-        tag_name = 'format'
-        format = 'Binary'
-        xml_format_value = 10
-        self._prop_factory.add_format(format)
-        self.generic_element_test(tag_name, xml_format_value)
-
-    def test_format_decimal(self):
-        tag_name = 'format'
-        format = 'dEcimal'
-        xml_format_value = 1
-        self._prop_factory.add_format(format)
-        self.generic_element_test(tag_name, xml_format_value)
-
-    def test_format_wrong_input(self):
-        tag_name = 'format'
-        format = 'dsfds'
-        self._prop_factory.add_format(format)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_auto_size_true(self):
-        tag_name = 'auto_size'
-        auto = True
-        self._prop_factory.add_auto_size(auto)
-        self.generic_element_test(tag_name, str(auto).lower())
-
-    def test_auto_size_false(self):
-        tag_name = 'auto_size'
-        auto = False
-        self._prop_factory.add_auto_size(auto)
-        self.generic_element_test(tag_name, auto)
-
-    def test_text(self):
-        tag_name = 'text'
-        text = 'TEST TEST TEST'
-        self._prop_factory.add_text(text)
-        self.generic_element_test(tag_name, text)
-
-    def test_bit(self):
-        tag_name = 'bit'
-        val = 23
-        self._prop_factory.add_bit(val)
-        self.generic_element_test(tag_name, val)
 
     def test_square(self):
         tag_name = 'square'
@@ -327,14 +229,6 @@ class TestFontPropertyElements(unittest.TestCase):
         self.assertEqual(outer_font_element.attrib, {})
 
         self._prop_factory.root.remove(outer_font_element)
-        self.assertIsNone(self._prop_factory.root.find('font'))
-
-    def test_predefined_font_wrong(self):
-        name = 'NotAFont'
-        family = 'dont care bc we are wrong'
-        style = 'Not a style'
-        size = 5
-        self._prop_factory.add_named_font(name)
         self.assertIsNone(self._prop_factory.root.find('font'))
 
 

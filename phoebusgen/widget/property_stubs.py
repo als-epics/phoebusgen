@@ -1,136 +1,178 @@
+from xml.etree.ElementTree import Element, SubElement
+
 class _PVName(object):
     def pv_name(self, name):
-        self._prop_factory.add_pv_name(name)
-
+        self._shared.generic_property('pv_name', name)
 
 class _Font(object):
+    def _get_font_element(self):
+        font_root_elem = self.root.find('font')
+        if font_root_elem is None:
+            font_root_elem = self._shared.create_element('font')
+            self.root.append(font_root_elem)
+        child_font_elem = font_root_elem.find('font')
+        if child_font_elem is None:
+            child_font_elem = Element('font')
+            child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
+            font_root_elem.append(child_font_elem)
+        return child_font_elem
+
+    def _add_font_style(self, val):
+        if type(val) != self._shared.FontStyle:
+            print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
+            return
+        child_elem = self._get_font_element()
+        child_elem.attrib['style'] = val.value
+
     def predefined_font(self, name):
-        self._prop_factory.add_named_font(name)
+        self._shared.create_named_font_elemet(name)
 
     def font_family(self, family):
-        self._prop_factory.add_font_family(family)
+        child_elem = self._get_font_element()
+        child_elem.attrib['family'] = str(family)
 
     def font_size(self, size):
-        self._prop_factory.add_font_size(size)
+        if type(size) == int or type(size) == float:
+            child_elem = self._get_font_element()
+            child_elem.attrib['size'] = str(int(size))
+        else:
+            print('Font size must be a number! Not: {}'.format(size))
 
     def font_style_bold(self):
-        self._prop_factory.add_font_style(self._prop_factory.FontStyle.bold)
+        self._add_font_style(self._shared.FontStyle.bold)
 
     def font_style_italic(self):
-        self._prop_factory.add_font_style(self._prop_factory.FontStyle.italic)
+        self._add_font_style(self._shared.FontStyle.italic)
 
     def font_style_bold_italic(self):
-        self._prop_factory.add_font_style(self._prop_factory.FontStyle.bold_and_italic)
+        self._add_font_style(self._shared.FontStyle.bold_and_italic)
 
     def font_style_regular(self):
-        self._prop_factory.add_font_style(self._prop_factory.FontStyle.regular)
+        self._add_font_style(self._shared.FontStyle.regular)
 
 class _ForegroundColor(object):
     def predefined_foreground_color(self, name):
-        self._prop_factory.add_foreground_color(name, None, None, None, None)
+        e = self._shared.create_element('foreground_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def foreground_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_foreground_color(None, red, green, blue, alpha)
-
+        e = self._shared.create_element('foreground_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
 class _BackgroundColor(object):
     def predefined_background_color(self, name):
-        self._prop_factory.add_background_color(name, None, None, None, None)
+        e = self._shared.create_element('background_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def background_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_background_color(None, red, green, blue, alpha)
-
+        e = self._shared.create_element('background_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
 class _Transparent(object):
     def transparent(self, transparent=False):
-        self._prop_factory.add_transparent(transparent)
-
+        self._shared.boolean_property('transparent', transparent)
 
 class _Format(object):
-    def format(self, format):
-        self._prop_factory.add_format(format)
-
+    def format(self, format_val):
+        val = str(format_val).lower()
+        try:
+            v = self._shared.formats_array.index(val)
+        except ValueError:
+            print('Invalid format. Given format {}'.format(format_val))
+            return
+        self._shared.generic_property('format', v)
 
 class _Precision(object):
     def precision(self, val):
-        self._prop_factory.add_precision(val)
+        self._shared.integer_property('precision', val)
 
 class _ShowUnits(object):
     def show_units(self, show=True):
-        self._prop_factory.add_show_units(show)
-
+        self._shared.boolean_property('show_units', show)
 
 class _HorizontalAlignment(object):
+    def _add_horizontal_alignment(self, alignment):
+        if type(alignment) != self._shared.HorizontalAlignment:
+            print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
+            return
+        self._shared.generic_property('horizontal_alignment', alignment.value)
+
     def horizontal_alignment_left(self):
-        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.left)
+        self._add_horizontal_alignment(self._shared.HorizontalAlignment.left)
 
     def horizontal_alignment_center(self):
-        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.center)
+        self._add_horizontal_alignment(self._shared.HorizontalAlignment.center)
 
     def horizontal_alignment_right(self):
-        self._prop_factory.add_horizontal_alignment(self._prop_factory.HorizontalAlignment.right)
+        self._add_horizontal_alignment(self._shared.HorizontalAlignment.right)
 
 class _VerticalAlignment(object):
+    def _add_vertical_alignment(self, alignment):
+        if type(alignment) != self._shared.VerticalAlignment:
+            print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
+            return
+        self._shared.generic_property('vertical_alignment', alignment.value)
+
     def vertical_alignment_top(self):
-        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.top)
+        self._add_vertical_alignment(self._shared.VerticalAlignment.top)
 
     def vertical_alignment_middle(self):
-        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.middle)
+        self._add_vertical_alignment(self._shared.VerticalAlignment.middle)
 
     def vertical_alignment_bottom(self):
-        self._prop_factory.add_vertical_alignment(self._prop_factory.VerticalAlignment.bottom)
-
+        self._add_vertical_alignment(self._shared.VerticalAlignment.bottom)
 
 class _WrapWords(object):
     def wrap_words(self, wrap=True):
-        self._prop_factory.add_wrap_words(wrap)
-
+        self._shared.boolean_property('wrap_words', wrap)
 
 class _Text(object):
     def text(self, text):
-        self._prop_factory.add_text(text)
-
+        self._shared.generic_property('text', text)
 
 class _AutoSize(object):
     def auto_size(self, auto=True):
-        self._prop_factory.add_auto_size(auto)
-
+        self._shared.boolean_property('auto_size', auto)
 
 # 0, 90, 180, -90
-# text update, label, action button
 class _RotationStep(object):
+    def _add_rotation_step(self, rotation):
+        if type(rotation) != self._shared.RotationStep:
+            print('The component parameter must be of type Rotation enum! Not: {}'.format(type(rotation)))
+            return
+        self._shared.generic_property('rotation_step', rotation.value)
+
     def rotation_step_0(self):
-        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.zero)
+        self._add_rotation_step(self._shared.RotationStep.zero)
 
     def rotation_step_90(self):
-        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.ninety)
+        self._add_rotation_step(self._shared.RotationStep.ninety)
 
     def rotation_step_180(self):
-        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.one_hundred_eighty)
+        self._add_rotation_step(self._shared.RotationStep.one_hundred_eighty)
 
     def rotation_step_negative_90(self):
-        self._prop_factory.add_rotation_step(self._prop_factory.RotationStep.negative_ninety)
+        self._add_rotation_step(self._shared.RotationStep.negative_ninety)
 
 class _Border(object):
     def border_width(self, width):
-        self._prop_factory.add_border_width(width)
+        self._shared.integer_property('border_width', width)
 
     def predefined_border_color(self, name):
-        self._prop_factory.add_border_color(name, None, None, None, None)
+        e = self._shared.create_element('border_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def border_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_border_color(None, red, green, blue, alpha)
-
+        e = self._shared.create_element('border_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
 class _Macro(object):
     def macro(self, name, val):
-        self._prop_factory.add_macro(name, val)
-
+        self._shared.add_macro(name, val, None)
 
 class _Bit(object):
     def bit(self, val=-1):
-        self._prop_factory.add_bit(val)
-
+        self._shared.integer_property('bit', val)
 
 class _OffColor(object):
     def predefined_off_color(self, name):
