@@ -47,7 +47,7 @@ class GenericTest(object):
         self.assertIsNone(self.element.find_element(tag_name))
 
     def null_test(self, tag_name):
-        self.assertIsNone(self.element._prop_factory.root.find(tag_name))
+        self.assertIsNone(self.element.root.find(tag_name))
 
     # for some properties (actions, macros, you can have multiple children. Pass True to do_not_remove for these
     def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):

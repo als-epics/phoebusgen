@@ -5,122 +5,15 @@ sys.path.insert(1, '../phoebusgen/')
 sys.path.insert(1, './phoebusgen/')
 import unittest
 from xml.etree.ElementTree import Element, SubElement
-import property
 
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self._prop_factory = property.Property(self.element)
-
-    def test_init(self):
-        self.assertIsInstance(self._prop_factory.root, Element)
-
-    def generic_element_test(self, tag_name, tag_value):
-        new_element = self._prop_factory.root.find(tag_name)
-        self.assertIsNotNone(new_element)
-        if type(tag_value) == bool:
-            self.assertEqual(new_element.text, str(tag_value).lower())
-        else:
-            self.assertEqual(new_element.text, str(tag_value))
-        self.assertEqual(new_element.attrib, {})
-        self._prop_factory.root.remove(new_element)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_multi_line(self):
-        tag_name = 'multi_line'
-        show = True
-        self._prop_factory.add_multi_line(show)
-        self.generic_element_test(tag_name, show)
-
-    def test_square(self):
-        tag_name = 'square'
-        val = True
-        self._prop_factory.add_square(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_square_error(self):
-        tag_name = 'square'
-        val = 'dsfkj'
-        self._prop_factory.add_square(val)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-
-    def test_off_label(self):
-        tag_name = 'off_label'
-        val = 'TEST Label'
-        self._prop_factory.add_off_label(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_on_label(self):
-        tag_name = 'on_label'
-        val = 'TEST this on Label'
-        self._prop_factory.add_on_label(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_alarm_border(self):
-        tag_name = 'border_alarm_sensitive'
-        val = False
-        self._prop_factory.add_alarm_border(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_enabled(self):
-        tag_name = 'enabled'
-        val = False
-        self._prop_factory.add_enabled(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_confirmation_dialog(self):
-        tag_name = 'show_confirmation_dialog'
-        val = True
-        self._prop_factory.add_confirmation_dialog(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_confirmation_message(self):
-        tag_name = 'confirm_message'
-        val = 'Are you sure you want to make all these tests?'
-        self._prop_factory.add_confirmation_message(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_password(self):
-        tag_name = 'password'
-        val = '123456789'
-        self._prop_factory.add_password(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_corner_width(self):
-        tag_name = 'corner_width'
-        val = 42
-        self._prop_factory.add_corner_width(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_corner_height(self):
-        tag_name = 'corner_height'
-        val = 23
-        self._prop_factory.add_corner_height(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_line_width(self):
-        tag_name = 'line_width'
-        val = 4
-        self._prop_factory.add_line_width(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_angle_start(self):
-        tag_name = 'start_angle'
-        val = 94
-        self._prop_factory.add_angle_start(val)
-        self.generic_element_test(tag_name, val)
-
-    def test_angle_size(self):
-        tag_name = 'total_angle'
-        val = 23
-        self._prop_factory.add_angle_size(val)
-        self.generic_element_test(tag_name, val)
 
 
 class TestColorPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_root')
-        self._prop_factory = property.Property(self.element)
         self.color_dict = {'activetext': {'red': '255', 'green': '255', 'blue': '0', 'alpha': '255'},
                            'attention': {'red': '255', 'green': '160', 'blue': '0', 'alpha': '255'},
                            'background': {'red': '255', 'green': '255', 'blue': '255', 'alpha': '255'},
@@ -141,58 +34,10 @@ class TestColorPropertyElements(unittest.TestCase):
                            'transparent': {'red': '255', 'green': '255', 'blue': '255', 'alpha': '0'},
                            'write_background': {'red': '128', 'green': '255', 'blue': '255', 'alpha': '255'}}
 
-    def test_init(self):
-        self.assertIsInstance(self._prop_factory.root, Element)
-        self.assertEqual(self._prop_factory.root.tag, 'test_root')
-
-    def color_test(self, tag_name, name, red, green, blue, alpha):
-        parent_element = self._prop_factory.root.find(tag_name)
-        self.assertIsNotNone(parent_element)
-        self.assertIsNone(parent_element.text)
-        child_element = parent_element.find('color')
-        self.assertIsNotNone(child_element)
-        if name is None:
-            attrib_dict = {'red': str(red), 'green': str(green), 'blue': str(blue), 'alpha': str(alpha)}
-        else:
-            color_item = self.color_dict.get(name.lower())
-            self.assertIsNotNone(color_item)
-            new_red = color_item['red']
-            new_green = color_item['green']
-            new_blue = color_item['blue']
-            new_alpha = color_item['alpha']
-            attrib_dict = {'name': name, 'red': new_red, 'green': new_green, 'blue': new_blue, 'alpha': new_alpha}
-        self.assertEqual(child_element.attrib, attrib_dict)
-        self.assertIsNone(child_element.text)
-        # clean up so we can run multiple tests on same element
-        self._prop_factory.root.remove(parent_element)
-        self.assertIsNone(self._prop_factory.root.find(tag_name))
-        self.assertIsNone(self._prop_factory.root.find('color'))
-
-    def test_off_color(self):
-        tag_name = 'off_color'
-        red = 255
-        green = 255
-        blue = 255
-        alpha = 255
-        name = None
-        self._prop_factory.add_off_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
-    def test_off_color_2(self):
-        tag_name = 'off_color'
-        red = '25'
-        green = '12'
-        blue = 0
-        alpha = '32'
-        name = None
-        self._prop_factory.add_off_color(name, red, green, blue, alpha)
-        self.color_test(tag_name, name, red, green, blue, alpha)
-
 
 class TestFontPropertyElements(unittest.TestCase):
     def setUp(self):
         self.element = Element('test_ROOT_tag test')
-        self._prop_factory = property.Property(self.element)
         self.font_dict = {'comment': {'family': 'Liberation Sans', 'size': '14', 'style': 'Italic'},
                           'default': {'family': 'Liberation Sans', 'size': '14', 'style': 'Regular'},
                           'default bold': {'family': 'Liberation Sans', 'size': '14', 'style': 'Bold'},
@@ -201,35 +46,6 @@ class TestFontPropertyElements(unittest.TestCase):
                           'header 2': {'family': 'Liberation Sans', 'size': '18', 'style': 'Bold'},
                           'header 3': {'family': 'Liberation Sans', 'size': '16', 'style': 'Bold'},
                           'oddball': {'family': 'Liberation Sans', 'size': '40', 'style': 'Regular'}}
-
-    def test_init(self):
-        self.assertIsInstance(self._prop_factory.root, Element)
-        self.assertEqual(self._prop_factory.root.tag, 'test_ROOT_tag test')
-
-    def font_test(self, name, family, style, size):
-        outer_font_element = self._prop_factory.root.find('font')
-        self.assertIsNotNone(outer_font_element)
-        inner_font_element = outer_font_element.find('font')
-        self.assertIsNotNone(inner_font_element)
-
-        self.assertIsNone(outer_font_element.text)
-        self.assertIsNone(inner_font_element.text)
-
-        if name is None:
-            attrib_dict = {'family': str(family), 'style': str(style).upper(), 'size': str(size)}
-        else:
-            font_item = self.font_dict.get(name.lower())
-            self.assertIsNotNone(font_item)
-            new_family = font_item['family']
-            new_style = str(font_item['style']).upper()
-            new_size = font_item['size']
-            attrib_dict = {'family': new_family, 'style': new_style, 'size': new_size}
-
-        self.assertEqual(inner_font_element.attrib, attrib_dict)
-        self.assertEqual(outer_font_element.attrib, {})
-
-        self._prop_factory.root.remove(outer_font_element)
-        self.assertIsNone(self._prop_factory.root.find('font'))
 
 
 if __name__ == '__main__':

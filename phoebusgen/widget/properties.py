@@ -176,119 +176,137 @@ class _Bit(object):
 
 class _OffColor(object):
     def predefined_off_color(self, name):
-        self._prop_factory.add_off_color(name, None, None, None, None)
+        e = self._shared.create_element('off_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def off_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_off_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('off_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
 class _Off(_OffColor):
     def off_label(self, label):
-        self._prop_factory.add_off_label(label)
+        self._shared.generic_property('off_label', label)
 
 class _OffImage(_Off):
-    def off_image(self, val):
-        self._prop_factory.add_off_image(val)
+    def off_image(self, image_file):
+        self._shared.generic_property('off_image', image_file)
 
 class _OnColor(object):
     def predefined_on_color(self, name):
-        self._prop_factory.add_on_color(name, None, None, None, None)
+        e = self._shared.create_element('on_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def on_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_on_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('on_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
 class _On(_OnColor):
     def on_label(self, label):
-        self._prop_factory.add_on_label(label)
+        self._shared.generic_property('on_label', label)
 
 class _OnImage(_On):
-    def on_image(self, val):
-        self._prop_factory.add_on_image(val)
+    def on_image(self, image_file):
+        self._shared.generic_property('on_image', image_file)
 
-
-# Arc, Ellipse, Polygon, Polyline, Rectangle, LED, LED Multi State
 class _LineColor(object):
     def predefined_line_color(self, name):
-        self._prop_factory.add_line_color(name, None, None, None, None)
+        e = self._shared.create_element('line_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
     def line_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_line_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('line_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
-
-# Arc, Ellipse, Polygon, Polyline, Rectangle
 class _LineWidth(object):
     def line_width(self, width):
-        self._prop_factory.add_line_width(width)
+        self._shared.integer_property('line_width', width)
 
-
-# Rectangle
 class _Corner(object):
     def corner_width(self, width):
-        self._prop_factory.add_corner_width(width)
+        self._shared.integer_property('corner_width', width)
 
     def corner_height(self, height):
-        self._prop_factory.add_corner_height(height)
-
+        self._shared.integer_property('corner_height', height)
 
 class _Square(object):
     def square(self, val):
-        self._prop_factory.add_square(val)
-
+        self._shared.boolean_property('square', val)
 
 class _LabelsFromPV(object):
     def labels_from_pv(self, val):
-        self._prop_factory.add_labels_from_pv(val)
-
+        self._shared.boolean_property('labels_from_pv', val)
 
 class _AlarmBorder(object):
     def alarm_border(self, val):
-        self._prop_factory.add_alarm_border(val)
-
+        self._shared.boolean_property('border_alarm_sensitive', val)
 
 class _Enabled(object):
     def enabled(self, val):
-        self._prop_factory.add_enabled(val)
-
+        self._shared.boolean_property('enabled', val)
 
 class _Confirmation(object):
     def confirmation_dialog(self, message, password=None):
-        self._prop_factory.add_confirmation_dialog(True)
-        self._prop_factory.add_confirmation_message(message)
+        self._shared.boolean_property('show_confirmation_dialog', True)
+        self._shared.generic_property('confirm_message', message)
         if password is not None:
-            self._prop_factory.add_password(password)
+            self._shared.generic_property('password', password)
 
     def disable_confirmation_dialog(self):
-        self._prop_factory.add_confirmation_dialog(False)
-
+        self._shared.boolean_property('show_confirmation_dialog', False)
 
 class _MultiLine(object):
     def multi_line(self, val):
-        self._prop_factory.add_multi_line(val)
-
+        self._shared.boolean_property('multi_line', val)
 
 class _Angle(object):
     def angle_start(self, val):
-        self._prop_factory.add_angle_start(val)
+        self._shared.number_property('start_angle', val)
 
     def angle_size(self, val):
-        self._prop_factory.add_angle_size(val)
+        self._shared.number_property('total_angle', val)
 
-# picture, symbol
 class _Rotation(object):
     def rotation(self, val):
-        self._prop_factory.add_rotation(val)
-
+        self._shared.number_property('rotation', val)
 
 class _File(object):
     def file(self, val):
-        self._prop_factory.add_file(val)
+        self._shared.generic_property('file', val)
 
 class _StretchToFit(object):
     def stretch_to_fit(self, val):
-        self._prop_factory.add_stretch_to_fit(val)
+        self._shared.boolean_property('stretch_image', val)
 
 class _Actions(object):
+    def _add_action(self, action_type, description, args, macros=None):
+        root_action = self.root.find('actions')
+        if root_action is None:
+            root_action = SubElement(self.root, 'actions')
+        action = SubElement(root_action, 'action')
+        action.attrib['type'] = action_type
+        sub = SubElement(action, 'description')
+        sub.text = str(description)
+        if macros:
+            for key, val in macros.items():
+                self._shared.add_macro(key, val, action)
+        for arg, val in args.items():
+            sub = SubElement(action, arg)
+            sub.text = str(val)
+
     def action_execute_as_one(self, val):
-        self._prop_factory.add_action_execute_as_one(val)
+        if type(val) == bool:
+            action = str(val).lower()
+        elif type(val) == int:
+            action = str(bool(val)).lower()
+        elif val.lower() == 'true' or val.lower() == 'false':
+            action = val.lower()
+        else:
+            print('action_execute_as_one must take a boolean value! Not: {}'.format(val))
+            return
+        root_action = self.root.find('actions')
+        if root_action is None:
+            root_action = SubElement(self.root, 'actions')
+        root_action.attrib['execute_as_one'] = action
 
     # should actions be their own class?
     def action_open_display(self, file, target, description=None, macros=None):
@@ -302,212 +320,257 @@ class _Actions(object):
             print('The macro parameter must be a dictionary with key=MacroName and val=MacroValue')
             return
         args = {'file': file, 'target': target.lower()}
-        self._prop_factory.add_action('open_display', description, args, macros)
+        self._add_action('open_display', description, args, macros)
 
     def action_write_pv(self, pv_name, value, description=None):
         if description is None:
             description = 'Write PV'
         args = {'pv_name': pv_name, 'value': value}
-        self._prop_factory.add_action('write_pv', description, args)
+        self._add_action('write_pv', description, args)
 
     def action_execute_command(self, command, description=None):
         if description is None:
             description = 'Execute Command'
         args = {'command': command}
-        self._prop_factory.add_action('command', description, args)
+        self._add_action('command', description, args)
 
     def action_open_file(self, file, description=None):
         if description is None:
             description = 'Open File'
         args = {'file': file}
-        self._prop_factory.add_action('open_file', description, args)
+        self._add_action('open_file', description, args)
 
     def action_open_webpage(self, url, description=None):
         if description is None:
             description = 'Open Webpage'
         args = {'url': url}
-        self._prop_factory.add_action('open_webpage', description, args)
+        self._add_action('open_webpage', description, args)
 
 class _Label(object):
     def label(self, val):
-        self._prop_factory.add_label(val)
+        self._shared.generic_property('label', val)
 
 class _Horizontal(object):
     def horizontal(self, val):
-        self._prop_factory.add_horizontal(val)
+        self._shared.boolean_property('horizontal', val)
 
 class _Items(object):
     def item(self, val):
-        self._prop_factory.add_item(val)
+        root_item = self.root.find('items')
+        if root_item is None:
+            root_item = SubElement(self.root, 'items')
+        sub = SubElement(root_item, 'item')
+        sub.text = val
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val):
-        self._prop_factory.add_items_from_pv(val)
+        self._shared.boolean_property('items_from_pv', val)
 
 class _ShowValueTip(object):
     def show_value_tip(self, val):
-        self._prop_factory.add_show_value_tip(val)
+        self._shared.boolean_property('show_value_tip', val)
 
 class _BarLength(object):
     def bar_length(self, val):
-        self._prop_factory.add_bar_length(val)
+        self._shared.number_property('bar_length', val)
 
 class _ShowValue(object):
     def show_value(self, val):
-        self._prop_factory.add_show_value(val)
+        self._shared.boolean_property('show_value', val)
 
 class _ShowLimits(object):
     def show_limits(self, val):
-        self._prop_factory.add_show_limits(val)
+        self._shared.boolean_property('show_limits', val)
 
 class _LimitsFromPV(object):
     def limits_from_pv(self, val):
-        self._prop_factory.add_limits_from_pv(val)
+        self._shared.boolean_property('limits_from_pv', val)
 
 class _MinMax(object):
     def minimum(self, val):
-        self._prop_factory.add_minimum(val)
+        self._shared.number_property('minimum', val)
 
     def maximum(self, val):
-        self._prop_factory.add_maximum(val)
+        self._shared.number_property('maximum', val)
 
 class _NeedleColor(object):
     def needle_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_needle_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('needle_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_needle_color(self, name):
-        self._prop_factory.add_needle_color(name, None, None, None, None)
+        e = self._shared.create_element('needle_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 class _KnobColor(object):
     def knob_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_knob_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('knob_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_knob_color(self, name):
-        self._prop_factory.add_knob_color(name, None, None, None, None)
+        e = self._shared.create_element('knob_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 class _FillColor(object):
     def fill_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_fill_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('fill_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_fill_color(self, name):
-        self._prop_factory.add_fill_color(name, None, None, None, None)
+        e = self._shared.create_element('fill_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 class _EmptyColor(object):
     def empty_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_empty_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('empty_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_empty_color(self, name):
-        self._prop_factory.add_empty_color(name, None, None, None, None)
+        e = self._shared.create_element('empty_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 class _ScaleVisible(object):
     def scale_visible(self, val):
-        self._prop_factory.add_scale_visible(val)
+        self._shared.boolean_property('scale_visible', val)
 
 class _ShowLED(object):
     def show_led(self, val):
-        self._prop_factory.add_show_led(val)
+        self._shared.generic_property('show_led', val)
 
 class _Mode(object):
+    def _add_mode(self, val):
+        if type(val) != self._shared.Mode:
+            print('The component parameter must be of type Mode enum! Not: {}'.format(type(val)))
+            return
+        self._shared.generic_property('mode', val.value)
+
     def mode_toggle(self):
-        self._prop_factory.add_mode(self._prop_factory.Mode.toggle)
+        self._add_mode(self._shared.Mode.toggle)
 
     def mode_push(self):
-        self._prop_factory.add_mode(self._prop_factory.Mode.push)
+        self._add_mode(self._shared.Mode.push)
 
     def mode_push_inverted(self):
-        self._prop_factory.add_mode(self._prop_factory.Mode.push_inverted)
+        self._add_mode(self._shared.Mode.push_inverted)
 
 class _Style(object):
+    def _add_style(self, style):
+        if type(style) != self._shared.GroupStyle:
+            print('Input type for param to group style must be of type GroupStyle. Not: {}'.format(type(style)))
+            return
+        self._shared.generic_property('style', style.value)
+
     def style_group_box(self):
-        self._prop_factory.add_style(self._prop_factory.GroupStyle.group_box)
+        self._add_style(self._shared.GroupStyle.group_box)
 
     def style_title_bar(self):
-        self._prop_factory.add_style(self._prop_factory.GroupStyle.title_bar)
+        self._add_style(self._shared.GroupStyle.title_bar)
 
     def style_line(self):
-        self._prop_factory.add_style(self._prop_factory.GroupStyle.line)
+        self._add_style(self._shared.GroupStyle.line)
 
     def no_style(self):
-        self._prop_factory.add_style(self._prop_factory.GroupStyle.none)
-
+        self._add_style(self._shared.GroupStyle.none)
 
 class _ResizeBehavior(object):
+    def _add_resize_behavior(self, resize):
+        if type(resize) != self._shared.Resize:
+            print('Resize behavior input must be of type enum Resize. Not: {}'.format(type(resize)))
+        self._shared.generic_property('resize', resize.value)
+
     def no_resize(self):
-        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.no_resize)
+        self._add_resize_behavior(self._shared.Resize.no_resize)
 
     def size_content_to_fit_widget(self):
-        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.size_content_to_fit_widget)
+        self._add_resize_behavior(self._shared.Resize.size_content_to_fit_widget)
 
     def size_widget_to_match_content(self):
-        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.size_widget_to_match_content)
+        self._add_resize_behavior(self._shared.Resize.size_widget_to_match_content)
 
     def stretch_content_to_fit_widget(self):
-        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.stretch_content_to_fit_widget)
+        self._add_resize_behavior(self._shared.Resize.stretch_content_to_fit_widget)
 
     def crop_content(self):
-        self._prop_factory.add_resize_behavior(self._prop_factory.Resize.crop_content)
-
+        self._add_resize_behavior(self._shared.Resize.crop_content)
 
 class _GroupName(object):
     def group_name(self, val):
-        self._prop_factory.add_group_name(val)
+        self._shared.generic_property('group_name', val)
 
-
+# use to add widgets to group object or other "Structure" widgets
 class _Structure(object):
     def add_widget(self, elem):
         if type(elem) == list:
             for e in elem:
-                self._prop_factory.root.append(e.root)
+                self.root.append(e.root)
         else:
-            self._prop_factory.root.append(elem.root)
+            self.root.append(elem.root)
 
 class _URL(object):
     def url(self, url):
-        self._prop_factory.add_url(url)
+        self._shared.generic_property('url', url)
 
 class _ShowToolbar(object):
     def show_toolbar(self, val):
-        self._prop_factory.add_show_toolbar(val)
+        self._shared.boolean_property('show_toolbar', val)
 
 class _ButtonsOnLeft(object):
     def buttons_on_left(self, val):
-        self._prop_factory.add_buttons_on_left(val)
+        self._shared.boolean_property('buttons_on_left', val)
 
 class _Increment(object):
     def increment(self, val):
-        self._prop_factory.add_increment(val)
+        self._shared.number_property('increment', val)
 
 class _FileComponent(object):
+    def _add_file_component(self, val):
+        if type(val) != self._shared.FileComponent:
+            print('The component parameter must be of type FileComponent enum! Not: {}'.format(type(val)))
+            return
+        self._shared.generic_property('component', val.value)
+
     def file_component_full_path(self):
-        self._prop_factory.add_file_component(self._prop_factory.FileComponent.full_path)
+        self._add_file_component(self._shared.FileComponent.full_path)
 
     def file_component_directory(self):
-        self._prop_factory.add_file_component(self._prop_factory.FileComponent.directory)
+        self._add_file_component(self._shared.FileComponent.directory)
 
     def file_component_name_and_extension(self):
-        self._prop_factory.add_file_component(self._prop_factory.FileComponent.name_and_extension)
+        self._add_file_component(self._shared.FileComponent.name_and_extension)
 
     def file_component_base_name(self):
-        self._prop_factory.add_file_component(self._prop_factory.FileComponent.base_name)
+        self._add_file_component(self._shared.FileComponent.base_name)
 
 class _Editable(object):
     def editable(self, val):
-        self._prop_factory.add_editable(val)
+        self._shared.boolean_property('editable', val)
 
 class _SelectedColor(object):
     def selected_color(self, red, green, blue, alpha=255):
-        self._prop_factory.add_selected_color(None, red, green, blue, alpha)
+        e = self._shared.create_element('selected_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_selected_color(self, name):
-        self._prop_factory.add_selected_color(name, None, None, None, None)
+        e = self._shared.create_element('selected_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 class _SelectionValuePV(object):
     def selection_value_pv(self, val):
-        self._prop_factory.add_selection_value_pv(val)
+        self._shared.generic_property('selection_value_pv', val)
 
 class _Points(object):
     def point(self, x, y):
-        self._prop_factory.add_point(x, y)
+        if type(x) != int and type(x) != float:
+            print('Point X value must be an integer! Not: {}'.format(type(x)))
+        elif type(y) != int and type(y) != float:
+            print('Point Y value must be an integer! Not: {}'.format(type(y)))
+        else:
+            root_points = self.root.find('points')
+            if root_points is None:
+                root_points = SubElement(self.root, 'points')
+            point = SubElement(root_points, 'point')
+            point.attrib['x'] = str(int(x))
+            point.attrib['y'] = str(int(y))
 
 class _Arrow(object):
     def arrow_length(self, length):

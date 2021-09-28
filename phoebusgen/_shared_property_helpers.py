@@ -142,5 +142,29 @@ class _SharedPropertyFunctions(object):
         one_hundred_eighty = 2
         negative_ninety = 3
 
+    class Mode(Enum):
+        toggle = 0
+        push = 1
+        push_inverted = 2
+
+    class GroupStyle(Enum):
+        group_box = 0
+        title_bar = 1
+        line = 2
+        none = 3
+
+    class Resize(Enum):
+        no_resize = 0
+        size_content_to_fit_widget = 1
+        size_widget_to_match_content = 2
+        stretch_content_to_fit_widget = 3
+        crop_content = 4
+
+    class FileComponent(Enum):
+        full_path = 0
+        directory = 1
+        name_and_extension = 2
+        base_name = 3
+
 if __name__ == '__main__':
     pass

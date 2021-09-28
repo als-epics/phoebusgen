@@ -1,6 +1,5 @@
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
-from phoebusgen.widget.property import Property
 from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
 class _Widget(object):
@@ -14,8 +13,6 @@ class _Widget(object):
         self._shared.integer_property('y', y_pos)
         self._shared.integer_property('width', width)
         self._shared.integer_property('height', height)
-
-        self._prop_factory = Property(self.root)
 
     def visible(self, visible):
         child = SubElement(self.root, 'visible')
