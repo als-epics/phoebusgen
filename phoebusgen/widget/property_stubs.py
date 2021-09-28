@@ -466,3 +466,14 @@ class _SelectionValuePV(object):
 class _Points(object):
     def point(self, x, y):
         self._prop_factory.add_point(x, y)
+
+class _Arrow(object):
+    def arrow_length(self, length):
+        self._shared.integer_property('arrow_length', length)
+
+    def arrows(self, val):
+        pass
+
+class _LineStyle(object):
+    def line_style(self, val):
+        pass

@@ -372,6 +372,9 @@ class Property(object):
     def add_selection_value_pv(self, val):
         self.shared_functions.generic_property('selection_value_pv', val)
 
+    #def add_arrow_length(self, val):
+    #    self.shared_functions.integer_property('arrow_length', val)
+
     def add_point(self, x, y):
         if type(x) != int and type(x) != float:
             print('Point X value must be an integer! Not: {}'.format(type(x)))

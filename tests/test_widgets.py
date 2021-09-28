@@ -74,6 +74,17 @@ class TestPolygon(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLine
         self.height = 12
         self.element = widgets.Polygon(self.name, self.x, self.y, self.width, self.height)
 
+class TestPolyline(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor,
+                  ph.TestLineStyle, ph.TestPoints, ph.TestArrow):
+    def setUp(self):
+        self.name = 'polyline1'
+        self.type = 'polyline'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.Polyline(self.name, self.x, self.y, self.width, self.height)
+
 class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOff, ph.TestFont, ph.TestForegroundColor,
               ph.TestLineColor, ph.TestSquare, ph.TestLabelsFromPV, ph.TestAlarmBorder):
     def setUp(self):

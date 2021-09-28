@@ -28,11 +28,9 @@ class Polygon(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundCo
     def __init__(self, name, x, y, width, height):
         _Widget.__init__(self, 'polygon', name, x, y, width, height)
 
-# line style, arrows, arrow length, points
-#class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, _p._Arrow, _p.Points):
-#    pass
-#class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, _p._Arrow, _p._Points):
-#    pass
+class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, _p._Arrow, _p._Points):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'polyline', name, x, y, width, height)
 
 class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent, _p._Corner):
     """ Rectangle widget, req: none """

@@ -1121,3 +1121,13 @@ class TestPoints(GenericTest):
         self.child_element_test('points', 'point', None, {'x': '2', 'y': '5'}, True)
         self.element.point(8, 9)
         self.assertEqual(len(self.element.find_element('points').findall('point')), 2)
+
+class TestArrow(GenericTest):
+    def test_arrow_length(self):
+        tag_name = 'arrow_length'
+        val = 5
+        self.element.arrow_length(val)
+        self.generic_element_test(tag_name, val)
+
+class TestLineStyle(GenericTest):
+    pass
