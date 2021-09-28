@@ -371,3 +371,16 @@ class Property(object):
 
     def add_selection_value_pv(self, val):
         self.shared_functions.generic_property('selection_value_pv', val)
+
+    def add_point(self, x, y):
+        if type(x) != int and type(x) != float:
+            print('Point X value must be an integer! Not: {}'.format(type(x)))
+        elif type(y) != int and type(y) != float:
+            print('Point Y value must be an integer! Not: {}'.format(type(y)))
+        else:
+            root_points = self.root.find('points')
+            if root_points is None:
+                root_points = SubElement(self.root, 'points')
+            point = SubElement(root_points, 'point')
+            point.attrib['x'] = str(int(x))
+            point.attrib['y'] = str(int(y))

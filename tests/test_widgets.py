@@ -63,6 +63,17 @@ class TestPicture(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestStretchTo
         self.file = '/home/user/my-pic.png'
         self.element = widgets.Picture(self.name, self.file, self.x, self.y, self.width, self.height)
 
+class TestPolygon(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLineColor,
+                  ph.TestBackgroundColor, ph.TestPoints):
+    def setUp(self):
+        self.name = 'polygon'
+        self.type = 'polygon'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.Polygon(self.name, self.x, self.y, self.width, self.height)
+
 class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOff, ph.TestFont, ph.TestForegroundColor,
               ph.TestLineColor, ph.TestSquare, ph.TestLabelsFromPV, ph.TestAlarmBorder):
     def setUp(self):

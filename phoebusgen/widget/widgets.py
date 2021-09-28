@@ -24,12 +24,14 @@ class Picture(_Widget, _p._Macro, _p._File, _p._StretchToFit, _p._Rotation):
         _Widget.__init__(self, 'picture', name, x, y, width, height)
         self.file(file)
 
-# points
-#class Polygon(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Points):
-#    pass
+class Polygon(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Points):
+    def __init__(self, name, x, y, width, height):
+        _Widget.__init__(self, 'polygon', name, x, y, width, height)
 
 # line style, arrows, arrow length, points
 #class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, _p._Arrow, _p.Points):
+#    pass
+#class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, _p._Arrow, _p._Points):
 #    pass
 
 class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent, _p._Corner):
@@ -190,7 +192,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
         _Widget.__init__(self, 'databrowser', name, x, y, width, height)
         self.file(file)
 
-# showtoolbar, colormap, colorbar, xaxis, yaxis, datawidth, interpolation, colormode, unsigneddata, autoscale,
+# colormap, colorbar, xaxis, yaxis, datawidth, interpolation, colormode, unsigneddata, autoscale,
 # logscale, cursor, roi
 #class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._ColorMap, _p._ColorBar,
 #            _p._XAxis, _p._YAxis, _p._AlarmBorder, _p._DataWidth, _p._Interpolation, _p._ColorMode, _p._UnsignedData,

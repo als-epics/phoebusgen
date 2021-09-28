@@ -680,7 +680,7 @@ class TestItems(GenericTest):
         self.child_element_test(tag_name, 'item', val, {})
 
 class TestActions(GenericTest):
-    def action_test(self, action_type, desc, action_args):
+    def action_test(self, action_type, desc, action_args, macros=None):
         parent_element = self.element.find_element('actions')
         self.assertTrue(len(parent_element) > 0)
         for parent in parent_element:
@@ -691,6 +691,13 @@ class TestActions(GenericTest):
                     elem = parent.find(key)
                     self.assertIsNotNone(elem)
                     self.assertEqual(elem.text, value)
+                if macros is not None:
+                    macro_parent = parent.find('macros')
+                    self.assertIsNotNone(macro_parent)
+                    for k, v in macros.items():
+                        mac = macro_parent.find(k)
+                        self.assertIsNotNone(mac)
+                        self.assertEqual(v, mac.text)
 
     def test_execute_as_one(self):
         tag_name = 'actions'
@@ -717,6 +724,27 @@ class TestActions(GenericTest):
         target = 'replace'
         self.element.action_open_display(file, target)
         self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'})
+
+    def test_open_display_desc(self):
+        file = 'test.bob'
+        target = 'replace'
+        desc = "my description"
+        self.element.action_open_display(file, target, desc)
+        self.action_test('open_display', desc, {'file': file, 'target': 'replace'})
+
+    def test_open_display_macros(self):
+        file = 'test.bob'
+        target = 'replace'
+        macro_dict = { "TestMac": "1", "MOD": "Mod1"}
+        self.element.action_open_display(file, target, macros=macro_dict)
+        self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'}, macro_dict)
+
+    def test_open_display_macros_and_desc(self):
+        file = 'test.bob'
+        target = 'replace'
+        desc = "test test test"
+        self.element.action_open_display(file, target, desc, {"BPM": "BPMA"})
+        self.action_test('open_display', desc, {'file': file, 'target': 'replace'}, {"BPM": "BPMA"})
 
     def test_write_pv(self):
         pv = 'TEST:PV'
@@ -1078,3 +1106,18 @@ class TestSelectionValuePV(GenericTest):
         val = '$(P):MY:COOL:PV'
         self.element.selection_value_pv(val)
         self.generic_element_test(tag_name, val)
+
+class TestPoints(GenericTest):
+    def test_points(self):
+        self.element.point(2, 5)
+        self.child_element_test('points', 'point', None, {'x': '2', 'y': '5'})
+
+    def test_points_wrong(self):
+        self.element.point('2', 5)
+        self.null_test('points')
+
+    def test_multiple_points(self):
+        self.element.point(2, 5)
+        self.child_element_test('points', 'point', None, {'x': '2', 'y': '5'}, True)
+        self.element.point(8, 9)
+        self.assertEqual(len(self.element.find_element('points').findall('point')), 2)

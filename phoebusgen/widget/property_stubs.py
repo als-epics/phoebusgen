@@ -302,21 +302,6 @@ class _ItemsFromPV(object):
     def items_from_pv(self, val):
         self._prop_factory.add_items_from_pv(val)
 
-class _StartBit(object):
-    pass
-
-class _NumBits(object):
-    pass
-
-class _ReverseBits(object):
-    pass
-
-class _States(object):
-    pass
-
-class _Fallback(object):
-    pass
-
 class _ShowValueTip(object):
     def show_value_tip(self, val):
         self._prop_factory.add_show_value_tip(val)
@@ -477,3 +462,7 @@ class _SelectedColor(object):
 class _SelectionValuePV(object):
     def selection_value_pv(self, val):
         self._prop_factory.add_selection_value_pv(val)
+
+class _Points(object):
+    def point(self, x, y):
+        self._prop_factory.add_point(x, y)

@@ -54,6 +54,7 @@ Low Level Python API to directly create Phoebus widgets
 - Ellipse
 - Label
 - Picture
+- Polygon
 - Rectangle
 #### Monitors
 - LED
