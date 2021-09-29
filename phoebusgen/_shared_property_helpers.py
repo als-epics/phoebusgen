@@ -74,7 +74,7 @@ class _SharedPropertyFunctions(object):
             print('Color RGB must be between 0 and 255')
             return False
 
-    def create_color_element(self, root_color_elem, name, red, green, blue, alpha):
+    def create_color_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
         sub_e = self.create_element('color')
         if name is None:
             for color in [red, green, blue, alpha]:
@@ -98,7 +98,8 @@ class _SharedPropertyFunctions(object):
                 print('Predefined color input must be phoebusgen.colors.<named-color>, not: {} of type: {}'.format(name, type(name)))
                 return
         root_color_elem.append(sub_e)
-        self.root.append(root_color_elem)
+        if add_to_root:
+            self.root.append(root_color_elem)
 
     def create_named_font_elemet(self, name):
         root_font_elem = self.create_element('font')

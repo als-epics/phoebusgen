@@ -784,3 +784,39 @@ class _LevelsAndShow(object):
 
     def show_lolo(self, show=True):
         self._shared.boolean_property('show_lolo', show)
+
+class _States(object):
+    def _add_state(self, state_value, label, name, red, green, blue, alpha):
+        if type(state_value) != int:
+            print('Value must be an integer, not: {}'.format(type(state_value)))
+            return
+        else:
+            root_states = self.root.find('states')
+            if root_states is None:
+                root_states = SubElement(self.root, 'states')
+            root_state = SubElement(root_states, 'state')
+            value_elem = SubElement(root_state, 'value')
+            value_elem.text = str(state_value)
+
+            label_elem = SubElement(root_state, 'label')
+            label_elem.text = label
+            color_elem = SubElement(root_state, 'color')
+            self._shared.create_color_element(color_elem, name, red, green, blue, alpha, False)
+
+    def state(self, state_value, label, red, green, blue, alpha=255):
+        self._add_state(state_value, label, None, red, green, blue, alpha)
+
+    def state_predefined_color(self, state_value, label, color_name):
+        self._add_state(state_value, label, color_name, None, None, None, None)
+
+class _Fallback(object):
+    def fallback_label(self, label):
+        self._shared.generic_property('fallback_label', label)
+
+    def predefined_fallback_color(self, name):
+        e = self._shared.create_element('fallback_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
+
+    def fallback_color(self, red, green, blue, alpha=255):
+        e = self._shared.create_element('fallback_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)

@@ -1300,11 +1300,6 @@ class TestTabSpacing(GenericTest):
         self.element.tab_spacing(val)
         self.generic_element_test(tag_name, val)
 
-class TestTabs(GenericTest):
-    pass
-
-class TestNavTabs(GenericTest):
-    pass
 
 class TestLabels(GenericTest):
     def test_label_single_string(self):
@@ -1521,3 +1516,33 @@ class TestLevelsAndShow(GenericTest):
         tag_name = 'show_lolo'
         self.element.show_lolo(False)
         self.generic_element_test(tag_name, False)
+
+class TestStates(GenericTest):
+    def test_state(self):
+        self.element.state(1, 'Test', 223, 242, 12)
+        self.element.state_predefined_color(0, 'INVALID STATE', self.colors.INVALID)
+        self.assertEqual(len(self.element.find_element('states').findall('state')), 2)
+
+class TestFallback(GenericTest):
+    def test_fallback_label(self):
+        tag_name = 'fallback_label'
+        val = 'MyLabel'
+        self.element.fallback_label(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_predefined_ffallback_color(self):
+        tag_name = 'fallback_color'
+        self.element.predefined_fallback_color(self.colors.Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_fallback_color(self):
+        tag_name = 'fallback_color'
+        self.element.fallback_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+class TestTabs(GenericTest):
+    pass
+
+class TestNavTabs(GenericTest):
+    pass

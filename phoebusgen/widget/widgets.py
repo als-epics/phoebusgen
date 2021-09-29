@@ -51,12 +51,8 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
         _Widget.__init__(self, 'led', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# States, Fallback
-#class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square,
-#                    _p._AlarmBorder, _p._States, _p._Fallback):
-#    pass
 class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._LineColor, _p._Square,
-                    _p._AlarmBorder):
+                    _p._AlarmBorder, _p._States, _p._Fallback):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'multi_state_led', name, x, y, width, height)
         self.pv_name(pv_name)

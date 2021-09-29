@@ -112,7 +112,7 @@ class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOf
         self.element = widgets.LED(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestLEDMultiState(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestLineColor,
-                        ph.TestSquare, ph.TestAlarmBorder):
+                        ph.TestSquare, ph.TestAlarmBorder, ph.TestStates, ph.TestFallback):
     def setUp(self):
         self.name = 'Ledmulti'
         self.pv_name = 'PV:Multi'
