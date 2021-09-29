@@ -287,8 +287,11 @@ class _Actions(object):
         sub = SubElement(action, 'description')
         sub.text = str(description)
         if macros:
-            for key, val in macros.items():
-                self._shared.add_macro(key, val, action)
+            if type(macros) is not dict:
+                print("macros parameter must be of type dict, not: {}".format(type(macros)))
+            else:
+                for key, val in macros.items():
+                    self._shared.add_macro(key, val, action)
         for arg, val in args.items():
             sub = SubElement(action, arg)
             sub.text = str(val)
@@ -554,6 +557,15 @@ class _SelectedColor(object):
         e = self._shared.create_element('selected_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
+class _DeselectedColor(object):
+    def deselected_color(self, red, green, blue, alpha=255):
+        e = self._shared.create_element('deselected_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
+
+    def predefined_deselected_color(self, name):
+        e = self._shared.create_element('deselected_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
+
 class _SelectionValuePV(object):
     def selection_value_pv(self, val):
         self._shared.generic_property('selection_value_pv', val)
@@ -628,10 +640,26 @@ class _Tabs(object):
             if not foundIt:
                 print("No tab with the given name: {}".format(tab_name))
 
-
 class _NavTabs(object):
-    def nav_tab(self):
-        pass
+    def tab(self, name, file_name, macros=None, group_name=None):
+        root_tab = self.root.find('tabs')
+        if root_tab is None:
+            root_tab = SubElement(self.root, 'tabs')
+        tab_elem = SubElement(root_tab, 'tab')
+        name_elem = SubElement(tab_elem, "name")
+        name_elem.text = name
+        file_elem = SubElement(tab_elem, "file")
+        file_elem.text = file_name
+        macro_elem = SubElement(tab_elem, "macros")
+        if macros is not None:
+            if type(macros) is not dict:
+                print("macros parameter must be of type dict, not: {}".format(type(macros)))
+            else:
+                for key, val in macros.items():
+                    self._shared.add_macro(key, val, tab_elem)
+        group_elem = SubElement(tab_elem, "group_name")
+        if group_name is not None:
+            group_elem.text = group_name
 
 class _ActiveTab(object):
     def active_tab(self, tab_num):
@@ -640,6 +668,14 @@ class _ActiveTab(object):
 class _TabHeight(object):
     def tab_height(self, height):
         self._shared.integer_property('tab_height', height)
+
+class _TabWidth(object):
+    def tab_width(self, width):
+        self._shared.integer_property('tab_width', width)
+
+class _TabSpacing(object):
+    def tab_spacing(self, spacing):
+        self._shared.integer_property('tab_spacing', spacing)
 
 class _Direction(object):
     def tab_direction_horizontal(self):
