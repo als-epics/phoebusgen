@@ -1178,3 +1178,51 @@ class TestLineStyle(GenericTest):
     def test_line_style_dash_dot_dot(self):
         self.element.line_style_dash_dot_dot()
         self.generic_element_test('line_style', 4)
+
+class TestTabs(GenericTest):
+    pass
+
+class TestNavTabs(GenericTest):
+    pass
+
+class TestActiveTab(GenericTest):
+    def test_active_tab(self):
+        tag_name = 'active_tab'
+        val = 4
+        self.element.active_tab(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_tab_wrong(self):
+        tag_name = 'active_tab'
+        val = 'tab1TryString'
+        self.element.active_tab(val)
+        self.null_test(tag_name)
+
+class TestTabHeight(GenericTest):
+    def test_tab_height(self):
+        tag_name = 'tab_height'
+        val = 23
+        self.element.tab_height(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_tab_wrong(self):
+        tag_name = 'tab_height'
+        val = 'lkasjdfls'
+        self.element.tab_height(val)
+        self.null_test(tag_name)
+
+
+class TestDirection(GenericTest):
+    def test_horizontal(self):
+        self.element.tab_direction_horizontal()
+        self.generic_element_test('direction', 0)
+
+    def test_vertical(self):
+        self.element.tab_direction_vertical()
+        self.generic_element_test('direction', 1)
+
+    def test_both(self):
+        self.element.tab_direction_vertical()
+        self.generic_element_test('direction', 1)
+        self.element.tab_direction_horizontal()
+        self.generic_element_test('direction', 0)

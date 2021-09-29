@@ -345,6 +345,18 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
         self.height = 12
         self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
 
+class TestTabs(unittest.TestCase, ph.TestMacro, ph.TestTabs, ph.TestFont, ph.TestActiveTab,
+               ph.TestTabHeight, ph.TestBackgroundColor, ph.TestDirection):
+    def setUp(self):
+        self.name = 'Tab widget'
+        self.type = 'tabs'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.Tabs(self.name, self.x, self.y, self.width, self.height)
+
+
 class TestThreeDViewer(unittest.TestCase, ph.TestFile):
     def setUp(self):
         self.name = 'cool 3d viewer'

@@ -603,3 +603,47 @@ class _LineStyle(object):
 
     def line_style_dash_dot_dot(self):
         self._shared.generic_property('line_style', self._shared.line_styles['Dash-Dot-Dot'])
+
+class _Tabs(object):
+    def tab(self, name):
+        root_tab = self.root.find('tabs')
+        if root_tab is None:
+            root_tab = SubElement(self.root, 'tabs')
+        tab_elem = SubElement(root_tab, 'tab')
+        name_elem = SubElement(tab_elem, "name")
+        name_elem.text = name
+        children_elem = SubElement(tab_elem, "children")
+
+    def add_widget(self, tab_name, elem):
+        root_tab = self.root.find('tabs')
+        if root_tab is None:
+            print("No tabs widget available!")
+        else:
+            tab_elem_list = root_tab.findall('tab')
+            foundIt = False
+            for tab in tab_elem_list:
+                if tab.find('name').text == tab_name:
+                    tab.find('children').append(elem.root)
+                    foundIt = True
+            if not foundIt:
+                print("No tab with the given name: {}".format(tab_name))
+
+
+class _NavTabs(object):
+    def nav_tab(self):
+        pass
+
+class _ActiveTab(object):
+    def active_tab(self, tab_num):
+        self._shared.integer_property('active_tab', tab_num)
+
+class _TabHeight(object):
+    def tab_height(self, height):
+        self._shared.integer_property('tab_height', height)
+
+class _Direction(object):
+    def tab_direction_horizontal(self):
+        self._shared.integer_property('direction', 0)
+
+    def tab_direction_vertical(self):
+        self._shared.integer_property('direction', 1)

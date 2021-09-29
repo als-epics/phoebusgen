@@ -58,7 +58,6 @@ Low Level Python API to directly create Phoebus widgets. All standard Phoebus wi
 - Strip Chart
 - X/Y Plot
 - Navigation Tabs
-- Tabs
 
 See [here](docs/widget.md) for more details on available widgets and their methods.
 

@@ -269,14 +269,11 @@ class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._Foregrou
 # tab width, tab height, tab spacing, selected color, deselected color, active tab
 #class NavigationTabs(_Widget, _p._Tabs, _p._Direction, _p._TabWidth, _p._TabHeight, _p._TabSpacing, _p._SelectColor, _p._Font, _p._ActiveTab):
 #    pass
-class NavigationTabs(_Widget, _p._Font):
+class NavigationTabs(_Widget, _p._NavTabs, _p._ActiveTab, _p._TabHeight, _p._Direction, _p._Font):
     def __init__(self, name, x, y, width, height):
         _Widget.__init__(self, 'navtabs', name, x, y, width, height)
 
-# tabs, active tab, direction, tab height
-#class Tabs(_Widget, _p._Macro, _p._Tabs, _p._Font, _p._BackgroundColor, _p._ActiveTab, _p._Direction, _p._TabHeight):
-#    pass
-class Tabs(_Widget, _p._Macro, _p._Font, _p._BackgroundColor):
+class Tabs(_Widget, _p._Macro, _p._Tabs, _p._ActiveTab, _p._TabHeight, _p._Font, _p._BackgroundColor, _p._Direction):
     def __init__(self, name, x, y, width, height):
         _Widget.__init__(self, 'tabs', name, x, y, width, height)
 
