@@ -22,9 +22,10 @@ pip install phoebusgen
 # Intro
 
 ```
->>> import phoebusgen.widget as w
->>> text_update_widget = w.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
+>>> import phoebusgen
+>>> text_update_widget = phoebusgen.widget.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
 >>> text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
+>>> text_update_widget.font_style_bold()
 >>> print(text_update_widget)
 <?xml version="1.0" ?>
 <widget type="textupdate" version="2.0.0">
@@ -35,9 +36,13 @@ pip install phoebusgen
   <height>50</height>
   <pv_name>TEST:PV</pv_name>
   <foreground_color>
-    <color red="0" green="255" blue="0" alpha="255" name="OK"/>
+    <color name="OK" red="0" green="255" blue="0" alpha="255"/>
   </foreground_color>
+  <font>
+    <font family="Liberation Sans" size="14" style="BOLD"/>
+  </font>
 </widget>
+
 ```
 
 
