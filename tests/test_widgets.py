@@ -149,7 +149,8 @@ class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.element = widgets.ProgressBar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestSymbol(unittest.TestCase, ph.TestPVName, ph.TestRotation, ph.TestBackgroundColor, ph.TestArrayIndex,
-                      ph.TestTransparent, ph.TestAlarmBorder, ph.TestAutoSize, ph.TestEnabled, ph.TestSymbols):
+                 ph.TestTransparent, ph.TestAlarmBorder, ph.TestAutoSize, ph.TestEnabled, ph.TestSymbols,
+                 ph.TestInitialIndex, ph.TestShowIndex, ph.TestPreserveRatio):
     def setUp(self):
         self.type = 'symbol'
         self.name = 'SymbolWidget'

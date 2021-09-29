@@ -1334,3 +1334,53 @@ class TestSymbols(GenericTest):
         label_names = ["testLabel1", "file:/test.png", "label5"]
         self.element.symbols(label_names)
         self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
+
+class TestInitialIndex(GenericTest):
+    def test_initial_index_index(self):
+        tag_name = 'initial_index'
+        val = 2
+        self.element.initial_index(val)
+        self.generic_element_test(tag_name, val)
+
+
+class TestShowIndex(GenericTest):
+    def test_show_index_bits_default(self):
+        tag_name = 'show_index'
+        self.element.show_index()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_index_bits(self):
+        tag_name = 'show_index'
+        self.element.show_index(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_index_bits(self):
+        tag_name = 'show_index'
+        self.element.show_index(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_index_wrong(self):
+        tag_name = 'show_index'
+        self.element.show_index('tets')
+        self.null_test(tag_name)
+
+class TestPreserveRatio(GenericTest):
+    def test_preserve_ratio_bits_default(self):
+        tag_name = 'preserve_ratio'
+        self.element.preserve_ratio()
+        self.generic_element_test(tag_name, True)
+
+    def test_preserve_ratio_bits(self):
+        tag_name = 'preserve_ratio'
+        self.element.preserve_ratio(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_preserve_ratio_bits(self):
+        tag_name = 'preserve_ratio'
+        self.element.preserve_ratio(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_preserve_ratio_wrong(self):
+        tag_name = 'preserve_ratio'
+        self.element.preserve_ratio('tets')
+        self.null_test(tag_name)

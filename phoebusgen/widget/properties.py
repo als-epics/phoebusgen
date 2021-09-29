@@ -731,3 +731,15 @@ class _Symbols(object):
             else:
                 label_elem = SubElement(root_label_tag, "symbol")
                 label_elem.text = symbol_list_or_string
+
+class _InitialIndex(object):
+    def initial_index(self, index):
+        self._shared.integer_property('initial_index', index)
+
+class _ShowIndex(object):
+    def show_index(self, show=True):
+        self._shared.boolean_property('show_index', show)
+
+class _PreserveRatio(object):
+    def preserve_ratio(self, preserve_ratio=True):
+        self._shared.boolean_property('preserve_ratio', preserve_ratio)
