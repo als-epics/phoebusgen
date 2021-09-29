@@ -77,11 +77,10 @@ class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialI
         _Widget.__init__(self, 'symbol', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# columns, selectrows, selectionpv
-#class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
-#            _p._Columns, _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
+# columns
+#class Table(_p._Columns)
 class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
-            _p._AlarmBorder, _p._Editable):
+            _p._AlarmBorder, _p._Editable, _p._SelectRows, _p._SelectionPV):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'table', name, x, y, width, height)
         self.pv_name(pv_name)

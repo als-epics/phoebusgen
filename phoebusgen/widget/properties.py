@@ -820,3 +820,14 @@ class _Fallback(object):
     def fallback_color(self, red, green, blue, alpha=255):
         e = self._shared.create_element('fallback_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
+
+class _SelectRows(object):
+    def select_rows(self, select_rows=True):
+        self._shared.boolean_property('row_selection_mode', select_rows)
+
+class _SelectionPV(object):
+    def selection_pv(self, name):
+        self._shared.generic_property('selection_pv', name)
+
+class _Columns(object):
+    pass

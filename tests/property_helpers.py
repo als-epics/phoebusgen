@@ -1541,6 +1541,30 @@ class TestFallback(GenericTest):
         self.element.fallback_color(5, 10, 15)
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
+
+class TestSelectRows(GenericTest):
+    def test_select_rows_default(self):
+        tag_name = 'row_selection_mode'
+        self.element.select_rows()
+        self.generic_element_test(tag_name, True)
+
+    def test_select_rows_false(self):
+        tag_name = 'row_selection_mode'
+        self.element.select_rows(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_select_rows_true(self):
+        tag_name = 'row_selection_mode'
+        self.element.select_rows(True)
+        self.generic_element_test(tag_name, True)
+
+class TestSelectionPV(GenericTest):
+    def test_selection_pv(self):
+        tag_name = 'selection_pv'
+        val = "Selection:PV:Test"
+        self.element.selection_pv(val)
+        self.generic_element_test(tag_name, val)
+
 class TestTabs(GenericTest):
     pass
 
