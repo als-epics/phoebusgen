@@ -1259,12 +1259,12 @@ class TestReverseBits(GenericTest):
         self.element.reverse_bits()
         self.generic_element_test(tag_name, True)
 
-    def test_reverse_bits(self):
+    def test_reverse_bits_false(self):
         tag_name = 'bitReverse'
         self.element.reverse_bits(False)
         self.generic_element_test(tag_name, False)
 
-    def test_reverse_bits(self):
+    def test_reverse_bits_true(self):
         tag_name = 'bitReverse'
         self.element.reverse_bits(True)
         self.generic_element_test(tag_name, True)
@@ -1344,17 +1344,17 @@ class TestInitialIndex(GenericTest):
 
 
 class TestShowIndex(GenericTest):
-    def test_show_index_bits_default(self):
+    def test_show_index_default(self):
         tag_name = 'show_index'
         self.element.show_index()
         self.generic_element_test(tag_name, True)
 
-    def test_show_index_bits(self):
+    def test_show_index_false(self):
         tag_name = 'show_index'
         self.element.show_index(False)
         self.generic_element_test(tag_name, False)
 
-    def test_show_index_bits(self):
+    def test_show_index_true(self):
         tag_name = 'show_index'
         self.element.show_index(True)
         self.generic_element_test(tag_name, True)
@@ -1365,17 +1365,17 @@ class TestShowIndex(GenericTest):
         self.null_test(tag_name)
 
 class TestPreserveRatio(GenericTest):
-    def test_preserve_ratio_bits_default(self):
+    def test_preserve_ratio_default(self):
         tag_name = 'preserve_ratio'
         self.element.preserve_ratio()
         self.generic_element_test(tag_name, True)
 
-    def test_preserve_ratio_bits(self):
+    def test_preserve_ratio_false(self):
         tag_name = 'preserve_ratio'
         self.element.preserve_ratio(False)
         self.generic_element_test(tag_name, False)
 
-    def test_preserve_ratio_bits(self):
+    def test_preserve_ratio_true(self):
         tag_name = 'preserve_ratio'
         self.element.preserve_ratio(True)
         self.generic_element_test(tag_name, True)
@@ -1384,3 +1384,140 @@ class TestPreserveRatio(GenericTest):
         tag_name = 'preserve_ratio'
         self.element.preserve_ratio('tets')
         self.null_test(tag_name)
+
+class TestShowScale(GenericTest):
+    def test_show_scale_default(self):
+        tag_name = 'show_scale'
+        self.element.show_scale()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_scale_false(self):
+        tag_name = 'show_scale'
+        self.element.show_scale(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_scale_true(self):
+        tag_name = 'show_scale'
+        self.element.show_scale(True)
+        self.generic_element_test(tag_name, True)
+
+class TestShowMinorTicks(GenericTest):
+    def test_show_minor_ticks_default(self):
+        tag_name = 'show_minor_ticks'
+        self.element.show_minor_ticks()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_minor_ticks_false(self):
+        tag_name = 'show_minor_ticks'
+        self.element.show_minor_ticks(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_minor_ticks_true(self):
+        tag_name = 'show_minor_ticks'
+        self.element.show_minor_ticks(True)
+        self.generic_element_test(tag_name, True)
+
+class TestMajorTicksPixelDist(GenericTest):
+    def test_major_tick_step_hint(self):
+        tag_name = 'major_tick_step_hint'
+        val = 2352
+        self.element.major_ticks_pixel_dist(val)
+        self.generic_element_test(tag_name, val)
+
+class TestScaleFormat(GenericTest):
+    def test_scale_format(self):
+        tag_name = 'scale_format'
+        val = "# .###"
+        self.element.scale_format(val)
+        self.generic_element_test(tag_name, val)
+
+class TestLevelsAndShow(GenericTest):
+    def test_level_hihi(self):
+        tag_name = 'level_hihi'
+        val = 200.23
+        self.element.level_hihi(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_hihi_int(self):
+        tag_name = 'level_hihi'
+        val = 200
+        self.element.level_hihi(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_high(self):
+        tag_name = 'level_high'
+        val = 2.23
+        self.element.level_high(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_low(self):
+        tag_name = 'level_low'
+        val = 500.23
+        self.element.level_low(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_low(self):
+        tag_name = 'level_low'
+        val = 200.23
+        self.element.level_low(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_show_hihi_default(self):
+        tag_name = 'show_hihi'
+        self.element.show_hihi()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_high_default(self):
+        tag_name = 'show_high'
+        self.element.show_high()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_low_default(self):
+        tag_name = 'show_low'
+        self.element.show_low()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_lolo_default(self):
+        tag_name = 'show_lolo'
+        self.element.show_lolo()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_hihi_true(self):
+        tag_name = 'show_hihi'
+        self.element.show_hihi(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_high_true(self):
+        tag_name = 'show_high'
+        self.element.show_high(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_low_true(self):
+        tag_name = 'show_low'
+        self.element.show_low(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_lolo_true(self):
+        tag_name = 'show_lolo'
+        self.element.show_lolo(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_show_hihi_false(self):
+        tag_name = 'show_hihi'
+        self.element.show_hihi(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_high_false(self):
+        tag_name = 'show_high'
+        self.element.show_high(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_low_false(self):
+        tag_name = 'show_low'
+        self.element.show_low(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_lolo_false(self):
+        tag_name = 'show_lolo'
+        self.element.show_lolo(False)
+        self.generic_element_test(tag_name, False)

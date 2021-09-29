@@ -743,3 +743,44 @@ class _ShowIndex(object):
 class _PreserveRatio(object):
     def preserve_ratio(self, preserve_ratio=True):
         self._shared.boolean_property('preserve_ratio', preserve_ratio)
+
+class _ShowScale(object):
+    def show_scale(self, show=True):
+        self._shared.boolean_property('show_scale', show)
+
+class _ShowMinorTicks(object):
+    def show_minor_ticks(self, show=True):
+        self._shared.boolean_property('show_minor_ticks', show)
+
+class _MajorTicksPixelDist(object):
+    def major_ticks_pixel_dist(self, dist):
+        self._shared.integer_property('major_tick_step_hint', dist)
+
+class _ScaleFormat(object):
+    def scale_format(self, format_string):
+        self._shared.generic_property('scale_format', format_string)
+
+class _LevelsAndShow(object):
+    def level_hihi(self, level):
+        self._shared.number_property('level_hihi', level)
+
+    def level_high(self, level):
+        self._shared.number_property('level_high', level)
+
+    def level_low(self, level):
+        self._shared.number_property('level_low', level)
+
+    def level_lolo(self, level):
+        self._shared.number_property('level_lolo', level)
+
+    def show_hihi(self, show=True):
+        self._shared.boolean_property('show_hihi', show)
+
+    def show_high(self, show=True):
+        self._shared.boolean_property('show_high', show)
+
+    def show_low(self, show=True):
+        self._shared.boolean_property('show_low', show)
+
+    def show_lolo(self, show=True):
+        self._shared.boolean_property('show_lolo', show)

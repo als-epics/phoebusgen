@@ -50,7 +50,6 @@ Low Level Python API to directly create Phoebus widgets. All standard Phoebus wi
 ### Incomplete Widgets
 - LED Multi State
 - Table
-- Scaled Slider
 - Image
 - Strip Chart
 - X/Y Plot

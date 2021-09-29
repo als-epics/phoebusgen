@@ -315,7 +315,8 @@ class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFore
 
 class TestScaledSlider(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.TestForegroundColor, ph.TestBackgroundColor,
                        ph.TestTransparent, ph.TestFont, ph.TestAlarmBorder, ph.TestIncrement, ph.TestMinMax,
-                       ph.TestLimitsFromPV, ph.TestEnabled):
+                       ph.TestLimitsFromPV, ph.TestEnabled, ph.TestShowScale, ph.TestShowMinorTicks,
+                       ph.TestMajorTicksPixelDist, ph.TestScaleFormat, ph.TestLevelsAndShow):
     def setUp(self):
         self.name = 'Radio_1'
         self.pv_name = 'TEST:PV:BOOL'
@@ -325,7 +326,6 @@ class TestScaledSlider(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.T
         self.width = 14
         self.height = 15
         self.element = widgets.ScaledSlider(self.name, self.pv_name, self.x, self.y, self.width, self.height)
-
 
 class TestScrollbar(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.TestShowValueTip, ph.TestAlarmBorder,
                     ph.TestMinMax, ph.TestLimitsFromPV, ph.TestBarLength, ph.TestIncrement, ph.TestEnabled):

@@ -163,14 +163,8 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
         _Widget.__init__(self, 'radio', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# showscale, showminorticks, majortickspixeldist, scaleformat, levelhihi, levelhigh, levellow, levellolo, showhihi, showhigh
-# showlow, showlolo
-#class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
-#                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsandShow, _p._AlarmBorder,
-#                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
-#    pass
-class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor,
-                   _p._Transparent, _p._Font, _p._AlarmBorder,
+class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
+                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsAndShow, _p._AlarmBorder,
                    _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'scaledslider', name, x, y, width, height)
@@ -210,7 +204,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
         _Widget.__init__(self, 'databrowser', name, x, y, width, height)
         self.file(file)
 
-# colormap, colorbar, xaxis, yaxis, datawidth, interpolation, colormode, unsigneddata, autoscale,
+# colormap, colorbar, xaxis, yaxis, datawidth, dataheight, interpolation, colormode, unsigneddata, autoscale,
 # logscale, cursor, roi
 #class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._ColorMap, _p._ColorBar,
 #            _p._XAxis, _p._YAxis, _p._AlarmBorder, _p._DataWidth, _p._Interpolation, _p._ColorMode, _p._UnsignedData,
@@ -222,9 +216,9 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
         _Widget.__init__(self, 'image', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# showgrid, title, labelfont, scalefont, showtoolbar, tooltip, timerange, yaxes, traces
+# showgrid, title, labelfont, scalefont, showtoolbar, timerange, yaxes, traces
 #class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowGrid, _p._Title, _p._LabelFont, _p._ScaleFont,
-#                 _p._ShowToolbar, _p._ToolTip, _p._TimeRange, _p._YAxes, _p._Traces):
+#                 _p._ShowToolbar, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
 class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar):
     def __init__(self, name, x, y, width, height):
