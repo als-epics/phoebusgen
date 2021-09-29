@@ -85,6 +85,20 @@ class TestPolyline(unittest.TestCase, ph.TestMacro, ph.TestLineWidth, ph.TestLin
         self.height = 12
         self.element = widgets.Polyline(self.name, self.x, self.y, self.width, self.height)
 
+class TestByteMonitor(unittest.TestCase, ph.TestPVName, ph.TestStartBit, ph.TestNumBits, ph.TestReverseBits,
+                      ph.TestHorizontal, ph.TestSquare, ph.TestOffColor, ph.TestOnColor, ph.TestForegroundColor,
+                      ph.TestFont, ph.TestLabels, ph.TestAlarmBorder):
+    def setUp(self):
+        self.name = 'bytemonitorname'
+        self.pv_name = 'TEST:PV:ENTRY'
+        self.type = 'byte_monitor'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.ByteMonitor(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+
 class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOff, ph.TestFont, ph.TestForegroundColor,
               ph.TestLineColor, ph.TestSquare, ph.TestLabelsFromPV, ph.TestAlarmBorder):
     def setUp(self):
@@ -344,6 +358,18 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
         self.width = 10
         self.height = 12
         self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
+
+class TestNavigationTabs(unittest.TestCase, ph.TestNavTabs, ph.TestActiveTab, ph.TestTabWidth, ph.TestTabSpacing,
+                         ph.TestTabHeight, ph.TestSelectedColor, ph.TestDeselectedColor, ph.TestDirection,
+                         ph.TestFont):
+    def setUp(self):
+        self.name = 'Tab widget'
+        self.type = 'navtabs'
+        self.x = 123
+        self.y = 12
+        self.width = 10
+        self.height = 12
+        self.element = widgets.NavigationTabs(self.name, self.x, self.y, self.width, self.height)
 
 class TestTabs(unittest.TestCase, ph.TestMacro, ph.TestTabs, ph.TestFont, ph.TestActiveTab,
                ph.TestTabHeight, ph.TestBackgroundColor, ph.TestDirection):

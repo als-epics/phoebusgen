@@ -693,7 +693,7 @@ class _StartBit(object):
         self._shared.integer_property('startBit', start_bit)
 
 class _ReverseBits(object):
-    def reverse_bits(self, reverse_bits=False):
+    def reverse_bits(self, reverse_bits=True):
         self._shared.boolean_property('bitReverse', reverse_bits)
 
 class _Labels(object):

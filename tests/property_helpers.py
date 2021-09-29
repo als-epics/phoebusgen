@@ -986,6 +986,24 @@ class TestSelectedColor(GenericTest):
         self.element.selected_color(-2, 10, 15, 232)
         self.null_test('color')
 
+class TestDeselectedColor(GenericTest):
+    def test_deselected_color(self):
+        tag_name = 'deselected_color'
+        self.element.predefined_deselected_color(self.colors.OK)
+        self.child_element_test(tag_name, 'color', None, {'name': 'OK', 'red': '0', 'green': '255',
+                                                          'blue': '0', 'alpha': '255'})
+
+    def test_deselected_color_2(self):
+        tag_name = 'deselected_color'
+        self.element.deselected_color(5, 10, 15, 232)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '232'})
+
+    def test_deselected_color_wrong(self):
+        tag_name = 'deselected_color'
+        self.element.deselected_color(-2, 10, 15, 232)
+        self.null_test('color')
+
 class TestMode(GenericTest):
     def test_toggle(self):
         self.element.mode_toggle()
@@ -1179,11 +1197,6 @@ class TestLineStyle(GenericTest):
         self.element.line_style_dash_dot_dot()
         self.generic_element_test('line_style', 4)
 
-class TestTabs(GenericTest):
-    pass
-
-class TestNavTabs(GenericTest):
-    pass
 
 class TestActiveTab(GenericTest):
     def test_active_tab(self):
@@ -1211,7 +1224,6 @@ class TestTabHeight(GenericTest):
         self.element.tab_height(val)
         self.null_test(tag_name)
 
-
 class TestDirection(GenericTest):
     def test_horizontal(self):
         self.element.tab_direction_horizontal()
@@ -1226,3 +1238,82 @@ class TestDirection(GenericTest):
         self.generic_element_test('direction', 1)
         self.element.tab_direction_horizontal()
         self.generic_element_test('direction', 0)
+
+class TestStartBit(GenericTest):
+    def test_start_bits(self):
+        tag_name = 'startBit'
+        val = 2
+        self.element.start_bit(val)
+        self.generic_element_test(tag_name, val)
+
+class TestNumBits(GenericTest):
+    def test_num_bits(self):
+        tag_name = 'numBits'
+        val = 32
+        self.element.num_bits(val)
+        self.generic_element_test(tag_name, val)
+
+class TestReverseBits(GenericTest):
+    def test_reverse_bits_default(self):
+        tag_name = 'bitReverse'
+        self.element.reverse_bits()
+        self.generic_element_test(tag_name, True)
+
+    def test_reverse_bits(self):
+        tag_name = 'bitReverse'
+        self.element.reverse_bits(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_reverse_bits(self):
+        tag_name = 'bitReverse'
+        self.element.reverse_bits(True)
+        self.generic_element_test(tag_name, True)
+
+    def test_reverse_wrong(self):
+        tag_name = 'bitReverse'
+        self.element.reverse_bits('tets')
+        self.null_test(tag_name)
+
+class TestTabWidth(GenericTest):
+    def test_tab_width(self):
+        tag_name = 'tab_width'
+        val = 235.5
+        self.element.tab_width(val)
+        self.generic_element_test(tag_name, int(val))
+
+    def test_tab_width_wrong(self):
+        tag_name = 'tab_width'
+        val = 'lkasjdfls'
+        self.element.tab_width(val)
+        self.null_test(tag_name)
+
+class TestTabSpacing(GenericTest):
+    def test_tab_spacing(self):
+        tag_name = 'tab_spacing'
+        val = 2.5
+        self.element.tab_spacing(val)
+        self.generic_element_test(tag_name, int(val))
+
+    def test_tab_spacing(self):
+        tag_name = 'tab_spacing'
+        val = 23
+        self.element.tab_spacing(val)
+        self.generic_element_test(tag_name, val)
+
+class TestTabs(GenericTest):
+    pass
+
+class TestNavTabs(GenericTest):
+    pass
+
+class TestLabels(GenericTest):
+    def test_label_single_string(self):
+        label_name = "testLabel1"
+        self.element.labels(label_name)
+        self.child_element_test('labels', 'text', label_name, {})
+
+    def test_label_list(self):
+        label_names = ["testLabel1", "label2", "label5"]
+        self.element.labels(label_names)
+        self.assertEqual(len(self.element.find_element('labels').findall('text')), len(label_names))
+
