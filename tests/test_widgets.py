@@ -111,6 +111,18 @@ class TestLED(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestOn, ph.TestOf
         self.height = 15
         self.element = widgets.LED(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestLEDMultiState(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestLineColor,
+                        ph.TestSquare, ph.TestAlarmBorder):
+    def setUp(self):
+        self.name = 'Ledmulti'
+        self.pv_name = 'PV:Multi'
+        self.type = 'multi_state_led'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.LEDMultiState(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 class TestMeter(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestFont,
                 ph.TestFormat, ph.TestPrecision, ph.TestShowValue, ph.TestShowUnits, ph.TestAlarmBorder, ph.TestShowLimits,
                 ph.TestLimitsFromPV, ph.TestMinMax, ph.TestNeedleColor, ph.TestKnobColor):
@@ -136,6 +148,31 @@ class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.pv_name = 'test:pv:forprogressbar'
         self.element = widgets.ProgressBar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestSymbol(unittest.TestCase, ph.TestPVName, ph.TestRotation, ph.TestBackgroundColor,
+                      ph.TestTransparent, ph.TestAlarmBorder, ph.TestAutoSize, ph.TestEnabled):
+    def setUp(self):
+        self.type = 'symbol'
+        self.name = 'SymbolWidget'
+        self.x = 13
+        self.y = 1422
+        self.width = 2310
+        self.height = 109
+        self.pv_name = 'test:pv'
+        self.element = widgets.Symbol(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+class TestTable(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestEditable):
+    def setUp(self):
+        self.type = 'table'
+        self.name = 'TableName'
+        self.pv_name = 'test:pv'
+        self.x = 13
+        self.y = 1422
+        self.width = 2310
+        self.height = 109
+        self.element = widgets.Table(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+
 class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                ph.TestFillColor, ph.TestEmptyColor, ph.TestScaleVisible, ph.TestAlarmBorder, ph.TestLimitsFromPV):
     def setUp(self):
@@ -147,6 +184,20 @@ class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundC
         self.height = 92
         self.pv_name = 'TANK'
         self.element = widgets.Tank(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+class TestTextSymbol(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
+                     ph.TestTransparent, ph.TestHorizontalAlignment, ph.TestVerticalAlignment, ph.TestRotation,
+                     ph.TestWrapWords, ph.TestAlarmBorder, ph.TestEnabled):
+    def setUp(self):
+        self.name = 'text symbol widget'
+        self.type = 'text-symbol'
+        self.x = 24
+        self.y = 12
+        self.width = 24
+        self.height = 92
+        self.pv_name = 'symbol'
+        self.element = widgets.TextSymbol(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
 
 class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
                           ph.TestBackgroundColor, ph.TestTransparent, ph.TestFormat, ph.TestPrecision,
@@ -261,6 +312,20 @@ class TestRadioButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFore
         self.height = 15
         self.element = widgets.RadioButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
+class TestScaledSlider(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.TestForegroundColor, ph.TestBackgroundColor,
+                       ph.TestTransparent, ph.TestFont, ph.TestAlarmBorder, ph.TestIncrement, ph.TestMinMax,
+                       ph.TestLimitsFromPV, ph.TestEnabled):
+    def setUp(self):
+        self.name = 'Radio_1'
+        self.pv_name = 'TEST:PV:BOOL'
+        self.type = 'scaledslider'
+        self.x = 10
+        self.y = 12
+        self.width = 14
+        self.height = 15
+        self.element = widgets.ScaledSlider(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+
 class TestScrollbar(unittest.TestCase, ph.TestPVName, ph.TestHorizontal, ph.TestShowValueTip, ph.TestAlarmBorder,
                     ph.TestMinMax, ph.TestLimitsFromPV, ph.TestBarLength, ph.TestIncrement, ph.TestEnabled):
     def setUp(self):
@@ -323,6 +388,40 @@ class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowT
         self.width = 1239
         self.height = 1
         self.element = widgets.DataBrowser(self.name, self.file, self.x, self.y, self.width, self.height)
+
+class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor,
+                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax):
+    def setUp(self):
+        self.name = 'my data browser'
+        self.pv_name = "Image:PV"
+        self.type = 'image'
+        self.x = 24
+        self.y = 1224
+        self.width = 1239
+        self.height = 1
+        self.element = widgets.Image(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+
+class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
+                ph.TestShowToolbar):
+    def setUp(self):
+        self.name = 'strippers'
+        self.type = 'stripchart'
+        self.x = 24
+        self.y = 1224
+        self.width = 1239
+        self.height = 1
+        self.element = widgets.StripChart(self.name, self.x, self.y, self.width, self.height)
+
+class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
+                ph.TestShowToolbar):
+    def setUp(self):
+        self.name = 'xyxyxyxyx'
+        self.type = 'xyplot'
+        self.x = 24
+        self.y = 1224
+        self.width = 1239
+        self.height = 1
+        self.element = widgets.XYPlot(self.name, self.x, self.y, self.width, self.height)
 
 class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestAlarmBorder):

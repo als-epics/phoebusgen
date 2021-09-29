@@ -178,8 +178,8 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
 #                   _p._ShowScale, _p._ShowMinorTicks, _p._MajorTicksPixelDist, _p._ScaleFormat, _p._LevelsandShow, _p._AlarmBorder,
 #                   _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
 #    pass
-class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._Font,
-                   _p._AlarmBorder,
+class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p._BackgroundColor,
+                   _p._Transparent, _p._Font, _p._AlarmBorder,
                    _p._Increment, _p._MinMax, _p._LimitsFromPV, _p._Enabled):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'scaledslider', name, x, y, width, height)
