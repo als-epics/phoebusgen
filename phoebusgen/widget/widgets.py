@@ -38,12 +38,8 @@ class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._Background
         _Widget.__init__(self, 'rectangle', name, x, y, width, height)
 
 # Monitors
-# Start bit, number of bits, reverse bits, labels
-#class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
-#                  _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
-#    pass
-class ByteMonitor(_Widget, _p._PVName, _p._Horizontal, _p._Square, _p._OffColor, _p._OnColor,
-                  _p._ForegroundColor, _p._Font, _p._AlarmBorder):
+class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBits, _p._Horizontal, _p._Square,
+                  _p._OffColor, _p._OnColor, _p._ForegroundColor, _p._Font, _p._Labels, _p._AlarmBorder):
     def __init__(self, name, pv_name, x, y, width, height):
         _Widget.__init__(self, 'byte_monitor', name, x, y, width, height)
         self.pv_name(pv_name)

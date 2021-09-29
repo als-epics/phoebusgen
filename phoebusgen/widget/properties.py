@@ -683,3 +683,33 @@ class _Direction(object):
 
     def tab_direction_vertical(self):
         self._shared.integer_property('direction', 1)
+
+class _NumBits(object):
+    def num_bits(self, number_of_bits):
+        self._shared.integer_property('numBits', number_of_bits)
+
+class _StartBit(object):
+    def start_bit(self, start_bit):
+        self._shared.integer_property('startBit', start_bit)
+
+class _ReverseBits(object):
+    def reverse_bits(self, reverse_bits=False):
+        self._shared.boolean_property('bitReverse', reverse_bits)
+
+class _Labels(object):
+    def labels(self, label_list_or_name):
+        if type(label_list_or_name) != list and type(label_list_or_name) != str:
+            print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(label_list_or_name)))
+        else:
+            root_label_tag = self.root.find('labels')
+            if root_label_tag is None:
+                root_label_tag = SubElement(self.root, 'labels')
+            if type(label_list_or_name) == list:
+                for label in label_list_or_name:
+                    label_elem = SubElement(root_label_tag, "text")
+                    label_elem.text = label
+            else:
+                label_elem = SubElement(root_label_tag, "text")
+                label_elem.text = label_list_or_name
+
+

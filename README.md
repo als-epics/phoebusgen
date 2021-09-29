@@ -48,7 +48,6 @@ pip install phoebusgen
 Low Level Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some are not fully feature complete.
 
 ### Incomplete Widgets
-- Byte Monitor
 - LED Multi State
 - Symbol
 - Table
