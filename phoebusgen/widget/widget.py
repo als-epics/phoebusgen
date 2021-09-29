@@ -9,10 +9,10 @@ class _Widget(object):
         name_child.text = name
 
         self._shared = _SharedPropertyFunctions(self.root)
-        self._shared.integer_property('x', x_pos)
-        self._shared.integer_property('y', y_pos)
-        self._shared.integer_property('width', width)
-        self._shared.integer_property('height', height)
+        self._shared.integer_property(self.root, 'x', x_pos)
+        self._shared.integer_property(self.root, 'y', y_pos)
+        self._shared.integer_property(self.root, 'width', width)
+        self._shared.integer_property(self.root, 'height', height)
 
     def visible(self, visible):
         child = SubElement(self.root, 'visible')
@@ -22,19 +22,19 @@ class _Widget(object):
         self.root.attrib['version'] = version
 
     def name(self, val):
-        self._shared.generic_property('name', val)
+        self._shared.generic_property(self.root, 'name', val)
 
     def width(self, val):
-        self._shared.integer_property('width', val)
+        self._shared.integer_property(self.root, 'width', val)
 
     def height(self, val):
-        self._shared.integer_property('height', val)
+        self._shared.integer_property(self.root, 'height', val)
 
     def x(self, val):
-        self._shared.integer_property('x', val)
+        self._shared.integer_property(self.root, 'x', val)
 
     def y(self, val):
-        self._shared.integer_property('y', val)
+        self._shared.integer_property(self.root, 'y', val)
 
     #def class_name(self, name):
     #    pass

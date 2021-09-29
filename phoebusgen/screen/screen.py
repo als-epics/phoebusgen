@@ -42,20 +42,20 @@ class Screen(object):
             self.root.append(elem.root)
 
     def width(self, val):
-        self._shared.number_property('width', val)
+        self._shared.number_property(self.root, 'width', val)
 
     def height(self, val):
-        self._shared.number_property('height', val)
+        self._shared.number_property(self.root, 'height', val)
 
     def macro(self, name, val):
         self._shared.add_macro(name, val)
 
     def background_color(self, red, green, blue, alpha=255):
-        e = self._shared.create_element('background_color')
+        e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
 
     def predefined_background_color(self, name):
-        e = self._shared.create_element('background_color')
+        e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html

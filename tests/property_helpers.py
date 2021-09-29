@@ -1530,7 +1530,7 @@ class TestFallback(GenericTest):
         self.element.fallback_label(val)
         self.generic_element_test(tag_name, val)
 
-    def test_predefined_ffallback_color(self):
+    def test_predefined_fallback_color(self):
         tag_name = 'fallback_color'
         self.element.predefined_fallback_color(self.colors.Background)
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
@@ -1564,6 +1564,13 @@ class TestSelectionPV(GenericTest):
         val = "Selection:PV:Test"
         self.element.selection_pv(val)
         self.generic_element_test(tag_name, val)
+
+class TestColumns(GenericTest):
+    # add more testing!
+    def test_columns(self):
+        self.element.column("col1", 123, False, ["opt532", "option35"])
+        self.element.column("col2", 123, True, "optionStr")
+        self.assertEqual(len(self.element.find_element("columns").findall("column")), 2)
 
 class TestTabs(GenericTest):
     pass

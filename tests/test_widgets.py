@@ -162,7 +162,8 @@ class TestSymbol(unittest.TestCase, ph.TestPVName, ph.TestRotation, ph.TestBackg
         self.element = widgets.Symbol(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestTable(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestEditable, ph.TestSelectRows, ph.TestSelectionPV):
+                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestEditable, ph.TestSelectRows, ph.TestSelectionPV,
+                ph.TestColumns):
     def setUp(self):
         self.type = 'table'
         self.name = 'TableName'

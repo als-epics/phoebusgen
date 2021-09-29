@@ -25,35 +25,35 @@ class _SharedPropertyFunctions(object):
         macro = SubElement(root_macro, name)
         macro.text = str(val)
 
-    def generic_property(self, prop_type, val=None):
-        self.root.append(self.create_element(prop_type, val))
+    def generic_property(self, root_element, prop_type, val=None):
+        root_element.append(self.create_element(root_element, prop_type, val))
 
-    def integer_property(self, prop_type, val=None):
+    def integer_property(self, root_element, prop_type, val):
         if type(val) == int or type(val) == float:
-            self.generic_property(prop_type, int(val))
+            self.generic_property(root_element, prop_type, int(val))
         else:
             print('Property {} must be an integer! Not: {}'.format(prop_type, val))
 
-    def number_property(self, prop_type, val):
+    def number_property(self, root_element, prop_type, val):
         if type(val) == int or type(val) == float:
-            self.generic_property(prop_type, val)
+            self.generic_property(root_element, prop_type, val)
         else:
             print('Property {} must be a number! Not: {}'.format(prop_type, val))
 
-    def boolean_property(self, prop_type, val):
+    def boolean_property(self, root_element, prop_type, val):
         if type(val) == bool:
-            self.generic_property(prop_type, str(val).lower())
+            self.generic_property(root_element, prop_type, str(val).lower())
         elif type(val) == int:
-            self.generic_property(prop_type, str(bool(val)).lower())
+            self.generic_property(root_element, prop_type, str(bool(val)).lower())
         elif val.lower() == 'true' or val.lower() == 'false':
-            self.generic_property(prop_type, val.lower())
+            self.generic_property(root_element, prop_type, val.lower())
         else:
             print('Property {} must be a boolean value! Not: {}'.format(prop_type, val))
 
-    def create_element(self, prop_type, val=None):
-        element = self.root.find(prop_type)
+    def create_element(self, root_element, prop_type, val=None):
+        element = root_element.find(prop_type)
         if element is not None:
-            self.root.remove(element)
+            root_element.remove(element)
         element = Element(prop_type)
         if val is not None:
             if type(val) == bool:
@@ -61,6 +61,19 @@ class _SharedPropertyFunctions(object):
             else:
                 element.text = str(val)
         return element
+
+    def complex_property(self, root_elem, parent_elem_name, child_elem_name, children_elements):
+        complex_property_root = root_elem.find(parent_elem_name)
+        if complex_property_root is None:
+            complex_property_root = SubElement(root_elem, parent_elem_name)
+        child_elem = SubElement(complex_property_root, child_elem_name)
+        for tag_name, tag_options in children_elements.items():
+            elem = SubElement(child_elem, tag_name)
+            if tag_options['text'] != "" and tag_options['text'] is not None:
+                elem.text = tag_options['text']
+            if tag_options['attrib'] != "" and tag_options['attrib'] is not None:
+                for k, v in tag_options['attrib'].items():
+                    elem.attrib[k] = v
 
     def valid_rgb_value(self, val):
         try:
@@ -75,7 +88,7 @@ class _SharedPropertyFunctions(object):
             return False
 
     def create_color_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
-        sub_e = self.create_element('color')
+        sub_e = self.create_element(self.root, 'color')
         if name is None:
             for color in [red, green, blue, alpha]:
                 if not self.valid_rgb_value(color):
@@ -102,8 +115,8 @@ class _SharedPropertyFunctions(object):
             self.root.append(root_color_elem)
 
     def create_named_font_elemet(self, name):
-        root_font_elem = self.create_element('font')
-        child_font_elem = self.create_element('font')
+        root_font_elem = self.create_element(self.root, 'font')
+        child_font_elem = self.create_element(self.root, 'font')
         if isinstance(name, Enum):
             font_attrib = name.value
         elif isinstance(name, dict):
