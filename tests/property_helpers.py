@@ -1317,3 +1317,20 @@ class TestLabels(GenericTest):
         self.element.labels(label_names)
         self.assertEqual(len(self.element.find_element('labels').findall('text')), len(label_names))
 
+class TestArrayIndex(GenericTest):
+    def test_array_index(self):
+        tag_name = 'array_index'
+        val = 2
+        self.element.array_index(val)
+        self.generic_element_test(tag_name, val)
+
+class TestSymbols(GenericTest):
+    def test_symbols_single_string(self):
+        label_name = "testLabel1"
+        self.element.symbols(label_name)
+        self.child_element_test('symbols', 'symbol', label_name, {})
+
+    def test_symbols_list(self):
+        label_names = ["testLabel1", "file:/test.png", "label5"]
+        self.element.symbols(label_names)
+        self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))

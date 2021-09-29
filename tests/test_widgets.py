@@ -148,8 +148,8 @@ class TestProgressBar(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.pv_name = 'test:pv:forprogressbar'
         self.element = widgets.ProgressBar(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
-class TestSymbol(unittest.TestCase, ph.TestPVName, ph.TestRotation, ph.TestBackgroundColor,
-                      ph.TestTransparent, ph.TestAlarmBorder, ph.TestAutoSize, ph.TestEnabled):
+class TestSymbol(unittest.TestCase, ph.TestPVName, ph.TestRotation, ph.TestBackgroundColor, ph.TestArrayIndex,
+                      ph.TestTransparent, ph.TestAlarmBorder, ph.TestAutoSize, ph.TestEnabled, ph.TestSymbols):
     def setUp(self):
         self.type = 'symbol'
         self.name = 'SymbolWidget'
@@ -187,7 +187,7 @@ class TestTank(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundC
 
 class TestTextSymbol(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestTransparent, ph.TestHorizontalAlignment, ph.TestVerticalAlignment, ph.TestRotation,
-                     ph.TestWrapWords, ph.TestAlarmBorder, ph.TestEnabled):
+                     ph.TestWrapWords, ph.TestAlarmBorder, ph.TestEnabled, ph.TestArrayIndex, ph.TestSymbols):
     def setUp(self):
         self.name = 'text symbol widget'
         self.type = 'text-symbol'

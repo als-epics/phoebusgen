@@ -712,4 +712,22 @@ class _Labels(object):
                 label_elem = SubElement(root_label_tag, "text")
                 label_elem.text = label_list_or_name
 
+class _ArrayIndex(object):
+    def array_index(self, index):
+        self._shared.integer_property('array_index', index)
 
+class _Symbols(object):
+    def symbols(self, symbol_list_or_string):
+        if type(symbol_list_or_string) != list and type(symbol_list_or_string) != str:
+            print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(label_list_or_name)))
+        else:
+            root_label_tag = self.root.find('symbols')
+            if root_label_tag is None:
+                root_label_tag = SubElement(self.root, 'symbols')
+            if type(symbol_list_or_string) == list:
+                for label in symbol_list_or_string:
+                    label_elem = SubElement(root_label_tag, "symbol")
+                    label_elem.text = label
+            else:
+                label_elem = SubElement(root_label_tag, "symbol")
+                label_elem.text = symbol_list_or_string
