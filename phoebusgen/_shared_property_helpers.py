@@ -62,19 +62,6 @@ class _SharedPropertyFunctions(object):
                 element.text = str(val)
         return element
 
-    def complex_property(self, root_elem, parent_elem_name, child_elem_name, children_elements):
-        complex_property_root = root_elem.find(parent_elem_name)
-        if complex_property_root is None:
-            complex_property_root = SubElement(root_elem, parent_elem_name)
-        child_elem = SubElement(complex_property_root, child_elem_name)
-        for tag_name, tag_options in children_elements.items():
-            elem = SubElement(child_elem, tag_name)
-            if tag_options['text'] != "" and tag_options['text'] is not None:
-                elem.text = tag_options['text']
-            if tag_options['attrib'] != "" and tag_options['attrib'] is not None:
-                for k, v in tag_options['attrib'].items():
-                    elem.attrib[k] = v
-
     def valid_rgb_value(self, val):
         try:
             val = int(val)

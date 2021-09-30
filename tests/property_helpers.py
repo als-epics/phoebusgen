@@ -1328,6 +1328,7 @@ class TestSymbols(GenericTest):
     def test_symbols_list(self):
         label_names = ["testLabel1", "file:/test.png", "label5"]
         self.element.symbols(label_names)
+        print(self.element)
         self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
 
 class TestInitialIndex(GenericTest):
@@ -1576,4 +1577,14 @@ class TestTabs(GenericTest):
     pass
 
 class TestNavTabs(GenericTest):
-    pass
+    def test_nav_tab(self):
+        self.element.tab("TabElement2", "./tab2.bob", "TabGroupName", {"MAC1": "MacV"})
+        self.assertIsNotNone(self.element.root.find("tabs"))
+        self.assertIsNotNone(self.element.root.find("tabs").find("tab"))
+        self.assertEqual(self.element.root.find("tabs").find("tab").find("name").text, "TabElement2")
+        self.assertEqual(self.element.root.find("tabs").find("tab").find("file").text, "./tab2.bob")
+        self.assertEqual(self.element.root.find("tabs").find("tab").find("group_name").text, "TabGroupName")
+        self.assertIsNotNone(self.element.root.find("tabs").find("tab").find("macros"))
+        self.assertEqual(self.element.root.find("tabs").find("tab").find("macros").find("MAC1").text, "MacV")
+        self.element.tab("TabElement", "./tab.bob", "TabGroupName")
+        self.assertEqual(len(self.element.root.find("tabs").findall("tab")), 2)
