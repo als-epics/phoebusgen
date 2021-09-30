@@ -3,7 +3,17 @@ from xml.dom import minidom
 from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
 class _Widget(object):
-    def __init__(self, w_type, name, x_pos, y_pos, width, height):
+    """ Base Class for all Phoebus widgets """
+    def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
+        """
+        Base Class for all Phoebus widgets
+        :param w_type: <str> Widget type to be written into XML
+        :param name: <str> Widget name
+        :param x: <int> X position
+        :param y: <int> Y position
+        :param width: <int> Widget width
+        :param height: <int> Widget height:
+        """
         self.root = Element('widget', type=w_type, version='2.0.0')
         name_child = SubElement(self.root, 'name')
         name_child.text = name
@@ -14,26 +24,53 @@ class _Widget(object):
         self._shared.integer_property(self.root, 'width', width)
         self._shared.integer_property(self.root, 'height', height)
 
-    def visible(self, visible):
-        child = SubElement(self.root, 'visible')
-        child.text = str(visible)
+    def visible(self, visible: bool) -> None:
+        """
+        Change visible property for widget
+        :param visible: <bool> Is widget visible?
+        """
+        self._shared.boolean_property(self.root, 'visible', visible)
 
-    def version(self, version):
+    def version(self, version: str) -> None:
+        """
+        Change widget version in root widget. i.e. <widget type="textupdate" version="2.0.0">
+        :param version: <str> Version string
+        """
         self.root.attrib['version'] = version
 
-    def name(self, val):
-        self._shared.generic_property(self.root, 'name', val)
+    def name(self, name: str) -> None:
+        """
+        Change widget name
+        :param name: <str> Widget name
+        """
+        self._shared.generic_property(self.root, 'name', name)
 
-    def width(self, val):
-        self._shared.integer_property(self.root, 'width', val)
+    def width(self, width: int) -> None:
+        """
+        Change widget width
+        :param width: <int> Width
+        """
+        self._shared.integer_property(self.root, 'width', width)
 
-    def height(self, val):
-        self._shared.integer_property(self.root, 'height', val)
+    def height(self, height: int) -> None:
+        """
+        Change widget height
+        :param height: <int> height
+        """
+        self._shared.integer_property(self.root, 'height', height)
 
-    def x(self, val):
+    def x(self, val: int) -> None:
+        """
+        Change widget x position
+        :param val: <int> x
+        """
         self._shared.integer_property(self.root, 'x', val)
 
-    def y(self, val):
+    def y(self, val: int) -> None:
+        """
+        Change widget y position
+        :param val: <int> y
+        """
         self._shared.integer_property(self.root, 'y', val)
 
     #def class_name(self, name):
@@ -45,11 +82,20 @@ class _Widget(object):
     #def scripts(self, script):
     #    pass
 
-    def tool_tip(self, tool_tip):
+    def tool_tip(self, tool_tip: str) -> None:
+        """
+        Add tool tip string to widget
+        :param tool_tip: <str> Tool tip string
+        """
         child = SubElement(self.root, 'tooltip')
         child.text = tool_tip
 
-    def find_element(self, tag):
+    def find_element(self, tag: str) -> Element:
+        """
+        Find first XML element in widget by tag name
+        :param tag: <str> Tag name to search for
+        :return: Return XML element or None if not found
+        """
         elements = self.root.findall(tag)
         # check to make sure there are not more than 1 elements
         # we don't want duplicate tags
@@ -61,12 +107,21 @@ class _Widget(object):
         else:
             return elements[0]
 
-    def remove_element(self, tag):
+    def remove_element(self, tag: str) -> None:
+        """
+        Delete XML element in widget by tag name
+        :param tag: <str> Tag name to delete
+        """
         element = self.find_element(tag)
         if element is not None:
             self.root.remove(element)
 
-    def get_element_value(self, tag):
+    def get_element_value(self, tag: str) -> str:
+        """
+        Get value of an XML element by tag name
+        :param tag: <str> Tag name to get value from
+        :return: Value of XML tag
+        """
         return self.find_element(tag).text
 
     # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
@@ -83,6 +138,3 @@ class _Widget(object):
     def __repr__(self):
         return self._prettify(self.root)
 
-
-if __name__ == '__main__':
-    pass

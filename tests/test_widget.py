@@ -67,7 +67,7 @@ class TestWidgetClass(unittest.TestCase):
         self.assertEqual(len(w.root), 6)
         for child in w.root:
             if child.tag == 'visible':
-                self.assertEqual(child.text, 'False')
+                self.assertEqual(child.text, 'false')
 
         self.base_x = 10
         self.base_y = 12

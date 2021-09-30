@@ -1,4 +1,18 @@
-"phoebusgen package -- test_widget"
+""" phoebusgen Module
+This module contains a Python class representation of a Phoebus screen and all widgets.
+With the module, you can create Python scripts to write Phoebus screens to a .bob file.
+Almost all possible functionality should exist in Phoebusgen that you can do in the Display
+Builder Editor.
+
+In addition, phoebusgen.colors and phoebusgen.fonts are Enum objects that are available
+to use to add predefined colors/fonts to widgets.
+    Example: text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
+A custom site specific color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts
+to reflect your site's custom definitions.
+"""
+
+# Copyright (c) 2021 Lawrence Berkeley National Laboratory,
+# Advanced Light Source, Engineering Division
 
 import phoebusgen.widget
 import phoebusgen.screen

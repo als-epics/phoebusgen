@@ -166,6 +166,3 @@ class _SharedPropertyFunctions(object):
         directory = 1
         name_and_extension = 2
         base_name = 3
-
-if __name__ == '__main__':
-    pass
