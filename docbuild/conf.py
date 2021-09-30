@@ -30,7 +30,7 @@ release = '2.3'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -40,7 +40,12 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-autodoc_default_options = { "members": True, "undoc-members": True, "private-members": True, "inherited-members": True  }
+autodoc_default_options = { 
+        "members": "widgets, screen, widget, properties", 
+        "private-members": "widgets, screen", 
+        "inherited-members": "widgets",  
+        "exclude-members": "_prettify, _add_action, _add_font_style, _add_rotation_step, _get_font_element, _add_mode, _add_horizontal_alignment, _add_vertical_alignment, _add_file_component, _add_resize_behavior, _add_state, _add_style"
+        }
 
 
 # -- Options for HTML output -------------------------------------------------
