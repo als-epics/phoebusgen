@@ -504,7 +504,8 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 #            _p._AutoScale, _p._LogScale, _p._MinMax, _p._Cursor, _p._RegionsOfInterest):
 #    pass
 class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
-            _p._AlarmBorder, _p._MinMax):
+            _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
+            _p._LogScale):
     """ Image - Incomplete Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -519,11 +520,12 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
         _Widget.__init__(self, 'image', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# showgrid, title, labelfont, scalefont, showtoolbar, timerange, yaxes, traces
+# showgrid, labelfont, scalefont, timerange, yaxes, traces
 #class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowGrid, _p._Title, _p._LabelFont, _p._ScaleFont,
 #                 _p._ShowToolbar, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
-class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar):
+class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._StripChartTitle,
+                 _p._ShowLegend, _p._ShowGrid):
     """ StripChart - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -536,7 +538,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
         """
         _Widget.__init__(self, 'stripchart', name, x, y, width, height)
 
-# gridcolor, title, showtoolbar, showlegend, xaxis, yaxes, traces, markers
+# gridcolor, title, showlegend, xaxis, yaxes, traces, markers
 #class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._GridColor, _p._Title, _p._ShowToolbar, _p._ShowLegend,
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass

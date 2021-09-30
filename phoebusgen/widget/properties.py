@@ -1519,3 +1519,66 @@ class _Columns(object):
                 option_elem.text = opt
         else:
             self._shared.generic_property(options_root, "option", options)
+
+class _StripChartTitle(object):
+    def title(self, title: str) -> None:
+        """
+        Add title to strip chart widget
+        :param title: <str> Title of strip chart
+        """
+        self._shared.generic_property(self.root, 'title', title)
+
+class _AutoScale(object):
+    def auto_scale(self, auto_scale: bool) -> None:
+        """
+        Add auto scale property to widget
+        :param auto_scale: <bool> Auto scale image?
+        """
+        self._shared.boolean_property(self.root, 'autoscale', auto_scale)
+
+class _DataHeightAndWidth(object):
+    def data_height(self, height: int) -> None:
+        """
+        Add data height property to widget
+        :param height: <int> Data height
+        """
+        self._shared.integer_property(self.root, 'data_height', height)
+
+    def data_width(self, width: int) -> None:
+        """
+        Add data width property to widget
+        :param width: <int> Data width
+        """
+        self._shared.integer_property(self.root, 'data_width', width)
+
+class _UnsignedData(object):
+    def unsigned_data(self, unsigned: bool = True) -> None:
+        """
+        Add unsigned data property to widget. Default arg is True
+        :param unsigned: <bool> Is data unsigned?
+        """
+        self._shared.boolean_property(self.root, 'unsigned', unsigned)
+
+class _LogScale(object):
+    def log_scale(self, log_scale: bool = True) -> None:
+        """
+        Add log scale property to widget. Default arg is True
+        :param log_scale: <bool> Use log scale?
+        """
+        self._shared.boolean_property(self.root, 'log_scale', log_scale)
+
+class _ShowLegend(object):
+    def show_legend(self, show_legend: bool = True) -> None:
+        """
+        Add show legend property to widget. Default arg is True
+        :param show_legend: <bool> Show legend?
+        """
+        self._shared.boolean_property(self.root, 'show_legend', show_legend)
+
+class _ShowGrid(object):
+    def show_grid(self, show_grid: bool = True) -> None:
+        """
+        Add show grid property to widget. Default arg is True
+        :param show_grid: <bool> Show grid?
+        """
+        self._shared.boolean_property(self.root, 'show_grid', show_grid)

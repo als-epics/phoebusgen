@@ -392,7 +392,8 @@ class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowT
         self.element = widgets.DataBrowser(self.name, self.file, self.x, self.y, self.width, self.height)
 
 class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax):
+                ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax, ph.TestAutoScale, ph.TestDataHeightAndWidth,
+                ph.TestLogScale, ph.TestUnsignedData):
     def setUp(self):
         self.name = 'my data browser'
         self.pv_name = "Image:PV"
@@ -404,7 +405,7 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
         self.element = widgets.Image(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar):
+                ph.TestShowToolbar, ph.TestStripChartTitle, ph.TestShowLegend, ph.TestShowGrid):
     def setUp(self):
         self.name = 'strippers'
         self.type = 'stripchart'

@@ -1588,3 +1588,98 @@ class TestNavTabs(GenericTest):
         self.assertEqual(self.element.root.find("tabs").find("tab").find("macros").find("MAC1").text, "MacV")
         self.element.tab("TabElement", "./tab.bob", "TabGroupName")
         self.assertEqual(len(self.element.root.find("tabs").findall("tab")), 2)
+
+class TestStripChartTitle(GenericTest):
+    def test_strip_chart_title(self):
+        tag_name = 'title'
+        val = "MyChart Title"
+        self.element.title(val)
+        self.generic_element_test(tag_name, val)
+
+class TestAutoScale(GenericTest):
+    def test_auto_scale_false(self):
+        tag_name = 'autoscale'
+        self.element.auto_scale(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_auto_scale_true(self):
+        tag_name = 'autoscale'
+        self.element.auto_scale(True)
+        self.generic_element_test(tag_name, True)
+
+class TestDataHeightAndWidth(GenericTest):
+    def test_data_height(self):
+        tag_name = 'data_height'
+        val = 23
+        self.element.data_height(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_data_width(self):
+        tag_name = 'data_width'
+        val = 964
+        self.element.data_width(val)
+        self.generic_element_test(tag_name, val)
+
+class TestLogScale(GenericTest):
+    def test_log_scale_default(self):
+        tag_name = 'log_scale'
+        self.element.log_scale()
+        self.generic_element_test(tag_name, True)
+
+    def test_log_scale_false(self):
+        tag_name = 'log_scale'
+        self.element.log_scale(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_log_scale_true(self):
+        tag_name = 'log_scale'
+        self.element.log_scale(True)
+        self.generic_element_test(tag_name, True)
+
+class TestUnsignedData(GenericTest):
+    def test_unsigned_default(self):
+        tag_name = 'unsigned'
+        self.element.unsigned_data()
+        self.generic_element_test(tag_name, True)
+
+    def test_unsigned_false(self):
+        tag_name = 'unsigned'
+        self.element.unsigned_data(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_unsigned_true(self):
+        tag_name = 'unsigned'
+        self.element.unsigned_data(True)
+        self.generic_element_test(tag_name, True)
+
+class TestShowGrid(GenericTest):
+    def test_show_grid_default(self):
+        tag_name = 'show_grid'
+        self.element.show_grid()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_grid_false(self):
+        tag_name = 'show_grid'
+        self.element.show_grid(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_grid_true(self):
+        tag_name = 'show_grid'
+        self.element.show_grid(True)
+        self.generic_element_test(tag_name, True)
+
+class TestShowLegend(GenericTest):
+    def test_show_legend_default(self):
+        tag_name = 'show_legend'
+        self.element.show_legend()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_legend_false(self):
+        tag_name = 'show_legend'
+        self.element.show_legend(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_sshow_legend_true(self):
+        tag_name = 'show_legend'
+        self.element.show_legend(True)
+        self.generic_element_test(tag_name, True)
