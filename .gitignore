@@ -20,3 +20,5 @@ tests/*.bob
 examples/*.bob
 
 local/
+
+docs/_build
