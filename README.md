@@ -57,7 +57,7 @@ Low Level Python API to directly create Phoebus widgets. All standard Phoebus wi
 - Strip Chart
 - X/Y Plot
 
-See [here](docs/widget.md) for more details on available widgets and their methods.
+See [here](docs/html) for more details on the available methods for each widget.
 
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
