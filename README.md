@@ -49,7 +49,6 @@ Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be adde
 
 ```
 
-
 # Modules 
 
 ## phoebusgen.widget
@@ -71,6 +70,9 @@ Example
 
 Python object to represent a Phoebus screen. Widgets can be added to the screen object and the screen object can be written to a .bob file to be opened in Phoebus.
 
+[Screen Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
+
+Example
 ```
 >>> import phoebusgen.screen
 >>> import phoebusgen.widget
@@ -97,8 +99,6 @@ Python object to represent a Phoebus screen. Widgets can be added to the screen 
   </widget>
 </display>
 ```
-
-[Screen Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
 
 # Site specific color and font definitions
 
