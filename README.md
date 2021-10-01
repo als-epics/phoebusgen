@@ -9,7 +9,7 @@ https://github.com/ControlSystemStudio/phoebus
 
 This module aims to provide a way to generate Phoebus xml through Python. See examples [here](examples).
 
-API docs here: [phoebusgen docs](https://tynanford.github.io/phoebusgen/)
+API docs here: [https://tynanford.github.io/phoebusgen](https://tynanford.github.io/phoebusgen/)
 
 # Requirements
 
@@ -22,6 +22,8 @@ pip install phoebusgen
 ```
 
 # Intro
+
+Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be added to a screen or even to other widgets (for things like Group or Tab widgets).
 
 ```
 >>> import phoebusgen
@@ -52,7 +54,7 @@ pip install phoebusgen
 
 ## phoebusgen.widget
 
-Low Level Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some are not fully feature complete.
+Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some (3) are not fully feature complete.
 
 [Widgets Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
@@ -61,13 +63,13 @@ Low Level Python API to directly create Phoebus widgets. All standard Phoebus wi
 - Strip Chart
 - X/Y Plot
 
-See [here](docs/html) for more details on the available methods for each widget.
-
 Example
 - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
 
 
 ## phoebusgen.screen 
+
+Python object to represent a Phoebus screen. Widgets can be added to the screen object and the screen object can be written to a .bob file to be opened in Phoebus.
 
 ```
 >>> import phoebusgen.screen
