@@ -524,7 +524,7 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
 #class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowGrid, _p._Title, _p._LabelFont, _p._ScaleFont,
 #                 _p._ShowToolbar, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
-class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._StripChartTitle,
+class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
                  _p._ShowLegend, _p._ShowGrid):
     """ StripChart - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
@@ -542,7 +542,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
 #class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._GridColor, _p._Title, _p._ShowToolbar, _p._ShowLegend,
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
-class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar):
+class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title):
     """ XYPlot - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

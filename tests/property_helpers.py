@@ -1589,8 +1589,8 @@ class TestNavTabs(GenericTest):
         self.element.tab("TabElement", "./tab.bob", "TabGroupName")
         self.assertEqual(len(self.element.root.find("tabs").findall("tab")), 2)
 
-class TestStripChartTitle(GenericTest):
-    def test_strip_chart_title(self):
+class TestTitle(GenericTest):
+    def test_title(self):
         tag_name = 'title'
         val = "MyChart Title"
         self.element.title(val)

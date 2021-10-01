@@ -1520,11 +1520,11 @@ class _Columns(object):
         else:
             self._shared.generic_property(options_root, "option", options)
 
-class _StripChartTitle(object):
+class _Title(object):
     def title(self, title: str) -> None:
         """
-        Add title to strip chart widget
-        :param title: <str> Title of strip chart
+        Add title to widget
+        :param title: <str> Title
         """
         self._shared.generic_property(self.root, 'title', title)
 

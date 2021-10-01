@@ -405,7 +405,7 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
         self.element = widgets.Image(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestStripChartTitle, ph.TestShowLegend, ph.TestShowGrid):
+                ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid):
     def setUp(self):
         self.name = 'strippers'
         self.type = 'stripchart'
@@ -416,7 +416,7 @@ class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroun
         self.element = widgets.StripChart(self.name, self.x, self.y, self.width, self.height)
 
 class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar):
+                ph.TestShowToolbar, ph.TestTitle):
     def setUp(self):
         self.name = 'xyxyxyxyx'
         self.type = 'xyplot'
