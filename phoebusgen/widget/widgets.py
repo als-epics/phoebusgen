@@ -7,11 +7,12 @@ class Arc(_Widget, _p._Macro, _p._Angle, _p._LineWidth, _p._LineColor, _p._Backg
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Arc Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'arc', name, x, y, width, height)
 
@@ -20,11 +21,12 @@ class Ellipse(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundCo
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Ellipse Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'ellipse', name, x, y, width, height)
 
@@ -34,12 +36,13 @@ class Label(_Widget, _p._Text, _p._Macro, _p._Font, _p._ForegroundColor, _p._Bac
     def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Label Widget
-        :param name: <str> Widget name
-        :param text: <str> Text of label
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param text: Text of label
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'label', name, x, y, width, height)
         self.text(text)
@@ -49,12 +52,13 @@ class Picture(_Widget, _p._Macro, _p._File, _p._StretchToFit, _p._Rotation):
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Picture Widget
-        :param name: <str> Widget name
-        :param file: <str> File path to image
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param file: File path to image
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'picture', name, x, y, width, height)
         self.file(file)
@@ -64,11 +68,12 @@ class Polygon(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundCo
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Polygon Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'polygon', name, x, y, width, height)
 
@@ -77,11 +82,12 @@ class Polyline(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._LineStyle, 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Polyline Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'polyline', name, x, y, width, height)
 
@@ -90,11 +96,12 @@ class Rectangle(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._Background
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Rectangle Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'rectangle', name, x, y, width, height)
 
@@ -105,12 +112,13 @@ class ByteMonitor(_Widget, _p._PVName, _p._StartBit, _p._NumBits, _p._ReverseBit
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ByteMonitor Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'byte_monitor', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -121,12 +129,13 @@ class LED(_Widget, _p._PVName, _p._Bit, _p._Off, _p._On, _p._Font, _p._Foregroun
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create LED Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'led', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -137,12 +146,13 @@ class LEDMultiState(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Line
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create LEDMultiState Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'multi_state_led', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -154,12 +164,13 @@ class Meter(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._F
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Meter Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'meter', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -170,12 +181,13 @@ class ProgressBar(_Widget, _p._PVName, _p._FillColor, _p._BackgroundColor, _p._H
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ProgressBar Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'progressbar', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -187,12 +199,13 @@ class Symbol(_Widget, _p._Symbols, _p._PVName, _p._BackgroundColor, _p._InitialI
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Symbol Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'symbol', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -203,12 +216,13 @@ class Table(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundCo
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Table Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'table', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -220,12 +234,13 @@ class Tank(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundCol
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Tank Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height:
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height:
         """
         _Widget.__init__(self, 'tank', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -237,12 +252,13 @@ class TextSymbol(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextSymbol Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'text-symbol', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -254,12 +270,13 @@ class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextUpdate Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'textupdate', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -269,12 +286,13 @@ class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._Limit
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Thermometer Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'thermometer', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -286,13 +304,14 @@ class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._For
     def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ActionButton Widget
-        :param name: <str> Widget name
-        :param text: <str> Button text
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param text: Button text
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'action_button', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -304,12 +323,13 @@ class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p.
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create BooleanButton Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'bool_button', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -320,13 +340,14 @@ class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._Foreground
     def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create CheckBox Widget
-        :param name: <str> Widget name
-        :param label: <str> Label text
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param label: Label text
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'checkbox', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -338,12 +359,13 @@ class ChoiceButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backg
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ChoiceButton Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'choice', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -354,12 +376,13 @@ class ComboBox(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgroun
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ComboBox Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'combo', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -370,12 +393,13 @@ class FileSelector(_Widget, _p._PVName, _p._FileComponent, _p._AlarmBorder, _p._
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create FileSelector Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'fileselector', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -386,12 +410,13 @@ class RadioButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Horizo
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create RadioButton Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'radio', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -403,12 +428,13 @@ class ScaledSlider(_Widget, _p._PVName, _p._Horizontal, _p._ForegroundColor, _p.
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ScaledSlider Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'scaledslider', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -419,12 +445,13 @@ class Scrollbar(_Widget, _p._PVName, _p._Horizontal, _p._ShowValueTip, _p._Alarm
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Scrollbar Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'scrollbar', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -435,13 +462,14 @@ class SlideButton(_Widget, _p._PVName, _p._Bit, _p._Label, _p._OffColor, _p._OnC
     def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create SlideButton Widget
-        :param name: <str> Widget name
-        :param label: <str> Label text
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param label: Label text
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'slide_button', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -453,12 +481,13 @@ class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p.
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Spinner Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'spinner', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -470,12 +499,13 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextEntry Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'textentry', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -487,12 +517,13 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'databrowser', name, x, y, width, height)
         self.file(file)
@@ -510,12 +541,13 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Image Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'image', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -530,11 +562,12 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create StripChart Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'stripchart', name, x, y, width, height)
 
@@ -547,11 +580,12 @@ class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create XYPlot Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'xyplot', name, x, y, width, height)
 
@@ -561,12 +595,13 @@ class Array(_Widget, _p._PVName, _p._Macro, _p._ForegroundColor, _p._BackgroundC
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Array Widget
-        :param name: <str> Widget name
-        :param pv_name: <str> Widget PV
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'array', name, x, y, width, height)
         self.pv_name(pv_name)
@@ -576,12 +611,13 @@ class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._Grou
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create EmbeddedDisplay Widget
-        :param name: <str> Widget name
-        :param file: <str> File path
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param file: File path
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'embedded', name, x, y, width, height)
         self.file(file)
@@ -591,11 +627,12 @@ class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._Foregrou
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Group Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'group', name, x, y, width, height)
 
@@ -605,11 +642,12 @@ class NavigationTabs(_Widget, _p._NavTabs, _p._ActiveTab, _p._TabWidth, _p._TabS
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create NavigationTabs Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'navtabs', name, x, y, width, height)
 
@@ -618,11 +656,12 @@ class Tabs(_Widget, _p._Macro, _p._Tabs, _p._ActiveTab, _p._TabHeight, _p._Font,
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Tabs Widget
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'tabs', name, x, y, width, height)
 
@@ -633,12 +672,13 @@ class ThreeDViewer(_Widget, _p._File):
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ThreeDViewer Widget
-        :param name: <str> Widget name
-        :param file: <str> File path
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param file: File path
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, '3dviewer', name, x, y, width, height)
         self.file(file)
@@ -648,12 +688,13 @@ class WebBrowser(_Widget, _p._URL, _p._ShowToolbar):
     def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create WebBrowser Widget
-        :param name: <str> Widget name
-        :param url: <str> URL
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height
+
+        :param name: Widget name
+        :param url: URL
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
         """
         _Widget.__init__(self, 'webbrowser', name, x, y, width, height)
         self.url(url)

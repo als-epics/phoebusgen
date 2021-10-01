@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<widget type="textupdate" version="2.0.0">
-  <name>Generic TextUpdate</name>
-  <x>500</x>
-  <y>300</y>
-  <width>100</width>
-  <height>20</height>
-  <pv_name>TEST:ME</pv_name>
-</widget>

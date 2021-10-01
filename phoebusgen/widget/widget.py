@@ -7,12 +7,13 @@ class _Widget(object):
     def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
         Base Class for all Phoebus widgets
-        :param w_type: <str> Widget type to be written into XML
-        :param name: <str> Widget name
-        :param x: <int> X position
-        :param y: <int> Y position
-        :param width: <int> Widget width
-        :param height: <int> Widget height:
+
+        :param w_type: Widget type to be written into XML
+        :param name: Widget name
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height:
         """
         self.root = Element('widget', type=w_type, version='2.0.0')
         name_child = SubElement(self.root, 'name')
@@ -27,49 +28,56 @@ class _Widget(object):
     def visible(self, visible: bool) -> None:
         """
         Change visible property for widget
-        :param visible: <bool> Is widget visible?
+
+        :param visible: Is widget visible?
         """
         self._shared.boolean_property(self.root, 'visible', visible)
 
     def version(self, version: str) -> None:
         """
         Change widget version in root widget. i.e. <widget type="textupdate" version="2.0.0">
-        :param version: <str> Version string
+
+        :param version: Version string
         """
         self.root.attrib['version'] = version
 
     def name(self, name: str) -> None:
         """
         Change widget name
-        :param name: <str> Widget name
+
+        :param name: Widget name
         """
         self._shared.generic_property(self.root, 'name', name)
 
     def width(self, width: int) -> None:
         """
         Change widget width
-        :param width: <int> Width
+
+        :param width: Width
         """
         self._shared.integer_property(self.root, 'width', width)
 
     def height(self, height: int) -> None:
         """
         Change widget height
-        :param height: <int> height
+
+        :param height: height
         """
         self._shared.integer_property(self.root, 'height', height)
 
     def x(self, val: int) -> None:
         """
         Change widget x position
-        :param val: <int> x
+
+        :param val: x
         """
         self._shared.integer_property(self.root, 'x', val)
 
     def y(self, val: int) -> None:
         """
         Change widget y position
-        :param val: <int> y
+
+        :param val: y
         """
         self._shared.integer_property(self.root, 'y', val)
 
@@ -85,7 +93,8 @@ class _Widget(object):
     def tool_tip(self, tool_tip: str) -> None:
         """
         Add tool tip string to widget
-        :param tool_tip: <str> Tool tip string
+
+        :param tool_tip: Tool tip string
         """
         child = SubElement(self.root, 'tooltip')
         child.text = tool_tip
@@ -93,7 +102,8 @@ class _Widget(object):
     def find_element(self, tag: str) -> Element:
         """
         Find first XML element in widget by tag name
-        :param tag: <str> Tag name to search for
+
+        :param tag: Tag name to search for
         :return: Return XML element or None if not found
         """
         elements = self.root.findall(tag)
@@ -110,7 +120,8 @@ class _Widget(object):
     def remove_element(self, tag: str) -> None:
         """
         Delete XML element in widget by tag name
-        :param tag: <str> Tag name to delete
+
+        :param tag: Tag name to delete
         """
         element = self.find_element(tag)
         if element is not None:
@@ -119,7 +130,8 @@ class _Widget(object):
     def get_element_value(self, tag: str) -> str:
         """
         Get value of an XML element by tag name
-        :param tag: <str> Tag name to get value from
+
+        :param tag: Tag name to get value from
         :return: Value of XML tag
         """
         return self.find_element(tag).text
