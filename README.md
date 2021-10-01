@@ -9,6 +9,8 @@ https://github.com/ControlSystemStudio/phoebus
 
 This module aims to provide a way to generate Phoebus xml through Python. See examples [here](examples).
 
+API docs here: [phoebusgen docs](https://tynanford.github.io/phoebusgen/)
+
 # Requirements
 
 - Python >= 3.5
@@ -52,6 +54,8 @@ pip install phoebusgen
 
 Low Level Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some are not fully feature complete.
 
+[Widgets Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
+
 ### Incomplete Widgets
 - Image
 - Strip Chart
@@ -91,6 +95,8 @@ Example
   </widget>
 </display>
 ```
+
+[Screen Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
 
 # Site specific color and font definitions
 
