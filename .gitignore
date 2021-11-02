@@ -18,6 +18,7 @@ tests/*.bob
 *.swp
 
 examples/*.bob
+!examples/exampleInPhoebus.bob
 
 local/
 

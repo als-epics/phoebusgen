@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Generate Screen</name>
+  <macros>
+    <TEST_MACRO>25</TEST_MACRO>
+  </macros>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <class>TITLE</class>
+    <text>Generate Phoebus screen with Phoebusgen</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>680</width>
+    <height>31</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedPy">
+          <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+import os
+
+my_pv = PVUtil.createPV("loc://test", 500)
+
+value = PVUtil.getString(my_pv)
+os.system("python ~/als/hlc/phoebusgen/examples/exampleInPhoebus.py  " + value)]]></text>
+        </script>
+        <description>Execute Script</description>
+      </action>
+    </actions>
+    <pv_name>loc://test</pv_name>
+    <text>Generate Screen</text>
+    <y>140</y>
+    <width>210</width>
+    <height>60</height>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>loc://test&lt;VLong&gt;(2)</pv_name>
+    <x>420</x>
+    <y>60</y>
+    <width>160</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry</name>
+    <pv_name>loc://test&lt;VLong&gt;(2)</pv_name>
+    <x>240</x>
+    <y>60</y>
+    <width>160</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Number of local PVs to display</text>
+    <y>60</y>
+    <width>250</width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_1</name>
+    <actions>
+      <action type="open_display">
+        <file>./generated.bob</file>
+        <target>window</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+    <pv_name>loc://test</pv_name>
+    <text>Open Screen</text>
+    <x>250</x>
+    <y>140</y>
+    <width>210</width>
+    <height>60</height>
+  </widget>
+</display>
