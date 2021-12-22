@@ -9,7 +9,7 @@ https://github.com/ControlSystemStudio/phoebus
 
 This module aims to provide a way to generate Phoebus xml through Python. See examples [here](examples).
 
-API docs here: [https://tynanford.github.io/phoebusgen](https://tynanford.github.io/phoebusgen/)
+API docs here: [https://als-epics.github.io/phoebusgen](https://als-epics.github.io/phoebusgen/)
 
 # Requirements
 
