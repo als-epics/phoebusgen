@@ -1,8 +1,8 @@
 Python Module to Generate Phoebus Control Screens
 ===
 
-[![Python unittest Status](https://github.com/tynanford/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/tynanford/phoebusgen/actions)
-[![codecov](https://codecov.io/gh/tynanford/phoebusgen/branch/master/graph/badge.svg)](https://codecov.io/gh/tynanford/phoebusgen)
+[![Python unittest Status](https://github.com/als-epics/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/als-epics/phoebusgen/actions)
+[![codecov](https://codecov.io/gh/als-epics/branch/master/graph/badge.svg)](https://codecov.io/gh/als-epics/phoebusgen)
 
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
 https://github.com/ControlSystemStudio/phoebus
@@ -55,7 +55,7 @@ Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be adde
 
 Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some (3) are not fully feature complete.
 
-[Widgets Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
+[Widgets Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
 ### Incomplete Widgets
 - Image
@@ -70,7 +70,7 @@ Example
 
 Python object to represent a Phoebus screen. Widgets can be added to the screen object and the screen object can be written to a .bob file to be opened in Phoebus.
 
-[Screen Docs](https://tynanford.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
+[Screen Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
 
 Example
 ```
