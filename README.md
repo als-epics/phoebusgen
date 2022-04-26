@@ -63,7 +63,7 @@ Python API to directly create Phoebus widgets. All standard Phoebus widgets are 
 - X/Y Plot
 
 Example
-- ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, height, width)```
+- ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
 
 
 ## phoebusgen.screen 
