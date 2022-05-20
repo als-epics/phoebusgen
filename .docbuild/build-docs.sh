@@ -4,6 +4,7 @@ cd $(dirname $0)
 
 make clean
 rm -rf source/
+rm -rf ../docs
 
 sphinx-apidoc -o ./source ../phoebusgen
 
