@@ -23,3 +23,4 @@ examples/*.bob
 local/
 
 .docbuild/_build
+.docbuild/source
