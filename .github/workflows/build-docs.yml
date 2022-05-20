@@ -23,7 +23,7 @@ jobs:
         pip install sphinx 
         pip install sphinx_autodoc_typehints 
     - name: Build Docs
-      run: ./docbuild/build-docs.sh
+      run: ./.docbuild/build-docs.sh
     - name: Archive docs
       uses: actions/upload-artifact@v3
       with:
