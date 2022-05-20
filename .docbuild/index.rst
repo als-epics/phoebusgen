@@ -9,7 +9,7 @@ Welcome to phoebusgen's documentation!
 
 The code of this project is on Github: `phoebusgen <https://github.com/tynanford/phoebusgen>`_
 
-Testing ... Look at the phoebusgen.widget.widgets module and phoebusgen.screen.Screen module for API info.
+Look at the phoebusgen.widget.widgets module and phoebusgen.screen.Screen module for API info.
 
 .. toctree::
    :maxdepth: 2
