@@ -13,6 +13,8 @@ This module aims to provide a way to generate Phoebus xml through Python. See ex
 
 API docs here: [https://als-epics.github.io/phoebusgen](https://als-epics.github.io/phoebusgen/)
 
+Suggestions, comments, and pull requests are welcome.
+
 # Requirements
 
 - Python >= 3.5
