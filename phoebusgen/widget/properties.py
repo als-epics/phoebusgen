@@ -1710,3 +1710,12 @@ class _ShowGrid(object):
         :param show_grid: Show grid?
         """
         self._shared.boolean_property(self.root, 'show_grid', show_grid)
+
+class _TimeRange(object):
+    def time_range(self, time_range: str) -> None:
+        """
+        Add time range of plot to widget
+
+        :param time_range: Time range of plot, i.e. "5 minutes", "1 hour", etc
+        """
+        self._shared.generic_property(self.root, 'time_range', time_range)

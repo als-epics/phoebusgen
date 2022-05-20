@@ -1683,3 +1683,10 @@ class TestShowLegend(GenericTest):
         tag_name = 'show_legend'
         self.element.show_legend(True)
         self.generic_element_test(tag_name, True)
+
+class TestTimeRange(GenericTest):
+    def test_time_range(self):
+        tag_name = 'time_range'
+        val = "5 minutes"
+        self.element.time_range(val)
+        self.generic_element_test(tag_name, val)

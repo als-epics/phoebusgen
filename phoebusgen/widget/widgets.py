@@ -552,12 +552,12 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
         _Widget.__init__(self, 'image', name, x, y, width, height)
         self.pv_name(pv_name)
 
-# showgrid, labelfont, scalefont, timerange, yaxes, traces
+# showgrid, labelfont, scalefont, yaxes, traces
 #class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowGrid, _p._Title, _p._LabelFont, _p._ScaleFont,
 #                 _p._ShowToolbar, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
 class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-                 _p._ShowLegend, _p._ShowGrid):
+                 _p._ShowLegend, _p._ShowGrid, _p._TimeRange):
     """ StripChart - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

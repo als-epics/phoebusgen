@@ -405,7 +405,8 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
         self.element = widgets.Image(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid):
+                ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid,
+                ph.TestTimeRange):
     def setUp(self):
         self.name = 'strippers'
         self.type = 'stripchart'
