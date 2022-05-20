@@ -1,11 +1,16 @@
 import setuptools
+import versioneer
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("requirements.txt", "r") as fh:
+    requirements = [line.strip() for line in fh]
+
 setuptools.setup(
     name="phoebusgen",
-    version="2.3.2",
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     author="Tynan Ford",
     author_email="tford@lbl.gov",
     description="Control screen generator for Phoebus",
@@ -22,5 +27,6 @@ setuptools.setup(
         "Topic :: Software Development :: Code Generators"
     ],
     python_requires='>=3.5',
+    install_requires=requirements,
 )
 

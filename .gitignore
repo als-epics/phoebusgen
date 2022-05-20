@@ -22,4 +22,4 @@ examples/*.bob
 
 local/
 
-docbuild/_build
+.docbuild/_build

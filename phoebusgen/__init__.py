@@ -106,3 +106,6 @@ _predefined_colors = _update_color_def(_color_def)
 colors = _enum('colors', _predefined_colors)
 _predefined_fonts = _update_font_def(_font_def)
 fonts = _enum('fonts', _predefined_fonts)
+
+from . import _version
+__version__ = _version.get_versions()['version']
