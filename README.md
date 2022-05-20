@@ -2,7 +2,7 @@ Python Module to Generate Phoebus Control Screens
 ===
 
 [![Python unittest Status](https://github.com/als-epics/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/als-epics/phoebusgen/actions)
-[![codecov](https://codecov.io/gh/als-epics/branch/master/graph/badge.svg)](https://codecov.io/gh/als-epics/phoebusgen)
+[![codecov](https://codecov.io/gh/als-epics/phoebusgen/branch/master/graph/badge.svg?token=Ue2BauI8IW)](https://codecov.io/gh/als-epics/phoebusgen)
 
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
 https://github.com/ControlSystemStudio/phoebus
