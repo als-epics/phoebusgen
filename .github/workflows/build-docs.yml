@@ -15,4 +15,7 @@ jobs:
     - uses: ammaraskar/sphinx-action@master
       with:
         docs-folder: ".docbuild/"
-        build-command: "./build-docs.sh"
+        pre-build-command: "sphinx-apidoc -o ./source ../phoebusgen"
+        build-command: "make html"
+    - name: move-docs
+      - run: cp -r _build/html/ ../docs
