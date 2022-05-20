@@ -9,6 +9,8 @@ Welcome to phoebusgen's documentation!
 
 The code of this project is on Github: `phoebusgen <https://github.com/tynanford/phoebusgen>`_
 
+Phoebusgen can be downloded via pip, `see here <https://pypi.org/project/phoebusgen/>`_
+
 Look at :doc:`the widget docs <source/phoebusgen.widget>` and :doc:`the screen docs <source/phoebusgen.screen>`.
 
 .. toctree::
