@@ -417,7 +417,7 @@ class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroun
         self.element = widgets.StripChart(self.name, self.x, self.y, self.width, self.height)
 
 class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestTitle, ph.TestTitleFont):
+                ph.TestShowToolbar, ph.TestTitle, ph.TestTitleFont, ph.TestGridColor):
     def setUp(self):
         self.name = 'xyxyxyxyx'
         self.type = 'xyplot'

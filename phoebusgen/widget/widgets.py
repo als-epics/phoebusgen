@@ -572,12 +572,12 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
         """
         _Widget.__init__(self, 'stripchart', name, x, y, width, height)
 
-# gridcolor, title, showlegend, xaxis, yaxes, traces, markers
+# title, showlegend, xaxis, yaxes, traces, markers
 #class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._GridColor, _p._Title, _p._ShowToolbar, _p._ShowLegend,
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
 class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-             _p._TitleFont):
+             _p._TitleFont, _p._GridColor):
     """ XYPlot - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

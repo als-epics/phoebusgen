@@ -1915,3 +1915,16 @@ class TestTimeRange(GenericTest):
         val = "5 minutes"
         self.element.time_range(val)
         self.generic_element_test(tag_name, val)
+
+class TestGridColor(GenericTest):
+    def test_predefined_grid_color(self):
+        tag_name = 'grid_color'
+        self.element.predefined_grid_color(self.colors.Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_grid_color(self):
+        tag_name = 'grid_color'
+        self.element.grid_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})

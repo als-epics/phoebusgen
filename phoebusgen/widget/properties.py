@@ -1863,3 +1863,25 @@ class _TimeRange(object):
         :param time_range: Time range of plot, i.e. "5 minutes", "1 hour", etc
         """
         self._shared.generic_property(self.root, 'time_range', time_range)
+
+class _GridColor(object):
+    def predefined_grid_color(self, name: object) -> None:
+        """
+        Add named grid color property
+
+        :param name: <phoebusgen.colors> Predefined color name
+        """
+        e = self._shared.create_element(self.root, 'grid_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
+
+    def grid_color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
+        """
+        Add grid color property using RGB values
+
+        :param red: 0-255
+        :param green: 0-255
+        :param blue: 0-255
+        :param alpha: 0-255. Default is 255
+        """
+        e = self._shared.create_element(self.root, 'grid_color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
