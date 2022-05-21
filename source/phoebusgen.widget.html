@@ -4986,7 +4986,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._MinMax</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._AutoScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._DataHeightAndWidth</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._UnsignedData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._LogScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Cursor</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._MinMax</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._AutoScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._DataHeightAndWidth</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._UnsignedData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._LogScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Cursor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Interpolation</span></code></p>
 <p>Image - Incomplete Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.alarm_border">
@@ -5182,6 +5182,39 @@
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.interpolation_automatic">
+<span class="sig-name descname"><span class="pre">interpolation_automatic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.interpolation_automatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change interpolation to Automatic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.interpolation_interpolate">
+<span class="sig-name descname"><span class="pre">interpolation_interpolate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.interpolation_interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change interpolation to Interpolate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.interpolation_none">
+<span class="sig-name descname"><span class="pre">interpolation_none</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.interpolation_none" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change interpolation to None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
