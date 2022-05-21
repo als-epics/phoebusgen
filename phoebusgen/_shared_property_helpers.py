@@ -120,8 +120,8 @@ class _SharedPropertyFunctions(object):
         child_elem = self.get_font_element(root_elem, font_elem_name)
         child_elem.attrib['style'] = val.value
 
-    def create_named_font_element(self, root_elem, name):
-        root_font_elem = self.create_element(root_elem, 'font')
+    def create_named_font_element(self, root_elem, font_elem_name, name):
+        root_font_elem = self.create_element(root_elem, font_elem_name)
         child_font_elem = self.create_element(root_font_elem, 'font')
         if isinstance(name, Enum):
             font_attrib = name.value

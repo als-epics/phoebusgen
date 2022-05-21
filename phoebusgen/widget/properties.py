@@ -17,7 +17,7 @@ class _Font(object):
 
         :param name: <phoebusgen.fonts> Font name
         """
-        self._shared.create_named_font_element(self.root, name)
+        self._shared.create_named_font_element(self.root, 'font', name)
 
     def font_family(self, family: str) -> None:
         """
@@ -63,6 +63,60 @@ class _Font(object):
         Change font style to Regular
         """
         self._shared.add_font_style(self.root, 'font', self._shared.FontStyle.regular)
+
+class _TitleFont(object):
+    def predefined_title_font(self, name: object) -> None:
+        """
+        Add named font property to widget
+
+        :param name: <phoebusgen.fonts> Font name
+        """
+        self._shared.create_named_font_element(self.root, 'title_font', name)
+
+    def title_font_family(self, family: str) -> None:
+        """
+        Change font family property for widget
+
+        :param family: Font Family name
+        """
+        child_elem = self._shared.get_font_element(self.root, 'title_font')
+        child_elem.attrib['family'] = str(family)
+
+    def title_font_size(self, size: int) -> None:
+        """
+        Change font size property for widget
+
+        :param size: Font size
+        """
+        if type(size) == int or type(size) == float:
+            child_elem = self._shared.get_font_element(self.root, 'title_font')
+            child_elem.attrib['size'] = str(int(size))
+        else:
+            print('Font size must be a number! Not: {}'.format(size))
+
+    def title_font_style_bold(self) -> None:
+        """
+        Change font style to Bold
+        """
+        self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.bold)
+
+    def title_font_style_italic(self) -> None:
+        """
+        Change font style to Italic
+        """
+        self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.italic)
+
+    def title_font_style_bold_italic(self) -> None:
+        """
+        Change font style to Bold & Italic
+        """
+        self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.bold_and_italic)
+
+    def title_font_style_regular(self) -> None:
+        """
+        Change font style to Regular
+        """
+        self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.regular)
 
 class _ForegroundColor(object):
     def predefined_foreground_color(self, name: object) -> None:
