@@ -557,7 +557,8 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
 #                 _p._ShowToolbar, _p._TimeRange, _p._YAxes, _p._Traces):
 #    pass
 class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-                 _p._TitleFont, _p._ShowLegend, _p._ShowGrid, _p._TimeRange):
+                 _p._TitleFont, _p._ShowLegend, _p._ShowGrid, _p._TimeRange, _p._LabelFont,
+                 _p._ScaleFont):
     """ StripChart - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

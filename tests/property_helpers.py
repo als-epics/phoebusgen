@@ -160,45 +160,45 @@ class TestTitleFont(GenericTest):
     default_font_style = 'REGULAR'
     default_font_size = '14'
 
-    def test_predefined_font(self):
+    def test_title_predefined_font(self):
         self.element.predefined_title_font(self.fonts.Comment)
         self.child_element_test(self.font_element_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
 
-    def test_predefined_font2(self):
+    def test_title_predefined_font2(self):
         self.element.predefined_title_font(self.fonts.Header1)
         self.child_element_test(self.font_element_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
 
-    def test_font_family(self):
+    def test_title_font_family(self):
         value = 'Liberation Serif'
         self.element.title_font_family(value)
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
 
-    def test_font_family2(self):
+    def test_title_font_family2(self):
         value = 'Noto Sans Sinhala'
         self.element.title_font_family(value)
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
 
-    def test_font_size(self):
+    def test_title_font_size(self):
         value = 72.0
         self.element.title_font_size(value)
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': str(int(value)), 'style': self.default_font_style})
 
-    def test_font_size_wrong(self):
+    def test_title_font_size_wrong(self):
         value = 'tset'
         self.element.title_font_size(value)
         self.null_test(self.font_element_name)
 
-    def test_multiple_fonts(self):
+    def test_title_multiple_fonts(self):
         size_val = 26
         self.element.title_font_size(size_val)
         self.element.title_font_style_bold_italic()
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': str(int(size_val)), 'style': 'BOLD_ITALIC'})
 
-    def test_change_font_attributes(self):
+    def test_title_change_font_attributes(self):
         value = 'Liberation Serif'
         self.element.title_font_family(value)
         self.child_element_test(self.font_element_name, 'font', None,
@@ -208,30 +208,190 @@ class TestTitleFont(GenericTest):
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
 
-    def test_font_style_regular(self):
+    def test_title_font_style_regular(self):
         self.element.title_font_style_regular()
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'REGULAR'})
 
-    def test_font_style_bold(self):
+    def test_title_font_style_bold(self):
         self.element.title_font_style_bold()
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD'})
 
-    def test_font_style_bold_italic(self):
+    def test_title_font_style_bold_italic(self):
         self.element.title_font_style_bold_italic()
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD_ITALIC'})
 
-    def test_font_style_italic(self):
+    def test_title_font_style_italic(self):
         self.element.title_font_style_italic()
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'ITALIC'})
 
-    def test_defaults(self):
+    def test_title_defaults(self):
         self.element.title_font_family(self.default_font_family)
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
+
+class TestLabelFont(GenericTest):
+    font_element_name = 'label_font'
+    default_font_family = 'Liberation Sans'
+    default_font_style = 'REGULAR'
+    default_font_size = '14'
+
+    def test_label_predefined_font(self):
+        self.element.predefined_label_font(self.fonts.Comment)
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
+
+    def test_label_predefined_font2(self):
+        self.element.predefined_label_font(self.fonts.Header1)
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+
+    def test_label_font_family(self):
+        value = 'Liberation Serif'
+        self.element.label_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_label_font_family2(self):
+        value = 'Noto Sans Sinhala'
+        self.element.label_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_label_font_size(self):
+        value = 72.0
+        self.element.label_font_size(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(value)), 'style': self.default_font_style})
+
+    def test_label_font_size_wrong(self):
+        value = 'tset'
+        self.element.label_font_size(value)
+        self.null_test(self.font_element_name)
+
+    def test_label_multiple_fonts(self):
+        size_val = 26
+        self.element.label_font_size(size_val)
+        self.element.label_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(size_val)), 'style': 'BOLD_ITALIC'})
+
+    def test_label_change_font_attributes(self):
+        value = 'Liberation Serif'
+        self.element.label_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+        value = 'Cantarell'
+        self.element.label_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_label_font_style_regular(self):
+        self.element.label_font_style_regular()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'REGULAR'})
+
+    def test_label_font_style_bold(self):
+        self.element.label_font_style_bold()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD'})
+
+    def test_label_font_style_bold_italic(self):
+        self.element.label_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD_ITALIC'})
+
+    def test_label_font_style_italic(self):
+        self.element.label_font_style_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'ITALIC'})
+
+    def test_label_defaults(self):
+        self.element.label_font_family(self.default_font_family)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
+
+
+class TestScaleFont(GenericTest):
+    font_element_name = 'scale_font'
+    default_font_family = 'Liberation Sans'
+    default_font_style = 'REGULAR'
+    default_font_size = '14'
+
+    def test_scale_predefined_font(self):
+        self.element.predefined_scale_font(self.fonts.Comment)
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
+
+    def test_scale_predefined_font2(self):
+        self.element.predefined_scale_font(self.fonts.Header1)
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+
+    def test_scale_font_family(self):
+        value = 'Liberation Serif'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_family2(self):
+        value = 'Noto Sans Sinhala'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_size(self):
+        value = 72.0
+        self.element.scale_font_size(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(value)), 'style': self.default_font_style})
+
+    def test_scale_font_size_wrong(self):
+        value = 'tset'
+        self.element.scale_font_size(value)
+        self.null_test(self.font_element_name)
+
+    def test_scale_multiple_fonts(self):
+        size_val = 26
+        self.element.scale_font_size(size_val)
+        self.element.scale_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(size_val)), 'style': 'BOLD_ITALIC'})
+
+    def test_scale_change_font_attributes(self):
+        value = 'Liberation Serif'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+        value = 'Cantarell'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_style_regular(self):
+        self.element.scale_font_style_regular()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'REGULAR'})
+
+    def test_scale_font_style_bold(self):
+        self.element.scale_font_style_bold()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD'})
+
+    def test_scale_font_style_bold_italic(self):
+        self.element.scale_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD_ITALIC'})
+
+    def test_scale_font_style_italic(self):
+        self.element.scale_font_style_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'ITALIC'})
+
+    def test_scale_defaults(self):
+        self.element.scale_font_family(self.default_font_family)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
+
 
 class TestForegroundColor(GenericTest):
     def test_predefined_foreground_color(self):

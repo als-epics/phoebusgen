@@ -67,7 +67,7 @@ class _Font(object):
 class _TitleFont(object):
     def predefined_title_font(self, name: object) -> None:
         """
-        Add named font property to widget
+        Add named title font property to widget
 
         :param name: <phoebusgen.fonts> Font name
         """
@@ -75,7 +75,7 @@ class _TitleFont(object):
 
     def title_font_family(self, family: str) -> None:
         """
-        Change font family property for widget
+        Change title font family property for widget
 
         :param family: Font Family name
         """
@@ -84,7 +84,7 @@ class _TitleFont(object):
 
     def title_font_size(self, size: int) -> None:
         """
-        Change font size property for widget
+        Change title font size property for widget
 
         :param size: Font size
         """
@@ -96,27 +96,136 @@ class _TitleFont(object):
 
     def title_font_style_bold(self) -> None:
         """
-        Change font style to Bold
+        Change title font style to Bold
         """
         self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.bold)
 
     def title_font_style_italic(self) -> None:
         """
-        Change font style to Italic
+        Change title font style to Italic
         """
         self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.italic)
 
     def title_font_style_bold_italic(self) -> None:
         """
-        Change font style to Bold & Italic
+        Change title font style to Bold & Italic
         """
         self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.bold_and_italic)
 
     def title_font_style_regular(self) -> None:
         """
-        Change font style to Regular
+        Change title font style to Regular
         """
         self._shared.add_font_style(self.root, 'title_font', self._shared.FontStyle.regular)
+
+class _ScaleFont(object):
+    def predefined_scale_font(self, name: object) -> None:
+        """
+        Add named scale font property to widget
+
+        :param name: <phoebusgen.fonts> Font name
+        """
+        self._shared.create_named_font_element(self.root, 'scale_font', name)
+
+    def scale_font_family(self, family: str) -> None:
+        """
+        Change scale font family property for widget
+
+        :param family: Font Family name
+        """
+        child_elem = self._shared.get_font_element(self.root, 'scale_font')
+        child_elem.attrib['family'] = str(family)
+
+    def scale_font_size(self, size: int) -> None:
+        """
+        Change scale font size property for widget
+
+        :param size: Font size
+        """
+        if type(size) == int or type(size) == float:
+            child_elem = self._shared.get_font_element(self.root, 'scale_font')
+            child_elem.attrib['size'] = str(int(size))
+        else:
+            print('Font size must be a number! Not: {}'.format(size))
+
+    def scale_font_style_bold(self) -> None:
+        """
+        Change scale font style to Bold
+        """
+        self._shared.add_font_style(self.root, 'scale_font', self._shared.FontStyle.bold)
+
+    def scale_font_style_italic(self) -> None:
+        """
+        Change scale font style to Italic
+        """
+        self._shared.add_font_style(self.root, 'scale_font', self._shared.FontStyle.italic)
+
+    def scale_font_style_bold_italic(self) -> None:
+        """
+        Change scale font style to Bold & Italic
+        """
+        self._shared.add_font_style(self.root, 'scale_font', self._shared.FontStyle.bold_and_italic)
+
+    def scale_font_style_regular(self) -> None:
+        """
+        Change scale font style to Regular
+        """
+        self._shared.add_font_style(self.root, 'scale_font', self._shared.FontStyle.regular)
+
+
+class _LabelFont(object):
+    def predefined_label_font(self, name: object) -> None:
+        """
+        Add named label font property to widget
+
+        :param name: <phoebusgen.fonts> Font name
+        """
+        self._shared.create_named_font_element(self.root, 'label_font', name)
+
+    def label_font_family(self, family: str) -> None:
+        """
+        Change label font family property for widget
+
+        :param family: Font Family name
+        """
+        child_elem = self._shared.get_font_element(self.root, 'label_font')
+        child_elem.attrib['family'] = str(family)
+
+    def label_font_size(self, size: int) -> None:
+        """
+        Change label font size property for widget
+
+        :param size: Font size
+        """
+        if type(size) == int or type(size) == float:
+            child_elem = self._shared.get_font_element(self.root, 'label_font')
+            child_elem.attrib['size'] = str(int(size))
+        else:
+            print('Font size must be a number! Not: {}'.format(size))
+
+    def label_font_style_bold(self) -> None:
+        """
+        Change label font style to Bold
+        """
+        self._shared.add_font_style(self.root, 'label_font', self._shared.FontStyle.bold)
+
+    def label_font_style_italic(self) -> None:
+        """
+        Change label font style to Italic
+        """
+        self._shared.add_font_style(self.root, 'label_font', self._shared.FontStyle.italic)
+
+    def label_font_style_bold_italic(self) -> None:
+        """
+        Change label font style to Bold & Italic
+        """
+        self._shared.add_font_style(self.root, 'label_font', self._shared.FontStyle.bold_and_italic)
+
+    def label_font_style_regular(self) -> None:
+        """
+        Change label font style to Regular
+        """
+        self._shared.add_font_style(self.root, 'label_font', self._shared.FontStyle.regular)
 
 class _ForegroundColor(object):
     def predefined_foreground_color(self, name: object) -> None:
