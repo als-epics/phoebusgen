@@ -11,23 +11,11 @@ class _PVName(object):
         self._shared.generic_property(self.root, 'pv_name', name)
 
 class _Font(object):
-    def _get_font_element(self):
-        font_root_elem = self.root.find('font')
-        if font_root_elem is None:
-            font_root_elem = self._shared.create_element(self.root, 'font')
-            self.root.append(font_root_elem)
-        child_font_elem = font_root_elem.find('font')
-        if child_font_elem is None:
-            child_font_elem = Element('font')
-            child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
-            font_root_elem.append(child_font_elem)
-        return child_font_elem
-
     def _add_font_style(self, val):
         if type(val) != self._shared.FontStyle:
             print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
             return
-        child_elem = self._get_font_element()
+        child_elem = self._shared.get_font_element(self.root)
         child_elem.attrib['style'] = val.value
 
     def predefined_font(self, name: object) -> None:
@@ -36,7 +24,7 @@ class _Font(object):
 
         :param name: <phoebusgen.fonts> Font name
         """
-        self._shared.create_named_font_elemet(name)
+        self._shared.create_named_font_element(self.root, name)
 
     def font_family(self, family: str) -> None:
         """
@@ -44,7 +32,7 @@ class _Font(object):
 
         :param family: Font Family name
         """
-        child_elem = self._get_font_element()
+        child_elem = self._shared.get_font_element(self.root)
         child_elem.attrib['family'] = str(family)
 
     def font_size(self, size: int) -> None:
@@ -54,7 +42,7 @@ class _Font(object):
         :param size: Font size
         """
         if type(size) == int or type(size) == float:
-            child_elem = self._get_font_element()
+            child_elem = self._shared.get_font_element(self.root)
             child_elem.attrib['size'] = str(int(size))
         else:
             print('Font size must be a number! Not: {}'.format(size))

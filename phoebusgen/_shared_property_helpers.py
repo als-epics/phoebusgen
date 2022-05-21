@@ -101,15 +101,27 @@ class _SharedPropertyFunctions(object):
         if add_to_root:
             self.root.append(root_color_elem)
 
-    def create_named_font_elemet(self, name):
-        root_font_elem = self.create_element(self.root, 'font')
-        child_font_elem = self.create_element(self.root, 'font')
+    def get_font_element(self, root_elem):
+        font_root_elem = root_elem.find('font')
+        if font_root_elem is None:
+            font_root_elem = self.create_element(root_elem, 'font')
+            root_elem.append(font_root_elem)
+        child_font_elem = font_root_elem.find('font')
+        if child_font_elem is None:
+            child_font_elem = Element('font')
+            child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
+            font_root_elem.append(child_font_elem)
+        return child_font_elem
+
+    def create_named_font_element(self, root_elem, name):
+        root_font_elem = self.create_element(root_elem, 'font')
+        child_font_elem = self.create_element(root_font_elem, 'font')
         if isinstance(name, Enum):
             font_attrib = name.value
         elif isinstance(name, dict):
             font_attrib = name
         elif isinstance(name, str):
-            font_attrib = self.predefined_fonts.get(name.lower())
+            font_attrib = self.predefined_fonts.get(name)
             if font_attrib is None:
                 print('Font name is undefined')
                 return
