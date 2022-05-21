@@ -1918,3 +1918,28 @@ class _Cursor(object):
         :param cursor_crosshair: Is widget transparent?
         """
         self._shared.boolean_property(self.root, 'cursor_crosshair', cursor_crosshair)
+
+class _Interpolation(object):
+    def _add_interpolation(self, val):
+        if type(val) != self._shared.Interpolation:
+            print('The component parameter must be of type Interpolation enum! Not: {}'.format(type(val)))
+            return
+        self._shared.generic_property(self.root, 'interpolation', val.value)
+
+    def interpolation_none(self) -> None:
+        """
+        Change interpolation to None
+        """
+        self._add_interpolation(self._shared.Interpolation.none)
+
+    def interpolation_interpolate(self) -> None:
+        """
+        Change interpolation to Interpolate
+        """
+        self._add_interpolation(self._shared.Interpolation.interpolate)
+
+    def interpolation_automatic(self) -> None:
+        """
+        Change interpolation to Automatic
+        """
+        self._add_interpolation(self._shared.Interpolation.automatic)

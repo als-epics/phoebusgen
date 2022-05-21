@@ -1965,3 +1965,25 @@ class TestCursor(GenericTest):
         val = False
         self.element.cursor_crosshair(val)
         self.generic_element_test(tag_name, val)
+
+class TestInterpolation(GenericTest):
+    def test_interpolation_none(self):
+        self.element.interpolation_none()
+        self.generic_element_test('interpolation', 0)
+
+    def test_interpolation_interpolate(self):
+        self.element.interpolation_interpolate()
+        self.generic_element_test('interpolation', 1)
+
+    def test_interpolation_automatic(self):
+        self.element.interpolation_automatic()
+        self.generic_element_test('interpolation', 2)
+
+    def test_interpolation_twice(self):
+        self.element.interpolation_none()
+        self.generic_element_test('interpolation', 0)
+        self.element.interpolation_interpolate()
+        self.generic_element_test('interpolation', 1)
+        self.element.interpolation_automatic()
+        self.element.remove_element('interpolation')
+        self.null_test('interpolation')

@@ -167,6 +167,35 @@ class _SharedPropertyFunctions(object):
         push = 1
         push_inverted = 2
 
+    class Interpolation(Enum):
+        none = 0
+        interpolate = 1
+        automatic = 2
+
+    class ColorMode(Enum):
+        TYPE_CUSTOM = 0
+        TYPE_MONO = 1
+        TYPE_BAYER = 2
+        TYPE_RGB1 = 3
+        TYPE_RGB2 = 4
+        TYPE_RGB3 = 5
+        TYPE_YUV444 = 6
+        TYPE_YUV422 = 7
+        TYPE_YUV411 = 8
+        TYPE_3BYTE_BGR = 9
+        TYPE_4BYTE_ABGR = 10
+        TYPE_4BYTE_ABGR_PRE = 11
+        TYPE_BYTE_BINARY = 12
+        TYPE_BYTE_GRAY = 13
+        TYPE_BYTE_INDEXED = 14
+        TYPE_INT_ARGB = 15
+        TYPE_INT_ARGB_PRE = 16
+        TYPE_INT_BGR = 17
+        TYPE_INT_RGB = 18
+        TYPE_USHORT_555_RGB = 19
+        TYPE_USHORT_565_RGB = 20
+        TYPE_USHORT_GRAY = 21
+
     class GroupStyle(Enum):
         group_box = 0
         title_bar = 1
