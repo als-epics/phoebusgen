@@ -11437,7 +11437,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">StripChart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Title</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowLegend</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowGrid</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._TimeRange</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Title</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._TitleFont</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowLegend</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowGrid</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._TimeRange</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._LabelFont</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ScaleFont</span></code></p>
 <p>StripChart - Incomplete Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.background_color">
@@ -11526,6 +11526,78 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_family">
+<span class="sig-name descname"><span class="pre">label_font_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">family</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_family" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font family property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>family</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Font Family name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_size">
+<span class="sig-name descname"><span class="pre">label_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font size property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Font size</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_style_bold">
+<span class="sig-name descname"><span class="pre">label_font_style_bold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_style_bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font style to Bold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_style_bold_italic">
+<span class="sig-name descname"><span class="pre">label_font_style_bold_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_style_bold_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font style to Bold &amp; Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_style_italic">
+<span class="sig-name descname"><span class="pre">label_font_style_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_style_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font style to Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.label_font_style_regular">
+<span class="sig-name descname"><span class="pre">label_font_style_regular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.label_font_style_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change label font style to Regular</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.name">
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change widget name</p>
@@ -11567,6 +11639,48 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.predefined_label_font">
+<span class="sig-name descname"><span class="pre">predefined_label_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.predefined_label_font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add named label font property to widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – &lt;phoebusgen.fonts&gt; Font name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.predefined_scale_font">
+<span class="sig-name descname"><span class="pre">predefined_scale_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.predefined_scale_font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add named scale font property to widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – &lt;phoebusgen.fonts&gt; Font name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.predefined_title_font">
+<span class="sig-name descname"><span class="pre">predefined_title_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.predefined_title_font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add named title font property to widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – &lt;phoebusgen.fonts&gt; Font name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.remove_element">
 <span class="sig-name descname"><span class="pre">remove_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.remove_element" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete XML element in widget by tag name</p>
@@ -11576,6 +11690,78 @@
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_family">
+<span class="sig-name descname"><span class="pre">scale_font_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">family</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_family" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font family property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>family</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Font Family name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_size">
+<span class="sig-name descname"><span class="pre">scale_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font size property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Font size</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_style_bold">
+<span class="sig-name descname"><span class="pre">scale_font_style_bold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_style_bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font style to Bold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_style_bold_italic">
+<span class="sig-name descname"><span class="pre">scale_font_style_bold_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_style_bold_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font style to Bold &amp; Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_style_italic">
+<span class="sig-name descname"><span class="pre">scale_font_style_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_style_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font style to Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.scale_font_style_regular">
+<span class="sig-name descname"><span class="pre">scale_font_style_regular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.scale_font_style_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change scale font style to Regular</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -11646,6 +11832,78 @@
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_family">
+<span class="sig-name descname"><span class="pre">title_font_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">family</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_family" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font family property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>family</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Font Family name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_size">
+<span class="sig-name descname"><span class="pre">title_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font size property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Font size</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_style_bold">
+<span class="sig-name descname"><span class="pre">title_font_style_bold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_style_bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Bold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_style_bold_italic">
+<span class="sig-name descname"><span class="pre">title_font_style_bold_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_style_bold_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Bold &amp; Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_style_italic">
+<span class="sig-name descname"><span class="pre">title_font_style_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_style_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChart.title_font_style_regular">
+<span class="sig-name descname"><span class="pre">title_font_style_regular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChart.title_font_style_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Regular</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -15548,7 +15806,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">XYPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Title</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.widget._Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._Title</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">phoebusgen.widget.properties._TitleFont</span></code></p>
 <p>XYPlot - Incomplete Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.background_color">
@@ -15678,6 +15936,20 @@
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.predefined_title_font">
+<span class="sig-name descname"><span class="pre">predefined_title_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.predefined_title_font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add named title font property to widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – &lt;phoebusgen.fonts&gt; Font name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.remove_element">
 <span class="sig-name descname"><span class="pre">remove_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.remove_element" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete XML element in widget by tag name</p>
@@ -15715,6 +15987,78 @@
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_family">
+<span class="sig-name descname"><span class="pre">title_font_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">family</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_family" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font family property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>family</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Font Family name</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_size">
+<span class="sig-name descname"><span class="pre">title_font_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font size property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Font size</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_style_bold">
+<span class="sig-name descname"><span class="pre">title_font_style_bold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_style_bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Bold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_style_bold_italic">
+<span class="sig-name descname"><span class="pre">title_font_style_bold_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_style_bold_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Bold &amp; Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_style_italic">
+<span class="sig-name descname"><span class="pre">title_font_style_italic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_style_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Italic</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlot.title_font_style_regular">
+<span class="sig-name descname"><span class="pre">title_font_style_regular</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlot.title_font_style_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change title font style to Regular</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
 </dd></dl>
