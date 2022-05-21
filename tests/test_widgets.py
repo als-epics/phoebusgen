@@ -406,7 +406,7 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid,
-                ph.TestTimeRange, ph.TestTitleFont):
+                ph.TestTimeRange, ph.TestTitleFont, ph.TestScaleFont, ph.TestLabelFont):
     def setUp(self):
         self.name = 'strippers'
         self.type = 'stripchart'
