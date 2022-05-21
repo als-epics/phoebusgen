@@ -101,10 +101,10 @@ class _SharedPropertyFunctions(object):
         if add_to_root:
             self.root.append(root_color_elem)
 
-    def get_font_element(self, root_elem):
-        font_root_elem = root_elem.find('font')
+    def get_font_element(self, root_elem, font_elem_name):
+        font_root_elem = root_elem.find(font_elem_name)
         if font_root_elem is None:
-            font_root_elem = self.create_element(root_elem, 'font')
+            font_root_elem = self.create_element(root_elem, font_elem_name)
             root_elem.append(font_root_elem)
         child_font_elem = font_root_elem.find('font')
         if child_font_elem is None:
@@ -112,6 +112,13 @@ class _SharedPropertyFunctions(object):
             child_font_elem.attrib = {'family': 'Liberation Sans', 'size': '14', 'style': 'REGULAR'}
             font_root_elem.append(child_font_elem)
         return child_font_elem
+
+    def add_font_style(self, root_elem, font_elem_name, val):
+        if type(val) != self.FontStyle:
+            print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
+            return
+        child_elem = self.get_font_element(root_elem, font_elem_name)
+        child_elem.attrib['style'] = val.value
 
     def create_named_font_element(self, root_elem, name):
         root_font_elem = self.create_element(root_elem, 'font')

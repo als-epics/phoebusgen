@@ -11,13 +11,6 @@ class _PVName(object):
         self._shared.generic_property(self.root, 'pv_name', name)
 
 class _Font(object):
-    def _add_font_style(self, val):
-        if type(val) != self._shared.FontStyle:
-            print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
-            return
-        child_elem = self._shared.get_font_element(self.root)
-        child_elem.attrib['style'] = val.value
-
     def predefined_font(self, name: object) -> None:
         """
         Add named font property to widget
@@ -32,7 +25,7 @@ class _Font(object):
 
         :param family: Font Family name
         """
-        child_elem = self._shared.get_font_element(self.root)
+        child_elem = self._shared.get_font_element(self.root, 'font')
         child_elem.attrib['family'] = str(family)
 
     def font_size(self, size: int) -> None:
@@ -42,7 +35,7 @@ class _Font(object):
         :param size: Font size
         """
         if type(size) == int or type(size) == float:
-            child_elem = self._shared.get_font_element(self.root)
+            child_elem = self._shared.get_font_element(self.root, 'font')
             child_elem.attrib['size'] = str(int(size))
         else:
             print('Font size must be a number! Not: {}'.format(size))
@@ -51,25 +44,25 @@ class _Font(object):
         """
         Change font style to Bold
         """
-        self._add_font_style(self._shared.FontStyle.bold)
+        self._shared.add_font_style(self.root, 'font', self._shared.FontStyle.bold)
 
     def font_style_italic(self) -> None:
         """
         Change font style to Italic
         """
-        self._add_font_style(self._shared.FontStyle.italic)
+        self._shared.add_font_style(self.root, 'font', self._shared.FontStyle.italic)
 
     def font_style_bold_italic(self) -> None:
         """
         Change font style to Bold & Italic
         """
-        self._add_font_style(self._shared.FontStyle.bold_and_italic)
+        self._shared.add_font_style(self.root, 'font', self._shared.FontStyle.bold_and_italic)
 
     def font_style_regular(self) -> None:
         """
         Change font style to Regular
         """
-        self._add_font_style(self._shared.FontStyle.regular)
+        self._shared.add_font_style(self.root, 'font', self._shared.FontStyle.regular)
 
 class _ForegroundColor(object):
     def predefined_foreground_color(self, name: object) -> None:
