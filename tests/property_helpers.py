@@ -1928,3 +1928,40 @@ class TestGridColor(GenericTest):
         self.element.grid_color(5, 10, 15)
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
+
+class TestCursor(GenericTest):
+    def test_cursor_info_pv(self):
+        tag_name = 'cursor_info_pv'
+        val = "Cursor:INFO:PV:Test"
+        self.element.cursor_info_pv(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_cursor_x_pv(self):
+        tag_name = 'x_pv'
+        val = "Cursor:X:PV:Test"
+        self.element.cursor_x_pv(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_cursor_y_pv(self):
+        tag_name = 'y_pv'
+        val = "Cursor:Y:PV:Test"
+        self.element.cursor_y_pv(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_cursor_crosshair_default(self):
+        tag_name = 'cursor_crosshair'
+        default_val = True
+        self.element.cursor_crosshair()
+        self.generic_element_test(tag_name, default_val)
+
+    def test_cursor_crosshair_on(self):
+        tag_name = 'cursor_crosshair'
+        val = True
+        self.element.cursor_crosshair(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_cursor_crosshair_off(self):
+        tag_name = 'cursor_crosshair'
+        val = False
+        self.element.cursor_crosshair(val)
+        self.generic_element_test(tag_name, val)

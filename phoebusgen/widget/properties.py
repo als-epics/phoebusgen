@@ -1885,3 +1885,36 @@ class _GridColor(object):
         """
         e = self._shared.create_element(self.root, 'grid_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
+
+class _Cursor(object):
+    def cursor_info_pv(self, info_pv_name: str) -> None:
+        """
+        Add cursor info PV to widget
+
+        :param info_pv_name: PV Name
+        """
+        self._shared.generic_property(self.root, 'cursor_info_pv', info_pv_name)
+
+    def cursor_x_pv(self, x_pv_name: str) -> None:
+        """
+        Add cursor X PV to widget
+
+        :param x_pv_name: PV Name
+        """
+        self._shared.generic_property(self.root, 'x_pv', x_pv_name)
+
+    def cursor_y_pv(self, y_pv_name: str) -> None:
+        """
+        Add cursor Y PV to widget
+
+        :param y_pv_name: PV Name
+        """
+        self._shared.generic_property(self.root, 'y_pv', y_pv_name)
+
+    def cursor_crosshair(self, cursor_crosshair: bool = True) -> None:
+        """
+        Toggle widget cursor crosshair property. Default arg is True
+
+        :param cursor_crosshair: Is widget transparent?
+        """
+        self._shared.boolean_property(self.root, 'cursor_crosshair', cursor_crosshair)

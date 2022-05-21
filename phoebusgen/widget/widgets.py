@@ -536,7 +536,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 #    pass
 class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
             _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
-            _p._LogScale):
+            _p._LogScale, _p._Cursor):
     """ Image - Incomplete Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
