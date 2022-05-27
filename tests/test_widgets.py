@@ -369,7 +369,8 @@ class TestSpinner(unittest.TestCase, ph.TestPVName, ph.TestFormat, ph.TestPrecis
 
 class TestTextEntry(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                      ph.TestFormat, ph.TestPrecision, ph.TestShowUnits, ph.TestWrapWords, ph.TestMultiLine,
-                     ph.TestAlarmBorder, ph.TestEnabled, ph.TestBorder):
+                     ph.TestAlarmBorder, ph.TestEnabled, ph.TestBorder, ph.TestVerticalAlignment,
+                     ph.TestHorizontalAlignment):
     def setUp(self):
         self.name = 'Label_1'
         self.pv_name = 'TEST:PV:ENTRY'
