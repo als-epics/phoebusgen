@@ -494,7 +494,7 @@ class Spinner(_Widget, _p._PVName, _p._Format, _p._Precision, _p._ShowUnits, _p.
 
 class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Format,
                 _p._Precision, _p._ShowUnits, _p._WrapWords, _p._MultiLine, _p._AlarmBorder, _p._Enabled,
-                _p._Border):
+                _p._Border, _p._HorizontalAlignment, _p._VerticalAlignment):
     """ TextEntry Phoebus Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
