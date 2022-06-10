@@ -228,7 +228,8 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
         self.element = widgets.Thermometer(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
-                       ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions):
+                       ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions,
+                       ph.TestAlarmBorder):
     def setUp(self):
         self.name = 'Label_1'
         self.type = 'action_button'
