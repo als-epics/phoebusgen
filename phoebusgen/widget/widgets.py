@@ -299,7 +299,7 @@ class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._Limit
 
 # Controls
 class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-                   _p._Transparent, _p._RotationStep, _p._Enabled, _p._Confirmation):
+                   _p._Transparent, _p._RotationStep, _p._Enabled, _p._AlarmBorder, _p._Confirmation):
     """ ActionButton Phoebus Widget """
     def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
