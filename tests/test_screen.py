@@ -6,6 +6,7 @@ sys.path.insert(1, './phoebusgen/widget/')
 sys.path.insert(1, '../phoebusgen/')
 sys.path.insert(1, './phoebusgen/')
 import unittest
+from unittest.mock import patch, mock_open
 import screen as s
 import widgets
 from phoebusgen import colors
@@ -16,6 +17,7 @@ class TestScreen(unittest.TestCase):
         self.name = 'test screen'
         self.file_name = './test.bob'
         self.test_screen = s.Screen(self.name, self.file_name)
+        print(self.test_screen)
 
     def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):
         parent = self.test_screen.find_widget(parent_tag)
@@ -27,6 +29,15 @@ class TestScreen(unittest.TestCase):
         else:
             self.assertEqual(child.text, str(value))
         self.assertEqual(child.attrib, attrib)
+
+    def test_screen_write(self):
+        test_screen_write = s.Screen("TEST", './test_write.bob')
+        open_mock = mock_open()
+        with patch("builtins.open", open_mock, create=True):
+            test_screen_write.write_screen()
+
+        open_mock.assert_called_with("./test_write.bob", "w")
+        self.assertEqual(open_mock.return_value.write.call_count, 13)
 
     def test_screen_blank(self):
         self.assertEqual(len(self.test_screen.root), 1)
