@@ -1,5 +1,6 @@
 # Python Module to Generate Phoebus Control Screens
 
+[![PyPI](https://img.shields.io/pypi/v/phoebusgen)](https://pypi.org/project/phoebusgen/)
 [![Python unittest Status](https://github.com/als-epics/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/als-epics/phoebusgen/actions)
 [![codecov](https://codecov.io/gh/als-epics/phoebusgen/branch/master/graph/badge.svg?token=Ue2BauI8IW)](https://codecov.io/gh/als-epics/phoebusgen)
 [![Build Docs](https://github.com/als-epics/phoebusgen/actions/workflows/build-docs.yml/badge.svg)](https://github.com/als-epics/phoebusgen/actions/workflows/build-docs.yml)
