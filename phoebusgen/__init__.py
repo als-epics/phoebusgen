@@ -1,4 +1,5 @@
 """ phoebusgen Module
+
 This module contains a Python class representation of a Phoebus screen and all widgets.
 With the module, you can create Python scripts to write Phoebus screens to a .bob file.
 Almost all possible functionality should exist in Phoebusgen that you can do in the Display

@@ -1,10 +1,10 @@
-Python Module to Generate Phoebus Control Screens
-===
+# Python Module to Generate Phoebus Control Screens
 
 [![Python unittest Status](https://github.com/als-epics/phoebusgen/workflows/Python%20unittest/badge.svg)](https://github.com/als-epics/phoebusgen/actions)
 [![codecov](https://codecov.io/gh/als-epics/phoebusgen/branch/master/graph/badge.svg?token=Ue2BauI8IW)](https://codecov.io/gh/als-epics/phoebusgen)
 [![Build Docs](https://github.com/als-epics/phoebusgen/actions/workflows/build-docs.yml/badge.svg)](https://github.com/als-epics/phoebusgen/actions/workflows/build-docs.yml)
 [![Upload Python Package](https://github.com/als-epics/phoebusgen/actions/workflows/python-publish.yml/badge.svg)](https://github.com/als-epics/phoebusgen/actions/workflows/python-publish.yml)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e16f9c35657f47fcb31347fbd4f92367)](https://www.codacy.com/gh/als-epics/phoebusgen/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=als-epics/phoebusgen&amp;utm_campaign=Badge_Grade)
 
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
 https://github.com/ControlSystemStudio/phoebus
@@ -15,17 +15,17 @@ API docs here: [https://als-epics.github.io/phoebusgen](https://als-epics.github
 
 Suggestions, comments, and pull requests are welcome.
 
-# Requirements
+## Requirements
 
-- Python >= 3.5
+  - Python >= 3.5
 
-# Install
+## Install
 Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)
-```
+```shell
 pip install phoebusgen
 ```
 
-# Intro
+## Intro
 
 Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be added to a screen or even to other widgets (for things like Group or Tab widgets).
 
@@ -53,31 +53,30 @@ Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be adde
 
 ```
 
-# Modules 
+## Modules 
 
-## phoebusgen.widget
+### phoebusgen.widget
 
 Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some (3) are not fully feature complete.
 
 [Widgets Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
-### Incomplete Widgets
-- Image
-- Strip Chart
-- X/Y Plot
+#### Incomplete Widgets
+  - Image
+  - Strip Chart
+  - X/Y Plot
 
 Example
-- ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
+  - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
 
-
-## phoebusgen.screen 
+### phoebusgen.screen 
 
 Python object to represent a Phoebus screen. Widgets can be added to the screen object and the screen object can be written to a .bob file to be opened in Phoebus.
 
 [Screen Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.screen.html#module-phoebusgen.screen.screen)
 
 Example
-```
+```pycon
 >>> import phoebusgen.screen
 >>> import phoebusgen.widget
 >>> my_screen = phoebusgen.screen.Screen("my screen")
@@ -104,10 +103,13 @@ Example
 </display>
 ```
 
-# Site specific color and font definitions
+## Site specific color and font definitions
 
 Place a custon color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions. 
 
-
-```my_widget.predefined_font(phoebusgen.fonts.Header1)```
-```my_widget.predefined_color(phoebusgen.colors.OK)```
+```python
+my_widget.predefined_font(phoebusgen.fonts.Header1)
+```
+```python
+my_widget.predefined_color(phoebusgen.colors.OK)
+```

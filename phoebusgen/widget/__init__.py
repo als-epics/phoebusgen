@@ -1,4 +1,5 @@
 """ phoebusgen.widget Module
+
 This module contains Python class representations of each widget. Widgets can be created
 by calling the widget class constructor, i.e. phoebusgen.widget.TextUpdate(...) or
 phoebusgen.widget.ScaledSlider(...). Once the class is created and assigned to a Python
