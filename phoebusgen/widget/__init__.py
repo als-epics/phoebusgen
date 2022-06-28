@@ -28,7 +28,7 @@ Example:
     </widget>
 """
 
-# Copyright (c) 2021 Lawrence Berkeley National Laboratory,
+# Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
 from phoebusgen.widget.widgets import *

@@ -4,6 +4,15 @@ from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 from typing import Union
 
 
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+        From: https://pymotw.com/3/xml.etree.ElementTree/create.html
+    """
+    rough_string = tostring(elem, 'utf-8')
+    reparse_xml = minidom.parseString(rough_string)
+    return reparse_xml.toprettyxml(indent="  ", newl="\n")
+
+
 class Screen(object):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
     def __init__(self, name: str, f_name: str = None) -> None:
@@ -112,16 +121,8 @@ class Screen(object):
         e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
-    # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
-    def _prettify(self, elem):
-        """Return a pretty-printed XML string for the Element.
-        """
-        rough_string = tostring(elem, 'utf-8')
-        reparse_xml = minidom.parseString(rough_string)
-        return reparse_xml.toprettyxml(indent="  ", newl="\n")
-
     def __str__(self):
-        return self._prettify(self.root)
+        return prettify(self.root)
 
     def __repr__(self):
-        return self._prettify(self.root)
+        return prettify(self.root)

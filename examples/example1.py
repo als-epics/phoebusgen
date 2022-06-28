@@ -1,16 +1,13 @@
-import phoebusgen
-
-"""
-Example 1
+"""Example 1
     Create ./example1.bob with 3 widgets
 """
 
+import phoebusgen
 
 pv_prefix = 'loc://example1'
 my_screen = phoebusgen.screen.Screen('Phoebusgen Example 1')
 my_screen.macro('PV_PREFIX', pv_prefix)
 my_screen.background_color(204, 255, 255)
-
 
 widgets = []
 
@@ -30,7 +27,6 @@ widgets.append(check_box)
 led = phoebusgen.widget.LED('MyLED', pv_name, 230, 60, 140, 110)
 led.off_color(255, 0, 0)
 widgets.append(led)
-
 
 # add all widgets to our screen
 my_screen.add_widget(widgets)

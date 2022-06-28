@@ -2,6 +2,16 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
 from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
+
+def prettify(elem):
+    """Return a pretty-printed XML string for the Element.
+        From: https://pymotw.com/3/xml.etree.ElementTree/create.html
+    """
+    rough_string = tostring(elem, 'utf-8')
+    reparse_xml = minidom.parseString(rough_string)
+    return reparse_xml.toprettyxml(indent="  ", newl="\n")
+
+
 class _Widget(object):
     """ Base Class for all Phoebus widgets """
     def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
@@ -136,17 +146,10 @@ class _Widget(object):
         """
         return self.find_element(tag).text
 
-    # From: https://pymotw.com/3/xml.etree.ElementTree/create.html
-    def _prettify(self, elem):
-        """Return a pretty-printed XML string for the Element.
-        """
-        rough_string = tostring(elem, 'utf-8')
-        reparse_xml = minidom.parseString(rough_string)
-        return reparse_xml.toprettyxml(indent="  ", newl="\n")
 
     def __str__(self):
-        return self._prettify(self.root)
+        return prettify(self.root)
 
     def __repr__(self):
-        return self._prettify(self.root)
+        return prettify(self.root)
 

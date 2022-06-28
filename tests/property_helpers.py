@@ -39,7 +39,7 @@ class GenericTest(object):
         if value is None:
             self.assertIsNone(element.text)
         else:
-            if type(value) == bool:
+            if isinstance(value, bool):
                 self.assertEqual(element.text, str(value).lower())
             else:
                 self.assertEqual(element.text, str(value))
@@ -1228,7 +1228,6 @@ class TestDeselectedColor(GenericTest):
                                                           'blue': '15', 'alpha': '232'})
 
     def test_deselected_color_wrong(self):
-        tag_name = 'deselected_color'
         self.element.deselected_color(-2, 10, 15, 232)
         self.null_test('color')
 
@@ -1519,7 +1518,7 @@ class TestTabSpacing(GenericTest):
         self.element.tab_spacing(val)
         self.generic_element_test(tag_name, int(val))
 
-    def test_tab_spacing(self):
+    def test_tab_spacing_2(self):
         tag_name = 'tab_spacing'
         val = 23
         self.element.tab_spacing(val)

@@ -12,7 +12,7 @@ A custom site specific color.def or font.def in ~/.phoebusgen/ to force phoebusg
 to reflect your site's custom definitions.
 """
 
-# Copyright (c) 2021 Lawrence Berkeley National Laboratory,
+# Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
 import phoebusgen.widget

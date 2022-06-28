@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'phoebusgen'
-copyright = '2021, Tynan Ford'
+copyright = '2022, Lawrence Berkeley National Laboratory'
 author = 'Tynan Ford'
 
 # The full version, including alpha/beta/rc tags
