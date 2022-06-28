@@ -13,7 +13,7 @@ def make_group(num_pvs):
         pv_name = '$(P):update{}<VInteger>({})'.format(i, i*100)
         label = w.Label('Label{}'.format(i), 'Here is a Label', 0, y_position, widget_length, widget_height)
         text_update = w.TextUpdate('TextUpdate{}'.format(i), pv_name, widget_length, y_position, widget_length, widget_height)
-        comment = w.Label('Comment1'.format(i), 'Label explanation', widget_length*2, y_position, widget_length, widget_height)
+        comment = w.Label('Comment{}'.format(i), 'Label explanation', widget_length*2, y_position, widget_length, widget_height)
         comment.predefined_font(fonts.Comment)
         comment.font_style_bold_italic()
         label.foreground_color(100, 0, 100)

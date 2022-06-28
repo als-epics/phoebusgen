@@ -34,7 +34,7 @@ class _Font(object):
 
         :param size: Font size
         """
-        if type(size) == int or type(size) == float:
+        if isinstance(size, int) or isinstance(size, float):
             child_elem = self._shared.get_font_element(self.root, 'font')
             child_elem.attrib['size'] = str(int(size))
         else:
@@ -88,7 +88,7 @@ class _TitleFont(object):
 
         :param size: Font size
         """
-        if type(size) == int or type(size) == float:
+        if isinstance(size, int) or isinstance(size, float):
             child_elem = self._shared.get_font_element(self.root, 'title_font')
             child_elem.attrib['size'] = str(int(size))
         else:
@@ -142,7 +142,7 @@ class _ScaleFont(object):
 
         :param size: Font size
         """
-        if type(size) == int or type(size) == float:
+        if isinstance(size, int) or isinstance(size, float):
             child_elem = self._shared.get_font_element(self.root, 'scale_font')
             child_elem.attrib['size'] = str(int(size))
         else:
@@ -197,7 +197,7 @@ class _LabelFont(object):
 
         :param size: Font size
         """
-        if type(size) == int or type(size) == float:
+        if isinstance(size, int) or isinstance(size, float):
             child_elem = self._shared.get_font_element(self.root, 'label_font')
             child_elem.attrib['size'] = str(int(size))
         else:
@@ -316,7 +316,7 @@ class _ShowUnits(object):
 
 class _HorizontalAlignment(object):
     def _add_horizontal_alignment(self, alignment):
-        if type(alignment) != self._shared.HorizontalAlignment:
+        if not isinstance(alignment, self._shared.HorizontalAlignment):
             print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
             return
         self._shared.generic_property(self.root, 'horizontal_alignment', alignment.value)
@@ -341,7 +341,7 @@ class _HorizontalAlignment(object):
 
 class _VerticalAlignment(object):
     def _add_vertical_alignment(self, alignment):
-        if type(alignment) != self._shared.VerticalAlignment:
+        if not isinstance(alignment, self._shared.VerticalAlignment):
             print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
             return
         self._shared.generic_property(self.root, 'vertical_alignment', alignment.value)
@@ -394,7 +394,7 @@ class _AutoSize(object):
 # 0, 90, 180, -90
 class _RotationStep(object):
     def _add_rotation_step(self, rotation):
-        if type(rotation) != self._shared.RotationStep:
+        if not isinstance(rotation, self._shared.RotationStep):
             print('The component parameter must be of type Rotation enum! Not: {}'.format(type(rotation)))
             return
         self._shared.generic_property(self.root, 'rotation_step', rotation.value)
@@ -718,7 +718,7 @@ class _Actions(object):
         sub = SubElement(action, 'description')
         sub.text = str(description)
         if macros:
-            if type(macros) is not dict:
+            if not isinstance(macros, dict):
                 print("macros parameter must be of type dict, not: {}".format(type(macros)))
             else:
                 for key, val in macros.items():
@@ -733,9 +733,9 @@ class _Actions(object):
 
         :param val: Execute all actions as one?
         """
-        if type(val) == bool:
+        if isinstance(val, bool):
             action = str(val).lower()
-        elif type(val) == int:
+        elif isinstance(val, int):
             action = str(bool(val)).lower()
         elif val.lower() == 'true' or val.lower() == 'false':
             action = val.lower()
@@ -765,7 +765,7 @@ class _Actions(object):
         if target.lower() not in possible_targets:
             print('Target must be one of {}, not: {}'.format(possible_targets, target))
             return
-        if macros is not None and type(macros) is not dict:
+        if macros is not None and not isinstance(macros, dict):
             print('The macro parameter must be a dictionary with key=MacroName and val=MacroValue')
             return
         args = {'file': file, 'target': target.lower()}
@@ -1029,7 +1029,7 @@ class _ShowLED(object):
 
 class _Mode(object):
     def _add_mode(self, val):
-        if type(val) != self._shared.Mode:
+        if not isinstance(val, self._shared.Mode):
             print('The component parameter must be of type Mode enum! Not: {}'.format(type(val)))
             return
         self._shared.generic_property(self.root, 'mode', val.value)
@@ -1054,7 +1054,7 @@ class _Mode(object):
 
 class _Style(object):
     def _add_style(self, style):
-        if type(style) != self._shared.GroupStyle:
+        if not isinstance(style, self._shared.GroupStyle):
             print('Input type for param to group style must be of type GroupStyle. Not: {}'.format(type(style)))
             return
         self._shared.generic_property(self.root, 'style', style.value)
@@ -1085,7 +1085,7 @@ class _Style(object):
 
 class _ResizeBehavior(object):
     def _add_resize_behavior(self, resize):
-        if type(resize) != self._shared.Resize:
+        if not isinstance(resize, self._shared.Resize):
             print('Resize behavior input must be of type enum Resize. Not: {}'.format(type(resize)))
         self._shared.generic_property(self.root, 'resize', resize.value)
 
@@ -1138,7 +1138,7 @@ class _Structure(object):
 
         :param elem: <Phoebusgen.widget> Element to add to structure
         """
-        if type(elem) == list:
+        if isinstance(elem, list):
             for e in elem:
                 self.root.append(e.root)
         else:
@@ -1182,7 +1182,7 @@ class _Increment(object):
 
 class _FileComponent(object):
     def _add_file_component(self, val):
-        if type(val) != self._shared.FileComponent:
+        if not isinstance(val, self._shared.FileComponent):
             print('The component parameter must be of type FileComponent enum! Not: {}'.format(type(val)))
             return
         self._shared.generic_property(self.root, 'component', val.value)
@@ -1281,9 +1281,9 @@ class _Points(object):
         :param x: X position of the point
         :param y: Y position of the point
         """
-        if type(x) != int and type(x) != float:
+        if not isinstance(x, int) and not isinstance(x, float):
             print('Point X value must be an integer! Not: {}'.format(type(x)))
-        elif type(y) != int and type(y) != float:
+        elif not isinstance(y, int) and not isinstance(y, float):
             print('Point Y value must be an integer! Not: {}'.format(type(y)))
         else:
             root_points = self.root.find('points')
@@ -1370,7 +1370,7 @@ class _Tabs(object):
         tab_elem = SubElement(root_tab, 'tab')
         name_elem = SubElement(tab_elem, "name")
         name_elem.text = name
-        children_elem = SubElement(tab_elem, "children")
+        SubElement(tab_elem, "children")
 
     def add_widget(self, tab_name: str, elem: object) -> None:
         """
@@ -1411,7 +1411,7 @@ class _NavTabs(object):
         self._shared.generic_property(tab_elem, "group_name", group_name)
         SubElement(tab_elem, "macros")
         if macros is not None:
-            if type(macros) is not dict:
+            if not isinstance(macros, dict):
                 print("macros parameter must be of type dict, not: {}".format(type(macros)))
             else:
                 for key, val in macros.items():
@@ -1500,13 +1500,13 @@ class _Labels(object):
 
         :param label_list_or_name: List of label strings or a single label string
         """
-        if type(label_list_or_name) != list and type(label_list_or_name) != str:
+        if not isinstance(label_list_or_name, list) and not isinstance(label_list_or_name, str):
             print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(label_list_or_name)))
         else:
             root_label_tag = self.root.find('labels')
             if root_label_tag is None:
                 root_label_tag = SubElement(self.root, 'labels')
-            if type(label_list_or_name) == list:
+            if isinstance(label_list_or_name, list):
                 for label in label_list_or_name:
                     label_elem = SubElement(root_label_tag, "text")
                     label_elem.text = label
@@ -1529,13 +1529,13 @@ class _Symbols(object):
 
         :param symbol_list_or_string: List of strings/file names or single string/file name
         """
-        if type(symbol_list_or_string) != list and type(symbol_list_or_string) != str:
+        if not isinstance(symbol_list_or_string, list) and not isinstance(symbol_list_or_string, str):
             print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(symbol_list_or_string)))
         else:
             root_label_tag = self.root.find('symbols')
             if root_label_tag is None:
                 root_label_tag = SubElement(self.root, 'symbols')
-            if type(symbol_list_or_string) == list:
+            if isinstance(symbol_list_or_string, list):
                 for label in symbol_list_or_string:
                     label_elem = SubElement(root_label_tag, "symbol")
                     label_elem.text = label
@@ -1771,13 +1771,13 @@ class _Columns(object):
         self._shared.boolean_property(column_elem, "editable", editable)
         if options is None:
             return
-        elif type(options) != list and type(options) != str:
+        elif not isinstance(options, list) and not isinstance(options, str):
             print("options parameter must be a list of strings or a single string")
             return
         options_root = column_elem.find("options")
         if options_root is None:
             options_root = SubElement(column_elem, "options")
-        if type(options) == list:
+        if isinstance(options, list):
             for opt in options:
                 option_elem = SubElement(options_root, "option")
                 option_elem.text = opt
@@ -1921,7 +1921,7 @@ class _Cursor(object):
 
 class _Interpolation(object):
     def _add_interpolation(self, val):
-        if type(val) != self._shared.Interpolation:
+        if not isinstance(val, self._shared.Interpolation):
             print('The component parameter must be of type Interpolation enum! Not: {}'.format(type(val)))
             return
         self._shared.generic_property(self.root, 'interpolation', val.value)

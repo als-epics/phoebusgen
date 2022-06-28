@@ -60,7 +60,7 @@ class Screen(object):
 
         :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
         """
-        if type(elem) == list:
+        if isinstance(elem, list):
             for e in elem:
                 self.root.append(e.root)
         else:

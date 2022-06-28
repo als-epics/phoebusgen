@@ -477,19 +477,19 @@ class TestHorizontalAlignment(GenericTest):
         self.generic_element_test(tag_name, xml_value)
 
 class TestVerticalAlignment(GenericTest):
-    def test_vertical_alignment(self):
+    def test_vertical_alignment_1(self):
         tag_name = 'vertical_alignment'
         xml_value = 1
         self.element.vertical_alignment_middle()
         self.generic_element_test(tag_name, xml_value)
 
-    def test_vertical_alignment(self):
+    def test_vertical_alignment_0(self):
         tag_name = 'vertical_alignment'
         xml_value = 0
         self.element.vertical_alignment_top()
         self.generic_element_test(tag_name, xml_value)
 
-    def test_vertical_alignment(self):
+    def test_vertical_alignment_2(self):
         tag_name = 'vertical_alignment'
         xml_value = 2
         self.element.vertical_alignment_bottom()
@@ -1114,7 +1114,7 @@ class TestShowToolbar(GenericTest):
         self.element.show_toolbar(val)
         self.null_test(tag_name)
 
-    def test_show_toolbar_wrong(self):
+    def test_show_toolbar_wrong_2(self):
         tag_name = 'show_toolbar'
         val = 'tRue'
         self.element.show_toolbar(val)
@@ -1211,7 +1211,6 @@ class TestSelectedColor(GenericTest):
                                                           'blue': '15', 'alpha': '232'})
 
     def test_selected_color_wrong(self):
-        tag_name = 'selected_color'
         self.element.selected_color(-2, 10, 15, 232)
         self.null_test('color')
 
@@ -1677,9 +1676,9 @@ class TestLevelsAndShow(GenericTest):
         self.element.level_low(val)
         self.generic_element_test(tag_name, val)
 
-    def test_level_low(self):
+    def test_level_low_int(self):
         tag_name = 'level_low'
-        val = 200.23
+        val = 100
         self.element.level_low(val)
         self.generic_element_test(tag_name, val)
 

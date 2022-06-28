@@ -4,7 +4,7 @@ sys.path.insert(1, './phoebusgen/widget/')
 sys.path.insert(1, '../phoebusgen/')
 sys.path.insert(1, './phoebusgen/')
 import unittest
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import Element
 
 class TestGenericPropertyElements(unittest.TestCase):
     def setUp(self):

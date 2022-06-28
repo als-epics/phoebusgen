@@ -17,7 +17,7 @@ Suggestions, comments, and pull requests are welcome.
 
 ## Requirements
 
-  - Python >= 3.5
+-   Python >= 3.5
 
 ## Install
 Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)
@@ -29,7 +29,7 @@ pip install phoebusgen
 
 Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be added to a screen or even to other widgets (for things like Group or Tab widgets).
 
-```
+```pycon
 >>> import phoebusgen
 >>> text_update_widget = phoebusgen.widget.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
 >>> text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
@@ -62,12 +62,12 @@ Python API to directly create Phoebus widgets. All standard Phoebus widgets are 
 [Widgets Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
 #### Incomplete Widgets
-  - Image
-  - Strip Chart
-  - X/Y Plot
+-   Image
+-   Strip Chart
+-   X/Y Plot
 
 Example
-  - ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
+-   ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
 
 ### phoebusgen.screen 
 

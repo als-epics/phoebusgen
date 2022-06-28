@@ -29,21 +29,21 @@ class _SharedPropertyFunctions(object):
         root_element.append(self.create_element(root_element, prop_type, val))
 
     def integer_property(self, root_element, prop_type, val):
-        if type(val) == int or type(val) == float:
+        if isinstance(val, int) or isinstance(val, float):
             self.generic_property(root_element, prop_type, int(val))
         else:
             print('Property {} must be an integer! Not: {}'.format(prop_type, val))
 
     def number_property(self, root_element, prop_type, val):
-        if type(val) == int or type(val) == float:
+        if isinstance(val, int) or isinstance(val, float):
             self.generic_property(root_element, prop_type, val)
         else:
             print('Property {} must be a number! Not: {}'.format(prop_type, val))
 
     def boolean_property(self, root_element, prop_type, val):
-        if type(val) == bool:
+        if isinstance(val, bool):
             self.generic_property(root_element, prop_type, str(val).lower())
-        elif type(val) == int:
+        elif isinstance(val, int):
             self.generic_property(root_element, prop_type, str(bool(val)).lower())
         elif val.lower() == 'true' or val.lower() == 'false':
             self.generic_property(root_element, prop_type, val.lower())
@@ -56,7 +56,7 @@ class _SharedPropertyFunctions(object):
             root_element.remove(element)
         element = Element(prop_type)
         if val is not None:
-            if type(val) == bool:
+            if isinstance(val, bool):
                 element.text = str(val).lower()
             else:
                 element.text = str(val)
@@ -114,7 +114,7 @@ class _SharedPropertyFunctions(object):
         return child_font_elem
 
     def add_font_style(self, root_elem, font_elem_name, val):
-        if type(val) != self.FontStyle:
+        if not isinstance(val, self.FontStyle):
             print('The font style parameter must be of type FontStyle enum! Not: {}'.format(type(val)))
             return
         child_elem = self.get_font_element(root_elem, font_elem_name)
