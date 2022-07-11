@@ -36,15 +36,23 @@ class Screen(object):
         :return: True is successful write, False otherwise
         """
         rough_string = tostring(self.root, 'utf-8')
-        reparse_xml = minidom.parseString(rough_string)
+        # Restore CDATA brakets, &lt; (-LESS-) -> < , &gt; (-GREATER-) -> >
+        s = rough_string.decode('utf-8').replace('-LBRCT-', '<')\
+                .replace('-RBRCT-', '>')\
+                .replace('-GREATER-', '>')\
+                .replace('-LESS-', '<')
+
         if file_name is None:
             file_name = self.bob_file
         if file_name is None:
             print('Output Phoebus file name is not set! First set bob_file or use file_name parameter')
             return False
         else:
+            # Note: the output xml file is super compact, not reader-friendly, but could use
+            # other tools to reformat it.
             with open(file_name, 'w') as f:
-                reparse_xml.writexml(f, indent="  ", addindent="  ", newl="\n", encoding="UTF-8")
+                f.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+                f.write(s)
             return True
 
     def find_widget(self, widget_tag_name: str) -> Element:
