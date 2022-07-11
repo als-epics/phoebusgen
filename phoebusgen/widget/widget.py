@@ -1,4 +1,4 @@
-from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.etree.ElementTree import Element, SubElement, tostring, fromstring
 from xml.dom import minidom
 from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
 
@@ -136,6 +136,26 @@ class _Widget(object):
         element = self.find_element(tag)
         if element is not None:
             self.root.remove(element)
+
+    def add_element(self, xmlstring: str, simplify=False) -> None:
+        """Add a string (XML node) into the root, xmlstring could be an arbitrary string that may
+        not be ready supported by other straightforwad APIs, e.g. rules. It is the user's
+        responsibility to prepare the right formatted xmlstring input.
+        """
+        try:
+            if simplify:
+                elem = fromstring(''.join(i.strip() for i in xmlstring.split("\n")))
+            else:
+                elem = fromstring(xmlstring.strip())
+        except:
+            print("Failed to read an Element object from the input string.")
+        else:
+            # if contains ![CDATA?, <scripts>
+            if '![CDATA' in xmlstring:
+                script_node = elem.find(".//text")
+                text = script_node.text.replace('>', '-GREATER-').replace('<', '-LESS-')
+                script_node.text = f"-LBRCT-![CDATA[{text}]]-RBRCT-"
+            self.root.append(elem)
 
     def get_element_value(self, tag: str) -> str:
         """
