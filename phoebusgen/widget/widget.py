@@ -97,8 +97,54 @@ class _Widget(object):
     #def rule(self, rule):
     #    pass
 
-    #def scripts(self, script):
-    #    pass
+    def _script(self, file_name, script_contents, pv_dict, only_trigger_if_connected):
+        root_scripts = self.root.find('scripts')
+        if root_scripts is None:
+            root_scripts = SubElement(self.root, 'scripts')
+        root_script = SubElement(root_scripts, 'script')
+        root_script.attrib['file'] = file_name
+        if only_trigger_if_connected is False:
+            root_script.attrib['check_connections'] = 'false'
+        if script_contents is not None:
+            # self._shared.generic_property(root_script, 'text', "<![CDATA[" + python_script + "]]>")
+            # from what I can tell, Phoebus will automatically add <![CDATA[ ... ]]>
+            self._shared.generic_property(root_script, 'text', script_contents)
+        if pv_dict is not None:
+            for pv, trigger in pv_dict.items():
+                pv_element = SubElement(root_script, 'pv_name', {'trigger': str(trigger).lower()})
+                pv_element.text = pv
+
+    def embedded_python_script(self, python_script: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+        """
+        Add an embedded Jython (Python) script to the widget
+
+        :param python_script: Usually multi-line string representing the actual python code to attach to widget
+        :param pv_dict: Dictionary of PVs for the script, format - { pvName: triggerOnPV }
+        :param only_trigger_if_connected: Defaults to True. If False, script will run even if PVs are not connected
+        """
+        file_name = "EmbeddedPy"
+        self._script(file_name, python_script, pv_dict, only_trigger_if_connected)
+
+    def embedded_javascript_script(self, js_script: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+        """
+        Add an embedded JS script to the widget
+
+        :param js_script: Usually multi-line string representing the actual JS code to attach to widget
+        :param pv_dict: Dictionary of PVs for the script, format - { pvName: triggerOnPV }
+        :param only_trigger_if_connected: Defaults to True. If False, script will run even if PVs are not connected
+        """
+        file_name = "EmbeddedJs"
+        self._script(file_name, js_script, pv_dict, only_trigger_if_connected)
+
+    def external_script(self, file_name: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+        """
+        Add an external script to the widget, either jython (.py) or javascript (.js)
+
+        :param file_name: Path and file name of the external script to attach to widget
+        :param pv_dict: Dictionary of PVs for the script, format - { pvName: triggerOnPV }
+        :param only_trigger_if_connected: Defaults to True. If False, script will run even if PVs are not connected
+        """
+        self._script(file_name, None, pv_dict, only_trigger_if_connected)
 
     def tool_tip(self, tool_tip: str) -> None:
         """

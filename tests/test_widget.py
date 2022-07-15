@@ -124,6 +124,57 @@ class TestWidgetClass(unittest.TestCase):
             if child.tag == 'width':
                 self.assertEqual(child.text, str(324))
 
+    def test_embedded_python_script(self):
+        w = self.create_basic_widget()
+        script = """# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))"""
+        pvs = {"pv0": True, "$(pv_name)": False, "pv2": True}
+        w.embedded_python_script(script, pvs, False)
+        self.assertEqual(len(w.root.findall('scripts')), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 3)
+        pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+        for pv_element in pv_elements:
+            self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
+        script_element = w.root.findall('scripts')[0].findall("script")[0]
+        self.assertEqual(script_element.attrib["file"], "EmbeddedPy")
+
+    def test_embedded_javascript_script(self):
+        w = self.create_basic_widget()
+        script = """/* Embedded javascript */
+importClass(org.csstudio.display.builder.runtime.script.PVUtil);
+importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
+logger = ScriptUtil.getLogger();
+logger.info("Hello");
+/* widget.setPropertyValue("text", PVUtil.getString(pvs[0])); */"""
+        pvs = {"pv0": True, "$(pv_name)": False, "pv2": True}
+        w.embedded_javascript_script(script, pvs, True)
+        self.assertEqual(len(w.root.findall('scripts')), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 3)
+        pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+        for pv_element in pv_elements:
+            self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
+        script_element = w.root.findall('scripts')[0].findall("script")[0]
+        self.assertEqual(script_element.attrib["file"], "EmbeddedJs")
+
+        def test_external_script(self):
+            w = self.create_basic_widget()
+            pvs = {"pv0": True, "$(pv_name)": False}
+            file_name = "/path/to/the/amazing/script.py"
+            w.external_script(file_name, pvs, False)
+            self.assertEqual(len(w.root.findall('scripts')), 1)
+            self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
+            self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 3)
+            pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+            for pv_element in pv_elements:
+                self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
+            script_element = w.root.findall('scripts')[0].findall("script")[0]
+            self.assertEqual(script_element.attrib["file"], file_name)
+            self.assertEqual(script_element.attrib["check_connections"], "false")
+
 
 if __name__ == '__main__':
     unittest.main()
