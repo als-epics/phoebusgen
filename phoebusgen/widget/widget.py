@@ -94,8 +94,40 @@ class _Widget(object):
     #def class_name(self, name):
     #    pass
 
-    #def rule(self, rule):
-    #    pass
+    def rule(self, name, widget_property, pv_dict, expression_dict, value_as_expression=False):
+        """
+        Add a rule to the widget to control a property based on some logic
+
+        :param name: Name of the rule
+        :param widget_property: Property for rule to control, i.e. name, foreground_color, etc.
+        :param pv_dict: Dictionary of PVs for the rule, format - { pvName: triggerOnPV }
+        :param expression_dict: Dictionary of expressions for the rules, format - { boolean expression : value }
+        :param value_as_expression: Defaults to False. If True, use value as expression
+        """
+        root_rules = self.root.find('rules')
+        if root_rules is None:
+            root_rules = SubElement(self.root, 'rules')
+        root_rule = SubElement(root_rules, 'rule')
+        root_rule.attrib['name'] = name
+        root_rule.attrib['prop_id'] = widget_property
+        if value_as_expression is True:
+            root_rule.attrib['out_exp'] = "true"
+        else:
+            root_rule.attrib['out_exp'] = "false"
+        if expression_dict is not None:
+            for expression, value in expression_dict.items():
+                print(expression, value)
+                expression_element = SubElement(root_rule, 'exp', {'bool_exp': expression})
+                if value_as_expression is True:
+                    val_as_exp_element = SubElement(expression_element, 'expression')
+                    val_as_exp_element.text = value
+                else:
+                    val_element = SubElement(expression_element, 'value')
+                    val_element.text = value
+        if pv_dict is not None:
+            for pv, trigger in pv_dict.items():
+                pv_element = SubElement(root_rule, 'pv_name', {'trigger': str(trigger).lower()})
+                pv_element.text = pv
 
     def _script(self, file_name, script_contents, pv_dict, only_trigger_if_connected):
         root_scripts = self.root.find('scripts')
@@ -107,7 +139,7 @@ class _Widget(object):
             root_script.attrib['check_connections'] = 'false'
         if script_contents is not None:
             # self._shared.generic_property(root_script, 'text', "<![CDATA[" + python_script + "]]>")
-            # from what I can tell, Phoebus will automatically add <![CDATA[ ... ]]>
+            # from what I can tell, Phoebus will automatically add <![CDATA[ ... ]]> after saving in editor
             self._shared.generic_property(root_script, 'text', script_contents)
         if pv_dict is not None:
             for pv, trigger in pv_dict.items():
