@@ -94,7 +94,8 @@ class _Widget(object):
     #def class_name(self, name):
     #    pass
 
-    def rule(self, name, widget_property, pv_dict, expression_dict, value_as_expression=False):
+    def rule(self, name: str, widget_property: str, pv_dict: dict,
+             expression_dict: dict, value_as_expression: bool = False) -> None:
         """
         Add a rule to the widget to control a property based on some logic
 
