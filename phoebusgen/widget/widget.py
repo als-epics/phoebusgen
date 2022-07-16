@@ -146,7 +146,7 @@ class _Widget(object):
                 pv_element = SubElement(root_script, 'pv_name', {'trigger': str(trigger).lower()})
                 pv_element.text = pv
 
-    def embedded_python_script(self, python_script: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+    def embedded_python_script(self, python_script: str, pv_dict: dict, only_trigger_if_connected: bool = True) -> None:
         """
         Add an embedded Jython (Python) script to the widget
 
@@ -157,7 +157,7 @@ class _Widget(object):
         file_name = "EmbeddedPy"
         self._script(file_name, python_script, pv_dict, only_trigger_if_connected)
 
-    def embedded_javascript_script(self, js_script: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+    def embedded_javascript_script(self, js_script: str, pv_dict: dict, only_trigger_if_connected: bool = True) -> None:
         """
         Add an embedded JS script to the widget
 
@@ -168,7 +168,7 @@ class _Widget(object):
         file_name = "EmbeddedJs"
         self._script(file_name, js_script, pv_dict, only_trigger_if_connected)
 
-    def external_script(self, file_name: str, pv_dict: dict = None, only_trigger_if_connected: bool = True) -> None:
+    def external_script(self, file_name: str, pv_dict: dict, only_trigger_if_connected: bool = True) -> None:
         """
         Add an external script to the widget, either jython (.py) or javascript (.js)
 
