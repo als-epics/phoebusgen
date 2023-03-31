@@ -2,7 +2,8 @@ name: Python unittest
 on:
   push:
     branches:
-      - "*"
+      - master
+      - dev 
   pull_request:
     branches:
       - master
