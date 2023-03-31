@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>phoebusgen.screen package &mdash; phoebusgen 2.3.2 documentation</title>
@@ -12,10 +12,8 @@
   <![endif]-->
   
         <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
@@ -26,11 +24,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> phoebusgen
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            phoebusgen
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -40,7 +42,21 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">phoebusgen.screen package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-phoebusgen.screen.screen">phoebusgen.screen.screen module</a></li>
+<li><a class="reference internal" href="#module-phoebusgen.screen.screen">phoebusgen.screen.screen module</a><ul>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen"><code class="docutils literal notranslate"><span class="pre">Screen</span></code></a><ul>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.add_widget"><code class="docutils literal notranslate"><span class="pre">Screen.add_widget()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.background_color"><code class="docutils literal notranslate"><span class="pre">Screen.background_color()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.find_widget"><code class="docutils literal notranslate"><span class="pre">Screen.find_widget()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.height"><code class="docutils literal notranslate"><span class="pre">Screen.height()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.macro"><code class="docutils literal notranslate"><span class="pre">Screen.macro()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.predefined_background_color"><code class="docutils literal notranslate"><span class="pre">Screen.predefined_background_color()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.width"><code class="docutils literal notranslate"><span class="pre">Screen.width()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.Screen.write_screen"><code class="docutils literal notranslate"><span class="pre">Screen.write_screen()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#phoebusgen.screen.screen.prettify"><code class="docutils literal notranslate"><span class="pre">prettify()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-phoebusgen.screen">Module contents</a></li>
 </ul>
 </li>
@@ -59,8 +75,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>phoebusgen.screen package</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">phoebusgen.screen package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/source/phoebusgen.screen.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,10 +103,10 @@
 <span class="sig-name descname"><span class="pre">add_widget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elem</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.add_widget" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add widget or list of widgets to screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>elem</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>]) – &lt;list/Phoebusgen.widget&gt; List of Phoebusgen.widget’s or a single widget to add</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -101,7 +117,7 @@
 <span class="sig-name descname"><span class="pre">background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">green</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">255</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.background_color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add background color to screen RGB values</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>red</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – 0-255</p></li>
 <li><p><strong>green</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – 0-255</p></li>
@@ -109,7 +125,7 @@
 <li><p><strong>alpha</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – 0-255. Default is 255</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -120,13 +136,13 @@
 <span class="sig-name descname"><span class="pre">find_widget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget_tag_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.find_widget" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find widget in the screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>widget_tag_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Tag name of widget to find</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None if not found or widget that was found</p>
 </dd>
 </dl>
@@ -137,10 +153,10 @@
 <span class="sig-name descname"><span class="pre">height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.height" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change height of screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Screen height</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -151,13 +167,13 @@
 <span class="sig-name descname"><span class="pre">macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.macro" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add macro to screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Macro name</p></li>
 <li><p><strong>val</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Macro value</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -168,10 +184,10 @@
 <span class="sig-name descname"><span class="pre">predefined_background_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.predefined_background_color" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add named background color to screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code>) – &lt;Phoebusgen.colors&gt; Predefined color name</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -182,10 +198,10 @@
 <span class="sig-name descname"><span class="pre">width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.width" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change width of screen</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>val</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Screen width</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -196,13 +212,13 @@
 <span class="sig-name descname"><span class="pre">write_screen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.screen.screen.Screen.write_screen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes screen XML to file. File name parameter is optional, if not given Screen bob_file member will be used</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>file_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – File name to write to</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True is successful write, False otherwise</p>
 </dd>
 </dl>
