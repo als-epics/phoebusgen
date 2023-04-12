@@ -231,4 +231,3 @@ class _Widget(object):
 
     def __repr__(self):
         return prettify(self.root)
-

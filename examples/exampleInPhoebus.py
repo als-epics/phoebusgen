@@ -15,4 +15,3 @@ for i in range(int(pv_arg)):
     y += 30
 
 my_screen.write_screen()
-

@@ -33,4 +33,3 @@ my_screen.add_widget(widgets)
 
 # write to specified file
 my_screen.write_screen('./example1.bob')
-

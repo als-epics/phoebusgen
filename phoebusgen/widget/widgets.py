@@ -700,4 +700,3 @@ class WebBrowser(_Widget, _p._URL, _p._ShowToolbar):
         """
         _Widget.__init__(self, 'webbrowser', name, x, y, width, height)
         self.url(url)
-
