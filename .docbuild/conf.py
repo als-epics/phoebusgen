@@ -42,10 +42,10 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 autodoc_default_options = {
-        "members": "widgets, screen, widget, properties",
-        "private-members": "widgets, screen",
-        "inherited-members": "widgets",
-        "exclude-members": "_prettify, _add_action, _add_font_style, _add_rotation_step, _get_font_element, _add_mode, _add_horizontal_alignment, _add_vertical_alignment, _add_file_component, _add_resize_behavior, _add_state, _add_style"
+        'members': 'widgets, screen, widget, properties',
+        'private-members': 'widgets, screen',
+        'inherited-members': 'widgets',
+        'exclude-members': '_prettify, _add_action, _add_font_style, _add_rotation_step, _get_font_element, _add_mode, _add_horizontal_alignment, _add_vertical_alignment, _add_file_component, _add_resize_behavior, _add_state, _add_style'
         }
 
 

@@ -31,12 +31,12 @@ class TestScreen(unittest.TestCase):
         self.assertEqual(child.attrib, attrib)
 
     def test_screen_write(self):
-        test_screen_write = s.Screen("TEST", './test_write.bob')
+        test_screen_write = s.Screen('TEST', './test_write.bob')
         open_mock = mock_open()
-        with patch("builtins.open", open_mock, create=True):
+        with patch('builtins.open', open_mock, create=True):
             test_screen_write.write_screen()
 
-        open_mock.assert_called_with("./test_write.bob", "w")
+        open_mock.assert_called_with('./test_write.bob', 'w')
         self.assertEqual(open_mock.return_value.write.call_count, 13)
 
     def test_screen_blank(self):

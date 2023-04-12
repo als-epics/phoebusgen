@@ -398,7 +398,7 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
                 ph.TestLogScale, ph.TestUnsignedData, ph.TestCursor, ph.TestInterpolation):
     def setUp(self):
         self.name = 'my data browser'
-        self.pv_name = "Image:PV"
+        self.pv_name = 'Image:PV'
         self.type = 'image'
         self.x = 24
         self.y = 1224

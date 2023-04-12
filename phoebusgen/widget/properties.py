@@ -719,7 +719,7 @@ class _Actions(object):
         sub.text = str(description)
         if macros:
             if not isinstance(macros, dict):
-                print("macros parameter must be of type dict, not: {}".format(type(macros)))
+                print('macros parameter must be of type dict, not: {}'.format(type(macros)))
             else:
                 for key, val in macros.items():
                     self._shared.add_macro(key, val, action)
@@ -1368,9 +1368,9 @@ class _Tabs(object):
         if root_tab is None:
             root_tab = SubElement(self.root, 'tabs')
         tab_elem = SubElement(root_tab, 'tab')
-        name_elem = SubElement(tab_elem, "name")
+        name_elem = SubElement(tab_elem, 'name')
         name_elem.text = name
-        SubElement(tab_elem, "children")
+        SubElement(tab_elem, 'children')
 
     def add_widget(self, tab_name: str, elem: object) -> None:
         """
@@ -1381,7 +1381,7 @@ class _Tabs(object):
         """
         root_tab = self.root.find('tabs')
         if root_tab is None:
-            print("No tabs widget available!")
+            print('No tabs widget available!')
         else:
             tab_elem_list = root_tab.findall('tab')
             foundIt = False
@@ -1390,7 +1390,7 @@ class _Tabs(object):
                     tab.find('children').append(elem.root)
                     foundIt = True
             if not foundIt:
-                print("No tab with the given name: {}".format(tab_name))
+                print('No tab with the given name: {}'.format(tab_name))
 
 class _NavTabs(object):
     def tab(self, name: str, file_name: str, group_name: str, macros: dict = None) -> None:
@@ -1406,13 +1406,13 @@ class _NavTabs(object):
         if root_tab is None:
             root_tab = SubElement(self.root, 'tabs')
         tab_elem = SubElement(root_tab, 'tab')
-        self._shared.generic_property(tab_elem, "name", name)
-        self._shared.generic_property(tab_elem, "file", file_name)
-        self._shared.generic_property(tab_elem, "group_name", group_name)
-        SubElement(tab_elem, "macros")
+        self._shared.generic_property(tab_elem, 'name', name)
+        self._shared.generic_property(tab_elem, 'file', file_name)
+        self._shared.generic_property(tab_elem, 'group_name', group_name)
+        SubElement(tab_elem, 'macros')
         if macros is not None:
             if not isinstance(macros, dict):
-                print("macros parameter must be of type dict, not: {}".format(type(macros)))
+                print('macros parameter must be of type dict, not: {}'.format(type(macros)))
             else:
                 for key, val in macros.items():
                     self._shared.add_macro(key, val, tab_elem)
@@ -1501,17 +1501,17 @@ class _Labels(object):
         :param label_list_or_name: List of label strings or a single label string
         """
         if not isinstance(label_list_or_name, list) and not isinstance(label_list_or_name, str):
-            print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(label_list_or_name)))
+            print('Parameter to labels must be a list of strings or a single string, not: {}'.format(type(label_list_or_name)))
         else:
             root_label_tag = self.root.find('labels')
             if root_label_tag is None:
                 root_label_tag = SubElement(self.root, 'labels')
             if isinstance(label_list_or_name, list):
                 for label in label_list_or_name:
-                    label_elem = SubElement(root_label_tag, "text")
+                    label_elem = SubElement(root_label_tag, 'text')
                     label_elem.text = label
             else:
-                self._shared.generic_property(root_label_tag, "text", label_list_or_name)
+                self._shared.generic_property(root_label_tag, 'text', label_list_or_name)
 
 class _ArrayIndex(object):
     def array_index(self, index: int) -> None:
@@ -1530,17 +1530,17 @@ class _Symbols(object):
         :param symbol_list_or_string: List of strings/file names or single string/file name
         """
         if not isinstance(symbol_list_or_string, list) and not isinstance(symbol_list_or_string, str):
-            print("Parameter to labels must be a list of strings or a single string, not: {}".format(type(symbol_list_or_string)))
+            print('Parameter to labels must be a list of strings or a single string, not: {}'.format(type(symbol_list_or_string)))
         else:
             root_label_tag = self.root.find('symbols')
             if root_label_tag is None:
                 root_label_tag = SubElement(self.root, 'symbols')
             if isinstance(symbol_list_or_string, list):
                 for label in symbol_list_or_string:
-                    label_elem = SubElement(root_label_tag, "symbol")
+                    label_elem = SubElement(root_label_tag, 'symbol')
                     label_elem.text = label
             else:
-                self._shared.generic_property(root_label_tag, "symbol", symbol_list_or_string)
+                self._shared.generic_property(root_label_tag, 'symbol', symbol_list_or_string)
 
 class _InitialIndex(object):
     def initial_index(self, index: int) -> None:
@@ -1762,27 +1762,27 @@ class _Columns(object):
         :param editable: Is column editable?
         :param options: List of strings or single string
         """
-        columns_root = self.root.find("columns")
+        columns_root = self.root.find('columns')
         if columns_root is None:
-            columns_root = SubElement(self.root, "columns")
-        column_elem = SubElement(columns_root, "column")
-        self._shared.generic_property(column_elem, "name", name)
-        self._shared.integer_property(column_elem, "width", width)
-        self._shared.boolean_property(column_elem, "editable", editable)
+            columns_root = SubElement(self.root, 'columns')
+        column_elem = SubElement(columns_root, 'column')
+        self._shared.generic_property(column_elem, 'name', name)
+        self._shared.integer_property(column_elem, 'width', width)
+        self._shared.boolean_property(column_elem, 'editable', editable)
         if options is None:
             return
         elif not isinstance(options, list) and not isinstance(options, str):
-            print("options parameter must be a list of strings or a single string")
+            print('options parameter must be a list of strings or a single string')
             return
-        options_root = column_elem.find("options")
+        options_root = column_elem.find('options')
         if options_root is None:
-            options_root = SubElement(column_elem, "options")
+            options_root = SubElement(column_elem, 'options')
         if isinstance(options, list):
             for opt in options:
-                option_elem = SubElement(options_root, "option")
+                option_elem = SubElement(options_root, 'option')
                 option_elem.text = opt
         else:
-            self._shared.generic_property(options_root, "option", options)
+            self._shared.generic_property(options_root, 'option', options)
 
 class _Title(object):
     def title(self, title: str) -> None:

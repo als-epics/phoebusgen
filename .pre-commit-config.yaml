@@ -4,3 +4,5 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-docstring-first
+      - id: double-quote-string-fixer

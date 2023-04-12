@@ -957,23 +957,23 @@ class TestActions(GenericTest):
     def test_open_display_desc(self):
         file = 'test.bob'
         target = 'replace'
-        desc = "my description"
+        desc = 'my description'
         self.element.action_open_display(file, target, desc)
         self.action_test('open_display', desc, {'file': file, 'target': 'replace'})
 
     def test_open_display_macros(self):
         file = 'test.bob'
         target = 'replace'
-        macro_dict = { "TestMac": "1", "MOD": "Mod1"}
+        macro_dict = { 'TestMac': '1', 'MOD': 'Mod1'}
         self.element.action_open_display(file, target, macros=macro_dict)
         self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'}, macro_dict)
 
     def test_open_display_macros_and_desc(self):
         file = 'test.bob'
         target = 'replace'
-        desc = "test test test"
-        self.element.action_open_display(file, target, desc, {"BPM": "BPMA"})
-        self.action_test('open_display', desc, {'file': file, 'target': 'replace'}, {"BPM": "BPMA"})
+        desc = 'test test test'
+        self.element.action_open_display(file, target, desc, {'BPM': 'BPMA'})
+        self.action_test('open_display', desc, {'file': file, 'target': 'replace'}, {'BPM': 'BPMA'})
 
     def test_write_pv(self):
         pv = 'TEST:PV'
@@ -1527,12 +1527,12 @@ class TestTabSpacing(GenericTest):
 
 class TestLabels(GenericTest):
     def test_label_single_string(self):
-        label_name = "testLabel1"
+        label_name = 'testLabel1'
         self.element.labels(label_name)
         self.child_element_test('labels', 'text', label_name, {})
 
     def test_label_list(self):
-        label_names = ["testLabel1", "label2", "label5"]
+        label_names = ['testLabel1', 'label2', 'label5']
         self.element.labels(label_names)
         self.assertEqual(len(self.element.find_element('labels').findall('text')), len(label_names))
 
@@ -1545,12 +1545,12 @@ class TestArrayIndex(GenericTest):
 
 class TestSymbols(GenericTest):
     def test_symbols_single_string(self):
-        label_name = "testLabel1"
+        label_name = 'testLabel1'
         self.element.symbols(label_name)
         self.child_element_test('symbols', 'symbol', label_name, {})
 
     def test_symbols_list(self):
-        label_names = ["testLabel1", "file:/test.png", "label5"]
+        label_names = ['testLabel1', 'file:/test.png', 'label5']
         self.element.symbols(label_names)
         self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
 
@@ -1646,7 +1646,7 @@ class TestMajorTicksPixelDist(GenericTest):
 class TestScaleFormat(GenericTest):
     def test_scale_format(self):
         tag_name = 'scale_format'
-        val = "# .###"
+        val = '# .###'
         self.element.scale_format(val)
         self.generic_element_test(tag_name, val)
 
@@ -1785,37 +1785,37 @@ class TestSelectRows(GenericTest):
 class TestSelectionPV(GenericTest):
     def test_selection_pv(self):
         tag_name = 'selection_pv'
-        val = "Selection:PV:Test"
+        val = 'Selection:PV:Test'
         self.element.selection_pv(val)
         self.generic_element_test(tag_name, val)
 
 class TestColumns(GenericTest):
     # add more testing!
     def test_columns(self):
-        self.element.column("col1", 123, False, ["opt532", "option35"])
-        self.element.column("col2", 123, True, "optionStr")
-        self.assertEqual(len(self.element.find_element("columns").findall("column")), 2)
+        self.element.column('col1', 123, False, ['opt532', 'option35'])
+        self.element.column('col2', 123, True, 'optionStr')
+        self.assertEqual(len(self.element.find_element('columns').findall('column')), 2)
 
 class TestTabs(GenericTest):
     pass
 
 class TestNavTabs(GenericTest):
     def test_nav_tab(self):
-        self.element.tab("TabElement2", "./tab2.bob", "TabGroupName", {"MAC1": "MacV"})
-        self.assertIsNotNone(self.element.root.find("tabs"))
-        self.assertIsNotNone(self.element.root.find("tabs").find("tab"))
-        self.assertEqual(self.element.root.find("tabs").find("tab").find("name").text, "TabElement2")
-        self.assertEqual(self.element.root.find("tabs").find("tab").find("file").text, "./tab2.bob")
-        self.assertEqual(self.element.root.find("tabs").find("tab").find("group_name").text, "TabGroupName")
-        self.assertIsNotNone(self.element.root.find("tabs").find("tab").find("macros"))
-        self.assertEqual(self.element.root.find("tabs").find("tab").find("macros").find("MAC1").text, "MacV")
-        self.element.tab("TabElement", "./tab.bob", "TabGroupName")
-        self.assertEqual(len(self.element.root.find("tabs").findall("tab")), 2)
+        self.element.tab('TabElement2', './tab2.bob', 'TabGroupName', {'MAC1': 'MacV'})
+        self.assertIsNotNone(self.element.root.find('tabs'))
+        self.assertIsNotNone(self.element.root.find('tabs').find('tab'))
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('name').text, 'TabElement2')
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('file').text, './tab2.bob')
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('group_name').text, 'TabGroupName')
+        self.assertIsNotNone(self.element.root.find('tabs').find('tab').find('macros'))
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('macros').find('MAC1').text, 'MacV')
+        self.element.tab('TabElement', './tab.bob', 'TabGroupName')
+        self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 2)
 
 class TestTitle(GenericTest):
     def test_title(self):
         tag_name = 'title'
-        val = "MyChart Title"
+        val = 'MyChart Title'
         self.element.title(val)
         self.generic_element_test(tag_name, val)
 
@@ -1910,7 +1910,7 @@ class TestShowLegend(GenericTest):
 class TestTimeRange(GenericTest):
     def test_time_range(self):
         tag_name = 'time_range'
-        val = "5 minutes"
+        val = '5 minutes'
         self.element.time_range(val)
         self.generic_element_test(tag_name, val)
 
@@ -1930,19 +1930,19 @@ class TestGridColor(GenericTest):
 class TestCursor(GenericTest):
     def test_cursor_info_pv(self):
         tag_name = 'cursor_info_pv'
-        val = "Cursor:INFO:PV:Test"
+        val = 'Cursor:INFO:PV:Test'
         self.element.cursor_info_pv(val)
         self.generic_element_test(tag_name, val)
 
     def test_cursor_x_pv(self):
         tag_name = 'x_pv'
-        val = "Cursor:X:PV:Test"
+        val = 'Cursor:X:PV:Test'
         self.element.cursor_x_pv(val)
         self.generic_element_test(tag_name, val)
 
     def test_cursor_y_pv(self):
         tag_name = 'y_pv'
-        val = "Cursor:Y:PV:Test"
+        val = 'Cursor:Y:PV:Test'
         self.element.cursor_y_pv(val)
         self.generic_element_test(tag_name, val)
 

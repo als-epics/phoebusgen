@@ -9,7 +9,7 @@ def prettify(elem):
     """
     rough_string = tostring(elem, 'utf-8')
     reparse_xml = minidom.parseString(rough_string)
-    return reparse_xml.toprettyxml(indent="  ", newl="\n")
+    return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
 
 class _Widget(object):
@@ -112,9 +112,9 @@ class _Widget(object):
         root_rule.attrib['name'] = name
         root_rule.attrib['prop_id'] = widget_property
         if value_as_expression is True:
-            root_rule.attrib['out_exp'] = "true"
+            root_rule.attrib['out_exp'] = 'true'
         else:
-            root_rule.attrib['out_exp'] = "false"
+            root_rule.attrib['out_exp'] = 'false'
         if expression_dict is not None:
             for expression, value in expression_dict.items():
                 print(expression, value)
@@ -155,7 +155,7 @@ class _Widget(object):
         :param pv_dict: Dictionary of PVs for the script, format - { pvName: triggerOnPV }
         :param only_trigger_if_connected: Defaults to True. If False, script will run even if PVs are not connected
         """
-        file_name = "EmbeddedPy"
+        file_name = 'EmbeddedPy'
         self._script(file_name, python_script, pv_dict, only_trigger_if_connected)
 
     def embedded_javascript_script(self, js_script: str, pv_dict: dict, only_trigger_if_connected: bool = True) -> None:
@@ -166,7 +166,7 @@ class _Widget(object):
         :param pv_dict: Dictionary of PVs for the script, format - { pvName: triggerOnPV }
         :param only_trigger_if_connected: Defaults to True. If False, script will run even if PVs are not connected
         """
-        file_name = "EmbeddedJs"
+        file_name = 'EmbeddedJs'
         self._script(file_name, js_script, pv_dict, only_trigger_if_connected)
 
     def external_script(self, file_name: str, pv_dict: dict, only_trigger_if_connected: bool = True) -> None:

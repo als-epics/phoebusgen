@@ -10,7 +10,7 @@ def prettify(elem):
     """
     rough_string = tostring(elem, 'utf-8')
     reparse_xml = minidom.parseString(rough_string)
-    return reparse_xml.toprettyxml(indent="  ", newl="\n")
+    return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
 
 class Screen(object):
@@ -44,7 +44,7 @@ class Screen(object):
             return False
         else:
             with open(file_name, 'w') as f:
-                reparse_xml.writexml(f, indent="  ", addindent="  ", newl="\n", encoding="UTF-8")
+                reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
             return True
 
     def find_widget(self, widget_tag_name: str) -> Element:

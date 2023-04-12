@@ -42,7 +42,7 @@ def _update_color_def(file_path):
     with open(file_path, 'r') as color_file:
         for line in color_file:
             line = line.partition('#')[0].rstrip()
-            if line != "":
+            if line != '':
                 color, value = line.split('=')
                 color = color.strip()
                 vals = [v.strip() for v in value.split(',')]
@@ -71,7 +71,7 @@ def _update_font_def(file_path):
             os = 'windows'
         for line in font_file:
             line = line.partition('//')[0].rstrip()
-            if line != "":
+            if line != '':
                 font, value = line.split('=')
                 font = font.strip()
                 os_name = _re.search('\(([^)]+)', font)

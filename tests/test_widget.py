@@ -83,10 +83,10 @@ class TestWidgetClass(unittest.TestCase):
 
         self.assertEqual(len(w.root), 5)
 
-        w.name("awesome new name")
+        w.name('awesome new name')
         for child in w.root:
             if child.tag == 'name':
-                self.assertEqual(child.text, "awesome new name")
+                self.assertEqual(child.text, 'awesome new name')
 
     def test_x_and_y(self):
         w = self.create_basic_widget()
@@ -130,16 +130,16 @@ class TestWidgetClass(unittest.TestCase):
 from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
 print 'Hello'
 # widget.setPropertyValue('text', PVUtil.getString(pvs[0]))"""
-        pvs = {"pv0": True, "$(pv_name)": False, "pv2": True}
+        pvs = {'pv0': True, '$(pv_name)': False, 'pv2': True}
         w.embedded_python_script(script, pvs, False)
         self.assertEqual(len(w.root.findall('scripts')), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 3)
-        pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')), 3)
+        pv_elements = w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')
         for pv_element in pv_elements:
             self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
-        script_element = w.root.findall('scripts')[0].findall("script")[0]
-        self.assertEqual(script_element.attrib["file"], "EmbeddedPy")
+        script_element = w.root.findall('scripts')[0].findall('script')[0]
+        self.assertEqual(script_element.attrib['file'], 'EmbeddedPy')
 
     def test_embedded_javascript_script(self):
         w = self.create_basic_widget()
@@ -149,37 +149,37 @@ importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
 logger = ScriptUtil.getLogger();
 logger.info("Hello");
 /* widget.setPropertyValue("text", PVUtil.getString(pvs[0])); */"""
-        pvs = {"pv0": True, "$(pv_name)": False, "pv2": True}
+        pvs = {'pv0': True, '$(pv_name)': False, 'pv2': True}
         w.embedded_javascript_script(script, pvs, True)
         self.assertEqual(len(w.root.findall('scripts')), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 3)
-        pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')), 3)
+        pv_elements = w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')
         for pv_element in pv_elements:
             self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
-        script_element = w.root.findall('scripts')[0].findall("script")[0]
-        self.assertEqual(script_element.attrib["file"], "EmbeddedJs")
+        script_element = w.root.findall('scripts')[0].findall('script')[0]
+        self.assertEqual(script_element.attrib['file'], 'EmbeddedJs')
 
     def test_external_script(self):
         w = self.create_basic_widget()
-        pvs = {"pv0": True, "$(pv_name)": False}
-        file_name = "/path/to/the/amazing/script.py"
+        pvs = {'pv0': True, '$(pv_name)': False}
+        file_name = '/path/to/the/amazing/script.py'
         w.external_script(file_name, pvs, False)
         self.assertEqual(len(w.root.findall('scripts')), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')), 2)
-        pv_elements = w.root.findall('scripts')[0].findall("script")[0].findall('pv_name')
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')), 1)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')), 2)
+        pv_elements = w.root.findall('scripts')[0].findall('script')[0].findall('pv_name')
         for pv_element in pv_elements:
             self.assertEqual(pv_element.attrib['trigger'], str(pvs[pv_element.text]).lower())
-        script_element = w.root.findall('scripts')[0].findall("script")[0]
-        self.assertEqual(script_element.attrib["file"], file_name)
-        self.assertEqual(script_element.attrib["check_connections"], "false")
+        script_element = w.root.findall('scripts')[0].findall('script')[0]
+        self.assertEqual(script_element.attrib['file'], file_name)
+        self.assertEqual(script_element.attrib['check_connections'], 'false')
 
     def test_multiple_scripts(self):
         w = self.create_basic_widget()
-        pvs = {"pv0": True, "$(pv_name)": False}
-        pvs2 = {"$(pv_name)": False}
-        file_name = "/path/to/the/amazing/script.py"
+        pvs = {'pv0': True, '$(pv_name)': False}
+        pvs2 = {'$(pv_name)': False}
+        file_name = '/path/to/the/amazing/script.py'
         script = """/* Embedded javascript */
         importClass(org.csstudio.display.builder.runtime.script.PVUtil);
         importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
@@ -189,33 +189,33 @@ logger.info("Hello");
         w.external_script(file_name, pvs, False)
         w.embedded_javascript_script(script, pvs2, True)
         self.assertEqual(len(w.root.findall('scripts')), 1)
-        self.assertEqual(len(w.root.findall('scripts')[0].findall("script")), 2)
+        self.assertEqual(len(w.root.findall('scripts')[0].findall('script')), 2)
 
-        script_element1 = w.root.findall('scripts')[0].findall("script")[0]
-        self.assertEqual(script_element1.attrib["file"], file_name)
-        self.assertEqual(script_element1.attrib["check_connections"], "false")
+        script_element1 = w.root.findall('scripts')[0].findall('script')[0]
+        self.assertEqual(script_element1.attrib['file'], file_name)
+        self.assertEqual(script_element1.attrib['check_connections'], 'false')
 
-        script_element2 = w.root.findall('scripts')[0].findall("script")[1]
-        self.assertEqual(script_element2.attrib["file"], "EmbeddedJs")
+        script_element2 = w.root.findall('scripts')[0].findall('script')[1]
+        self.assertEqual(script_element2.attrib['file'], 'EmbeddedJs')
 
     def test_rule(self):
         w = self.create_basic_widget()
-        pvs = {"pv0": True, "$(pv_name)": False}
-        expressions = {"pv0 == pvStr1": "test:analog"}
-        rule_name = "My Cool Cool Rule"
-        w.rule(rule_name, "pv_name", pvs, expressions, False)
+        pvs = {'pv0': True, '$(pv_name)': False}
+        expressions = {'pv0 == pvStr1': 'test:analog'}
+        rule_name = 'My Cool Cool Rule'
+        w.rule(rule_name, 'pv_name', pvs, expressions, False)
         self.assertEqual(len(w.root.findall('rules')), 1)
-        self.assertEqual(len(w.root.findall('rules')[0].findall("rule")), 1)
+        self.assertEqual(len(w.root.findall('rules')[0].findall('rule')), 1)
 
-        rule_element = w.root.findall('rules')[0].findall("rule")[0]
-        self.assertEqual(rule_element.attrib["name"], rule_name)
-        self.assertEqual(rule_element.attrib["prop_id"], "pv_name")
-        self.assertEqual(rule_element.attrib["out_exp"], "false")
+        rule_element = w.root.findall('rules')[0].findall('rule')[0]
+        self.assertEqual(rule_element.attrib['name'], rule_name)
+        self.assertEqual(rule_element.attrib['prop_id'], 'pv_name')
+        self.assertEqual(rule_element.attrib['out_exp'], 'false')
 
         self.assertEqual(len(rule_element.findall('exp')), 1)
         expression_element = rule_element.findall('exp')[0]
-        self.assertEqual(expression_element.attrib["bool_exp"], "pv0 == pvStr1")
-        self.assertEqual(expression_element.findall('value')[0].text, "test:analog")
+        self.assertEqual(expression_element.attrib['bool_exp'], 'pv0 == pvStr1')
+        self.assertEqual(expression_element.findall('value')[0].text, 'test:analog')
 
 
 if __name__ == '__main__':

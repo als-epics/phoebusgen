@@ -37,4 +37,4 @@ Example:
 
 from phoebusgen.screen.screen import *
 
-__all__ = ["screen"]
+__all__ = ['screen']

@@ -33,4 +33,4 @@ Example:
 
 from phoebusgen.widget.widgets import *
 
-__all__ = ["widgets"]
+__all__ = ['widgets']
