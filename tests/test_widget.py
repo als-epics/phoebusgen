@@ -217,6 +217,27 @@ logger.info("Hello");
         self.assertEqual(expression_element.attrib['bool_exp'], 'pv0 == pvStr1')
         self.assertEqual(expression_element.findall('value')[0].text, 'test:analog')
 
+    def test_rule_integer_param(self):
+        w = self.create_basic_widget()
+        pvs = {'pv0': True, '$(pv_name)': False}
+        expressions = {'pv0 == pvStr1': 'test:analog', 'pv1 == 0': 2}
+        rule_name = 'My New Rule'
+        w.rule(rule_name, 'pv_name', pvs, expressions, False)
+        self.assertEqual(len(w.root.findall('rules')), 1)
+        self.assertEqual(len(w.root.findall('rules')[0].findall('rule')), 1)
+
+        rule_element = w.root.findall('rules')[0].findall('rule')[0]
+        self.assertEqual(rule_element.attrib['name'], rule_name)
+        self.assertEqual(rule_element.attrib['prop_id'], 'pv_name')
+        self.assertEqual(rule_element.attrib['out_exp'], 'false')
+
+        self.assertEqual(len(rule_element.findall('exp')), 2)
+        expression_element = rule_element.findall('exp')[0]
+        self.assertEqual(expression_element.attrib['bool_exp'], 'pv0 == pvStr1')
+        self.assertEqual(expression_element.findall('value')[0].text, 'test:analog')
+        expression_element_two = rule_element.findall('exp')[1]
+        self.assertEqual(expression_element_two.attrib['bool_exp'], 'pv1 == 0')
+        self.assertEqual(expression_element_two.findall('value')[0].text, '2')
 
 if __name__ == '__main__':
     unittest.main()

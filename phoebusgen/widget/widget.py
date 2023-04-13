@@ -117,14 +117,13 @@ class _Widget(object):
             root_rule.attrib['out_exp'] = 'false'
         if expression_dict is not None:
             for expression, value in expression_dict.items():
-                print(expression, value)
                 expression_element = SubElement(root_rule, 'exp', {'bool_exp': expression})
                 if value_as_expression is True:
                     val_as_exp_element = SubElement(expression_element, 'expression')
-                    val_as_exp_element.text = value
+                    val_as_exp_element.text = str(value)
                 else:
                     val_element = SubElement(expression_element, 'value')
-                    val_element.text = value
+                    val_element.text = str(value)
         if pv_dict is not None:
             for pv, trigger in pv_dict.items():
                 pv_element = SubElement(root_rule, 'pv_name', {'trigger': str(trigger).lower()})
