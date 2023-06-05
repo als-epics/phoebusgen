@@ -265,7 +265,7 @@ class TextSymbol(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgro
 
 class TextUpdate(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
                  _p._Format, _p._Precision, _p._ShowUnits, _p._HorizontalAlignment, _p._VerticalAlignment, _p._WrapWords,
-                 _p._RotationStep, _p._Border):
+                 _p._RotationStep, _p._Border, _p._AlarmBorder):
     """ TextUpdate Phoebus Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
