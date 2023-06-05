@@ -204,7 +204,7 @@ class TestTextSymbol(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForeg
 class TestTextUpdate(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor,
                           ph.TestBackgroundColor, ph.TestTransparent, ph.TestFormat, ph.TestPrecision,
                           ph.TestShowUnits, ph.TestHorizontalAlignment, ph.TestVerticalAlignment,
-                          ph.TestWrapWords, ph.TestRotationStep, ph.TestBorder):
+                          ph.TestWrapWords, ph.TestRotationStep, ph.TestBorder, ph.TestAlarmBorder):
     def setUp(self):
         self.pv_name = 'TEST:ME'
         self.name = 'Generic TextUpdate'
