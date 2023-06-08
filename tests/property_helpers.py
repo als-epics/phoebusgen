@@ -928,6 +928,24 @@ class TestActions(GenericTest):
                         self.assertIsNotNone(mac)
                         self.assertEqual(v, mac.text)
 
+    def script_test(self, script_file, desc, script=None):
+        parent_element = self.element.find_element('actions')
+        self.assertTrue(len(parent_element) > 0)
+        foundIt = False
+        for parent in parent_element:
+            if parent.attrib == {'type': 'execute'}:
+                foundIt = True
+                description = parent.find('description')
+                self.assertEqual(description.text, desc)
+                script_element = parent.find('script')
+                self.assertIsNotNone(script_element)
+                self.assertEqual(script_file, script_element.attrib['file'])
+                if script_file == 'EmbeddedPy' or script_file == 'EmbeddedJs':
+                    text_element = script_element.find('text')
+                    self.assertIsNotNone(text_element)
+                    self.assertEqual(text_element.text, script)
+        self.assertTrue(foundIt);
+
     def test_execute_as_one(self):
         tag_name = 'actions'
         self.element.action_execute_as_one(True)
@@ -1002,6 +1020,35 @@ class TestActions(GenericTest):
         self.element.action_open_webpage(url)
         self.action_test('open_webpage', 'Open Webpage', {'url': url})
 
+    def test_execute_python_script(self):
+        script = '''# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))
+
+PVUtil.writePV("loc://test", 5, 1000)
+        '''
+        self.element.action_execute_python_script(script)
+        self.action_test('execute', 'Execute Script', {'script': None})
+        self.script_test('EmbeddedPy', 'Execute Script', script)
+
+    def test_execute_javascript_script(self):
+        script = '''/* Embedded javascript */
+importClass(org.csstudio.display.builder.runtime.script.PVUtil);
+importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
+logger = ScriptUtil.getLogger();
+logger.info("Hello");
+/* widget.setPropertyValue("text", PVUtil.getString(pvs[0])); */
+        '''
+        self.element.action_execute_javascript_script(script)
+        self.action_test('execute', 'Execute Script', {'script': None})
+        self.script_test('EmbeddedJs', 'Execute Script', script)
+
+    def test_execute_external_script(self):
+        file_name = 'test.py'
+        self.element.action_execute_external_script(file_name)
+        self.action_test('execute', 'Execute Script', {'script': None})
+        self.script_test(file_name, 'Execute Script')
 
 class TestHorizontal(GenericTest):
     def test_default(self):

@@ -709,7 +709,7 @@ class _StretchToFit(object):
         self._shared.boolean_property(self.root, 'stretch_image', val)
 
 class _Actions(object):
-    def _add_action(self, action_type, description, args, macros=None):
+    def _add_action(self, action_type, description, args, isScript, macros=None):
         root_action = self.root.find('actions')
         if root_action is None:
             root_action = SubElement(self.root, 'actions')
@@ -723,9 +723,16 @@ class _Actions(object):
             else:
                 for key, val in macros.items():
                     self._shared.add_macro(key, val, action)
-        for arg, val in args.items():
-            sub = SubElement(action, arg)
-            sub.text = str(val)
+        if isScript:
+            script_element = SubElement(action, 'script')
+            script_element.attrib['file'] = args['file']
+            if args.get('script') is not None:
+                text_element = SubElement(script_element, 'text')
+                text_element.text = args['script']
+        else:
+            for arg, val in args.items():
+                sub = SubElement(action, arg)
+                sub.text = str(val)
 
     def action_execute_as_one(self, val: bool) -> None:
         """
@@ -769,7 +776,7 @@ class _Actions(object):
             print('The macro parameter must be a dictionary with key=MacroName and val=MacroValue')
             return
         args = {'file': file, 'target': target.lower()}
-        self._add_action('open_display', description, args, macros)
+        self._add_action('open_display', description, args, False, macros)
 
     def action_write_pv(self, pv_name: str, value: Union[str, int, float], description: str = None) -> None:
         """
@@ -782,7 +789,7 @@ class _Actions(object):
         if description is None:
             description = 'Write PV'
         args = {'pv_name': pv_name, 'value': value}
-        self._add_action('write_pv', description, args)
+        self._add_action('write_pv', description, args, False)
 
     def action_execute_command(self, command: str, description: str = None) -> None:
         """
@@ -794,7 +801,43 @@ class _Actions(object):
         if description is None:
             description = 'Execute Command'
         args = {'command': command}
-        self._add_action('command', description, args)
+        self._add_action('command', description, args, False)
+
+    def action_execute_python_script(self, script: str, description: str = None) -> None:
+        """
+        Add Execute Command action to widget. description is optional
+
+        :param script: Python script to execute as action
+        :param description: Description of action. Default is None
+        """
+        if description is None:
+            description = 'Execute Script'
+        args = {'file': 'EmbeddedPy', 'script': script}
+        self._add_action('execute', description, args, True)
+
+    def action_execute_javascript_script(self, script: str, description: str = None) -> None:
+        """
+        Add Execute Command action to widget. description is optional
+
+        :param script: Javascript code to execute as action
+        :param description: Description of action. Default is None
+        """
+        if description is None:
+            description = 'Execute Script'
+        args = {'file': 'EmbeddedJs', 'script': script}
+        self._add_action('execute', description, args, True)
+
+    def action_execute_external_script(self, file_name: str, description: str = None) -> None:
+        """
+        Add Execute Command action to widget. description is optional
+
+        :param file_name: External script file name
+        :param description: Description of action. Default is None
+        """
+        if description is None:
+            description = 'Execute Script'
+        args = {'file': file_name}
+        self._add_action('execute', description, args, True)
 
     def action_open_file(self, file: str, description: str = None) -> None:
         """
@@ -806,7 +849,7 @@ class _Actions(object):
         if description is None:
             description = 'Open File'
         args = {'file': file}
-        self._add_action('open_file', description, args)
+        self._add_action('open_file', description, args, False)
 
     def action_open_webpage(self, url: str, description: str = None) -> None:
         """
@@ -818,7 +861,7 @@ class _Actions(object):
         if description is None:
             description = 'Open Webpage'
         args = {'url': url}
-        self._add_action('open_webpage', description, args)
+        self._add_action('open_webpage', description, args, False)
 
 class _Label(object):
     def label(self, val: str) -> None:
