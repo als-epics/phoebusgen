@@ -51,6 +51,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton"><code class="docutils literal notranslate"><span class="pre">ActionButton</span></code></a><ul>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_execute_as_one"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_execute_as_one()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_execute_command"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_execute_command()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_execute_external_script"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_execute_external_script()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_execute_javascript_script"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_execute_javascript_script()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_execute_python_script"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_execute_python_script()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_open_display"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_open_display()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_open_file"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_open_file()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.action_open_webpage"><code class="docutils literal notranslate"><span class="pre">ActionButton.action_open_webpage()</span></code></a></li>
@@ -1543,6 +1546,57 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>command</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Command to run in action</p></li>
+<li><p><strong>description</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Description of action. Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.action_execute_external_script">
+<span class="sig-name descname"><span class="pre">action_execute_external_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.action_execute_external_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add Execute Command action to widget. description is optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – External script file name</p></li>
+<li><p><strong>description</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Description of action. Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.action_execute_javascript_script">
+<span class="sig-name descname"><span class="pre">action_execute_javascript_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.action_execute_javascript_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add Execute Command action to widget. description is optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>script</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Javascript code to execute as action</p></li>
+<li><p><strong>description</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Description of action. Default is None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.action_execute_python_script">
+<span class="sig-name descname"><span class="pre">action_execute_python_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.action_execute_python_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add Execute Command action to widget. description is optional</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>script</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Python script to execute as action</p></li>
 <li><p><strong>description</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Description of action. Default is None</p></li>
 </ul>
 </dd>
