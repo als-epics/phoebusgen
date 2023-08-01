@@ -678,7 +678,7 @@ class TestAngle(GenericTest):
 
 
 class TestConfirmation(GenericTest):
-    dialog_tag = 'show_confirmation_dialog'
+    dialog_tag = 'show_confirm_dialog'
     message_tag = 'confirm_message'
     password_tag = 'password'
     message = 'Are you sure?'
