@@ -644,7 +644,7 @@ class _Confirmation(object):
         :param message: Confirmation dialog message
         :param password: Password for dialog. Stored in plain text XML
         """
-        self._shared.boolean_property(self.root, 'show_confirmation_dialog', True)
+        self._shared.boolean_property(self.root, 'show_confirm_dialog', True)
         self._shared.generic_property(self.root, 'confirm_message', message)
         if password is not None:
             self._shared.generic_property(self.root, 'password', password)
@@ -653,7 +653,7 @@ class _Confirmation(object):
         """
         Turn off confirmation dialog for widget
         """
-        self._shared.boolean_property(self.root, 'show_confirmation_dialog', False)
+        self._shared.boolean_property(self.root, 'show_confirm_dialog', False)
 
 class _MultiLine(object):
     def multi_line(self, val: bool) -> None:
@@ -891,7 +891,7 @@ class _Items(object):
         root_item = self.root.find('items')
         if root_item is None:
             root_item = SubElement(self.root, 'items')
-        self._shared.generic_property(root_item, 'item', item_text)
+        self._shared.list_property(root_item, 'item', item_text)
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
