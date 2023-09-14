@@ -891,7 +891,7 @@ class _Items(object):
         root_item = self.root.find('items')
         if root_item is None:
             root_item = SubElement(self.root, 'items')
-        self._shared.generic_property(root_item, 'item', item_text)
+        self._shared.list_property(root_item, 'item', item_text)
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:

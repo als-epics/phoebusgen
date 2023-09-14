@@ -28,6 +28,9 @@ class _SharedPropertyFunctions(object):
     def generic_property(self, root_element, prop_type, val=None):
         root_element.append(self.create_element(root_element, prop_type, val))
 
+    def list_property(self, root_element, prop_type, val=None):
+        root_element.append(self.create_list_element(prop_type, val))
+
     def integer_property(self, root_element, prop_type, val):
         if isinstance(val, int) or isinstance(val, float):
             self.generic_property(root_element, prop_type, int(val))
@@ -54,6 +57,15 @@ class _SharedPropertyFunctions(object):
         element = root_element.find(prop_type)
         if element is not None:
             root_element.remove(element)
+        element = Element(prop_type)
+        if val is not None:
+            if isinstance(val, bool):
+                element.text = str(val).lower()
+            else:
+                element.text = str(val)
+        return element
+
+    def create_list_element(self, prop_type, val=None):
         element = Element(prop_type)
         if val is not None:
             if isinstance(val, bool):

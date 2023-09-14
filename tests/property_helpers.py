@@ -57,10 +57,16 @@ class GenericTest(object):
         self.assertIsNotNone(child)
         if value is None:
             self.assertIsNone(child.text)
-        else:
+        elif len(parent) == 1:
             self.assertEqual(child.text, str(value))
+        else:
+            item_lst = []
+            for child in parent:
+                item_lst.append(child.text)
+            index = item_lst.index(value)
+            self.assertEqual(str(value) in item_lst, True)
+            self.assertEqual(parent[index].text, str(value))
         self.assertEqual(child.attrib, attrib)
-
         if not do_not_remove:
             self.element.remove_element(parent_tag)
             self.assertIsNone(self.element.find_element(parent_tag))
@@ -554,6 +560,8 @@ class TestMacro(GenericTest):
         self.child_element_test('macros', 'test', 'mac1', {}, True)
         self.element.macro('test2', 'mac2')
         self.child_element_test('macros', 'test', 'mac1', {}, True)
+        self.child_element_test('macros', 'test2', 'mac2', {}, True)
+        print(self.element)
 
 
 class TestBit(GenericTest):
@@ -906,7 +914,11 @@ class TestItems(GenericTest):
         tag_name = 'items'
         val = 'Item Number Uno'
         self.element.item(val)
-        self.child_element_test(tag_name, 'item', val, {})
+        self.child_element_test(tag_name, 'item', val, {}, True)
+        val2 = 'Item Number Dos'
+        self.element.item(val2)
+        self.child_element_test(tag_name, 'item', val, {}, True)
+        self.child_element_test(tag_name, 'item', val2, {}, True)
 
 class TestActions(GenericTest):
     def action_test(self, action_type, desc, action_args, macros=None):
