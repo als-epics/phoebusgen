@@ -123,7 +123,29 @@ class _Widget(object):
                     val_as_exp_element.text = str(value)
                 else:
                     val_element = SubElement(expression_element, 'value')
-                    val_element.text = str(value)
+                    if 'color' in widget_property:
+                        name = None
+                        red = None
+                        green = None
+                        blue = None
+                        alpha = None
+
+                        # red, green, blue, alpha entered in a tuple (R,G,B,A)
+                        # alpha optional (defaults to 255)
+                        if str(type(value)) == "<class 'tuple'>":
+                            red = value[0]
+                            green = value[1]
+                            blue = value[2]
+                            alpha = '255'
+
+                            if len(value) == 4:
+                                alpha = value[3]
+
+                        else: # predefined colors
+                            name = str(value)
+                        self._shared.create_color_element(val_element, name, red, green, blue, alpha, False)
+                    else:
+                        val_element.text = str(value)
         if pv_dict is not None:
             for pv, trigger in pv_dict.items():
                 pv_element = SubElement(root_rule, 'pv_name', {'trigger': str(trigger).lower()})
