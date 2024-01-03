@@ -237,17 +237,44 @@ class _ForegroundColor(object):
         e = self._shared.create_element(self.root, 'foreground_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
-    def foreground_color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
+    def foreground_color(self, *args) -> None:
         """
-        Add foreground color property to widget with RGB values
+        Add foreground color property to widget with RGB values or HEX value
 
         :param red: 0-255
         :param green: 0-255
         :param blue: 0-255
         :param alpha: 0-255. Default is 255
+
+        or
+
+        :param hex: #000000-#FFFFFF
+        :param alpha: 0-255. Default is 255
         """
         e = self._shared.create_element(self.root, 'foreground_color')
-        self._shared.create_color_element(e, None, red, green, blue, alpha)
+        alpha = 255
+        if len(args) == 4 and isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], int) and isinstance(args[3], int):
+            red = args[0]
+            green = args[1]
+            blue = args[2]
+            alpha = args[3]
+            self._shared.create_color_element(e, None, red, green, blue, alpha)
+        elif len(args) == 3 and isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], int):
+            red = args[0]
+            green = args[1]
+            blue = args[2]
+            self._shared.create_color_element(e, None, red, green, blue, alpha)
+        elif len(args) == 2 and isinstance(args[0], str) and isinstance(args[1], int):
+            hex = args[0].lstrip('#')
+            alpha = args[1]
+            rgb = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+            self._shared.create_color_element(e, None, rgb[0], rgb[1], rgb[2], alpha)
+        elif len(args) == 1 and isinstance(args[0], str):
+            hex = args[0].lstrip('#')
+            rgb = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+            self._shared.create_color_element(e, None, rgb[0], rgb[1], rgb[2], alpha)
+        else:
+            raise TypeError('Parameters should be (red: int, green: int, blue: int, alpha: int) or (hex: str, alpha: int)')
 
 class _BackgroundColor(object):
     def predefined_background_color(self, name: object) -> None:
@@ -258,17 +285,44 @@ class _BackgroundColor(object):
         e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
-    def background_color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
+    def background_color(self, *args) -> None:
         """
-        Add background color property to widget with RGB values
+        Add background color property to widget with RGB values or HEX value
 
         :param red: 0-255
         :param green: 0-255
         :param blue: 0-255
         :param alpha: 0-255. Default is 255
+
+        or
+
+        :param hex: #000000-#FFFFFF
+        :param alpha: 0-255. Default is 255
         """
         e = self._shared.create_element(self.root, 'background_color')
-        self._shared.create_color_element(e, None, red, green, blue, alpha)
+        alpha = 255
+        if len(args) == 4 and isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], int) and isinstance(args[3], int):
+            red = args[0]
+            green = args[1]
+            blue = args[2]
+            alpha = args[3]
+            self._shared.create_color_element(e, None, red, green, blue, alpha)
+        elif len(args) == 3 and isinstance(args[0], int) and isinstance(args[1], int) and isinstance(args[2], int):
+            red = args[0]
+            green = args[1]
+            blue = args[2]
+            self._shared.create_color_element(e, None, red, green, blue, alpha)
+        elif len(args) == 2 and isinstance(args[0], str) and isinstance(args[1], int):
+            hex = args[0].lstrip('#')
+            alpha = args[1]
+            rgb = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+            self._shared.create_color_element(e, None, rgb[0], rgb[1], rgb[2], alpha)
+        elif len(args) == 1 and isinstance(args[0], str):
+            hex = args[0].lstrip('#')
+            rgb = tuple(int(hex[i:i+2], 16) for i in (0, 2, 4))
+            self._shared.create_color_element(e, None, rgb[0], rgb[1], rgb[2], alpha)
+        else:
+            raise TypeError('Parameters should be (red: int, green: int, blue: int, alpha: int) or (hex: str, alpha: int)')
 
 class _Transparent(object):
     def transparent(self, transparent: bool = False) -> None:
@@ -758,7 +812,7 @@ class _Actions(object):
     # target should be an enum
     def action_open_display(self, file: str, target: str, description: str = None, macros: dict = None) -> None:
         """
-        Add open display action to widget. description and macros are optional params
+        Add open display action to widget. description and macros are optional args
 
         :param file: File name to open
         :param target: <specific strings only> tab, replace, window
