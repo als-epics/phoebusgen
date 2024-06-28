@@ -968,7 +968,7 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'line_width', width)
 
-    def line_style(self, line_style: int) -> None:   # int in code, str in editor
+    def line_style(self, line_style: str) -> None:
         """
         Set trace style (solid, dashed, etc.)
 
@@ -977,18 +977,24 @@ class _Trace(object):
         line_styles = ['solid', 'dashed', 'dot', 'dash-dot', 'dash-dot-dot']
         style = line_style.lower()
         if style in line_styles:
-            self._shared.integer_property(self.root, 'trace_type',
+            self._shared.integer_property(self.root, 'line_style',
                                       line_style.index(style))
         else:
-            print('Trace type does not exist.')
+            print('Line style does not exist.')
 
-    def point_type(self, point_type: int) -> None:
+    def point_type(self, point_type: str) -> None:
         """
         Set trace point type
 
         :param point_type: Trace point type
         """
-        self._shared.integer_property(self.root, 'point_type', point_type)
+        point_types = ['none', 'squares', 'circles', 'diamonds', 'x', 'triangles']
+        type = point_type.lower()
+        if type in point_types:
+            self._shared.integer_property(self.root, 'point_type',
+                                      point_types.index(type))
+        else:
+            print('Point type does not exist.')
 
     def point_size(self, size: int) -> None:
         """
