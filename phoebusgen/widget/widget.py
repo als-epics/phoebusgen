@@ -252,3 +252,10 @@ class _Widget(object):
 
     def __repr__(self):
         return prettify(self.root)
+
+class _Generic(object):
+    def __init__(self, w_type):
+        self.root = Element(w_type)
+        self._shared = _SharedPropertyFunctions(self.root)
+
+    # name, visible could be moved here and removed from _Trace in properties
