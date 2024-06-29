@@ -970,15 +970,15 @@ class _Trace(object):
 
     def line_style(self, line_style: str) -> None:
         """
-        Set trace style (solid, dashed, etc.)
+        Set trace line style (solid, dashed, etc.)
 
-        :param style: Trace style
+        :param line_style: Trace line style
         """
         line_styles = ['solid', 'dashed', 'dot', 'dash-dot', 'dash-dot-dot']
         style = line_style.lower()
         if style in line_styles:
             self._shared.integer_property(self.root, 'line_style',
-                                      line_style.index(style))
+                                      line_styles.index(style))
         else:
             print('Line style does not exist.')
 

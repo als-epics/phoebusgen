@@ -239,5 +239,20 @@ logger.info("Hello");
         self.assertEqual(expression_element_two.attrib['bool_exp'], 'pv1 == 0')
         self.assertEqual(expression_element_two.findall('value')[0].text, '2')
 
+class TestGenericWidget(unittest.TestCase):
+    def setUp(self):
+        self.base_type = 'test_widget_type'
+
+    def create_basic_widget(self):
+        return widget._Generic(self.base_type)
+
+    def test_basic_widget(self):
+        widget_type = 'trace'
+        g = widget._Generic(widget_type)
+        self.assertEqual(g.root.tag, 'trace')
+
+        self.assertEqual(len(g.root), 0)
+
+
 if __name__ == '__main__':
     unittest.main()

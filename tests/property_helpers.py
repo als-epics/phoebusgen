@@ -71,6 +71,71 @@ class GenericTest(object):
             self.element.remove_element(parent_tag)
             self.assertIsNone(self.element.find_element(parent_tag))
 
+class InternalTest(object):
+    def null_test(self, tag_name):
+        self.assertIsNone(self.element.root.find(tag_name))
+
+    def generic_element_test(self, tag_name, value):
+        element = self.element.find_element(tag_name)
+        self.assertFalse(isinstance(element, list))
+        self.assertIsNotNone(element)
+        if value is None:
+            self.assertIsNone(element.text)
+        else:
+            if isinstance(value, bool):
+                self.assertEqual(element.text, str(value).lower())
+            else:
+                self.assertEqual(element.text, str(value))
+        self.element.remove_element(tag_name)
+        self.assertIsNone(self.element.find_element(tag_name))
+
+    def null_test(self, tag_name):
+        self.assertIsNone(self.element.root.find(tag_name))
+
+class TestTrace(InternalTest):
+    def test_name(self):
+        name = 'test name'
+        self.element.name(name)
+        self.generic_element_test('name', name)
+
+    def test_x_pv(self):
+        xpv = 'x pv value'
+        self.element.x_pv(xpv)
+        self.generic_element_test('x_pv', xpv)
+
+    def test_y_pv(self):
+        ypv = 'y pv value'
+        self.element.y_pv(ypv)
+        self.generic_element_test('y_pv', ypv)
+
+    def test_err_pv(self):
+        errpv = 'error pv value'
+        self.element.err_pv(errpv)
+        self.generic_element_test('err_pv', errpv)
+
+    ## AXIS TEST
+
+    def test_trace_type(self):
+        type = 'line & error bars'
+        self.element.trace_type(type)
+        self.generic_element_test('trace_type', 4)  # type function converts from str to int
+
+    def test_trace_type_wrong(self):
+        type = 'nothing'
+        self.element.trace_type(type)
+        self.null_test('trace_type')
+
+    ## COLOR, COLOR + ALPHA TESTS
+
+    def test_line_style(self):
+        style = 'dot'
+        self.element.line_style(style)
+        self.generic_element_test('line_style', 2)  # type function converts from str to int
+
+    def test_line_style_wrong(self):
+        style = 4
+        self.element.trace_type(style)
+        self.null_test('trace_type')
 
 class TestPVName(GenericTest):
     def test_pv_name(self):

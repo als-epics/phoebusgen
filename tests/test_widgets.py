@@ -510,6 +510,9 @@ class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
         self.height = 12
         self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
 
+class TestTrace(unittest.TestCase, ph.TestTrace):
+    def setUp(self):
+        self.element = widgets.Trace()
 
 if __name__ == '__main__':
     unittest.main()
