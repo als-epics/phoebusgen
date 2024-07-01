@@ -89,98 +89,29 @@ class InternalTest(object):
         self.element.remove_element(tag_name)
         self.assertIsNone(self.element.find_element(tag_name))
 
+    def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):
+        parent = self.element.find_element(parent_tag)
+        self.assertIsNotNone(parent)
+        child = parent.find(tag_name)
+        self.assertIsNotNone(child)
+        if value is None:
+            self.assertIsNone(child.text)
+        elif len(parent) == 1:
+            self.assertEqual(child.text, str(value))
+        else:
+            item_lst = []
+            for child in parent:
+                item_lst.append(child.text)
+            index = item_lst.index(value)
+            self.assertEqual(str(value) in item_lst, True)
+            self.assertEqual(parent[index].text, str(value))
+        self.assertEqual(child.attrib, attrib)
+        if not do_not_remove:
+            self.element.remove_element(parent_tag)
+            self.assertIsNone(self.element.find_element(parent_tag))
+
     def null_test(self, tag_name):
         self.assertIsNone(self.element.root.find(tag_name))
-
-class TestTrace(InternalTest):
-    def test_name(self):
-        name = 'test name'
-        self.element.name(name)
-        self.generic_element_test('name', name)
-
-    def test_x_pv(self):
-        xpv = 'x pv value'
-        self.element.x_pv(xpv)
-        self.generic_element_test('x_pv', xpv)
-
-    def test_y_pv(self):
-        ypv = 'y pv value'
-        self.element.y_pv(ypv)
-        self.generic_element_test('y_pv', ypv)
-
-    def test_err_pv(self):
-        errpv = 'error pv value'
-        self.element.err_pv(errpv)
-        self.generic_element_test('err_pv', errpv)
-
-    ## AXIS TEST
-
-    def test_trace_type(self):
-        type = 'line & error bars'
-        self.element.trace_type(type)
-        self.generic_element_test('trace_type', 4)  # type function converts from str to int
-
-    def test_trace_type_wrong(self):
-        type = 'nothing'
-        self.element.trace_type(type)
-        self.null_test('trace_type')
-
-    def test_trace_type_wrong_again(self):
-        type = 6
-        self.element.trace_type(type)
-        self.null_test('trace_type')
-
-    ## COLOR, COLOR + ALPHA TESTS
-
-    def test_line_style(self):
-        style = 'dot'
-        self.element.line_style(style)
-        self.generic_element_test('line_style', 2)  # type function converts from str to int
-
-    def test_line_style_wrong(self):
-        style = 'not this one'
-        self.element.line_style(style)
-        self.null_test('line_style')
-
-    def test_line_style_wrong_again(self):
-        style = True
-        self.element.line_style(style)
-        self.null_test('line_style')
-
-    def test_point_type(self):
-        type = 'triangles'
-        self.element.point_type(type)
-        self.generic_element_test('point_type', 5)
-
-    def test_point_type_wrong(self):
-        type = 'nope'
-        self.element.point_type(type)
-        self.null_test('point_type')
-
-    def test_point_type_wrong_again(self):
-        type = 525600
-        self.element.point_type(type)
-        self.null_test('point_type')
-
-    def test_point_size(self):
-        size = 7
-        self.element.point_size(size)
-        self.generic_element_test('point_size', 7)
-
-    def test_point_size_wrong(self):
-        size = 'string'
-        self.element.point_size(size)
-        self.null_test('point_size')
-
-    def test_visible(self):
-        visible = False
-        self.element.visible(visible)
-        self.generic_element_test('visible', False)
-
-    def test_visible_wrong(self):
-        size = 'not a boolean'
-        self.element.visible(size)
-        self.null_test('visible')
 
 class TestPVName(GenericTest):
     def test_pv_name(self):
@@ -2154,3 +2085,142 @@ class TestInterpolation(GenericTest):
         self.element.interpolation_automatic()
         self.element.remove_element('interpolation')
         self.null_test('interpolation')
+
+class TestTrace(InternalTest):
+    # name
+    def test_name(self):
+        name = 'test name'
+        self.element.name(name)
+        self.generic_element_test('name', name)
+
+    # x_pv
+    def test_x_pv(self):
+        xpv = 'x pv value'
+        self.element.x_pv(xpv)
+        self.generic_element_test('x_pv', xpv)
+
+    # y_pv
+    def test_y_pv(self):
+        ypv = 'y pv value'
+        self.element.y_pv(ypv)
+        self.generic_element_test('y_pv', ypv)
+
+    # err_pv
+    def test_err_pv(self):
+        errpv = 'error pv value'
+        self.element.err_pv(errpv)
+        self.generic_element_test('err_pv', errpv)
+
+    # axis (y-axis)
+    def test_axis(self):
+        axis = 2
+        self.element.axis(axis)
+        self.generic_element_test('axis', axis)
+
+    def test_axis_wrong(self):
+        axis = 'True'
+        self.element.axis(axis)
+        self.null_test('axis')
+
+    # trace type
+    def test_trace_type(self):
+        type = 'line & error bars'
+        self.element.trace_type(type)
+        self.generic_element_test('trace_type', 4)  # type function converts from str to int
+
+    def test_trace_type_wrong(self):
+        type = 'nothing'
+        self.element.trace_type(type)
+        self.null_test('trace_type')
+
+    def test_trace_type_wrong_again(self):
+        type = 6
+        self.element.trace_type(type)
+        self.null_test('trace_type')
+
+    # color
+    def test_color(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+    def test_color_alpha(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15, 20)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '20'})
+
+    def test_color_wrong(self):
+        self.element.color('string', False, 9)
+        self.null_test('color')
+
+    # line_style
+    def test_line_style(self):
+        style = 'dot'
+        self.element.line_style(style)
+        self.generic_element_test('line_style', 2)  # type function converts from str to int
+
+    def test_line_style_wrong(self):
+        style = 'not this one'
+        self.element.line_style(style)
+        self.null_test('line_style')
+
+    def test_line_style_wrong_again(self):
+        style = True
+        self.element.line_style(style)
+        self.null_test('line_style')
+
+    # line_width
+    def test_line_width(self):
+        width = 10
+        self.element.line_width(width)
+        self.generic_element_test('line_width', 10)
+
+    """def test_line_style_wrong(self):
+        style = 'not this one'
+        self.element.line_style(style)
+        self.null_test('line_style')
+
+    def test_line_style_wrong_again(self):
+        style = True
+        self.element.line_style(style)
+        self.null_test('line_style')"""
+
+    # point_type
+    def test_point_type(self):
+        type = 'triangles'
+        self.element.point_type(type)
+        self.generic_element_test('point_type', 5)
+
+    def test_point_type_wrong(self):
+        type = 'nope'
+        self.element.point_type(type)
+        self.null_test('point_type')
+
+    def test_point_type_wrong_again(self):
+        type = 525600
+        self.element.point_type(type)
+        self.null_test('point_type')
+
+    # point_size
+    def test_point_size(self):
+        size = 7
+        self.element.point_size(size)
+        self.generic_element_test('point_size', 7)
+
+    def test_point_size_wrong(self):
+        size = 'string'
+        self.element.point_size(size)
+        self.null_test('point_size')
+
+    # visible
+    def test_visible(self):
+        visible = 0 # can also put False
+        self.element.visible(visible)
+        self.generic_element_test('visible', False)
+
+    def test_visible_wrong(self):
+        size = 'not a boolean'
+        self.element.visible(size)
+        self.null_test('visible')
