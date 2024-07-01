@@ -125,6 +125,11 @@ class TestTrace(InternalTest):
         self.element.trace_type(type)
         self.null_test('trace_type')
 
+    def test_trace_type_wrong_again(self):
+        type = 6
+        self.element.trace_type(type)
+        self.null_test('trace_type')
+
     ## COLOR, COLOR + ALPHA TESTS
 
     def test_line_style(self):
@@ -133,9 +138,49 @@ class TestTrace(InternalTest):
         self.generic_element_test('line_style', 2)  # type function converts from str to int
 
     def test_line_style_wrong(self):
-        style = 4
-        self.element.trace_type(style)
-        self.null_test('trace_type')
+        style = 'not this one'
+        self.element.line_style(style)
+        self.null_test('line_style')
+
+    def test_line_style_wrong_again(self):
+        style = True
+        self.element.line_style(style)
+        self.null_test('line_style')
+
+    def test_point_type(self):
+        type = 'triangles'
+        self.element.point_type(type)
+        self.generic_element_test('point_type', 5)
+
+    def test_point_type_wrong(self):
+        type = 'nope'
+        self.element.point_type(type)
+        self.null_test('point_type')
+
+    def test_point_type_wrong_again(self):
+        type = 525600
+        self.element.point_type(type)
+        self.null_test('point_type')
+
+    def test_point_size(self):
+        size = 7
+        self.element.point_size(size)
+        self.generic_element_test('point_size', 7)
+
+    def test_point_size_wrong(self):
+        size = 'string'
+        self.element.point_size(size)
+        self.null_test('point_size')
+
+    def test_visible(self):
+        visible = False
+        self.element.visible(visible)
+        self.generic_element_test('visible', False)
+
+    def test_visible_wrong(self):
+        size = 'not a boolean'
+        self.element.visible(size)
+        self.null_test('visible')
 
 class TestPVName(GenericTest):
     def test_pv_name(self):

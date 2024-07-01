@@ -942,12 +942,15 @@ class _Trace(object):
         """
         trace_types = ['none', 'line', 'step', 'error bars',
                        'line & error bars', 'bars']
-        type = trace_type.lower()
-        if type in trace_types:
-            self._shared.integer_property(self.root, 'trace_type',
+        if isinstance(trace_type, str):
+            type = trace_type.lower()
+            if type in trace_types:
+                self._shared.integer_property(self.root, 'trace_type',
                                       trace_types.index(type))
+            else:
+                print('Trace type does not exist.')
         else:
-            print('Trace type does not exist.')
+            print('Trace type must be a string! Not: {}'.format(trace_type))
 
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
         """
@@ -974,13 +977,18 @@ class _Trace(object):
 
         :param line_style: Trace line style
         """
+
         line_styles = ['solid', 'dashed', 'dot', 'dash-dot', 'dash-dot-dot']
-        style = line_style.lower()
-        if style in line_styles:
-            self._shared.integer_property(self.root, 'line_style',
+        if isinstance(line_style, str):
+            style = line_style.lower()
+            if style in line_styles:
+                self._shared.integer_property(self.root, 'line_style',
                                       line_styles.index(style))
+            else:
+                print('Line style does not exist.')
         else:
-            print('Line style does not exist.')
+            print('Line style must be a string! Not: {}'.format(line_style))
+
 
     def point_type(self, point_type: str) -> None:
         """
@@ -989,12 +997,16 @@ class _Trace(object):
         :param point_type: Trace point type
         """
         point_types = ['none', 'squares', 'circles', 'diamonds', 'x', 'triangles']
-        type = point_type.lower()
-        if type in point_types:
-            self._shared.integer_property(self.root, 'point_type',
+        if isinstance(point_type, str):
+            type = point_type.lower()
+            if type in point_types:
+                self._shared.integer_property(self.root, 'point_type',
                                       point_types.index(type))
+            else:
+                print('Point type does not exist.')
         else:
-            print('Point type does not exist.')
+            print('Point type must be a string! Not: {}'.format(point_type))
+
 
     def point_size(self, size: int) -> None:
         """
