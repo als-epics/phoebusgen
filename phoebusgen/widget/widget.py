@@ -286,13 +286,13 @@ class _Generic(object):
         if element is not None:
             self.root.remove(element)
 
-    def get_element_value(self, tag: str) -> str:
+    #def get_element_value(self, tag: str) -> str:
         """
         Get value of an XML element by tag name
 
         :param tag: Tag name to get value from
         :return: Value of XML tag
         """
-        return self.find_element(tag).text
+        #return self.find_element(tag).text
 
     # name, visible could be moved here and removed from _Trace in properties

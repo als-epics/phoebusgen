@@ -2086,6 +2086,45 @@ class TestInterpolation(GenericTest):
         self.element.remove_element('interpolation')
         self.null_test('interpolation')
 
+class TestTraces(InternalTest):
+    def test_add_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+
+    def test_add_two_traces(self):
+        trace = self.trace1
+        trace2 = self.trace2
+        self.element.add_trace(trace)
+        self.element.add_trace(trace2)
+
+    def test_add_same_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.add_trace(trace)
+
+    def test_remove_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.remove_trace(trace)
+
+    def test_remove_two_traces(self):
+        trace = self.trace1
+        trace2 = self.trace2
+        self.element.add_trace(trace)
+        self.element.add_trace(trace2)
+        self.element.remove_trace(trace)
+        self.element.remove_trace(trace2)
+
+    def test_remove_same_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.remove_trace(trace)
+        self.element.remove_trace(trace)
+
+    def test_remove_none(self):
+        trace = self.trace1
+        self.element.remove_trace(trace)
+
 class TestTrace(InternalTest):
     # name
     def test_name(self):
@@ -2177,15 +2216,10 @@ class TestTrace(InternalTest):
         self.element.line_width(width)
         self.generic_element_test('line_width', 10)
 
-    """def test_line_style_wrong(self):
-        style = 'not this one'
-        self.element.line_style(style)
-        self.null_test('line_style')
-
-    def test_line_style_wrong_again(self):
-        style = True
-        self.element.line_style(style)
-        self.null_test('line_style')"""
+    def test_line_width_wrong(self):
+        width = '10'
+        self.element.line_width(width)
+        self.null_test('line_width')
 
     # point_type
     def test_point_type(self):
