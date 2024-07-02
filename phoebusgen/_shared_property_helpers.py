@@ -226,3 +226,26 @@ class _SharedPropertyFunctions(object):
         directory = 1
         name_and_extension = 2
         base_name = 3
+
+    class TraceType(Enum):
+        none = 0
+        line = 1
+        step = 2
+        err_bars = 3
+        line_err_bars = 4
+        bars = 5
+
+    class LineStyle(Enum):
+        solid = 0
+        dashed = 1
+        dot = 2
+        dash_dot = 3
+        dash_dot_dot = 4
+
+    class PointType(Enum):
+        none = 0
+        squares = 1
+        circles = 2
+        diamonds = 3
+        x = 4
+        triangles = 5

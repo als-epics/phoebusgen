@@ -934,23 +934,41 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'axis', axis)
 
-    def trace_type(self, trace_type: str) -> None:
+    def trace_type_none(self) -> None:
         """
-        Select trace type
+        Change trace_type to none
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.none.value)
 
-        :param trace_type: Trace type
+    def trace_type_line(self) -> None:
         """
-        trace_types = ['none', 'line', 'step', 'error bars',
-                       'line & error bars', 'bars']
-        if isinstance(trace_type, str):
-            type = trace_type.lower()
-            if type in trace_types:
-                self._shared.integer_property(self.root, 'trace_type',
-                                      trace_types.index(type))
-            else:
-                print('Trace type does not exist.')
-        else:
-            print('Trace type must be a string! Not: {}'.format(trace_type))
+        Change trace_type to line
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line.value)
+
+    def trace_type_step(self) -> None:
+        """
+        Change trace_type to step
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.step.value)
+
+    def trace_type_error_bars(self) -> None:
+        """
+        Change trace_type to error bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.err_bars.value)
+
+    def trace_type_line_error_bars(self) -> None:
+        """
+        Change trace_type to line & error bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line_err_bars.value)
+
+    def trace_type_bars(self) -> None:
+        """
+        Change trace_type to bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.bars.value)
 
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
         """
@@ -971,42 +989,71 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'line_width', width)
 
-    def line_style(self, line_style: str) -> None:
+    def line_style_solid(self):
         """
-        Set trace line style (solid, dashed, etc.)
-
-        :param line_style: Trace line style
+        Change line style to solid
         """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.solid.value)
 
-        line_styles = ['solid', 'dashed', 'dot', 'dash-dot', 'dash-dot-dot']
-        if isinstance(line_style, str):
-            style = line_style.lower()
-            if style in line_styles:
-                self._shared.integer_property(self.root, 'line_style',
-                                      line_styles.index(style))
-            else:
-                print('Line style does not exist.')
-        else:
-            print('Line style must be a string! Not: {}'.format(line_style))
-
-
-    def point_type(self, point_type: str) -> None:
+    def line_style_dashed(self):
         """
-        Set trace point type
-
-        :param point_type: Trace point type
+        Change line style to dashed
         """
-        point_types = ['none', 'squares', 'circles', 'diamonds', 'x', 'triangles']
-        if isinstance(point_type, str):
-            type = point_type.lower()
-            if type in point_types:
-                self._shared.integer_property(self.root, 'point_type',
-                                      point_types.index(type))
-            else:
-                print('Point type does not exist.')
-        else:
-            print('Point type must be a string! Not: {}'.format(point_type))
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dashed.value)
 
+    def line_style_dot(self):
+        """
+        Change line style to dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dot.value)
+
+    def line_style_dash_dot(self):
+        """
+        Change line style to dash-dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot.value)
+
+    def line_style_dash_dot_dot(self):
+        """
+        Change line style to dash-dot-dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot_dot.value)
+
+    def point_type_none(self):
+        """
+        Change point type to none
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.none.value)
+
+    def point_type_squares(self):
+        """
+        Change point type to squares
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.squares.value)
+
+    def point_type_circles(self):
+        """
+        Change point type to circles
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.circles.value)
+
+    def point_type_diamonds(self):
+        """
+        Change point type to diamonds
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.diamonds.value)
+
+    def point_type_x(self):
+        """
+        Change point type to x
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.x.value)
+
+    def point_type_triangles(self):
+        """
+        Change point type to triangles
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.triangles.value)
 
     def point_size(self, size: int) -> None:
         """
@@ -1023,7 +1070,6 @@ class _Trace(object):
         :param visible: Is trace visible?
         """
         self._shared.boolean_property(self.root, 'visible', visible)
-
 
 class _Traces(object):
     def add_trace(self, trace) -> None:

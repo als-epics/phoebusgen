@@ -2162,20 +2162,29 @@ class TestTrace(InternalTest):
         self.null_test('axis')
 
     # trace type
-    def test_trace_type(self):
-        type = 'line & error bars'
-        self.element.trace_type(type)
-        self.generic_element_test('trace_type', 4)  # type function converts from str to int
+    def test_trace_type_none(self):
+        self.element.trace_type_none()
+        self.generic_element_test('trace_type', 0)
 
-    def test_trace_type_wrong(self):
-        type = 'nothing'
-        self.element.trace_type(type)
-        self.null_test('trace_type')
+    def test_trace_type_line(self):
+        self.element.trace_type_line()
+        self.generic_element_test('trace_type', 1)
 
-    def test_trace_type_wrong_again(self):
-        type = 6
-        self.element.trace_type(type)
-        self.null_test('trace_type')
+    def test_trace_type_step(self):
+        self.element.trace_type_step()
+        self.generic_element_test('trace_type', 2)
+
+    def test_trace_type_error_bars(self):
+        self.element.trace_type_error_bars()
+        self.generic_element_test('trace_type', 3)
+
+    def test_trace_type_line_error_bars(self):
+        self.element.trace_type_line_error_bars()
+        self.generic_element_test('trace_type', 4)
+
+    def test_trace_type_bars(self):
+        self.element.trace_type_bars()
+        self.generic_element_test('trace_type', 5)
 
     # color
     def test_color(self):
@@ -2195,20 +2204,25 @@ class TestTrace(InternalTest):
         self.null_test('color')
 
     # line_style
-    def test_line_style(self):
-        style = 'dot'
-        self.element.line_style(style)
-        self.generic_element_test('line_style', 2)  # type function converts from str to int
+    def test_line_style_solid(self):
+        self.element.line_style_solid()
+        self.generic_element_test('line_style', 0)
 
-    def test_line_style_wrong(self):
-        style = 'not this one'
-        self.element.line_style(style)
-        self.null_test('line_style')
+    def test_line_style_dashed(self):
+        self.element.line_style_dashed()
+        self.generic_element_test('line_style', 1)
 
-    def test_line_style_wrong_again(self):
-        style = True
-        self.element.line_style(style)
-        self.null_test('line_style')
+    def test_line_style_dot(self):
+        self.element.line_style_dot()
+        self.generic_element_test('line_style', 2)
+
+    def test_line_style_dash_dot(self):
+        self.element.line_style_dash_dot()
+        self.generic_element_test('line_style', 3)
+
+    def test_line_style_dash_dot_dot(self):
+        self.element.line_style_dash_dot_dot()
+        self.generic_element_test('line_style', 4)
 
     # line_width
     def test_line_width(self):
@@ -2222,20 +2236,29 @@ class TestTrace(InternalTest):
         self.null_test('line_width')
 
     # point_type
-    def test_point_type(self):
-        type = 'triangles'
-        self.element.point_type(type)
+    def test_point_type_none(self):
+        self.element.point_type_none()
+        self.generic_element_test('point_type', 0)
+
+    def test_point_type_squares(self):
+        self.element.point_type_squares()
+        self.generic_element_test('point_type', 1)
+
+    def test_point_type_circles(self):
+        self.element.point_type_circles()
+        self.generic_element_test('point_type', 2)
+
+    def test_point_type_diamonds(self):
+        self.element.point_type_diamonds()
+        self.generic_element_test('point_type', 3)
+
+    def test_point_type_x(self):
+        self.element.point_type_x()
+        self.generic_element_test('point_type', 4)
+
+    def test_point_type_triangles(self):
+        self.element.point_type_triangles()
         self.generic_element_test('point_type', 5)
-
-    def test_point_type_wrong(self):
-        type = 'nope'
-        self.element.point_type(type)
-        self.null_test('point_type')
-
-    def test_point_type_wrong_again(self):
-        type = 525600
-        self.element.point_type(type)
-        self.null_test('point_type')
 
     # point_size
     def test_point_size(self):
