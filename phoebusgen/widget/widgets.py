@@ -516,6 +516,9 @@ class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p
     def __init__(self):
         _Generic.__init__(self, 'trace')
 
+class YAxis(_Generic):
+    def __init__(self):
+        _Generic.__init__(self, 'y_axis')
 
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """

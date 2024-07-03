@@ -1082,6 +1082,44 @@ class _TraceColor(object):
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
+class _YAxis(object):
+    pass
+
+class _YAxes(object):
+    def add_y_axis(self, axis) -> None:
+        """
+        Add trace property to widget
+
+        :param trace: trace object
+        """
+        root_axes = self.root.find('y_axes')
+        if root_axes is None:
+            root_axes = SubElement(self.root, 'y_axis')
+            root_axes.append(axis.root)
+        else:
+            root_axis = root_axes.findall('y_axis')
+            if axis.root in root_axis:
+                print('Y-Axis already exists.')
+            else:
+                root_axes.append(axis.root)
+
+    def remove_y_axis(self, axis):
+        """
+        Removes trace from widget
+
+        :param trace: trace object
+        """
+        root_axes = self.root.find('y_axes')
+        if root_axes is None:
+            print('This graph has no y-axes.')
+        else:
+            root_axis = root_axes.findall('y-axes')
+            if axis.root in root_axis:
+                root_axes.remove(axis.root)
+            else:
+                print('Y-Axis does not exist.') # this may be unnecessary
+            if not root_axis:
+                self.root.remove(root_axes)   # removes hanging <y_axes/> tag from empty element
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
