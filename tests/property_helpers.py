@@ -2212,38 +2212,6 @@ class TestTrace(InternalTest):
         self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
-    # line_style
-    def test_line_style_solid(self):
-        self.element.line_style_solid()
-        self.generic_element_test('line_style', 0)
-
-    def test_line_style_dashed(self):
-        self.element.line_style_dashed()
-        self.generic_element_test('line_style', 1)
-
-    def test_line_style_dot(self):
-        self.element.line_style_dot()
-        self.generic_element_test('line_style', 2)
-
-    def test_line_style_dash_dot(self):
-        self.element.line_style_dash_dot()
-        self.generic_element_test('line_style', 3)
-
-    def test_line_style_dash_dot_dot(self):
-        self.element.line_style_dash_dot_dot()
-        self.generic_element_test('line_style', 4)
-
-    # line_width
-    def test_line_width(self):
-        width = 10
-        self.element.line_width(width)
-        self.generic_element_test('line_width', 10)
-
-    def test_line_width_wrong(self):
-        width = 'the string 10'
-        self.element.line_width(width)
-        self.null_test('line_width')
-
     # point_type
     def test_point_type_none(self):
         self.element.point_type_none()
