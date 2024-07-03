@@ -1583,7 +1583,7 @@ class _Symbols(object):
                     label_elem = SubElement(root_label_tag, 'symbol')
                     label_elem.text = label
             else:
-                self._shared.generic_property(root_label_tag, 'symbol', symbol_list_or_string)
+                self._shared.list_property(root_label_tag, 'symbol', symbol_list_or_string)
 
 class _InitialIndex(object):
     def initial_index(self, index: int) -> None:
