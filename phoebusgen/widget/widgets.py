@@ -511,7 +511,8 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
         self.pv_name(pv_name)
 
 # Plots
-class Trace(_Generic, _p._Trace, _p._LineStyle):
+class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
+            _p._TraceColor, _p._PointSize):
     def __init__(self):
         _Generic.__init__(self, 'trace')
 

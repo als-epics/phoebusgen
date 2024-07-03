@@ -72,6 +72,10 @@ class GenericTest(object):
             self.assertIsNone(self.element.find_element(parent_tag))
 
 class InternalTest(object):
+    curr_path = os.path.dirname(__file__)
+    predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
+    colors = Enum('colors', predefined_colors)
+
     def null_test(self, tag_name):
         self.assertIsNone(self.element.root.find(tag_name))
 
@@ -120,7 +124,6 @@ class TestPVName(GenericTest):
 class TestText(GenericTest):
     def test_text(self):
         self.assertEqual(self.element.find_element('text').text, self.text)
-
 
 class TestFont(GenericTest):
     font_element_name = 'font'
@@ -2203,6 +2206,33 @@ class TestTrace(InternalTest):
         self.element.color('string', False, 9)
         self.null_test('color')
 
+    def test_predefined_color(self):
+        tag_name = 'color'
+        self.element.predefined_color(self.colors.Write_Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    # line_style
+    def test_line_style_solid(self):
+        self.element.line_style_solid()
+        self.generic_element_test('line_style', 0)
+
+    def test_line_style_dashed(self):
+        self.element.line_style_dashed()
+        self.generic_element_test('line_style', 1)
+
+    def test_line_style_dot(self):
+        self.element.line_style_dot()
+        self.generic_element_test('line_style', 2)
+
+    def test_line_style_dash_dot(self):
+        self.element.line_style_dash_dot()
+        self.generic_element_test('line_style', 3)
+
+    def test_line_style_dash_dot_dot(self):
+        self.element.line_style_dash_dot_dot()
+        self.generic_element_test('line_style', 4)
+
     # line_width
     def test_line_width(self):
         width = 10
@@ -2210,7 +2240,7 @@ class TestTrace(InternalTest):
         self.generic_element_test('line_width', 10)
 
     def test_line_width_wrong(self):
-        width = '10'
+        width = 'the string 10'
         self.element.line_width(width)
         self.null_test('line_width')
 

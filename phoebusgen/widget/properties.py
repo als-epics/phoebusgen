@@ -934,142 +934,6 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'axis', axis)
 
-    # these are new
-    def trace_type_none(self) -> None:
-        """
-        Change trace_type to none
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.none.value)
-
-    def trace_type_line(self) -> None:
-        """
-        Change trace_type to line
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line.value)
-
-    def trace_type_step(self) -> None:
-        """
-        Change trace_type to step
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.step.value)
-
-    def trace_type_error_bars(self) -> None:
-        """
-        Change trace_type to error bars
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.err_bars.value)
-
-    def trace_type_line_error_bars(self) -> None:
-        """
-        Change trace_type to line & error bars
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line_err_bars.value)
-
-    def trace_type_bars(self) -> None:
-        """
-        Change trace_type to bars
-        """
-        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.bars.value)
-
-    # already exists?
-    def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
-        """
-        Add Fill Color property to widget with RGB values
-
-        :param red: 0-255
-        :param green: 0-255
-        :param blue: 0-255
-        :param alpha: 0-255. Default is 255
-        """
-        e = self._shared.create_element(self.root, 'color')
-        self._shared.create_color_element(e, None, red, green, blue, alpha)
-
-    # already exists
-    def line_width(self, width: int) -> None:
-        """
-        Set line width
-        :param width: Trace line width
-        """
-        self._shared.integer_property(self.root, 'line_width', width)
-
-    # already exists
-    '''def line_style_solid(self):
-        """
-        Change line style to solid
-        """
-        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.solid.value)
-
-    def line_style_dashed(self):
-        """
-        Change line style to dashed
-        """
-        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dashed.value)
-
-    def line_style_dot(self):
-        """
-        Change line style to dot
-        """
-        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dot.value)
-
-    def line_style_dash_dot(self):
-        """
-        Change line style to dash-dot
-        """
-        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot.value)
-
-    def line_style_dash_dot_dot(self):
-        """
-        Change line style to dash-dot-dot
-        """
-        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot_dot.value)
-    '''
-    # these are new
-    def point_type_none(self):
-        """
-        Change point type to none
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.none.value)
-
-    def point_type_squares(self):
-        """
-        Change point type to squares
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.squares.value)
-
-    def point_type_circles(self):
-        """
-        Change point type to circles
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.circles.value)
-
-    def point_type_diamonds(self):
-        """
-        Change point type to diamonds
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.diamonds.value)
-
-    def point_type_x(self):
-        """
-        Change point type to x
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.x.value)
-
-    def point_type_triangles(self):
-        """
-        Change point type to triangles
-        """
-        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.triangles.value)
-
-    # this is new
-    def point_size(self, size: int) -> None:
-        """
-        Set trace point size
-
-        :param size: Trace point size
-        """
-        self._shared.integer_property(self.root, 'point_size', size)
-
-    # this probably exists
     def visible(self, visible: bool) -> None:
         """
         Change visible property for trace
@@ -1113,6 +977,110 @@ class _Traces(object):
                 print('Trace does not exist.')
             if not root_trace:
                 self.root.remove(root_traces)   # removes hanging <trace/> tag from empty element
+
+class _TraceType(object):
+    def trace_type_none(self) -> None:
+        """
+        Change trace_type to none
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.none.value)
+
+    def trace_type_line(self) -> None:
+        """
+        Change trace_type to line
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line.value)
+
+    def trace_type_step(self) -> None:
+        """
+        Change trace_type to step
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.step.value)
+
+    def trace_type_error_bars(self) -> None:
+        """
+        Change trace_type to error bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.err_bars.value)
+
+    def trace_type_line_error_bars(self) -> None:
+        """
+        Change trace_type to line & error bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.line_err_bars.value)
+
+    def trace_type_bars(self) -> None:
+        """
+        Change trace_type to bars
+        """
+        self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.bars.value)
+
+class _PointType(object):
+    def point_type_none(self):
+        """
+        Change point type to none
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.none.value)
+
+    def point_type_squares(self):
+        """
+        Change point type to squares
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.squares.value)
+
+    def point_type_circles(self):
+        """
+        Change point type to circles
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.circles.value)
+
+    def point_type_diamonds(self):
+        """
+        Change point type to diamonds
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.diamonds.value)
+
+    def point_type_x(self):
+        """
+        Change point type to x
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.x.value)
+
+    def point_type_triangles(self):
+        """
+        Change point type to triangles
+        """
+        self._shared.integer_property(self.root, 'point_type', self._shared.PointType.triangles.value)
+
+class _PointSize(object):
+    def point_size(self, size: int) -> None:
+        """
+        Set trace point size
+
+        :param size: Trace point size
+        """
+        self._shared.integer_property(self.root, 'point_size', size)
+
+class _TraceColor(object):
+    def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
+        """
+        Add Fill Color property to widget with RGB values
+
+        :param red: 0-255
+        :param green: 0-255
+        :param blue: 0-255
+        :param alpha: 0-255. Default is 255
+        """
+        e = self._shared.create_element(self.root, 'color')
+        self._shared.create_color_element(e, None, red, green, blue, alpha)
+
+    def predefined_color(self, name: object) -> None:
+        """
+        Add named color to widget
+        :param name: <phoebusgen.colors> Predefined color name
+        """
+        e = self._shared.create_element(self.root, 'color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 
 
 class _ItemsFromPV(object):
@@ -1592,36 +1560,6 @@ class _Arrow(object):
         self._shared.generic_property(self.root, 'arrows', self._shared.arrow_types['Both'])
 
 class _LineStyle(object):
-    '''def line_style_solid(self) -> None:
-        """
-        Change widget line style to solid
-        """
-        self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Solid'])
-
-    def line_style_dashed(self) -> None:
-        """
-        Change widget line style to dashed
-        """
-        self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Dashed'])
-
-    def line_style_dot(self) -> None:
-        """
-        Change widget line style to dot
-        """
-        self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Dot'])
-
-    def line_style_dash_dot(self) -> None:
-        """
-        Change widget line style to dash-dot
-        """
-        self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Dash-Dot'])
-
-    def line_style_dash_dot_dot(self) -> None:
-        """
-        Change widget line style to dash-dot-dot
-        """
-        self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Dash-Dot-Dot'])
-    '''
     def line_style_solid(self):
         """
         Change line style to solid
