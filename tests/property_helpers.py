@@ -1608,10 +1608,26 @@ class TestSymbols(GenericTest):
         self.element.symbols(label_name)
         self.child_element_test('symbols', 'symbol', label_name, {})
 
+    def test_symbols_two_strings(self):
+        label_name = 'testLabel1'
+        label_name2 = 'testLabel2'
+        self.element.symbols(label_name)
+        self.element.symbols(label_name2)
+        self.child_element_test('symbols', 'symbol', label_name, {}, True)
+        self.child_element_test('symbols', 'symbol', label_name2, {}, True)
+
     def test_symbols_list(self):
         label_names = ['testLabel1', 'file:/test.png', 'label5']
         self.element.symbols(label_names)
         self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
+
+    def test_symbols_list_string(self):
+        label_names = ['testLabel1', 'file:/test.png', 'label5']
+        label_name = 'testLabel2'
+        self.element.symbols(label_names)
+        self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
+        self.element.symbols(label_name)
+        self.child_element_test('symbols', 'symbol', label_name, {}, True)
 
 class TestInitialIndex(GenericTest):
     def test_initial_index_index(self):
