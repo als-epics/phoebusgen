@@ -114,9 +114,6 @@ class InternalTest(object):
             self.element.remove_element(parent_tag)
             self.assertIsNone(self.element.find_element(parent_tag))
 
-    def null_test(self, tag_name):
-        self.assertIsNone(self.element.root.find(tag_name))
-
 class TestPVName(GenericTest):
     def test_pv_name(self):
         self.assertEqual(self.element.find_element('pv_name').text, self.pv_name)
