@@ -2203,27 +2203,6 @@ class TestTrace(InternalTest):
         self.element.color('string', False, 9)
         self.null_test('color')
 
-    # line_style
-    def test_line_style_solid(self):
-        self.element.line_style_solid()
-        self.generic_element_test('line_style', 0)
-
-    def test_line_style_dashed(self):
-        self.element.line_style_dashed()
-        self.generic_element_test('line_style', 1)
-
-    def test_line_style_dot(self):
-        self.element.line_style_dot()
-        self.generic_element_test('line_style', 2)
-
-    def test_line_style_dash_dot(self):
-        self.element.line_style_dash_dot()
-        self.generic_element_test('line_style', 3)
-
-    def test_line_style_dash_dot_dot(self):
-        self.element.line_style_dash_dot_dot()
-        self.generic_element_test('line_style', 4)
-
     # line_width
     def test_line_width(self):
         width = 10

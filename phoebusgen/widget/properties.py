@@ -934,6 +934,7 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'axis', axis)
 
+    # these are new
     def trace_type_none(self) -> None:
         """
         Change trace_type to none
@@ -970,6 +971,7 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.bars.value)
 
+    # already exists?
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
         """
         Add Fill Color property to widget with RGB values
@@ -982,6 +984,7 @@ class _Trace(object):
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
 
+    # already exists
     def line_width(self, width: int) -> None:
         """
         Set line width
@@ -989,7 +992,8 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'line_width', width)
 
-    def line_style_solid(self):
+    # already exists
+    '''def line_style_solid(self):
         """
         Change line style to solid
         """
@@ -1018,7 +1022,8 @@ class _Trace(object):
         Change line style to dash-dot-dot
         """
         self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot_dot.value)
-
+    '''
+    # these are new
     def point_type_none(self):
         """
         Change point type to none
@@ -1055,6 +1060,7 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.triangles.value)
 
+    # this is new
     def point_size(self, size: int) -> None:
         """
         Set trace point size
@@ -1063,6 +1069,7 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'point_size', size)
 
+    # this probably exists
     def visible(self, visible: bool) -> None:
         """
         Change visible property for trace
@@ -1585,7 +1592,7 @@ class _Arrow(object):
         self._shared.generic_property(self.root, 'arrows', self._shared.arrow_types['Both'])
 
 class _LineStyle(object):
-    def line_style_solid(self) -> None:
+    '''def line_style_solid(self) -> None:
         """
         Change widget line style to solid
         """
@@ -1614,6 +1621,36 @@ class _LineStyle(object):
         Change widget line style to dash-dot-dot
         """
         self._shared.generic_property(self.root, 'line_style', self._shared.line_styles['Dash-Dot-Dot'])
+    '''
+    def line_style_solid(self):
+        """
+        Change line style to solid
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.solid.value)
+
+    def line_style_dashed(self):
+        """
+        Change line style to dashed
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dashed.value)
+
+    def line_style_dot(self):
+        """
+        Change line style to dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dot.value)
+
+    def line_style_dash_dot(self):
+        """
+        Change line style to dash-dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot.value)
+
+    def line_style_dash_dot_dot(self):
+        """
+        Change line style to dash-dot-dot
+        """
+        self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot_dot.value)
 
 class _Tabs(object):
     def tab(self, name: str) -> None:

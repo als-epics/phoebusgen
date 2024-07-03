@@ -11,7 +11,7 @@ class _SharedPropertyFunctions(object):
         self.fonts = fonts
         #self.font_styles = {'regular': 'REGULAR', 'italic': 'ITALIC', 'bold': 'BOLD', 'bold_and_italic': 'BOLD_ITALIC'}
         self.arrow_types = {'None': 0, 'From': 1, 'To': 2, 'Both': 3}
-        self.line_styles = {'Solid': 0, 'Dashed': 1, 'Dot': 2, 'Dash-Dot': 3, 'Dash-Dot-Dot': 4}
+        #self.line_styles = {'Solid': 0, 'Dashed': 1, 'Dot': 2, 'Dash-Dot': 3, 'Dash-Dot-Dot': 4}
         self.formats_array = ['default', 'decimal', 'exponential', 'engineering', 'hexadecimal',
                               'compact', 'string',  'sexagesimal hh:mm:ss', 'sexagesimal hms 24h rad',
                               'sexagesimal dms 360deg rad', 'binary']
