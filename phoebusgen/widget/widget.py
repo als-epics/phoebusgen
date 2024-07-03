@@ -252,3 +252,36 @@ class _Widget(object):
 
     def __repr__(self):
         return prettify(self.root)
+
+class _Generic(object):
+    def __init__(self, w_type):
+        self.root = Element(w_type)
+        self._shared = _SharedPropertyFunctions(self.root)
+
+    def find_element(self, tag: str) -> Element:
+        """
+        Find first XML element in widget by tag name
+
+        :param tag: Tag name to search for
+        :return: Return XML element or None if not found
+        """
+        elements = self.root.findall(tag)
+        # check to make sure there are not more than 1 elements
+        # we don't want duplicate tags
+        if len(elements) > 1:
+            print('Warning, more than one element of the same tag! Returning a list')
+            return elements
+        elif len(elements) == 0:
+            return None
+        else:
+            return elements[0]
+
+    def remove_element(self, tag: str) -> None:
+        """
+        Delete XML element in widget by tag name
+
+        :param tag: Tag name to delete
+        """
+        element = self.find_element(tag)
+        if element is not None:
+            self.root.remove(element)

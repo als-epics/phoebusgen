@@ -71,6 +71,48 @@ class GenericTest(object):
             self.element.remove_element(parent_tag)
             self.assertIsNone(self.element.find_element(parent_tag))
 
+class InternalTest(object):
+    curr_path = os.path.dirname(__file__)
+    predefined_colors = _update_color_def(curr_path + '/../phoebusgen/config/color.def')
+    colors = Enum('colors', predefined_colors)
+
+    def null_test(self, tag_name):
+        self.assertIsNone(self.element.root.find(tag_name))
+
+    def generic_element_test(self, tag_name, value):
+        element = self.element.find_element(tag_name)
+        self.assertFalse(isinstance(element, list))
+        self.assertIsNotNone(element)
+        if value is None:
+            self.assertIsNone(element.text)
+        else:
+            if isinstance(value, bool):
+                self.assertEqual(element.text, str(value).lower())
+            else:
+                self.assertEqual(element.text, str(value))
+        self.element.remove_element(tag_name)
+        self.assertIsNone(self.element.find_element(tag_name))
+
+    def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):
+        parent = self.element.find_element(parent_tag)
+        self.assertIsNotNone(parent)
+        child = parent.find(tag_name)
+        self.assertIsNotNone(child)
+        if value is None:
+            self.assertIsNone(child.text)
+        elif len(parent) == 1:
+            self.assertEqual(child.text, str(value))
+        else:
+            item_lst = []
+            for child in parent:
+                item_lst.append(child.text)
+            index = item_lst.index(value)
+            self.assertEqual(str(value) in item_lst, True)
+            self.assertEqual(parent[index].text, str(value))
+        self.assertEqual(child.attrib, attrib)
+        if not do_not_remove:
+            self.element.remove_element(parent_tag)
+            self.assertIsNone(self.element.find_element(parent_tag))
 
 class TestPVName(GenericTest):
     def test_pv_name(self):
@@ -79,7 +121,6 @@ class TestPVName(GenericTest):
 class TestText(GenericTest):
     def test_text(self):
         self.assertEqual(self.element.find_element('text').text, self.text)
-
 
 class TestFont(GenericTest):
     font_element_name = 'font'
@@ -2060,3 +2101,173 @@ class TestInterpolation(GenericTest):
         self.element.interpolation_automatic()
         self.element.remove_element('interpolation')
         self.null_test('interpolation')
+
+class TestTraces(InternalTest):
+    def test_add_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+
+    def test_add_two_traces(self):
+        trace = self.trace1
+        trace2 = self.trace2
+        self.element.add_trace(trace)
+        self.element.add_trace(trace2)
+
+    def test_add_same_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.add_trace(trace)
+
+    def test_remove_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.remove_trace(trace)
+
+    def test_remove_two_traces(self):
+        trace = self.trace1
+        trace2 = self.trace2
+        self.element.add_trace(trace)
+        self.element.add_trace(trace2)
+        self.element.remove_trace(trace)
+        self.element.remove_trace(trace2)
+
+    def test_remove_same_trace(self):
+        trace = self.trace1
+        self.element.add_trace(trace)
+        self.element.remove_trace(trace)
+        self.element.remove_trace(trace)
+
+    def test_remove_none(self):
+        trace = self.trace1
+        self.element.remove_trace(trace)
+
+class TestTrace(InternalTest):
+    # name
+    def test_name(self):
+        name = 'test name'
+        self.element.name(name)
+        self.generic_element_test('name', name)
+
+    # x_pv
+    def test_x_pv(self):
+        xpv = 'x pv value'
+        self.element.x_pv(xpv)
+        self.generic_element_test('x_pv', xpv)
+
+    # y_pv
+    def test_y_pv(self):
+        ypv = 'y pv value'
+        self.element.y_pv(ypv)
+        self.generic_element_test('y_pv', ypv)
+
+    # err_pv
+    def test_err_pv(self):
+        errpv = 'error pv value'
+        self.element.err_pv(errpv)
+        self.generic_element_test('err_pv', errpv)
+
+    # axis (y-axis)
+    def test_axis(self):
+        axis = 2
+        self.element.axis(axis)
+        self.generic_element_test('axis', axis)
+
+    def test_axis_wrong(self):
+        axis = 'True'
+        self.element.axis(axis)
+        self.null_test('axis')
+
+    # trace type
+    def test_trace_type_none(self):
+        self.element.trace_type_none()
+        self.generic_element_test('trace_type', 0)
+
+    def test_trace_type_line(self):
+        self.element.trace_type_line()
+        self.generic_element_test('trace_type', 1)
+
+    def test_trace_type_step(self):
+        self.element.trace_type_step()
+        self.generic_element_test('trace_type', 2)
+
+    def test_trace_type_error_bars(self):
+        self.element.trace_type_error_bars()
+        self.generic_element_test('trace_type', 3)
+
+    def test_trace_type_line_error_bars(self):
+        self.element.trace_type_line_error_bars()
+        self.generic_element_test('trace_type', 4)
+
+    def test_trace_type_bars(self):
+        self.element.trace_type_bars()
+        self.generic_element_test('trace_type', 5)
+
+    # color
+    def test_color(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+    def test_color_alpha(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15, 20)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '20'})
+
+    def test_color_wrong(self):
+        self.element.color('string', False, 9)
+        self.null_test('color')
+
+    def test_predefined_color(self):
+        tag_name = 'color'
+        self.element.predefined_color(self.colors.Write_Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    # point_type
+    def test_point_type_none(self):
+        self.element.point_type_none()
+        self.generic_element_test('point_type', 0)
+
+    def test_point_type_squares(self):
+        self.element.point_type_squares()
+        self.generic_element_test('point_type', 1)
+
+    def test_point_type_circles(self):
+        self.element.point_type_circles()
+        self.generic_element_test('point_type', 2)
+
+    def test_point_type_diamonds(self):
+        self.element.point_type_diamonds()
+        self.generic_element_test('point_type', 3)
+
+    def test_point_type_x(self):
+        self.element.point_type_x()
+        self.generic_element_test('point_type', 4)
+
+    def test_point_type_triangles(self):
+        self.element.point_type_triangles()
+        self.generic_element_test('point_type', 5)
+
+    # point_size
+    def test_point_size(self):
+        size = 7
+        self.element.point_size(size)
+        self.generic_element_test('point_size', 7)
+
+    def test_point_size_wrong(self):
+        size = 'string'
+        self.element.point_size(size)
+        self.null_test('point_size')
+
+    # visible
+    def test_visible(self):
+        visible = 0 # can also put False
+        self.element.visible(visible)
+        self.generic_element_test('visible', False)
+
+    def test_visible_wrong(self):
+        size = 'not a boolean'
+        self.element.visible(size)
+        self.null_test('visible')

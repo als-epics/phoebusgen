@@ -239,5 +239,42 @@ logger.info("Hello");
         self.assertEqual(expression_element_two.attrib['bool_exp'], 'pv1 == 0')
         self.assertEqual(expression_element_two.findall('value')[0].text, '2')
 
+    def test_rule_color_predefined(self):
+        w = self.create_basic_widget()
+        pvs = {'pv0': True, '$(pv_name)': False}
+        color = {'pvStr0': 'OK'}
+        rule_name = 'color rule again'
+        w.rule(rule_name, 'color', pvs, color, False)
+
+        rule_element = w.root.findall('rules')[0].findall('rule')[0]
+        self.assertEqual(rule_element.attrib['name'], rule_name)
+        self.assertEqual(rule_element.attrib['prop_id'], 'color')
+
+    def test_rule_color(self):
+        w = self.create_basic_widget()
+        pvs = {'pv0': True, '$(pv_name)': False}
+        color = {'pvStr0': (5, 10, 15, 20)}
+        rule_name = 'color rule'
+        w.rule(rule_name, 'color', pvs, color, False)
+
+        rule_element = w.root.findall('rules')[0].findall('rule')[0]
+        self.assertEqual(rule_element.attrib['name'], rule_name)
+        self.assertEqual(rule_element.attrib['prop_id'], 'color')
+
+
+class TestGenericWidget(unittest.TestCase):
+    def setUp(self):
+        self.base_type = 'test_widget_type'
+
+    def create_basic_generic_widget(self):
+        return widget._Generic(self.base_type)
+
+    def test_basic_widget(self):
+        g = self.create_basic_generic_widget()
+        self.assertEqual(g.root.tag, 'test_widget_type')
+
+        self.assertEqual(len(g.root), 0)
+
+
 if __name__ == '__main__':
     unittest.main()

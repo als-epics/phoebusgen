@@ -1,4 +1,4 @@
-from phoebusgen.widget.widget import _Widget
+from phoebusgen.widget.widget import _Widget, _Generic
 from phoebusgen.widget import properties as _p
 
 # Displays
@@ -511,6 +511,11 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
         self.pv_name(pv_name)
 
 # Plots
+class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
+            _p._TraceColor, _p._PointSize):
+    def __init__(self):
+        _Generic.__init__(self, 'trace')
+
 
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """
@@ -558,7 +563,7 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
 #    pass
 class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
                  _p._TitleFont, _p._ShowLegend, _p._ShowGrid, _p._TimeRange, _p._LabelFont,
-                 _p._ScaleFont):
+                 _p._ScaleFont, _p._Traces):
     """ StripChart - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -577,7 +582,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
 class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-             _p._TitleFont, _p._GridColor):
+             _p._TitleFont, _p._GridColor, _p._Traces):
     """ XYPlot - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
