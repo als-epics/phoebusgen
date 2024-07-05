@@ -2277,17 +2277,6 @@ class TestColor(InternalTest):
         self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
-class TestVisible(InternalTest):
-    def test_visible(self):
-        visible = 0 # can also put False
-        self.element.visible(visible)
-        self.generic_element_test('visible', False)
-
-    def test_visible_wrong(self):
-        size = 'not a boolean'
-        self.element.visible(size)
-        self.null_test('visible')
-
 class TestYAxes(InternalTest):
     def test_add_y_axis(self):
         yaxis = self.yaxis1

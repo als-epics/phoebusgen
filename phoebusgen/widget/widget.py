@@ -11,8 +11,64 @@ def prettify(elem):
     reparse_xml = minidom.parseString(rough_string)
     return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
+class _Generic(object):
+    def __init__(self, w_type: str):
+        self.root = Element(w_type)
+        self._shared = _SharedPropertyFunctions(self.root)
 
-class _Widget(object):
+    def find_element(self, tag: str) -> Element:
+        """
+        Find first XML element in widget by tag name
+
+        :param tag: Tag name to search for
+        :return: Return XML element or None if not found
+        """
+        elements = self.root.findall(tag)
+        # check to make sure there are not more than 1 elements
+        # we don't want duplicate tags
+        if len(elements) > 1:
+            print('Warning, more than one element of the same tag! Returning a list')
+            return elements
+        elif len(elements) == 0:
+            return None
+        else:
+            return elements[0]
+
+    def remove_element(self, tag: str) -> None:
+        """
+        Delete XML element in widget by tag name
+
+        :param tag: Tag name to delete
+        """
+        element = self.find_element(tag)
+        if element is not None:
+            self.root.remove(element)
+
+    # not sure if this one makes sense here (if doesn't break with generic, keep it)
+    def get_element_value(self, tag: str) -> str:
+        """
+        Get value of an XML element by tag name
+
+        :param tag: Tag name to get value from
+        :return: Value of XML tag
+        """
+        return self.find_element(tag).text
+
+    def visible(self, visible: bool) -> None:
+        """
+        Change visible property for widget
+
+        :param visible: Is widget visible?
+        """
+        self._shared.boolean_property(self.root, 'visible', visible)
+
+    def __str__(self):
+        return prettify(self.root)
+
+    def __repr__(self):
+        return prettify(self.root)
+
+class _Widget(_Generic):
     """ Base Class for all Phoebus widgets """
     def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
@@ -25,23 +81,19 @@ class _Widget(object):
         :param width: Widget width
         :param height: Widget height:
         """
-        self.root = Element('widget', type=w_type, version='2.0.0')
+        # not sure if the super call is actually any better
+        super().__init__('widget')
+        #self.root = Element('widget', type=w_type, version='2.0.0')
+        self.root.attrib['type'] = w_type
+        self.root.attrib['version'] = '2.0.0'
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
-        self._shared = _SharedPropertyFunctions(self.root)
+        #self._shared = _SharedPropertyFunctions(self.root)
         self._shared.integer_property(self.root, 'x', x_pos)
         self._shared.integer_property(self.root, 'y', y_pos)
         self._shared.integer_property(self.root, 'width', width)
         self._shared.integer_property(self.root, 'height', height)
-
-    def visible(self, visible: bool) -> None:
-        """
-        Change visible property for widget
-
-        :param visible: Is widget visible?
-        """
-        self._shared.boolean_property(self.root, 'visible', visible)
 
     def version(self, version: str) -> None:
         """
@@ -208,80 +260,3 @@ class _Widget(object):
         """
         child = SubElement(self.root, 'tooltip')
         child.text = tool_tip
-
-    def find_element(self, tag: str) -> Element:
-        """
-        Find first XML element in widget by tag name
-
-        :param tag: Tag name to search for
-        :return: Return XML element or None if not found
-        """
-        elements = self.root.findall(tag)
-        # check to make sure there are not more than 1 elements
-        # we don't want duplicate tags
-        if len(elements) > 1:
-            print('Warning, more than one element of the same tag! Returning a list')
-            return elements
-        elif len(elements) == 0:
-            return None
-        else:
-            return elements[0]
-
-    def remove_element(self, tag: str) -> None:
-        """
-        Delete XML element in widget by tag name
-
-        :param tag: Tag name to delete
-        """
-        element = self.find_element(tag)
-        if element is not None:
-            self.root.remove(element)
-
-    def get_element_value(self, tag: str) -> str:
-        """
-        Get value of an XML element by tag name
-
-        :param tag: Tag name to get value from
-        :return: Value of XML tag
-        """
-        return self.find_element(tag).text
-
-
-    def __str__(self):
-        return prettify(self.root)
-
-    def __repr__(self):
-        return prettify(self.root)
-
-class _Generic(object):
-    def __init__(self, w_type):
-        self.root = Element(w_type)
-        self._shared = _SharedPropertyFunctions(self.root)
-
-    def find_element(self, tag: str) -> Element:
-        """
-        Find first XML element in widget by tag name
-
-        :param tag: Tag name to search for
-        :return: Return XML element or None if not found
-        """
-        elements = self.root.findall(tag)
-        # check to make sure there are not more than 1 elements
-        # we don't want duplicate tags
-        if len(elements) > 1:
-            print('Warning, more than one element of the same tag! Returning a list')
-            return elements
-        elif len(elements) == 0:
-            return None
-        else:
-            return elements[0]
-
-    def remove_element(self, tag: str) -> None:
-        """
-        Delete XML element in widget by tag name
-
-        :param tag: Tag name to delete
-        """
-        element = self.find_element(tag)
-        if element is not None:
-            self.root.remove(element)

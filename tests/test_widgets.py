@@ -516,7 +516,7 @@ class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
         self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
 
 class TestTrace(unittest.TestCase, ph.TestTrace, ph.TestTraceType, ph.TestPointType, ph.TestPointSize,
-                ph.TestColor, ph.TestVisible):
+                ph.TestColor):
     def setUp(self):
         self.element = widgets.Trace()
 

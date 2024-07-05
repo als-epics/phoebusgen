@@ -512,12 +512,12 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 
 # Plots
 class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
-            _p._Color, _p._PointSize, _p._Visible):
+            _p._Color, _p._PointSize):
     def __init__(self):
         _Generic.__init__(self, 'trace')
 
 class YAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid,
-            _p._TitleFont, _p._ScaleFont, _p._OnRight, _p._Visible, _p._Color):
+            _p._TitleFont, _p._ScaleFont, _p._OnRight, _p._Color):
     def __init__(self):
         _Generic.__init__(self, 'y_axis')
 

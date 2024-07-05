@@ -1074,15 +1074,6 @@ class _Color(object):
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
-class _Visible(object):
-    def visible(self, visible: bool) -> None:
-        """
-        Change visible property for trace
-
-        :param visible: Is trace visible?
-        """
-        self._shared.boolean_property(self.root, 'visible', visible)
-
 class _OnRight(object):
     def on_right(self, right):
         """
