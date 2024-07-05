@@ -934,14 +934,6 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'axis', axis)
 
-    def visible(self, visible: bool) -> None:
-        """
-        Change visible property for trace
-
-        :param visible: Is trace visible?
-        """
-        self._shared.boolean_property(self.root, 'visible', visible)
-
 class _Traces(object):
     def add_trace(self, trace) -> None:
         """
@@ -1061,7 +1053,7 @@ class _PointSize(object):
         """
         self._shared.integer_property(self.root, 'point_size', size)
 
-class _TraceColor(object):
+class _Color(object):
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
         """
         Add Fill Color property to widget with RGB values
@@ -1082,6 +1074,58 @@ class _TraceColor(object):
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
+class _Visible(object):
+    def visible(self, visible: bool) -> None:
+        """
+        Change visible property for trace
+
+        :param visible: Is trace visible?
+        """
+        self._shared.boolean_property(self.root, 'visible', visible)
+
+class _OnRight(object):
+    def on_right(self, right):
+        """
+        Change y-axis position on screen (left or right)
+        :param right: Is y-axis on right side of screen?
+        """
+        self._shared.boolean_property(self.root, 'on_right', right)
+
+class _YAxes(object):
+    def add_y_axis(self, axis) -> None:
+        """
+        Add y-axis property to widget
+
+        :param axis: y-axis object
+        """
+        root_axes = self.root.find('y_axes')
+        if root_axes is None:
+            root_axes = SubElement(self.root, 'y_axes')
+            root_axes.append(axis.root)
+        else:
+            root_axis = root_axes.findall('y_axis')
+            if axis.root in root_axis:
+                print('Y-Axis already exists.')
+            else:
+                root_axes.append(axis.root)
+
+    def remove_y_axis(self, axis):
+        """
+        Removes y-axis from widget
+
+        :param axis: y-axis object
+        """
+        root_axes = self.root.find('y_axes')
+        if root_axes is None:
+            print('This graph has no y-axes.')
+        else:
+            root_axis = root_axes.findall('y_axis')
+            if axis.root in root_axis:
+                root_axes.remove(axis.root)
+            else:
+                print('Y-Axis does not exist.') # this may be unnecessary
+            if not root_axis:
+                self.root.remove(root_axes)   # removes hanging <y_axes/> tag from empty element
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
