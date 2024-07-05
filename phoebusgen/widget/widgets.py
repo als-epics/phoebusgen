@@ -512,11 +512,11 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 
 # Plots
 class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
-            _p._TraceColor, _p._PointSize):
+            _p._TraceColor, _p._PointSize, _p._Visible):
     def __init__(self):
         _Generic.__init__(self, 'trace')
 
-class YAxis(_Generic):
+class YAxis(_Generic, _p._Visible):
     def __init__(self):
         _Generic.__init__(self, 'y_axis')
 

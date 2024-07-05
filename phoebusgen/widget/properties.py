@@ -934,14 +934,6 @@ class _Trace(object):
         """
         self._shared.integer_property(self.root, 'axis', axis)
 
-    def visible(self, visible: bool) -> None:
-        """
-        Change visible property for trace
-
-        :param visible: Is trace visible?
-        """
-        self._shared.boolean_property(self.root, 'visible', visible)
-
 class _Traces(object):
     def add_trace(self, trace) -> None:
         """
@@ -1081,6 +1073,15 @@ class _TraceColor(object):
         """
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, name, None, None, None, None)
+
+class _Visible(object):
+    def visible(self, visible: bool) -> None:
+        """
+        Change visible property for trace
+
+        :param visible: Is trace visible?
+        """
+        self._shared.boolean_property(self.root, 'visible', visible)
 
 class _YAxis(object):
     pass
