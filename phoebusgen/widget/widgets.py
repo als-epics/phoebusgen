@@ -512,11 +512,12 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 
 # Plots
 class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
-            _p._TraceColor, _p._PointSize, _p._Visible):
+            _p._Color, _p._PointSize, _p._Visible):
     def __init__(self):
         _Generic.__init__(self, 'trace')
 
-class YAxis(_Generic, _p._Visible):
+class YAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid,
+            _p._TitleFont, _p._ScaleFont, _p._OnRight, _p._Visible, _p._Color):
     def __init__(self):
         _Generic.__init__(self, 'y_axis')
 
@@ -585,7 +586,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
 class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-             _p._TitleFont, _p._GridColor, _p._Traces):
+             _p._TitleFont, _p._GridColor, _p._YAxes, _p._Traces):
     """ XYPlot - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

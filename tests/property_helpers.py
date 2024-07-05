@@ -1624,7 +1624,6 @@ class TestTabSpacing(GenericTest):
         self.element.tab_spacing(val)
         self.generic_element_test(tag_name, val)
 
-
 class TestLabels(GenericTest):
     def test_label_single_string(self):
         label_name = 'testLabel1'
@@ -2106,22 +2105,31 @@ class TestTraces(InternalTest):
     def test_add_trace(self):
         trace = self.trace1
         self.element.add_trace(trace)
+        self.child_element_test('traces', 'trace', None, {}, True)
 
     def test_add_two_traces(self):
         trace = self.trace1
         trace2 = self.trace2
         self.element.add_trace(trace)
         self.element.add_trace(trace2)
+        trace_tags = self.element.root.find('traces').findall('trace')
+        self.assertEqual(len(trace_tags), 2)
 
     def test_add_same_trace(self):
         trace = self.trace1
         self.element.add_trace(trace)
         self.element.add_trace(trace)
+        trace_tags = self.element.root.find('traces').findall('trace')
+        self.assertEqual(len(trace_tags), 1)
 
     def test_remove_trace(self):
         trace = self.trace1
         self.element.add_trace(trace)
         self.element.remove_trace(trace)
+        traces_tag = self.element.root.find('traces')
+        trace_tags = traces_tag.findall('trace')
+        self.assertEqual(len(trace_tags), 0)
+        self.assertEqual(len(traces_tag), 0)
 
     def test_remove_two_traces(self):
         trace = self.trace1
@@ -2130,16 +2138,24 @@ class TestTraces(InternalTest):
         self.element.add_trace(trace2)
         self.element.remove_trace(trace)
         self.element.remove_trace(trace2)
+        traces_tag = self.element.root.find('traces')
+        trace_tags = traces_tag.findall('trace')
+        self.assertEqual(len(trace_tags), 0)
+        self.assertEqual(len(traces_tag), 0)
 
     def test_remove_same_trace(self):
         trace = self.trace1
         self.element.add_trace(trace)
         self.element.remove_trace(trace)
         self.element.remove_trace(trace)
+        traces_tag = self.element.root.find('traces')
+        self.assertEqual(traces_tag, None)
 
     def test_remove_none(self):
         trace = self.trace1
         self.element.remove_trace(trace)
+        traces_tag = self.element.root.find('traces')
+        self.assertEqual(traces_tag, None)
 
 class TestTrace(InternalTest):
     # name
@@ -2177,7 +2193,18 @@ class TestTrace(InternalTest):
         self.element.axis(axis)
         self.null_test('axis')
 
-    # trace type
+class TestPointSize(InternalTest):
+    def test_point_size(self):
+        size = 7
+        self.element.point_size(size)
+        self.generic_element_test('point_size', 7)
+
+    def test_point_size_wrong(self):
+        size = 'string'
+        self.element.point_size(size)
+        self.null_test('point_size')
+
+class TestTraceType(InternalTest):
     def test_trace_type_none(self):
         self.element.trace_type_none()
         self.generic_element_test('trace_type', 0)
@@ -2202,30 +2229,7 @@ class TestTrace(InternalTest):
         self.element.trace_type_bars()
         self.generic_element_test('trace_type', 5)
 
-    # color
-    def test_color(self):
-        tag_name = 'color'
-        self.element.color(5, 10, 15)
-        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
-                                                          'blue': '15', 'alpha': '255'})
-
-    def test_color_alpha(self):
-        tag_name = 'color'
-        self.element.color(5, 10, 15, 20)
-        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
-                                                          'blue': '15', 'alpha': '20'})
-
-    def test_color_wrong(self):
-        self.element.color('string', False, 9)
-        self.null_test('color')
-
-    def test_predefined_color(self):
-        tag_name = 'color'
-        self.element.predefined_color(self.colors.Write_Background)
-        self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
-                                                          'blue': '255', 'alpha': '255'})
-
-    # point_type
+class TestPointType(InternalTest):
     def test_point_type_none(self):
         self.element.point_type_none()
         self.generic_element_test('point_type', 0)
@@ -2250,18 +2254,30 @@ class TestTrace(InternalTest):
         self.element.point_type_triangles()
         self.generic_element_test('point_type', 5)
 
-    # point_size
-    def test_point_size(self):
-        size = 7
-        self.element.point_size(size)
-        self.generic_element_test('point_size', 7)
+class TestColor(InternalTest):
+    def test_color(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
 
-    def test_point_size_wrong(self):
-        size = 'string'
-        self.element.point_size(size)
-        self.null_test('point_size')
+    def test_color_alpha(self):
+        tag_name = 'color'
+        self.element.color(5, 10, 15, 20)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '20'})
 
-    # visible
+    def test_color_wrong(self):
+        self.element.color('string', False, 9)
+        self.null_test('color')
+
+    def test_predefined_color(self):
+        tag_name = 'color'
+        self.element.predefined_color(self.colors.Write_Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Write_Background', 'red': '128', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+class TestVisible(InternalTest):
     def test_visible(self):
         visible = 0 # can also put False
         self.element.visible(visible)
@@ -2271,3 +2287,72 @@ class TestTrace(InternalTest):
         size = 'not a boolean'
         self.element.visible(size)
         self.null_test('visible')
+
+class TestYAxes(InternalTest):
+    def test_add_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.child_element_test('y_axes', 'y_axis', None, {}, True)
+
+    def test_add_two_y_axes(self):
+        yaxis = self.yaxis1
+        yaxis2 = self.yaxis2
+        self.element.add_y_axis(yaxis2)
+        self.element.add_y_axis(yaxis)
+        yaxis_tags = self.element.root.find('y_axes').findall('y_axis')
+        self.assertEqual(len(yaxis_tags), 2)
+
+    def test_add_same_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.add_y_axis(yaxis)
+        yaxis_tags = self.element.root.find('y_axes').findall('y_axis')
+        self.assertEqual(len(yaxis_tags), 1)
+
+    def test_remove_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        yaxes_tag = self.element.root.find('y_axes')
+        yaxis_tags = yaxes_tag.findall('y_axis')
+        self.assertEqual(len(yaxis_tags), 0)
+        self.assertEqual(len(yaxes_tag), 0)
+
+    def test_remove_two_y_axes(self):
+        yaxis = self.yaxis1
+        yaxis2 = self.yaxis2
+        self.element.add_y_axis(yaxis)
+        self.element.add_y_axis(yaxis2)
+        self.element.remove_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis2)
+        yaxes_tag = self.element.root.find('y_axes')
+        yaxis_tags = yaxes_tag.findall('y_axis')
+        self.assertEqual(len(yaxis_tags), 0)
+        self.assertEqual(len(yaxes_tag), 0)
+
+    def test_remove_same_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        yaxes_tag = self.element.root.find('y_axes')
+        self.assertEqual(yaxes_tag, None)
+
+    def test_remove_no_axes(self):
+        yaxis = self.yaxis1
+        self.element.remove_y_axis(yaxis)
+        yaxes_tag = self.element.root.find('y_axes')
+        self.assertEqual(yaxes_tag, None)
+
+class TestOnRight(InternalTest):
+    def test_on_right(self):
+        self.element.on_right(True)
+        self.generic_element_test('on_right', True)
+
+    def test_on_left(self):
+        self.element.on_right(False)
+        self.generic_element_test('on_right', False)
+
+    def test_on_right_wrong(self):
+        self.element.on_right('Not a boolean')
+        self.null_test('on_right')

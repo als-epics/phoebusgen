@@ -1053,7 +1053,7 @@ class _PointSize(object):
         """
         self._shared.integer_property(self.root, 'point_size', size)
 
-class _TraceColor(object):
+class _Color(object):
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
         """
         Add Fill Color property to widget with RGB values
@@ -1083,19 +1083,24 @@ class _Visible(object):
         """
         self._shared.boolean_property(self.root, 'visible', visible)
 
-class _YAxis(object):
-    pass
+class _OnRight(object):
+    def on_right(self, right):
+        """
+        Change y-axis position on screen (left or right)
+        :param right: Is y-axis on right side of screen?
+        """
+        self._shared.boolean_property(self.root, 'on_right', right)
 
 class _YAxes(object):
     def add_y_axis(self, axis) -> None:
         """
-        Add trace property to widget
+        Add y-axis property to widget
 
-        :param trace: trace object
+        :param axis: y-axis object
         """
         root_axes = self.root.find('y_axes')
         if root_axes is None:
-            root_axes = SubElement(self.root, 'y_axis')
+            root_axes = SubElement(self.root, 'y_axes')
             root_axes.append(axis.root)
         else:
             root_axis = root_axes.findall('y_axis')
@@ -1106,15 +1111,15 @@ class _YAxes(object):
 
     def remove_y_axis(self, axis):
         """
-        Removes trace from widget
+        Removes y-axis from widget
 
-        :param trace: trace object
+        :param axis: y-axis object
         """
         root_axes = self.root.find('y_axes')
         if root_axes is None:
             print('This graph has no y-axes.')
         else:
-            root_axis = root_axes.findall('y-axes')
+            root_axis = root_axes.findall('y_axis')
             if axis.root in root_axis:
                 root_axes.remove(axis.root)
             else:

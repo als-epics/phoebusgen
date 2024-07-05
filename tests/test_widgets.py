@@ -419,7 +419,8 @@ class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroun
         self.element = widgets.StripChart(self.name, self.x, self.y, self.width, self.height)
 
 class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
-                ph.TestShowToolbar, ph.TestTitle, ph.TestTitleFont, ph.TestGridColor, ph.TestTraces):
+                ph.TestShowToolbar, ph.TestTitle, ph.TestTitleFont, ph.TestGridColor, ph.TestTraces,
+                ph.TestYAxes):
     def setUp(self):
         self.name = 'xyxyxyxyx'
         self.type = 'xyplot'
@@ -430,6 +431,8 @@ class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundCol
         self.element = widgets.XYPlot(self.name, self.x, self.y, self.width, self.height)
         self.trace1 = widgets.Trace()
         self.trace2 = widgets.Trace()
+        self.yaxis1 = widgets.YAxis()
+        self.yaxis2 = widgets.YAxis()
 
 class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestAlarmBorder):
@@ -512,9 +515,14 @@ class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
         self.height = 12
         self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
 
-class TestTrace(unittest.TestCase, ph.TestTrace):
+class TestTrace(unittest.TestCase, ph.TestTrace, ph.TestTraceType, ph.TestPointType, ph.TestPointSize,
+                ph.TestColor, ph.TestVisible):
     def setUp(self):
         self.element = widgets.Trace()
+
+class TestYAxis(unittest.TestCase, ph.TestOnRight):
+    def setUp(self):
+        self.element = widgets.YAxis()
 
 if __name__ == '__main__':
     unittest.main()
