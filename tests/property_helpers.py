@@ -280,6 +280,86 @@ class TestTitleFont(GenericTest):
         self.child_element_test(self.font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
 
+class TestTitleFontInternal(InternalTest):
+    font_element_name = 'title_font'
+    default_font_family = 'Liberation Sans'
+    default_font_style = 'REGULAR'
+    default_font_size = '14'
+
+    def test_title_predefined_font(self):
+        self.element.predefined_title_font('Comment')
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
+
+    def test_title_predefined_font2(self):
+        self.element.predefined_title_font('Header1')
+        self.child_element_test(self.font_element_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+
+    def test_title_font_family(self):
+        value = 'Liberation Serif'
+        self.element.title_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_title_font_family2(self):
+        value = 'Noto Sans Sinhala'
+        self.element.title_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_title_font_size(self):
+        value = 72.0
+        self.element.title_font_size(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(value)), 'style': self.default_font_style})
+
+    def test_title_font_size_wrong(self):
+        value = 'tset'
+        self.element.title_font_size(value)
+        self.null_test(self.font_element_name)
+
+    def test_title_multiple_fonts(self):
+        size_val = 26
+        self.element.title_font_size(size_val)
+        self.element.title_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(size_val)), 'style': 'BOLD_ITALIC'})
+
+    def test_title_change_font_attributes(self):
+        value = 'Liberation Serif'
+        self.element.title_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+        value = 'Cantarell'
+        self.element.title_font_family(value)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_title_font_style_regular(self):
+        self.element.title_font_style_regular()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'REGULAR'})
+
+    def test_title_font_style_bold(self):
+        self.element.title_font_style_bold()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD'})
+
+    def test_title_font_style_bold_italic(self):
+        self.element.title_font_style_bold_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD_ITALIC'})
+
+    def test_title_font_style_italic(self):
+        self.element.title_font_style_italic()
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'ITALIC'})
+
+    def test_title_defaults(self):
+        self.element.title_font_family(self.default_font_family)
+        self.child_element_test(self.font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
+
+
 class TestLabelFont(GenericTest):
     label_font_element_name = 'label_font'
     default_font_family = 'Liberation Sans'
@@ -673,6 +753,19 @@ class TestEnabled(GenericTest):
 
 
 class TestLineWidth(GenericTest):
+    tag_name = 'line_width'
+
+    def test_line_width(self):
+        val = 5
+        self.element.line_width(val)
+        self.generic_element_test(self.tag_name, val)
+
+    def test_line_width_wrong(self):
+        val = 'asdfs'
+        self.element.line_width(val)
+        self.null_test(self.tag_name)
+
+class TestLineWidthInternal(InternalTest):
     tag_name = 'line_width'
 
     def test_line_width(self):
@@ -1168,6 +1261,24 @@ class TestMinMax(GenericTest):
         self.element.maximum(val)
         self.generic_element_test(tag_name, val)
 
+class TestMinMaxInternal(InternalTest):
+    def test_min_float(self):
+        tag_name = 'minimum'
+        val = 2.5
+        self.element.minimum(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_min_string(self):
+        tag_name = 'minimum'
+        self.element.minimum('asfdsf')
+        self.null_test(tag_name)
+
+    def test_max_float(self):
+        tag_name = 'maximum'
+        val = -24.2
+        self.element.maximum(val)
+        self.generic_element_test(tag_name, val)
+
 class TestEmptyColor(GenericTest):
     def test_predefined_empty_color(self):
         tag_name = 'empty_color'
@@ -1501,6 +1612,27 @@ class TestArrow(GenericTest):
         self.generic_element_test(tag_name, 0)
 
 class TestLineStyle(GenericTest):
+    def test_line_style_solid(self):
+        self.element.line_style_solid()
+        self.generic_element_test('line_style', 0)
+
+    def test_line_style_dashed(self):
+        self.element.line_style_dashed()
+        self.generic_element_test('line_style', 1)
+
+    def test_line_style_dot(self):
+        self.element.line_style_dot()
+        self.generic_element_test('line_style', 2)
+
+    def test_line_style_dash_dot(self):
+        self.element.line_style_dash_dot()
+        self.generic_element_test('line_style', 3)
+
+    def test_line_style_dash_dot_dot(self):
+        self.element.line_style_dash_dot_dot()
+        self.generic_element_test('line_style', 4)
+
+class TestLineStyleInternal(InternalTest):
     def test_line_style_solid(self):
         self.element.line_style_solid()
         self.generic_element_test('line_style', 0)
@@ -1934,7 +2066,25 @@ class TestTitle(GenericTest):
         self.element.title(val)
         self.generic_element_test(tag_name, val)
 
+class TestTitleInternal(InternalTest):
+    def test_title(self):
+        tag_name = 'title'
+        val = 'MyChart Title'
+        self.element.title(val)
+        self.generic_element_test(tag_name, val)
+
 class TestAutoScale(GenericTest):
+    def test_auto_scale_false(self):
+        tag_name = 'autoscale'
+        self.element.auto_scale(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_auto_scale_true(self):
+        tag_name = 'autoscale'
+        self.element.auto_scale(True)
+        self.generic_element_test(tag_name, True)
+
+class TestAutoScaleInternal(InternalTest):
     def test_auto_scale_false(self):
         tag_name = 'autoscale'
         self.element.auto_scale(False)
@@ -1974,6 +2124,22 @@ class TestLogScale(GenericTest):
         self.element.log_scale(True)
         self.generic_element_test(tag_name, True)
 
+class TestLogScaleInternal(InternalTest):
+    def test_log_scale_default(self):
+        tag_name = 'log_scale'
+        self.element.log_scale()
+        self.generic_element_test(tag_name, True)
+
+    def test_log_scale_false(self):
+        tag_name = 'log_scale'
+        self.element.log_scale(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_log_scale_true(self):
+        tag_name = 'log_scale'
+        self.element.log_scale(True)
+        self.generic_element_test(tag_name, True)
+
 class TestUnsignedData(GenericTest):
     def test_unsigned_default(self):
         tag_name = 'unsigned'
@@ -1991,6 +2157,22 @@ class TestUnsignedData(GenericTest):
         self.generic_element_test(tag_name, True)
 
 class TestShowGrid(GenericTest):
+    def test_show_grid_default(self):
+        tag_name = 'show_grid'
+        self.element.show_grid()
+        self.generic_element_test(tag_name, True)
+
+    def test_show_grid_false(self):
+        tag_name = 'show_grid'
+        self.element.show_grid(False)
+        self.generic_element_test(tag_name, False)
+
+    def test_show_grid_true(self):
+        tag_name = 'show_grid'
+        self.element.show_grid(True)
+        self.generic_element_test(tag_name, True)
+
+class TestShowGridInternal(InternalTest):
     def test_show_grid_default(self):
         tag_name = 'show_grid'
         self.element.show_grid()
@@ -2157,31 +2339,41 @@ class TestTraces(InternalTest):
         traces_tag = self.element.root.find('traces')
         self.assertEqual(traces_tag, None)
 
-class TestTrace(InternalTest):
+    def test_add_mismatch_trace_type(self):
+        trace = self.trace_wrong
+        self.element.add_trace(trace)
+        traces_tag = self.element.root.find('traces')
+        self.assertEqual(traces_tag, None)
+
+class TestName(InternalTest):
     # name
     def test_name(self):
         name = 'test name'
         self.element.name(name)
         self.generic_element_test('name', name)
 
+class TestXPV(InternalTest):
     # x_pv
     def test_x_pv(self):
         xpv = 'x pv value'
         self.element.x_pv(xpv)
         self.generic_element_test('x_pv', xpv)
 
+class TestYPV(InternalTest):
     # y_pv
     def test_y_pv(self):
         ypv = 'y pv value'
         self.element.y_pv(ypv)
         self.generic_element_test('y_pv', ypv)
 
+class TestErrPV(InternalTest):
     # err_pv
     def test_err_pv(self):
         errpv = 'error pv value'
         self.element.err_pv(errpv)
         self.generic_element_test('err_pv', errpv)
 
+class TestYAxis(InternalTest):
     # axis (y-axis)
     def test_axis(self):
         axis = 2
@@ -2330,6 +2522,12 @@ class TestYAxes(InternalTest):
     def test_remove_no_axes(self):
         yaxis = self.yaxis1
         self.element.remove_y_axis(yaxis)
+        yaxes_tag = self.element.root.find('y_axes')
+        self.assertEqual(yaxes_tag, None)
+
+    def test_add_mismatch_type(self):
+        yaxis = self.yaxis_wrong
+        self.element.add_y_axis(yaxis)
         yaxes_tag = self.element.root.find('y_axes')
         self.assertEqual(yaxes_tag, None)
 

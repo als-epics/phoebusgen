@@ -429,10 +429,12 @@ class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundCol
         self.width = 1239
         self.height = 1
         self.element = widgets.XYPlot(self.name, self.x, self.y, self.width, self.height)
-        self.trace1 = widgets.Trace()
-        self.trace2 = widgets.Trace()
-        self.yaxis1 = widgets.YAxis()
-        self.yaxis2 = widgets.YAxis()
+        self.trace1 = widgets.XYPlotTrace()
+        self.trace2 = widgets.XYPlotTrace()
+        self.yaxis1 = widgets.XYPlotYAxis()
+        self.yaxis2 = widgets.XYPlotYAxis()
+        self.yaxis_wrong = widgets.StripChartYAxis()
+        self.trace_wrong = widgets.StripChartTrace()
 
 class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestAlarmBorder):
@@ -515,14 +517,26 @@ class TestWebBrowser(unittest.TestCase, ph.TestUrl, ph.TestShowToolbar):
         self.height = 12
         self.element = widgets.WebBrowser(self.name, self.url, self.x, self.y, self.width, self.height)
 
-class TestTrace(unittest.TestCase, ph.TestTrace, ph.TestTraceType, ph.TestPointType, ph.TestPointSize,
-                ph.TestColor):
+class TestStripChartTrace(unittest.TestCase, ph.TestName, ph.TestYPV, ph.TestYAxis, ph.TestTraceType,
+                          ph.TestColor, ph.TestLineWidthInternal, ph.TestPointType, ph.TestPointSize):
     def setUp(self):
-        self.element = widgets.Trace()
+        self.element = widgets.StripChartTrace()
 
-class TestYAxis(unittest.TestCase, ph.TestOnRight):
+class TestXYPlotTrace(unittest.TestCase, ph.TestName, ph.TestXPV, ph.TestYPV, ph.TestErrPV, ph.TestYAxis, ph.TestTraceType,
+                      ph.TestColor, ph.TestLineWidthInternal, ph.TestLineStyleInternal, ph.TestPointType, ph.TestPointSize):
     def setUp(self):
-        self.element = widgets.YAxis()
+        self.element = widgets.XYPlotTrace()
+
+class TestStripChartYAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleInternal, ph.TestLogScaleInternal,
+                          ph.TestMinMaxInternal, ph.TestShowGridInternal, ph.TestColor):
+    def setUp(self):
+        self.element = widgets.XYPlotYAxis()
+
+class TestXYPlotYAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleInternal, ph.TestLogScaleInternal,
+                          ph.TestMinMaxInternal, ph.TestShowGridInternal, ph.TestColor, ph.TestTitleFontInternal,
+                          ph.TestOnRight):
+    def setUp(self):
+        self.element = widgets.XYPlotYAxis()
 
 if __name__ == '__main__':
     unittest.main()

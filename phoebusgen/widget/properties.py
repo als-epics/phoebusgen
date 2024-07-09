@@ -893,47 +893,6 @@ class _Items(object):
             root_item = SubElement(self.root, 'items')
         self._shared.list_property(root_item, 'item', item_text)
 
-class _Trace(object):
-    def name(self, name: str) -> None:
-        """
-        Change trace name
-
-        :param name: Trace name
-        """
-        self._shared.generic_property(self.root, 'name', name)
-
-    def x_pv(self, pv: str) -> None:
-        """
-        Change trace x_pv value
-
-        :param pv: Trace x_pv
-        """
-        self._shared.generic_property(self.root, 'x_pv', pv)
-
-    def y_pv(self, pv: str) -> None:
-        """
-        Change trace y_pv value
-
-        :param pv: Trace y_pv
-        """
-        self._shared.generic_property(self.root, 'y_pv', pv)
-
-    def err_pv(self, pv: str) -> None:
-        """
-        Change trace err_pv value
-
-        :param pv: Trace err_pv
-        """
-        self._shared.generic_property(self.root, 'err_pv', pv)
-
-    def axis(self, axis: int) -> None:
-        """
-        Determine which y-axis the trace is for
-
-        :param axis: Trace y-axis
-        """
-        self._shared.integer_property(self.root, 'axis', axis)
-
 class _Traces(object):
     def add_trace(self, trace) -> None:
         """
@@ -941,6 +900,9 @@ class _Traces(object):
 
         :param trace: trace object
         """
+        if (type(self).__name__ not in str(type(trace))):
+            print('Chart type and trace type do not match.')
+            return
         root_traces = self.root.find('traces')
         if root_traces is None:
             root_traces = SubElement(self.root, 'traces')
@@ -1074,6 +1036,51 @@ class _Color(object):
         e = self._shared.create_element(self.root, 'color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
+class _Name(object):
+    def name(self, name: str) -> None:
+        """
+        Change trace name
+
+        :param name: Trace name
+        """
+        self._shared.generic_property(self.root, 'name', name)
+
+class _Axis(object):
+    def axis(self, axis: int) -> None:
+        """
+        Determine which y-axis the trace is for
+
+        :param axis: Trace y-axis
+        """
+        self._shared.integer_property(self.root, 'axis', axis)
+
+class _XPV(object):
+    def x_pv(self, pv: str) -> None:
+        """
+        Change trace x_pv value
+
+        :param pv: Trace x_pv
+        """
+        self._shared.generic_property(self.root, 'x_pv', pv)
+
+class _YPV(object):
+    def y_pv(self, pv: str) -> None:
+        """
+        Change trace y_pv value
+
+        :param pv: Trace y_pv
+        """
+        self._shared.generic_property(self.root, 'y_pv', pv)
+
+class _ErrPV(object):
+    def err_pv(self, pv: str) -> None:
+        """
+        Change trace err_pv value
+
+        :param pv: Trace err_pv
+        """
+        self._shared.generic_property(self.root, 'err_pv', pv)
+
 class _OnRight(object):
     def on_right(self, right):
         """
@@ -1089,6 +1096,9 @@ class _YAxes(object):
 
         :param axis: y-axis object
         """
+        if (type(self).__name__ not in str(type(axis))):
+            print('Chart type and axis type do not match.')
+            return
         root_axes = self.root.find('y_axes')
         if root_axes is None:
             root_axes = SubElement(self.root, 'y_axes')

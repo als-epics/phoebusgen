@@ -44,16 +44,6 @@ class _Generic(object):
         if element is not None:
             self.root.remove(element)
 
-    # not sure if this one makes sense here (if doesn't break with generic, keep it)
-    def get_element_value(self, tag: str) -> str:
-        """
-        Get value of an XML element by tag name
-
-        :param tag: Tag name to get value from
-        :return: Value of XML tag
-        """
-        return self.find_element(tag).text
-
     def visible(self, visible: bool) -> None:
         """
         Change visible property for widget
@@ -142,6 +132,15 @@ class _Widget(_Generic):
         :param val: y
         """
         self._shared.integer_property(self.root, 'y', val)
+
+    def get_element_value(self, tag: str) -> str:
+        """
+        Get value of an XML element by tag name
+
+        :param tag: Tag name to get value from
+        :return: Value of XML tag
+        """
+        return self.find_element(tag).text
 
     #def class_name(self, name):
     #    pass
