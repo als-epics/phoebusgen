@@ -269,7 +269,7 @@ class TestGenericWidget(unittest.TestCase):
     def create_basic_generic_widget(self):
         return widget._Generic(self.base_type)
 
-    def test_basic_widget(self):
+    def test_basic_generic_widget(self):
         g = self.create_basic_generic_widget()
         self.assertEqual(g.root.tag, 'test_widget_type')
 

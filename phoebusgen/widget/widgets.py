@@ -511,15 +511,23 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
         self.pv_name(pv_name)
 
 # Plots
-class Trace(_Generic, _p._Trace, _p._LineStyle, _p._LineWidth, _p._TraceType, _p._PointType,
-            _p._Color, _p._PointSize, _p._Visible):
+class StripChartTrace(_Generic, _p._Name, _p._YPV, _p._Axis, _p._TraceType, _p._Color, _p._LineWidth,
+                      _p._PointType, _p._PointSize):
     def __init__(self):
         _Generic.__init__(self, 'trace')
 
-class YAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid,
-            _p._TitleFont, _p._ScaleFont, _p._OnRight, _p._Visible, _p._Color):
+class XYPlotTrace(StripChartTrace, _p._XPV, _p._ErrPV, _p._LineStyle):
+    def __init__(self):
+        super().__init__()
+
+class StripChartYAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid,
+                      _p._Color):
     def __init__(self):
         _Generic.__init__(self, 'y_axis')
+
+class XYPlotYAxis(StripChartYAxis, _p._TitleFont, _p._ScaleFont, _p._OnRight):
+    def __init__(self):
+        super().__init__()
 
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """
