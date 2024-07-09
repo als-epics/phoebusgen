@@ -44,6 +44,15 @@ class _Generic(object):
         if element is not None:
             self.root.remove(element)
 
+    def get_element_value(self, tag: str) -> str:
+        """
+        Get value of an XML element by tag name
+
+        :param tag: Tag name to get value from
+        :return: Value of XML tag
+        """
+        return self.find_element(tag).text
+
     def visible(self, visible: bool) -> None:
         """
         Change visible property for widget
@@ -71,15 +80,13 @@ class _Widget(_Generic):
         :param width: Widget width
         :param height: Widget height:
         """
-        # not sure if the super call is actually any better
+
         super().__init__('widget')
-        #self.root = Element('widget', type=w_type, version='2.0.0')
         self.root.attrib['type'] = w_type
         self.root.attrib['version'] = '2.0.0'
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
-        #self._shared = _SharedPropertyFunctions(self.root)
         self._shared.integer_property(self.root, 'x', x_pos)
         self._shared.integer_property(self.root, 'y', y_pos)
         self._shared.integer_property(self.root, 'width', width)
@@ -132,15 +139,6 @@ class _Widget(_Generic):
         :param val: y
         """
         self._shared.integer_property(self.root, 'y', val)
-
-    def get_element_value(self, tag: str) -> str:
-        """
-        Get value of an XML element by tag name
-
-        :param tag: Tag name to get value from
-        :return: Value of XML tag
-        """
-        return self.find_element(tag).text
 
     #def class_name(self, name):
     #    pass
