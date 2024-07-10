@@ -1124,9 +1124,36 @@ class _YAxes(object):
             if axis.root in root_axis:
                 root_axes.remove(axis.root)
             else:
-                print('Y-Axis does not exist.') # this may be unnecessary
+                print('Y-Axis does not exist.')
             if not root_axis:
                 self.root.remove(root_axes)   # removes hanging <y_axes/> tag from empty element
+
+class _XAxis(object):
+    def add_x_axis(self, axis) -> None:
+        """
+        Add x-axis property to widget
+
+        :param axis: x-axis object
+        """
+        existing_axis = self.root.findall('x_axis')
+        if existing_axis:
+            print('An x-axis already exists. Replacing...')
+            for item in existing_axis:
+                self.root.remove(item)
+            self.root.append(axis.root)
+        else:
+            self.root.append(axis.root)
+
+    def remove_x_axis(self, axis):
+        """
+        Removes x-axis from widget
+
+        :param axis: x-axis object
+        """
+        if self.root.findall('x_axis'):
+            self.root.remove(axis.root)
+        else:
+            print('X-Axis does not exist.')
 
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
