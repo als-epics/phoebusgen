@@ -534,6 +534,10 @@ class XYPlotXAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, 
     def __init__(self):
         _Generic.__init__(self, 'x_axis')
 
+class Marker(_Generic, _p._Color, _p._PVName, _p._Interactive):
+    def __init__(self):
+        _Generic.__init__(self, 'marker')
+
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
@@ -599,7 +603,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
 #             _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
 #    pass
 class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
-             _p._TitleFont, _p._GridColor, _p._XAxis, _p._YAxes, _p._Traces):
+             _p._TitleFont, _p._GridColor, _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
     """ XYPlot - Incomplete Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

@@ -118,6 +118,12 @@ class TestPVName(GenericTest):
     def test_pv_name(self):
         self.assertEqual(self.element.find_element('pv_name').text, self.pv_name)
 
+class TestPVNameInternal(InternalTest):
+    def test_pv_name(self):
+        pv_name = 'test'
+        self.element.pv_name(pv_name)
+        self.assertEqual(self.element.find_element('pv_name').text, pv_name)
+
 class TestText(GenericTest):
     def test_text(self):
         self.assertEqual(self.element.find_element('text').text, self.text)
@@ -2608,6 +2614,62 @@ class TestYAxes(InternalTest):
         self.element.add_y_axis(yaxis)
         yaxes_tag = self.element.root.find('y_axes')
         self.assertEqual(yaxes_tag, None)
+
+class TestMarkers(InternalTest):
+    def test_add_marker(self):
+        marker = self.marker1
+        self.element.add_marker(marker)
+        self.child_element_test('marker', 'marker', None, {}, True)
+
+    def test_add_two_markers(self):
+        marker = self.marker1
+        marker2 = self.marker2
+        self.element.add_marker(marker2)
+        self.element.add_marker(marker)
+        marker_tags = self.element.root.find('marker').findall('marker')
+        self.assertEqual(len(marker_tags), 2)
+
+    def test_add_same_marker(self):
+        marker = self.marker1
+        self.element.add_marker(marker)
+        self.element.add_marker(marker)
+        marker_tags = self.element.root.find('marker').findall('marker')
+        self.assertEqual(len(marker_tags), 1)
+
+    def test_remove_marker(self):
+        marker = self.marker1
+        self.element.add_marker(marker)
+        self.element.remove_marker(marker)
+        outer_tag = self.element.root.find('marker')
+        marker_tags = outer_tag.findall('marker')
+        self.assertEqual(len(marker_tags), 0)
+        self.assertEqual(len(outer_tag), 0)
+
+    def test_remove_two_markers(self):
+        marker = self.marker1
+        marker2 = self.marker2
+        self.element.add_marker(marker)
+        self.element.add_marker(marker2)
+        self.element.remove_marker(marker)
+        self.element.remove_marker(marker2)
+        outer_tag = self.element.root.find('marker')
+        marker_tags = outer_tag.findall('marker')
+        self.assertEqual(len(marker_tags), 0)
+        self.assertEqual(len(outer_tag), 0)
+
+    def test_remove_same_marker(self):
+        marker = self.marker1
+        self.element.add_marker(marker)
+        self.element.remove_marker(marker)
+        self.element.remove_marker(marker)
+        outer_tag = self.element.root.find('marker')
+        self.assertEqual(outer_tag, None)
+
+    def test_remove_no_markers(self):
+        marker = self.marker1
+        self.element.remove_marker(marker)
+        outer_tag = self.element.root.find('marker')
+        self.assertEqual(outer_tag, None)
 
 class TestOnRight(InternalTest):
     def test_on_right(self):
