@@ -522,6 +522,84 @@ class TestScaleFont(GenericTest):
         self.child_element_test(self.scale_font_element_name, 'font', None,
                                 {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
 
+class TestScaleFontInternal(InternalTest):
+    scale_font_element_name = 'scale_font'
+    default_font_family = 'Liberation Sans'
+    default_font_style = 'REGULAR'
+    default_font_size = '14'
+
+    def test_scale_predefined_font(self):
+        self.element.predefined_scale_font('Comment')
+        self.child_element_test(self.scale_font_element_name, 'font', None, {'name': 'Comment', 'family': 'Liberation Sans', 'size': '14', 'style': 'ITALIC'})
+
+    def test_scale_predefined_font2(self):
+        self.element.predefined_scale_font('Header1')
+        self.child_element_test(self.scale_font_element_name, 'font', None, {'name': 'Header 1', 'family': 'Liberation Sans', 'size': '22', 'style': 'BOLD'})
+
+    def test_scale_font_family(self):
+        value = 'Liberation Serif'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_family2(self):
+        value = 'Noto Sans Sinhala'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_size(self):
+        value = 72.0
+        self.element.scale_font_size(value)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(value)), 'style': self.default_font_style})
+
+    def test_scale_font_size_wrong(self):
+        value = 'tset'
+        self.element.scale_font_size(value)
+        self.null_test(self.scale_font_element_name)
+
+    def test_scale_multiple_fonts(self):
+        size_val = 26
+        self.element.scale_font_size(size_val)
+        self.element.scale_font_style_bold_italic()
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': str(int(size_val)), 'style': 'BOLD_ITALIC'})
+
+    def test_scale_change_font_attributes(self):
+        value = 'Liberation Serif'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+        value = 'Cantarell'
+        self.element.scale_font_family(value)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': value, 'size': self.default_font_size, 'style': self.default_font_style})
+
+    def test_scale_font_style_regular(self):
+        self.element.scale_font_style_regular()
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'REGULAR'})
+
+    def test_scale_font_style_bold(self):
+        self.element.scale_font_style_bold()
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD'})
+
+    def test_scale_font_style_bold_italic(self):
+        self.element.scale_font_style_bold_italic()
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'BOLD_ITALIC'})
+
+    def test_scale_font_style_italic(self):
+        self.element.scale_font_style_italic()
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': 'ITALIC'})
+
+    def test_scale_defaults(self):
+        self.element.scale_font_family(self.default_font_family)
+        self.child_element_test(self.scale_font_element_name, 'font', None,
+                                {'family': self.default_font_family, 'size': self.default_font_size, 'style': self.default_font_style})
 
 class TestForegroundColor(GenericTest):
     def test_predefined_foreground_color(self):
@@ -2543,3 +2621,45 @@ class TestOnRight(InternalTest):
     def test_on_right_wrong(self):
         self.element.on_right('Not a boolean')
         self.null_test('on_right')
+
+class TestXAxes(InternalTest):
+    def test_add_xaxis(self):
+        xaxis1 = self.xaxis1
+        self.element.add_x_axis(xaxis1)
+        self.generic_element_test('x_axis', None)
+
+    def test_add_two_x_axes(self):
+        xaxis1 = self.xaxis1
+        xaxis2 = self.xaxis2
+        self.element.add_x_axis(xaxis1)
+        self.element.add_x_axis(xaxis2)
+        x_axes = self.element.root.findall('x_axis')
+        self.assertEqual(len(x_axes), 1)
+
+    def test_add_same_x_axis(self):
+        xaxis = self.xaxis1
+        self.element.add_x_axis(xaxis)
+        self.element.add_x_axis(xaxis)
+        x_axes = self.element.root.findall('x_axis')
+        self.assertEqual(len(x_axes), 1)
+
+    def test_remove_x_axis(self):
+        xaxis = self.xaxis1
+        self.element.add_x_axis(xaxis)
+        self.element.remove_x_axis(xaxis)
+        x_axes = self.element.root.findall('x_axis')
+        self.assertEqual(len(x_axes), 0)
+
+    def test_remove_same_x_axis(self):
+        xaxis = self.xaxis1
+        self.element.add_x_axis(xaxis)
+        self.element.remove_x_axis(xaxis)
+        self.element.remove_x_axis(xaxis)
+        x_axes = self.element.root.find('x_axis')
+        self.assertEqual(x_axes, None)
+
+    def test_remove_nonexistent(self):
+        xaxis = self.xaxis1
+        self.element.remove_x_axis(xaxis)
+        x_axes = self.element.root.find('x_axis')
+        self.assertEqual(x_axes, None)

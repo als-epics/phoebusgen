@@ -420,7 +420,7 @@ class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroun
 
 class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestTitle, ph.TestTitleFont, ph.TestGridColor, ph.TestTraces,
-                ph.TestYAxes):
+                ph.TestYAxes, ph.TestXAxes):
     def setUp(self):
         self.name = 'xyxyxyxyx'
         self.type = 'xyplot'
@@ -435,6 +435,8 @@ class TestXYPlot(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundCol
         self.yaxis2 = widgets.XYPlotYAxis()
         self.yaxis_wrong = widgets.StripChartYAxis()
         self.trace_wrong = widgets.StripChartTrace()
+        self.xaxis1 = widgets.XYPlotXAxis()
+        self.xaxis2 = widgets.XYPlotXAxis()
 
 class TestArray(unittest.TestCase, ph.TestPVName, ph.TestMacro, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestAlarmBorder):
@@ -537,6 +539,11 @@ class TestXYPlotYAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleI
                           ph.TestOnRight):
     def setUp(self):
         self.element = widgets.XYPlotYAxis()
+
+class TestXYPlotXAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleInternal, ph.TestLogScaleInternal,
+                ph.TestMinMaxInternal, ph.TestShowGridInternal, ph.TestTitleFontInternal, ph.TestScaleFontInternal):
+    def setUp(self):
+        self.element = widgets.XYPlotXAxis()
 
 if __name__ == '__main__':
     unittest.main()
