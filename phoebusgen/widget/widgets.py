@@ -529,7 +529,7 @@ class XYPlotYAxis(StripChartYAxis, _p._TitleFont, _p._ScaleFont, _p._OnRight):
     def __init__(self):
         super().__init__()
 
-class XAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid, _p._TitleFont,
+class XYPlotXAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid, _p._TitleFont,
             _p._ScaleFont):
     def __init__(self):
         _Generic.__init__(self, 'x_axis')
