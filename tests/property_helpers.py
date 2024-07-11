@@ -2684,6 +2684,15 @@ class TestOnRight(InternalTest):
         self.element.on_right('Not a boolean')
         self.null_test('on_right')
 
+class TestInteractive(InternalTest):
+    def test_interactive(self):
+        self.element.interactive(True)
+        self.generic_element_test('interactive', True)
+
+    def test_interactive_wrong(self):
+        self.element.interactive('Not true')
+        self.null_test('interactive')
+
 class TestXAxes(InternalTest):
     def test_add_xaxis(self):
         xaxis1 = self.xaxis1

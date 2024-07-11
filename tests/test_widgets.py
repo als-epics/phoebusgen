@@ -547,7 +547,12 @@ class TestXYPlotXAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleI
     def setUp(self):
         self.element = widgets.XYPlotXAxis()
 
-class TestMarker(unittest.TestCase, ph.TestColor, ph.TestPVNameInternal):
+class TestImageXAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestMinMaxInternal, ph.TestTitleFontInternal,
+                     ph.TestScaleFontInternal):
+    def setUp(self):
+        self.element = widgets.ImageXAxis()
+
+class TestMarker(unittest.TestCase, ph.TestColor, ph.TestPVNameInternal, ph.TestInteractive):
     def setUp(self):
         self.element = widgets.Marker()
 

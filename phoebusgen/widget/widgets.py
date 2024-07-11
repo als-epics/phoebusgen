@@ -534,6 +534,10 @@ class XYPlotXAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, 
     def __init__(self):
         _Generic.__init__(self, 'x_axis')
 
+class ImageXAxis(_Generic, _p._Title, _p._MinMax, _p._TitleFont, _p._ScaleFont):
+    def __init__(self):
+        _Generic.__init__(self, 'x_axis')
+
 class Marker(_Generic, _p._Color, _p._PVName, _p._Interactive):
     def __init__(self):
         _Generic.__init__(self, 'marker')
