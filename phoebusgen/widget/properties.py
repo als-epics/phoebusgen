@@ -1155,6 +1155,52 @@ class _XAxis(object):
         else:
             print('X-Axis does not exist.')
 
+class _Markers(object):
+    def add_marker(self, marker) -> None:
+        """
+        Add marker property to widget
+
+        :param marker: marker object
+        """
+        outer_marker = self.root.find('marker')
+        if outer_marker is None:
+            outer_marker = SubElement(self.root, 'marker')
+            outer_marker.append(marker.root)
+        else:
+            inner_marker = outer_marker.findall('marker')
+            if marker.root in inner_marker:
+                print('Marker already exists.')
+            else:
+                outer_marker.append(marker.root)
+
+    def remove_marker(self, marker):
+        """
+        Removes marker from widget
+
+        :param marker: marker object
+        """
+        outer_marker = self.root.find('marker')
+        if outer_marker is None:
+            print('This graph has no markers.')
+        else:
+            inner_marker = outer_marker.findall('marker')
+            if marker.root in inner_marker:
+                outer_marker.remove(marker.root)
+            else:
+                print('Marker does not exist.')
+            if not inner_marker:
+                self.root.remove(outer_marker)
+
+class _Interactive(object):
+    def interactive(self, val: bool):
+        """
+        Set marker as interactive
+
+        :param val: Interactive?
+        """
+
+        self._shared.boolean_property(self.root, 'interactive', val)
+
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
         """
