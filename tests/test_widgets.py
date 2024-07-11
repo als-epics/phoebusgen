@@ -396,7 +396,7 @@ class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowT
 class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax, ph.TestAutoScale, ph.TestDataHeightAndWidth,
                 ph.TestLogScale, ph.TestUnsignedData, ph.TestCursor, ph.TestInterpolation, ph.TestXAxes,
-                ph.TestYAxisSingle):
+                ph.TestYAxisSingle, ph.TestColorMode):
     def setUp(self):
         self.name = 'my data browser'
         self.pv_name = 'Image:PV'

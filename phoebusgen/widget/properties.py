@@ -2321,3 +2321,142 @@ class _Interpolation(object):
         Change interpolation to Automatic
         """
         self._add_interpolation(self._shared.Interpolation.automatic)
+
+class _ColorMode(object):
+    def _add_color_mode(self, val):
+        if not isinstance(val, self._shared.ColorMode):
+            print('The component parameter must be of type ColorMode enum! Not: {}'.format(type(val)))
+            return
+        self._shared.generic_property(self.root, 'color_mode', val.value)
+
+    def color_mode_CUSTOM(self) -> None:
+        """
+        Change color mode to CUSTOM
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_CUSTOM)
+
+    def color_mode_MONO(self) -> None:
+        """
+        Change color mode to MONO
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_MONO)
+
+    def color_mode_BAYER(self) -> None:
+        """
+        Change color mode to BAYER
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_BAYER)
+
+    def color_mode_RGB1(self) -> None:
+        """
+        Change color mode to RGB1
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_RGB1)
+
+    def color_mode_RGB2(self) -> None:
+        """
+        Change color mode to RGB2
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_RGB2)
+
+    def color_mode_RGB3(self) -> None:
+        """
+        Change color mode to RGB3
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_RGB3)
+
+    def color_mode_YUV444(self) -> None:
+        """
+        Change color mode to YUV444
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_YUV444)
+
+    def color_mode_YUV422(self) -> None:
+        """
+        Change color mode to YUV422
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_YUV422)
+
+    def color_mode_YUV411(self) -> None:
+        """
+        Change color mode to YUV411
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_YUV411)
+
+    def color_mode_3BYTE_BGR(self) -> None:
+        """
+        Change color mode to 3BYTE_BGR
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_3BYTE_BGR)
+
+    def color_mode_4BYTE_ABGR(self) -> None:
+        """
+        Change color mode to 4BYTE_ABGR
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_4BYTE_ABGR)
+
+    def color_mode_4BYTE_ABGR_PRE(self) -> None:
+        """
+        Change color mode to 4BYTE_ABGR_PRE
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_4BYTE_ABGR_PRE)
+
+    def color_mode_BYTE_BINARY(self) -> None:
+        """
+        Change color mode to BYTE_BINARY
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_BYTE_BINARY)
+
+    def color_mode_BYTE_GRAY(self) -> None:
+        """
+        Change color mode to BYTE_GRAY
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_BYTE_GRAY)
+
+    def color_mode_BYTE_INDEXED(self) -> None:
+        """
+        Change color mode to BYTE_INDEXED
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_BYTE_INDEXED)
+
+    def color_mode_INT_ARGB(self) -> None:
+        """
+        Change color mode to INT_ARGB
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_INT_ARGB)
+
+    def color_mode_INT_ARGB_PRE(self) -> None:
+        """
+        Change color mode to INT_ARGB_PRE
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_INT_ARGB_PRE)
+
+    def color_mode_INT_BGR(self) -> None:
+        """
+        Change color mode to INT_BGR
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_INT_BGR)
+
+    def color_mode_INT_RGB(self) -> None:
+        """
+        Change color mode to INT_RGB
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_INT_RGB)
+
+    def color_mode_USHORT_555_RGB(self) -> None:
+        """
+        Change color mode to USHORT_555_RGB
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_USHORT_555_RGB)
+
+    def color_mode_USHORT_565_RGB(self) -> None:
+        """
+        Change color mode to USHORT_565_RGB
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_USHORT_565_RGB)
+
+    def color_mode_USHORT_GRAY(self) -> None:
+        """
+        Change color mode to USHORT_GRAY
+        """
+        self._add_color_mode(self._shared.ColorMode.TYPE_USHORT_GRAY)

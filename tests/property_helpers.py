@@ -2776,3 +2776,92 @@ class TestXAxes(InternalTest):
         self.element.remove_x_axis(xaxis)
         x_axes = self.element.root.find('x_axis')
         self.assertEqual(x_axes, None)
+
+class TestColorMode(GenericTest):
+    def test_color_mode_custom(self):
+        self.element.color_mode_CUSTOM()
+        self.generic_element_test('color_mode', 0)
+
+    def test_color_mode_mono(self):
+        self.element.color_mode_MONO()
+        self.generic_element_test('color_mode', 1)
+
+    def test_color_mode_bayer(self):
+        self.element.color_mode_BAYER()
+        self.generic_element_test('color_mode', 2)
+
+    def test_color_mode_rgb1(self):
+        self.element.color_mode_RGB1()
+        self.generic_element_test('color_mode', 3)
+
+    def test_color_mode_rgb2(self):
+        self.element.color_mode_RGB2()
+        self.generic_element_test('color_mode', 4)
+
+    def test_color_mode_rgb3(self):
+        self.element.color_mode_RGB3()
+        self.generic_element_test('color_mode', 5)
+
+    def test_color_mode_yuv444(self):
+        self.element.color_mode_YUV444()
+        self.generic_element_test('color_mode', 6)
+
+    def test_color_mode_yuv422(self):
+        self.element.color_mode_YUV422()
+        self.generic_element_test('color_mode', 7)
+
+    def test_color_mode_yuv411(self):
+        self.element.color_mode_YUV411()
+        self.generic_element_test('color_mode', 8)
+
+    def test_color_mode_3byte_bgr(self):
+        self.element.color_mode_3BYTE_BGR()
+        self.generic_element_test('color_mode', 9)
+
+    def test_color_mode_4byte_abgr(self):
+        self.element.color_mode_4BYTE_ABGR()
+        self.generic_element_test('color_mode', 10)
+
+    def test_color_mode_4byte_abgr_pre(self):
+        self.element.color_mode_4BYTE_ABGR_PRE()
+        self.generic_element_test('color_mode', 11)
+
+    def test_color_mode_byte_binary(self):
+        self.element.color_mode_BYTE_BINARY()
+        self.generic_element_test('color_mode', 12)
+
+    def test_color_mode_byte_gray(self):
+        self.element.color_mode_BYTE_GRAY()
+        self.generic_element_test('color_mode', 13)
+
+    def test_color_mode_byte_indexed(self):
+        self.element.color_mode_BYTE_INDEXED()
+        self.generic_element_test('color_mode', 14)
+
+    def test_color_mode_int_argb(self):
+        self.element.color_mode_INT_ARGB()
+        self.generic_element_test('color_mode', 15)
+
+    def test_color_mode_int_argb_pre(self):
+        self.element.color_mode_INT_ARGB_PRE()
+        self.generic_element_test('color_mode', 16)
+
+    def test_color_mode_int_bgr(self):
+        self.element.color_mode_INT_BGR()
+        self.generic_element_test('color_mode', 17)
+
+    def test_color_mode_int_rgb(self):
+        self.element.color_mode_INT_RGB()
+        self.generic_element_test('color_mode', 18)
+
+    def test_color_mode_ushort_555_rgb(self):
+        self.element.color_mode_USHORT_555_RGB()
+        self.generic_element_test('color_mode', 19)
+
+    def test_color_mode_ushort_565_rgb(self):
+        self.element.color_mode_USHORT_565_RGB()
+        self.generic_element_test('color_mode', 20)
+
+    def test_color_mode_ushort_gray(self):
+        self.element.color_mode_USHORT_GRAY()
+        self.generic_element_test('color_mode', 21)
