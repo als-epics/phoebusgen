@@ -395,7 +395,8 @@ class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowT
 
 class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax, ph.TestAutoScale, ph.TestDataHeightAndWidth,
-                ph.TestLogScale, ph.TestUnsignedData, ph.TestCursor, ph.TestInterpolation):
+                ph.TestLogScale, ph.TestUnsignedData, ph.TestCursor, ph.TestInterpolation, ph.TestXAxes,
+                ph.TestYAxisSingle):
     def setUp(self):
         self.name = 'my data browser'
         self.pv_name = 'Image:PV'
@@ -405,6 +406,10 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
         self.width = 1239
         self.height = 1
         self.element = widgets.Image(self.name, self.pv_name, self.x, self.y, self.width, self.height)
+        self.yaxis2 = widgets.ImageYAxis()
+        self.yaxis1 = widgets.ImageYAxis()
+        self.xaxis1 = widgets.ImageXAxis()
+        self.xaxis2 = widgets.ImageXAxis()
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid,
@@ -542,12 +547,22 @@ class TestXYPlotYAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleI
     def setUp(self):
         self.element = widgets.XYPlotYAxis()
 
+class TestImageYAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestMinMaxInternal, ph.TestTitleFontInternal,
+                     ph.TestScaleFontInternal):
+    def setUp(self):
+        self.element = widgets.ImageYAxis()
+
 class TestXYPlotXAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestAutoScaleInternal, ph.TestLogScaleInternal,
                 ph.TestMinMaxInternal, ph.TestShowGridInternal, ph.TestTitleFontInternal, ph.TestScaleFontInternal):
     def setUp(self):
         self.element = widgets.XYPlotXAxis()
 
-class TestMarker(unittest.TestCase, ph.TestColor, ph.TestPVNameInternal):
+class TestImageXAxis(unittest.TestCase, ph.TestTitleInternal, ph.TestMinMaxInternal, ph.TestTitleFontInternal,
+                     ph.TestScaleFontInternal):
+    def setUp(self):
+        self.element = widgets.ImageXAxis()
+
+class TestMarker(unittest.TestCase, ph.TestColor, ph.TestPVNameInternal, ph.TestInteractive):
     def setUp(self):
         self.element = widgets.Marker()
 

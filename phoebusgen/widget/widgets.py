@@ -513,29 +513,37 @@ class TextEntry(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backgrou
 # Plots
 class StripChartTrace(_Generic, _p._Name, _p._YPV, _p._Axis, _p._TraceType, _p._Color, _p._LineWidth,
                       _p._PointType, _p._PointSize):
-    def __init__(self):
+    def __init__(self) -> None:
         _Generic.__init__(self, 'trace')
 
 class XYPlotTrace(StripChartTrace, _p._XPV, _p._ErrPV, _p._LineStyle):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 class StripChartYAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid,
                       _p._Color):
-    def __init__(self):
+    def __init__(self) -> None:
         _Generic.__init__(self, 'y_axis')
 
 class XYPlotYAxis(StripChartYAxis, _p._TitleFont, _p._ScaleFont, _p._OnRight):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
+
+class ImageYAxis(_Generic, _p._Title, _p._MinMax, _p._TitleFont, _p._ScaleFont):
+    def __init__(self) -> None:
+        _Generic.__init__(self, 'y_axis')
 
 class XYPlotXAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinMax, _p._ShowGrid, _p._TitleFont,
             _p._ScaleFont):
-    def __init__(self):
+    def __init__(self) -> None:
+        _Generic.__init__(self, 'x_axis')
+
+class ImageXAxis(_Generic, _p._Title, _p._MinMax, _p._TitleFont, _p._ScaleFont):
+    def __init__(self) -> None:
         _Generic.__init__(self, 'x_axis')
 
 class Marker(_Generic, _p._Color, _p._PVName, _p._Interactive):
-    def __init__(self):
+    def __init__(self) -> None:
         _Generic.__init__(self, 'marker')
 
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
@@ -562,7 +570,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 #    pass
 class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
             _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
-            _p._LogScale, _p._Cursor, _p._Interpolation):
+            _p._LogScale, _p._Cursor, _p._Interpolation, _p._XAxis, _p._YAxis):
     """ Image - Incomplete Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

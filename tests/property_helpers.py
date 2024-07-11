@@ -2615,6 +2615,48 @@ class TestYAxes(InternalTest):
         yaxes_tag = self.element.root.find('y_axes')
         self.assertEqual(yaxes_tag, None)
 
+class TestYAxisSingle(InternalTest):
+    def test_add_yaxis(self):
+        yaxis1 = self.yaxis1
+        self.element.add_y_axis(yaxis1)
+        self.generic_element_test('y_axis', None)
+
+    def test_add_two_x_axes(self):
+        yaxis1 = self.yaxis1
+        yaxis2 = self.yaxis2
+        self.element.add_y_axis(yaxis1)
+        self.element.add_y_axis(yaxis2)
+        y_axes = self.element.root.findall('y_axis')
+        self.assertEqual(len(y_axes), 1)
+
+    def test_add_same_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.add_y_axis(yaxis)
+        y_axes = self.element.root.findall('y_axis')
+        self.assertEqual(len(y_axes), 1)
+
+    def test_remove_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        y_axes = self.element.root.findall('y_axis')
+        self.assertEqual(len(y_axes), 0)
+
+    def test_remove_same_y_axis(self):
+        yaxis = self.yaxis1
+        self.element.add_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        self.element.remove_y_axis(yaxis)
+        y_axes = self.element.root.find('y_axis')
+        self.assertEqual(y_axes, None)
+
+    def test_remove_nonexistent_yaxis(self):
+        yaxis = self.yaxis1
+        self.element.remove_y_axis(yaxis)
+        y_axes = self.element.root.find('y_axis')
+        self.assertEqual(y_axes, None)
+
 class TestMarkers(InternalTest):
     def test_add_marker(self):
         marker = self.marker1
@@ -2683,6 +2725,15 @@ class TestOnRight(InternalTest):
     def test_on_right_wrong(self):
         self.element.on_right('Not a boolean')
         self.null_test('on_right')
+
+class TestInteractive(InternalTest):
+    def test_interactive(self):
+        self.element.interactive(True)
+        self.generic_element_test('interactive', True)
+
+    def test_interactive_wrong(self):
+        self.element.interactive('Not true')
+        self.null_test('interactive')
 
 class TestXAxes(InternalTest):
     def test_add_xaxis(self):

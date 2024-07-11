@@ -1128,6 +1128,33 @@ class _YAxes(object):
             if not root_axis:
                 self.root.remove(root_axes)   # removes hanging <y_axes/> tag from empty element
 
+class _YAxis(object):   # single Y-Axis for Image widget
+    def add_y_axis(self, axis) -> None:
+        """
+        Add y-axis property to widget
+
+        :param axis: y-axis object
+        """
+        existing_axis = self.root.findall('y_axis')
+        if existing_axis:
+            print('A y-axis already exists. Replacing...')
+            for item in existing_axis:
+                self.root.remove(item)
+            self.root.append(axis.root)
+        else:
+            self.root.append(axis.root)
+
+    def remove_y_axis(self, axis):
+        """
+        Removes y-axis from widget
+
+        :param axis: y-axis object
+        """
+        if self.root.findall('y_axis'):
+            self.root.remove(axis.root)
+        else:
+            print('Y-Axis does not exist.')
+
 class _XAxis(object):
     def add_x_axis(self, axis) -> None:
         """
