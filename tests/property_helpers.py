@@ -1035,6 +1035,13 @@ class TestFile(GenericTest):
         tag_name = 'file'
         self.generic_element_test(tag_name, self.file)
 
+class TestFileInternal(InternalTest):
+    # ROI-specific test -> ROI object does not have a file parameter in its constructor
+    def test_file(self):
+        tag_name = 'file'
+        self.element.file(tag_name)
+        self.generic_element_test(tag_name, 'file')
+
 
 class TestRotation(GenericTest):
     tag_name = 'rotation'
@@ -2865,3 +2872,71 @@ class TestColorMode(GenericTest):
     def test_color_mode_ushort_gray(self):
         self.element.color_mode_USHORT_GRAY()
         self.generic_element_test('color_mode', 21)
+
+class TestWidthPV(InternalTest):
+    def test_width_pv(self):
+        pv = 'this is a width'
+        self.element.width_pv(pv)
+        self.generic_element_test('width_pv', pv)
+
+class TestHeightPV(InternalTest):
+    def test_height_pv(self):
+        pv = 'this is a height'
+        self.element.height_pv(pv)
+        self.generic_element_test('height_pv', pv)
+
+class TestRegionsOfInterest(InternalTest):
+    def test_add_roi(self):
+        roi = self.roi1
+        self.element.add_roi(roi)
+        self.child_element_test('rois', 'roi', None, {}, True)
+
+    def test_add_two_rois(self):
+        roi = self.roi1
+        roi2 = self.roi2
+        self.element.add_roi(roi2)
+        self.element.add_roi(roi)
+        roi_tag = self.element.root.find('rois').findall('roi')
+        self.assertEqual(len(roi_tag), 2)
+
+    def test_add_same_roi(self):
+        roi = self.roi1
+        self.element.add_roi(roi)
+        self.element.add_roi(roi)
+        roi_tag = self.element.root.find('rois').findall('roi')
+        self.assertEqual(len(roi_tag), 1)
+
+    def test_remove_roi(self):
+        roi = self.roi1
+        self.element.add_roi(roi)
+        self.element.remove_roi(roi)
+        rois_tag = self.element.root.find('rois')
+        roi_tag = rois_tag.findall('roi')
+        self.assertEqual(len(roi_tag), 0)
+        self.assertEqual(len(rois_tag), 0)
+
+    def test_remove_two_rois(self):
+        roi = self.roi1
+        roi2 = self.roi2
+        self.element.add_roi(roi)
+        self.element.add_roi(roi2)
+        self.element.remove_roi(roi)
+        self.element.remove_roi(roi2)
+        rois_tag = self.element.root.find('rois')
+        roi_tag = rois_tag.findall('roi')
+        self.assertEqual(len(roi_tag), 0)
+        self.assertEqual(len(rois_tag), 0)
+
+    def test_remove_same_roi(self):
+        roi = self.roi1
+        self.element.add_roi(roi)
+        self.element.remove_roi(roi)
+        self.element.remove_roi(roi)
+        rois_tag = self.element.root.find('rois')
+        self.assertEqual(rois_tag, None)
+
+    def test_remove_no_rois(self):
+        roi = self.roi1
+        self.element.remove_roi(roi)
+        rois_tag = self.element.root.find('rois')
+        self.assertEqual(rois_tag, None)

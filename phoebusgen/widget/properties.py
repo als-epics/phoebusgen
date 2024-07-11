@@ -1081,6 +1081,24 @@ class _ErrPV(object):
         """
         self._shared.generic_property(self.root, 'err_pv', pv)
 
+class _WidthPV(object):
+    def width_pv(self, pv: str) -> None:
+        """
+        Change ROI width_pv value
+
+        :param pv: ROI width_pv
+        """
+        self._shared.generic_property(self.root, 'width_pv', pv)
+
+class _HeightPV(object):
+    def height_pv(self, pv: str) -> None:
+        """
+        Change ROI height_pv value
+
+        :param pv: ROI height_pv
+        """
+        self._shared.generic_property(self.root, 'height_pv', pv)
+
 class _OnRight(object):
     def on_right(self, right):
         """
@@ -2460,3 +2478,39 @@ class _ColorMode(object):
         Change color mode to USHORT_GRAY
         """
         self._add_color_mode(self._shared.ColorMode.TYPE_USHORT_GRAY)
+
+class _RegionsOfInterest(object):
+    def add_roi(self, roi) -> None:
+        """
+        Add ROI to list of ROIs for widget
+
+        :param roi: roi object
+        """
+        rois_tag = self.root.find('rois')
+        if rois_tag is None:
+            rois_tag = SubElement(self.root, 'rois')
+            rois_tag.append(roi.root)
+        else:
+            roi_tag = rois_tag.findall('roi')
+            if roi.root in roi_tag:
+                print('ROI already exists.')
+            else:
+                rois_tag.append(roi.root)
+
+    def remove_roi(self, roi):
+        """
+        Removes ROI from widget
+
+        :param roi: ROI object
+        """
+        rois_tag = self.root.find('rois')
+        if rois_tag is None:
+            print('This graph has no ROIs.')
+        else:
+            roi_tag = rois_tag.findall('roi')
+            if roi.root in roi_tag:
+                rois_tag.remove(roi.root)
+            else:
+                print('ROI does not exist.')
+            if not roi_tag:
+                self.root.remove(rois_tag)
