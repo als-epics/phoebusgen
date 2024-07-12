@@ -86,7 +86,7 @@ class _SharedPropertyFunctions(object):
             print('Color RGB must be between 0 and 255')
             return False
 
-    def create_color_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
+    def create_color_map_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
         sub_e = self.create_element(self.root, 'color')
         if name is None:
             for color in [red, green, blue, alpha]:
@@ -249,3 +249,13 @@ class _SharedPropertyFunctions(object):
         diamonds = 3
         x = 4
         triangles = 5
+
+    class ColorMap(Enum):
+        viridis = 'VIRIDIS'
+        grayscale = 'GRAY'
+        jet = 'JET'
+        color_spectrum = 'SPECTRUM'
+        hot = 'HOT'
+        cool = 'COOL'
+        shaded = 'SHADED'
+        magma = 'MAGMA'

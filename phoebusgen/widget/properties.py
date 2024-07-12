@@ -2550,3 +2550,38 @@ class _ColorBar(object):
             self.root.remove(bar.root)
         else:
             print('Color bar does not exist.')
+
+class _ColorMap(object):
+    def add_color_map(self, map_list):  # takes in list?
+        pass
+
+    def add_predefined_color_map(self, name):
+        """
+        Adds color map from one of the predefined enums
+        :param name: color map enum
+        """
+        e = self._shared.create_element(self.root, 'color_map')
+        self._shared.generic_property(e, 'name', name)
+
+    def add_color(self, color):
+        pass
+
+    def _sort(map_list) -> list:    # orders list of color map colors by value (0-255)
+        pass
+
+    def _half(num: int) -> int:    # adding without a specified value halves the value selected and adds to value
+        pass
+
+
+    """
+        add color map: either a predefined name (enum?) or two RGBs with a value tag associated -> determines where the colors go
+        remove: for custom -> allowed to remove until there are 2 colors left, I don't think you should be able to remove predefined but can probably replace?
+        value tags are optional but autofill -> I guess should probably divide by # colors and increment (0-255)
+        if the value tags are out of order, Phoebus reorders -> need to write a helper function to do that
+
+        error checks: if string -> check if enum exists and error if not; if list -> check len(list) >= 2, error if not
+        can have multiple with same value, but value must be between 0 and 255
+
+        why does color map viridis not have a color map tag??? is that something I need to worry about
+
+    """
