@@ -550,6 +550,10 @@ class RegionOfInterest(_Generic, _p._Name, _p._Color, _p._Interactive, _p._XPV, 
     def __init__(self) -> None:
         _Generic.__init__(self, 'roi')
 
+class ColorBar(_Generic, _p._ScaleFont, _p._ColorBarSize):
+    def __init__(self) -> None:
+        _Generic.__init__(self, 'color_bar')
+
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
@@ -575,7 +579,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
             _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
             _p._LogScale, _p._Cursor, _p._Interpolation, _p._XAxis, _p._YAxis, _p._ColorMode,
-            _p._RegionsOfInterest):
+            _p._RegionsOfInterest, _p._ColorBar):
     """ Image - Incomplete Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

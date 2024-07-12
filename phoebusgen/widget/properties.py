@@ -2514,3 +2514,39 @@ class _RegionsOfInterest(object):
                 print('ROI does not exist.')
             if not roi_tag:
                 self.root.remove(rois_tag)
+
+class _ColorBarSize(object):
+    def bar_size(self, val: int) -> None:
+        """
+        Add size value to color bar
+
+        :param val: size value
+        """
+        self._shared.integer_property(self.root, 'bar_size', val)
+
+class _ColorBar(object):
+    def add_color_bar(self, bar) -> None:
+        """
+        Add color bar property to widget
+
+        :param bar: color bar object
+        """
+        existing_color_bar = self.root.findall('color_bar')
+        if existing_color_bar:
+            print('A color bar already exists. Replacing...')
+            for item in existing_color_bar:
+                self.root.remove(item)
+            self.root.append(bar.root)
+        else:
+            self.root.append(bar.root)
+
+    def remove_color_bar(self, bar):
+        """
+        Removes color bar from widget
+
+        :param bar: color bar object
+        """
+        if self.root.findall('color_bar'):
+            self.root.remove(bar.root)
+        else:
+            print('Color bar does not exist.')

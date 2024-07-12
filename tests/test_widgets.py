@@ -396,7 +396,7 @@ class TestDataBrowser(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestShowT
 class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestAlarmBorder, ph.TestMinMax, ph.TestAutoScale, ph.TestDataHeightAndWidth,
                 ph.TestLogScale, ph.TestUnsignedData, ph.TestCursor, ph.TestInterpolation, ph.TestXAxes,
-                ph.TestYAxisSingle, ph.TestColorMode, ph.TestRegionsOfInterest):
+                ph.TestYAxisSingle, ph.TestColorMode, ph.TestRegionsOfInterest, ph.TestColorBar):
     def setUp(self):
         self.name = 'my data browser'
         self.pv_name = 'Image:PV'
@@ -412,6 +412,8 @@ class TestImage(unittest.TestCase, ph.TestPVName, ph.TestForegroundColor, ph.Tes
         self.xaxis2 = widgets.ImageXAxis()
         self.roi1 = widgets.RegionOfInterest()
         self.roi2 = widgets.RegionOfInterest()
+        self.bar1 = widgets.ColorBar()
+        self.bar2 = widgets.ColorBar()
 
 class TestStripChart(unittest.TestCase, ph.TestForegroundColor, ph.TestBackgroundColor,
                 ph.TestShowToolbar, ph.TestTitle, ph.TestShowLegend, ph.TestShowGrid,
@@ -572,6 +574,10 @@ class TestROI(unittest.TestCase, ph.TestName, ph.TestColor, ph.TestInteractive, 
               ph.TestHeightPV, ph.TestFileInternal):
     def setUp(self):
         self.element = widgets.RegionOfInterest()
+
+class TestColorBar(unittest.TestCase, ph.TestColorBarSize, ph.TestScaleFontInternal):
+    def setUp(self):
+        self.element = widgets.ColorBar()
 
 if __name__ == '__main__':
     unittest.main()

@@ -2940,3 +2940,52 @@ class TestRegionsOfInterest(InternalTest):
         self.element.remove_roi(roi)
         rois_tag = self.element.root.find('rois')
         self.assertEqual(rois_tag, None)
+
+class TestColorBarSize(InternalTest):
+    def test_bar_size(self):
+        tag_name = 'bar_size'
+        value = 6
+        self.element.bar_size(value)
+        self.generic_element_test(tag_name, value)
+
+class TestColorBar(InternalTest):
+    def test_add_color_bar(self):
+        bar1 = self.bar1
+        self.element.add_color_bar(bar1)
+        self.generic_element_test('color_bar', None)
+
+    def test_add_two_color_bars(self):
+        bar1 = self.bar1
+        bar2 = self.bar2
+        self.element.add_color_bar(bar1)
+        self.element.add_color_bar(bar2)
+        color_bars = self.element.root.findall('color_bar')
+        self.assertEqual(len(color_bars), 1)
+
+    def test_add_same_color_bar(self):
+        bar1 = self.bar1
+        self.element.add_color_bar(bar1)
+        self.element.add_color_bar(bar1)
+        color_bars = self.element.root.findall('color_bar')
+        self.assertEqual(len(color_bars), 1)
+
+    def test_remove_color_bar(self):
+        bar1 = self.bar1
+        self.element.add_color_bar(bar1)
+        self.element.remove_color_bar(bar1)
+        color_bars = self.element.root.findall('color_bar')
+        self.assertEqual(len(color_bars), 0)
+
+    def test_remove_same_color_bar(self):
+        bar1 = self.bar1
+        self.element.add_color_bar(bar1)
+        self.element.remove_color_bar(bar1)
+        self.element.remove_color_bar(bar1)
+        color_bars = self.element.root.find('color_bar')
+        self.assertEqual(color_bars, None)
+
+    def test_remove_nonexistent_color_bar(self):
+        bar1 = self.bar1
+        self.element.remove_color_bar(bar1)
+        color_bars = self.element.root.find('color_bar')
+        self.assertEqual(color_bars, None)
