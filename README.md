@@ -106,7 +106,7 @@ Example
 
 ## Site specific color and font definitions
 
-Place a custon color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions.
+Place a custom color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions.
 
 ```python
 my_widget.predefined_font(phoebusgen.fonts.Header1)

@@ -86,7 +86,7 @@ class _SharedPropertyFunctions(object):
             print('Color RGB must be between 0 and 255')
             return False
 
-    def create_color_map_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
+    def create_color_element(self, root_color_elem, name, red, green, blue, alpha, add_to_root=True):
         sub_e = self.create_element(self.root, 'color')
         if name is None:
             for color in [red, green, blue, alpha]:
@@ -112,6 +112,17 @@ class _SharedPropertyFunctions(object):
         root_color_elem.append(sub_e)
         if add_to_root:
             self.root.append(root_color_elem)
+
+    def create_color_map_element(self, root_color_elem, map_list):
+        if (len(map_list) < 2):
+            print('Color map must have at least two colors.')
+            return
+        for item in map_list:
+            sub_e = self.create_element(self.root, 'section')
+            sub_e.attrib = {'value': str(item[0]), 'red': str(item[1]), 'green': str(item[2]), 'blue': str(item[3])}
+            root_color_elem.append(sub_e)
+
+        self.root.append(root_color_elem)
 
     def get_font_element(self, root_elem, font_elem_name):
         font_root_elem = root_elem.find(font_elem_name)

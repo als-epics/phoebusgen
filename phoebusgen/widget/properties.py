@@ -2552,26 +2552,70 @@ class _ColorBar(object):
             print('Color bar does not exist.')
 
 class _ColorMap(object):
-    def add_color_map(self, map_list):  # takes in list?
-        pass
+    def add_color_map(self, color):
+        """
+        Adds custom color map
+        :param color_list: list of color tuples (value, red, green, blue)
+        """
+        '''e = self._shared.create_element(self.root, 'color_map')
+        self._shared.create_color_map_element(e, color_list)'''
+        existing = self.root.find('color_map')
+        if existing is None:
+            existing = SubElement(self.root, 'color_map')
+            existing.append(color.root)
+        else:
+            section = existing.findall('section')
+            if color.root in section:
+                print('Color map section already exists.')
+            else:
+                existing.append(color.root)
+        colors = existing.findall('section')
+        if (len(colors) < 2):
+            print('Warning: must have at least 2 colors in color map. Current:', len(colors))
+        #else:
+            # to make Phoebusgen match Phoebus
+            #colors[:] = sorted(colors, key=lambda color: (color.attrib['value']))
+            #self._check_value(colors)
 
-    def add_predefined_color_map(self, name):
+    def add_predefined_color_map(self, name: object):
         """
         Adds color map from one of the predefined enums
         :param name: color map enum
         """
-        e = self._shared.create_element(self.root, 'color_map')
-        self._shared.generic_property(e, 'name', name)
+        existing = self.root.find('color_map')
+        if existing is None:
+            existing = SubElement(self.root, 'color_map')
+        else:
+            section = existing.findall('section')
+            if section:
+                self._remove_all(existing, section)
+        self._shared.generic_property(existing, 'name', name)
 
-    def add_color(self, color):
-        pass
+    def remove_color_map(self, color):
+        existing = self.root.find('color_map')
+        if existing is None:
+            print('This graph has no color map.')
+        else:
+            section = existing.findall('section')
+            if (len(section) <= 2):
+                print('Cannot have color map with less than two sections.')
+                return
+            if color.root in section:
+                existing.remove(color.root)
+            else:
+                print('Color map section does not exist.')
+            if not section:
+                self.root.remove(existing)
 
-    def _sort(map_list) -> list:    # orders list of color map colors by value (0-255)
-        pass
+    def _remove_all(self, root, map):
+        for item in map:
+            root.remove(item)
 
-    def _half(num: int) -> int:    # adding without a specified value halves the value selected and adds to value
-        pass
-
+    def _check_value(self, map):    # ensures that the starting and ending values are correct
+        if map[0].attrib['value'] != '0':
+            map[0].attrib['value'] = '0'
+        if map[len(map) - 1].attrib['value'] != '255':
+            map[len(map) - 1].attrib['value'] = '255'
 
     """
         add color map: either a predefined name (enum?) or two RGBs with a value tag associated -> determines where the colors go
