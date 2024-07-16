@@ -2569,13 +2569,11 @@ class _ColorMap(object):
                 print('Color map section already exists.')
             else:
                 existing.append(color.root)
+                existing = self._reorder(existing, existing.findall('section')) # puts in descending order
+
         colors = existing.findall('section')
         if (len(colors) < 2):
             print('Warning: must have at least 2 colors in color map. Current:', len(colors))
-        #else:
-            # to make Phoebusgen match Phoebus
-            #colors[:] = sorted(colors, key=lambda color: (color.attrib['value']))
-            #self._check_value(colors)
 
     def add_predefined_color_map(self, name: object):
         """
@@ -2610,6 +2608,15 @@ class _ColorMap(object):
     def _remove_all(self, root, map):
         for item in map:
             root.remove(item)
+
+    def _reorder(self, root, map):
+        colors = sorted(map, key=lambda color: (color.attrib['value']))
+        self._remove_all(root, map)
+        map[:] = colors
+        for item in colors:
+            root.append(item)
+
+        return root
 
     def _check_value(self, map):    # ensures that the starting and ending values are correct
         if map[0].attrib['value'] != '0':
