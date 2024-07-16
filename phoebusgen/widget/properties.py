@@ -2555,10 +2555,9 @@ class _ColorMap(object):
     def add_color_map(self, color):
         """
         Adds custom color map
-        :param color_list: list of color tuples (value, red, green, blue)
+
+        :param color_list: color map object
         """
-        '''e = self._shared.create_element(self.root, 'color_map')
-        self._shared.create_color_map_element(e, color_list)'''
         existing = self.root.find('color_map')
         if existing is None:
             existing = SubElement(self.root, 'color_map')
@@ -2568,16 +2567,17 @@ class _ColorMap(object):
             if color.root in section:
                 print('Color map section already exists.')
             else:
+                name = existing.findall('name')
+                if name:
+                    self._remove_all(existing, name)    # removes predefined map if exists
                 existing.append(color.root)
-                existing = self._reorder(existing, existing.findall('section')) # puts in descending order
-
-        colors = existing.findall('section')
-        if (len(colors) < 2):
-            print('Warning: must have at least 2 colors in color map. Current:', len(colors))
+                colors = existing.findall('section')
+                existing = self._reorder(existing, colors) # puts in descending order by value
 
     def add_predefined_color_map(self, name: object):
         """
         Adds color map from one of the predefined enums
+
         :param name: color map enum
         """
         existing = self.root.find('color_map')
@@ -2586,8 +2586,8 @@ class _ColorMap(object):
         else:
             section = existing.findall('section')
             if section:
-                self._remove_all(existing, section)
-        self._shared.generic_property(existing, 'name', name)
+                self._remove_all(existing, section)     # removes custom map if exists
+        self._shared.generic_property(existing, 'name', name)   # will replace with another predefined -- no del func
 
     def remove_color_map(self, color):
         existing = self.root.find('color_map')
@@ -2595,11 +2595,9 @@ class _ColorMap(object):
             print('This graph has no color map.')
         else:
             section = existing.findall('section')
-            if (len(section) <= 2):
-                print('Cannot have color map with less than two sections.')
-                return
             if color.root in section:
                 existing.remove(color.root)
+                self._check_value(existing.findall('section'))  # ensures that first is 0 and last is 255 after deletion
             else:
                 print('Color map section does not exist.')
             if not section:
@@ -2615,24 +2613,8 @@ class _ColorMap(object):
         map[:] = colors
         for item in colors:
             root.append(item)
-
         return root
 
     def _check_value(self, map):    # ensures that the starting and ending values are correct
-        if map[0].attrib['value'] != '0':
-            map[0].attrib['value'] = '0'
-        if map[len(map) - 1].attrib['value'] != '255':
-            map[len(map) - 1].attrib['value'] = '255'
-
-    """
-        add color map: either a predefined name (enum?) or two RGBs with a value tag associated -> determines where the colors go
-        remove: for custom -> allowed to remove until there are 2 colors left, I don't think you should be able to remove predefined but can probably replace?
-        value tags are optional but autofill -> I guess should probably divide by # colors and increment (0-255)
-        if the value tags are out of order, Phoebus reorders -> need to write a helper function to do that
-
-        error checks: if string -> check if enum exists and error if not; if list -> check len(list) >= 2, error if not
-        can have multiple with same value, but value must be between 0 and 255
-
-        why does color map viridis not have a color map tag??? is that something I need to worry about
-
-    """
+        map[0].attrib['value'] = '0'
+        map[len(map) - 1].attrib['value'] = '255'
