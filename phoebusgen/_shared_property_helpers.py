@@ -249,3 +249,13 @@ class _SharedPropertyFunctions(object):
         diamonds = 3
         x = 4
         triangles = 5
+
+    class ColorMap(Enum):
+        viridis = 'VIRIDIS'
+        grayscale = 'GRAY'
+        jet = 'JET'
+        color_spectrum = 'SPECTRUM'
+        hot = 'HOT'
+        cool = 'COOL'
+        shaded = 'SHADED'
+        magma = 'MAGMA'

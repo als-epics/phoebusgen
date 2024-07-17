@@ -2989,3 +2989,107 @@ class TestColorBar(InternalTest):
         self.element.remove_color_bar(bar1)
         color_bars = self.element.root.find('color_bar')
         self.assertEqual(color_bars, None)
+
+class TestColorMap(InternalTest):
+    def test_predefined_color_map(self):
+        self.element.predefined_color_map('JET')
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map.find('name').text, 'JET')
+
+    def test_two_predefined_color_map(self):
+        self.element.predefined_color_map('JET')
+        self.element.predefined_color_map('GRAY')
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map.find('name').text, 'GRAY')
+        self.assertEqual(len(color_map.findall('name')), 1)
+
+    def test_predefined_color_map_wrong(self):
+        self.element.predefined_color_map('TEST')
+        self.assertEqual(self.element.root.find('color_map'), None)
+
+    def test_add_color_map(self):
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        self.generic_element_test('color_map', None)
+
+    def test_add_two_color_maps(self):
+        map1 = self.map1
+        map2 = self.map2
+        self.element.add_color_map(map1)
+        self.element.add_color_map(map2)
+        color_map = self.element.root.find('color_map')
+        section = color_map.findall('section')
+        self.assertEqual(len(section), 2)
+
+    def test_add_same_color_map(self):
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        self.element.add_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        section = color_map.findall('section')
+        self.assertEqual(len(section), 1)
+
+    def test_add_color_map_before_predefined(self):
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        self.element.predefined_color_map('MAGMA')
+        color_map = self.element.root.find('color_map')
+        self.assertFalse(color_map.findall('section'))
+        self.assertTrue(color_map.findall('name'))
+
+    def test_add_color_map_after_predefined(self):
+        self.element.predefined_color_map('MAGMA')
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        self.assertTrue(color_map.findall('section'))
+        self.assertFalse(color_map.findall('name'))
+
+    def test_remove_color_map(self):
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        self.element.remove_color_map(map1)
+        color_map = self.element.root.findall('color_map')
+        self.assertEqual(len(color_map), 0)
+
+    def test_remove_another_color_map(self):
+        map1 = self.map1
+        map2 = self.map2
+        self.element.add_color_map(map1)
+        self.element.add_color_map(map2)
+        self.element.remove_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(len(color_map.findall('section')), 1)
+
+    def test_remove_three_color_maps(self):
+        map1 = self.map1
+        map2 = self.map2
+        map3 = self.map3
+        self.element.add_color_map(map1)
+        self.element.add_color_map(map2)
+        self.element.add_color_map(map3)
+        self.element.remove_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(len(color_map.findall('section')), 2)
+
+    def test_remove_same_color_map(self):
+        map1 = self.map1
+        self.element.add_color_map(map1)
+        self.element.remove_color_map(map1)
+        self.element.remove_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map, None)
+
+    def test_remove_color_nonexistent(self):
+        map1 = self.map1
+        map2 = self.map2
+        self.element.add_color_map(map1)
+        self.element.remove_color_map(map2)
+        color_map = self.element.root.find('color_map')
+        self.assertTrue(map2 not in color_map.findall('section'))
+
+    def test_remove_nonexistent_color_map(self):
+        map1 = self.map1
+        self.element.remove_color_map(map1)
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map, None)

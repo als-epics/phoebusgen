@@ -554,6 +554,14 @@ class ColorBar(_Generic, _p._ScaleFont, _p._ColorBarSize):
     def __init__(self) -> None:
         _Generic.__init__(self, 'color_bar')
 
+class ColorMapColor(_Generic):
+    def __init__(self, value, red, green, blue):
+        _Generic.__init__(self, 'section')
+        self.root.attrib['value'] = str(value)
+        self.root.attrib['red'] = str(red)
+        self.root.attrib['green'] = str(green)
+        self.root.attrib['blue'] = str(blue)
+
 class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionValuePV):
     """ DataBrowser Phoebus Widget """
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
@@ -579,7 +587,7 @@ class DataBrowser(_Widget, _p._Macro, _p._File, _p._ShowToolbar, _p._SelectionVa
 class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar,
             _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
             _p._LogScale, _p._Cursor, _p._Interpolation, _p._XAxis, _p._YAxis, _p._ColorMode,
-            _p._RegionsOfInterest, _p._ColorBar):
+            _p._RegionsOfInterest, _p._ColorBar, _p._ColorMap):
     """ Image - Incomplete Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
