@@ -894,7 +894,7 @@ class _Items(object):
         self._shared.list_property(root_item, 'item', item_text)
 
 class _Traces(object):
-    def add_trace(self, trace) -> None:
+    def add_trace(self, trace: object) -> None:
         """
         Add trace property to widget
 
@@ -914,7 +914,7 @@ class _Traces(object):
             else:
                 root_traces.append(trace.root)
 
-    def remove_trace(self, trace) -> None:
+    def remove_trace(self, trace: object) -> None:
         """
         Removes trace from widget
 
@@ -1100,7 +1100,7 @@ class _HeightPV(object):
         self._shared.generic_property(self.root, 'height_pv', pv)
 
 class _OnRight(object):
-    def on_right(self, right):
+    def on_right(self, right: bool) -> None:
         """
         Change y-axis position on screen (left or right)
         :param right: Is y-axis on right side of screen?
@@ -1108,7 +1108,7 @@ class _OnRight(object):
         self._shared.boolean_property(self.root, 'on_right', right)
 
 class _YAxes(object):
-    def add_y_axis(self, axis) -> None:
+    def add_y_axis(self, axis: object) -> None:
         """
         Add y-axis property to widget
 
@@ -1128,7 +1128,7 @@ class _YAxes(object):
             else:
                 root_axes.append(axis.root)
 
-    def remove_y_axis(self, axis) -> None:
+    def remove_y_axis(self, axis: object) -> None:
         """
         Removes y-axis from widget
 
@@ -1147,7 +1147,7 @@ class _YAxes(object):
                 self.root.remove(root_axes)   # removes hanging <y_axes/> tag from empty element
 
 class _YAxis(object):   # single Y-Axis for Image widget
-    def add_y_axis(self, axis) -> None:
+    def add_y_axis(self, axis: object) -> None:
         """
         Add y-axis property to widget
 
@@ -1162,7 +1162,7 @@ class _YAxis(object):   # single Y-Axis for Image widget
         else:
             self.root.append(axis.root)
 
-    def remove_y_axis(self, axis) -> None:
+    def remove_y_axis(self, axis: object) -> None:
         """
         Removes y-axis from widget
 
@@ -1174,7 +1174,7 @@ class _YAxis(object):   # single Y-Axis for Image widget
             print('Y-Axis does not exist.')
 
 class _XAxis(object):
-    def add_x_axis(self, axis) -> None:
+    def add_x_axis(self, axis: object) -> None:
         """
         Add x-axis property to widget
 
@@ -1189,7 +1189,7 @@ class _XAxis(object):
         else:
             self.root.append(axis.root)
 
-    def remove_x_axis(self, axis) -> None:
+    def remove_x_axis(self, axis: object) -> None:
         """
         Removes x-axis from widget
 
@@ -1201,7 +1201,7 @@ class _XAxis(object):
             print('X-Axis does not exist.')
 
 class _Markers(object):
-    def add_marker(self, marker) -> None:
+    def add_marker(self, marker: object) -> None:
         """
         Add marker property to widget
 
@@ -1218,7 +1218,7 @@ class _Markers(object):
             else:
                 outer_marker.append(marker.root)
 
-    def remove_marker(self, marker) -> None:
+    def remove_marker(self, marker: object) -> None:
         """
         Removes marker from widget
 
@@ -1237,7 +1237,7 @@ class _Markers(object):
                 self.root.remove(outer_marker)
 
 class _Interactive(object):
-    def interactive(self, val: bool):
+    def interactive(self, val: bool) -> None:
         """
         Set marker as interactive
 
@@ -1528,11 +1528,11 @@ class _Structure(object):
     """
     This class is used for Structure widgets to be a method to add widgets to the structure
     """
-    def add_widget(self, elem):
+    def add_widget(self, elem: Union[list, object]) -> None:
         """
         Add widget to structure element (group, etc.)
 
-        :param elem: <Phoebusgen.widget> Element to add to structure
+        :param elem: <Phoebusgen.widget> Element or List of Elements to add to structure
         """
         if isinstance(elem, list):
             for e in elem:
