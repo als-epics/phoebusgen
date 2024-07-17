@@ -12,7 +12,7 @@ def prettify(elem):
     return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
 class _Generic(object):
-    def __init__(self, w_type: str):
+    def __init__(self, w_type: str) -> None:
         self.root = Element(w_type)
         self._shared = _SharedPropertyFunctions(self.root)
 

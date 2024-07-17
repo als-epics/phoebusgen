@@ -74,7 +74,7 @@ def _update_font_def(file_path):
             if line != '':
                 font, value = line.split('=')
                 font = font.strip()
-                os_name = _re.search('\(([^)]+)', font)
+                os_name = _re.search(r'\(([^)]+)\)', font)
                 if os_name:
                     os_name = os_name.group(1)
                     if os_name != os:
