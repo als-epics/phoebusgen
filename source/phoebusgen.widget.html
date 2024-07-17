@@ -325,6 +325,13 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorBar.visible"><code class="docutils literal notranslate"><span class="pre">ColorBar.visible()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorMapColor"><code class="docutils literal notranslate"><span class="pre">ColorMapColor</span></code></a><ul>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorMapColor.find_element"><code class="docutils literal notranslate"><span class="pre">ColorMapColor.find_element()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorMapColor.get_element_value"><code class="docutils literal notranslate"><span class="pre">ColorMapColor.get_element_value()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorMapColor.remove_element"><code class="docutils literal notranslate"><span class="pre">ColorMapColor.remove_element()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ColorMapColor.visible"><code class="docutils literal notranslate"><span class="pre">ColorMapColor.visible()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ComboBox"><code class="docutils literal notranslate"><span class="pre">ComboBox</span></code></a><ul>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ComboBox.alarm_border"><code class="docutils literal notranslate"><span class="pre">ComboBox.alarm_border()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ComboBox.background_color"><code class="docutils literal notranslate"><span class="pre">ComboBox.background_color()</span></code></a></li>
@@ -502,6 +509,7 @@
 </li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a><ul>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.add_color_bar"><code class="docutils literal notranslate"><span class="pre">Image.add_color_bar()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.add_color_map"><code class="docutils literal notranslate"><span class="pre">Image.add_color_map()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.add_roi"><code class="docutils literal notranslate"><span class="pre">Image.add_roi()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.add_x_axis"><code class="docutils literal notranslate"><span class="pre">Image.add_x_axis()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.add_y_axis"><code class="docutils literal notranslate"><span class="pre">Image.add_y_axis()</span></code></a></li>
@@ -551,9 +559,11 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.minimum"><code class="docutils literal notranslate"><span class="pre">Image.minimum()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.name"><code class="docutils literal notranslate"><span class="pre">Image.name()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.predefined_background_color"><code class="docutils literal notranslate"><span class="pre">Image.predefined_background_color()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.predefined_color_map"><code class="docutils literal notranslate"><span class="pre">Image.predefined_color_map()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.predefined_foreground_color"><code class="docutils literal notranslate"><span class="pre">Image.predefined_foreground_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.pv_name"><code class="docutils literal notranslate"><span class="pre">Image.pv_name()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.remove_color_bar"><code class="docutils literal notranslate"><span class="pre">Image.remove_color_bar()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.remove_color_map"><code class="docutils literal notranslate"><span class="pre">Image.remove_color_map()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.remove_element"><code class="docutils literal notranslate"><span class="pre">Image.remove_element()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.remove_roi"><code class="docutils literal notranslate"><span class="pre">Image.remove_roi()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Image.remove_x_axis"><code class="docutils literal notranslate"><span class="pre">Image.remove_x_axis()</span></code></a></li>
@@ -5392,7 +5402,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dd><p>Add size value to color bar</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>val</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – size value</p>
+<dd class="field-odd"><p><strong>val</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Bar size value</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -5537,6 +5547,74 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorBar.visible">
 <span class="sig-name descname"><span class="pre">visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorBar.visible" title="Link to this definition">¶</a></dt>
+<dd><p>Change visible property for widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>visible</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Is widget visible?</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorMapColor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">ColorMapColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">red</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">green</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blue</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorMapColor" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Generic</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorMapColor.find_element">
+<span class="sig-name descname"><span class="pre">find_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorMapColor.find_element" title="Link to this definition">¶</a></dt>
+<dd><p>Find first XML element in widget by tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tag</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Tag name to search for</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Element</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return XML element or None if not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorMapColor.get_element_value">
+<span class="sig-name descname"><span class="pre">get_element_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorMapColor.get_element_value" title="Link to this definition">¶</a></dt>
+<dd><p>Get value of an XML element by tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tag</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Tag name to get value from</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Value of XML tag</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorMapColor.remove_element">
+<span class="sig-name descname"><span class="pre">remove_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorMapColor.remove_element" title="Link to this definition">¶</a></dt>
+<dd><p>Delete XML element in widget by tag name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tag</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Tag name to delete</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ColorMapColor.visible">
+<span class="sig-name descname"><span class="pre">visible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visible</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ColorMapColor.visible" title="Link to this definition">¶</a></dt>
 <dd><p>Change visible property for widget</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -7915,7 +7993,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_MinMax</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AutoScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_DataHeightAndWidth</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_UnsignedData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_LogScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Cursor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Interpolation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_XAxis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_YAxis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ColorMode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RegionsOfInterest</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ColorBar</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowToolbar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_MinMax</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AutoScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_DataHeightAndWidth</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_UnsignedData</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_LogScale</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Cursor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Interpolation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_XAxis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_YAxis</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ColorMode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RegionsOfInterest</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ColorBar</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ColorMap</span></code></p>
 <p>Image - Incomplete Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.add_color_bar">
@@ -7923,7 +8001,21 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dd><p>Add color bar property to widget</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>bar</strong> – color bar object</p>
+<dd class="field-odd"><p><strong>bar</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – Color bar object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.add_color_map">
+<span class="sig-name descname"><span class="pre">add_color_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.add_color_map" title="Link to this definition">¶</a></dt>
+<dd><p>Adds custom color map</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – Color map object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -7937,7 +8029,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dd><p>Add ROI to list of ROIs for widget</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>roi</strong> – roi object</p>
+<dd class="field-odd"><p><strong>roi</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – ROI object</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
@@ -8570,6 +8662,20 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.predefined_color_map">
+<span class="sig-name descname"><span class="pre">predefined_color_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.predefined_color_map" title="Link to this definition">¶</a></dt>
+<dd><p>Adds color map from one of the predefined enums</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of predefined color map</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.predefined_foreground_color">
 <span class="sig-name descname"><span class="pre">predefined_foreground_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.predefined_foreground_color" title="Link to this definition">¶</a></dt>
 <dd><p>Add named foreground color to widget</p>
@@ -8603,7 +8709,24 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dd><p>Removes color bar from widget</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>bar</strong> – color bar object</p>
+<dd class="field-odd"><p><strong>bar</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – Color bar object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Image.remove_color_map">
+<span class="sig-name descname"><span class="pre">remove_color_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Image.remove_color_map" title="Link to this definition">¶</a></dt>
+<dd><p>Removes custom color map color</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>color</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – Color map object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -8628,7 +8751,10 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dd><p>Removes ROI from widget</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>roi</strong> – ROI object</p>
+<dd class="field-odd"><p><strong>roi</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – ROI object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -8641,6 +8767,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>axis</strong> – x-axis object</p>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -8651,6 +8780,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>axis</strong> – y-axis object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -13111,30 +13243,55 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Polyline.line_style_dash_dot">
 <span class="sig-name descname"><span class="pre">line_style_dash_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Polyline.line_style_dash_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dash-dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Polyline.line_style_dash_dot_dot">
 <span class="sig-name descname"><span class="pre">line_style_dash_dot_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Polyline.line_style_dash_dot_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dash-dot-dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Polyline.line_style_dashed">
 <span class="sig-name descname"><span class="pre">line_style_dashed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Polyline.line_style_dashed" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dashed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Polyline.line_style_dot">
 <span class="sig-name descname"><span class="pre">line_style_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Polyline.line_style_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Polyline.line_style_solid">
 <span class="sig-name descname"><span class="pre">line_style_solid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Polyline.line_style_solid" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to solid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -17187,6 +17344,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>trace</strong> – trace object</p>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -17197,6 +17357,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>axis</strong> – y-axis object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -17638,36 +17801,66 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_circles">
 <span class="sig-name descname"><span class="pre">point_type_circles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_circles" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to circles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_diamonds">
 <span class="sig-name descname"><span class="pre">point_type_diamonds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_diamonds" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to diamonds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_none">
 <span class="sig-name descname"><span class="pre">point_type_none</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_none" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to none</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_squares">
 <span class="sig-name descname"><span class="pre">point_type_squares</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_squares" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to squares</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_triangles">
 <span class="sig-name descname"><span class="pre">point_type_triangles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_triangles" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to triangles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.StripChartTrace.point_type_x">
 <span class="sig-name descname"><span class="pre">point_type_x</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.StripChartTrace.point_type_x" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to x</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -22917,6 +23110,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>marker</strong> – marker object</p>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -22927,6 +23123,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>trace</strong> – trace object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -22939,6 +23138,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>axis</strong> – x-axis object</p>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -22949,6 +23151,9 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>axis</strong> – y-axis object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -23248,30 +23453,55 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.line_style_dash_dot">
 <span class="sig-name descname"><span class="pre">line_style_dash_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.line_style_dash_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dash-dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.line_style_dash_dot_dot">
 <span class="sig-name descname"><span class="pre">line_style_dash_dot_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.line_style_dash_dot_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dash-dot-dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.line_style_dashed">
 <span class="sig-name descname"><span class="pre">line_style_dashed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.line_style_dashed" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dashed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.line_style_dot">
 <span class="sig-name descname"><span class="pre">line_style_dot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.line_style_dot" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to dot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.line_style_solid">
 <span class="sig-name descname"><span class="pre">line_style_solid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.line_style_solid" title="Link to this definition">¶</a></dt>
 <dd><p>Change line style to solid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -23320,36 +23550,66 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_circles">
 <span class="sig-name descname"><span class="pre">point_type_circles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_circles" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to circles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_diamonds">
 <span class="sig-name descname"><span class="pre">point_type_diamonds</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_diamonds" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to diamonds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_none">
 <span class="sig-name descname"><span class="pre">point_type_none</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_none" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to none</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_squares">
 <span class="sig-name descname"><span class="pre">point_type_squares</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_squares" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to squares</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_triangles">
 <span class="sig-name descname"><span class="pre">point_type_triangles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_triangles" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to triangles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.XYPlotTrace.point_type_x">
 <span class="sig-name descname"><span class="pre">point_type_x</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.XYPlotTrace.point_type_x" title="Link to this definition">¶</a></dt>
 <dd><p>Change point type to x</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
