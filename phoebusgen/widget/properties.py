@@ -2600,6 +2600,8 @@ class _ColorMap(object):
                 self._check_value(existing.findall('section'))  # ensures that first is 0 and last is 255 after deletion
             else:
                 print('Color map section does not exist.')
+
+            section = existing.findall('section')
             if not section:
                 self.root.remove(existing)
 
@@ -2616,5 +2618,9 @@ class _ColorMap(object):
         return root
 
     def _check_value(self, map):    # ensures that the starting and ending values are correct
-        map[0].attrib['value'] = '0'
-        map[len(map) - 1].attrib['value'] = '255'
+        if map:
+            if len(map) > 1:
+                map[0].attrib['value'] = '0'
+                map[len(map) - 1].attrib['value'] = '255'
+            else:
+                print('Color Map must have at least 2 colors.')
