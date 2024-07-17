@@ -2605,22 +2605,22 @@ class _ColorMap(object):
             if not section:
                 self.root.remove(existing)
 
-    def _remove_all(self, root, map):
-        for item in map:
+    def _remove_all(self, root, color_map):
+        for item in color_map:
             root.remove(item)
 
-    def _reorder(self, root, map):
-        colors = sorted(map, key=lambda color: (color.attrib['value']))
-        self._remove_all(root, map)
-        map[:] = colors
+    def _reorder(self, root, color_map):
+        colors = sorted(color_map, key=lambda color: (color.attrib['value']))
+        self._remove_all(root, color_map)
+        color_map[:] = colors
         for item in colors:
             root.append(item)
         return root
 
-    def _check_value(self, map):    # ensures that the starting and ending values are correct
-        if map:
-            if len(map) > 1:
-                map[0].attrib['value'] = '0'
-                map[len(map) - 1].attrib['value'] = '255'
+    def _check_value(self, color_map):    # ensures that the starting and ending values are correct
+        if color_map:
+            if len(color_map) > 1:
+                color_map[0].attrib['value'] = '0'
+                color_map[len(color_map) - 1].attrib['value'] = '255'
             else:
                 print('Color Map must have at least 2 colors.')
