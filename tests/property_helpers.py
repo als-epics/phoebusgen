@@ -2991,9 +2991,21 @@ class TestColorBar(InternalTest):
         self.assertEqual(color_bars, None)
 
 class TestColorMap(InternalTest):
-    def test_add_predefined_color_map(self):
-        self.element.add_predefined_color_map('JET')
-        self.generic_element_test('color_map', None)
+    def test_predefined_color_map(self):
+        self.element.predefined_color_map('JET')
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map.find('name').text, 'JET')
+
+    def test_two_predefined_color_map(self):
+        self.element.predefined_color_map('JET')
+        self.element.predefined_color_map('GRAY')
+        color_map = self.element.root.find('color_map')
+        self.assertEqual(color_map.find('name').text, 'GRAY')
+        self.assertEqual(len(color_map.findall('name')), 1)
+
+    def test_predefined_color_map_wrong(self):
+        self.element.predefined_color_map('TEST')
+        self.assertEqual(self.element.root.find('color_map'), None)
 
     def test_add_color_map(self):
         map1 = self.map1
@@ -3020,13 +3032,13 @@ class TestColorMap(InternalTest):
     def test_add_color_map_before_predefined(self):
         map1 = self.map1
         self.element.add_color_map(map1)
-        self.element.add_predefined_color_map('MAGMA')
+        self.element.predefined_color_map('MAGMA')
         color_map = self.element.root.find('color_map')
         self.assertFalse(color_map.findall('section'))
         self.assertTrue(color_map.findall('name'))
 
     def test_add_color_map_after_predefined(self):
-        self.element.add_predefined_color_map('MAGMA')
+        self.element.predefined_color_map('MAGMA')
         map1 = self.map1
         self.element.add_color_map(map1)
         color_map = self.element.root.find('color_map')

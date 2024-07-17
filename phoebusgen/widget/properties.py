@@ -914,7 +914,7 @@ class _Traces(object):
             else:
                 root_traces.append(trace.root)
 
-    def remove_trace(self, trace):
+    def remove_trace(self, trace) -> None:
         """
         Removes trace from widget
 
@@ -970,37 +970,37 @@ class _TraceType(object):
         self._shared.integer_property(self.root, 'trace_type', self._shared.TraceType.bars.value)
 
 class _PointType(object):
-    def point_type_none(self):
+    def point_type_none(self) -> None:
         """
         Change point type to none
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.none.value)
 
-    def point_type_squares(self):
+    def point_type_squares(self) -> None:
         """
         Change point type to squares
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.squares.value)
 
-    def point_type_circles(self):
+    def point_type_circles(self) -> None:
         """
         Change point type to circles
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.circles.value)
 
-    def point_type_diamonds(self):
+    def point_type_diamonds(self) -> None:
         """
         Change point type to diamonds
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.diamonds.value)
 
-    def point_type_x(self):
+    def point_type_x(self) -> None:
         """
         Change point type to x
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.x.value)
 
-    def point_type_triangles(self):
+    def point_type_triangles(self) -> None:
         """
         Change point type to triangles
         """
@@ -1128,7 +1128,7 @@ class _YAxes(object):
             else:
                 root_axes.append(axis.root)
 
-    def remove_y_axis(self, axis):
+    def remove_y_axis(self, axis) -> None:
         """
         Removes y-axis from widget
 
@@ -1162,7 +1162,7 @@ class _YAxis(object):   # single Y-Axis for Image widget
         else:
             self.root.append(axis.root)
 
-    def remove_y_axis(self, axis):
+    def remove_y_axis(self, axis) -> None:
         """
         Removes y-axis from widget
 
@@ -1189,7 +1189,7 @@ class _XAxis(object):
         else:
             self.root.append(axis.root)
 
-    def remove_x_axis(self, axis):
+    def remove_x_axis(self, axis) -> None:
         """
         Removes x-axis from widget
 
@@ -1218,7 +1218,7 @@ class _Markers(object):
             else:
                 outer_marker.append(marker.root)
 
-    def remove_marker(self, marker):
+    def remove_marker(self, marker) -> None:
         """
         Removes marker from widget
 
@@ -1723,31 +1723,31 @@ class _Arrow(object):
         self._shared.generic_property(self.root, 'arrows', self._shared.arrow_types['Both'])
 
 class _LineStyle(object):
-    def line_style_solid(self):
+    def line_style_solid(self) -> None:
         """
         Change line style to solid
         """
         self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.solid.value)
 
-    def line_style_dashed(self):
+    def line_style_dashed(self) -> None:
         """
         Change line style to dashed
         """
         self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dashed.value)
 
-    def line_style_dot(self):
+    def line_style_dot(self) -> None:
         """
         Change line style to dot
         """
         self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dot.value)
 
-    def line_style_dash_dot(self):
+    def line_style_dash_dot(self) -> None:
         """
         Change line style to dash-dot
         """
         self._shared.integer_property(self.root, 'line_style', self._shared.LineStyle.dash_dot.value)
 
-    def line_style_dash_dot_dot(self):
+    def line_style_dash_dot_dot(self) -> None:
         """
         Change line style to dash-dot-dot
         """
@@ -2497,7 +2497,7 @@ class _RegionsOfInterest(object):
             else:
                 rois_tag.append(roi.root)
 
-    def remove_roi(self, roi: object):
+    def remove_roi(self, roi: object) -> None:
         """
         Removes ROI from widget
 
@@ -2540,7 +2540,7 @@ class _ColorBar(object):
         else:
             self.root.append(bar.root)
 
-    def remove_color_bar(self, bar: object):
+    def remove_color_bar(self, bar: object) -> None:
         """
         Removes color bar from widget
 
@@ -2552,7 +2552,7 @@ class _ColorBar(object):
             print('Color bar does not exist.')
 
 class _ColorMap(object):
-    def add_color_map(self, color: object):
+    def add_color_map(self, color: object) -> None:
         """
         Adds custom color map
 
@@ -2574,12 +2574,15 @@ class _ColorMap(object):
                 colors = existing.findall('section')
                 existing = self._reorder(existing, colors) # puts in descending order by value
 
-    def add_predefined_color_map(self, name: str):
+    def predefined_color_map(self, name: str) -> None:
         """
         Adds color map from one of the predefined enums
 
         :param name: Name of predefined color map
         """
+        if (name not in (predef.value for predef in self._shared.ColorMap)):
+            print('Color map name is undefined.')
+            return
         existing = self.root.find('color_map')
         if existing is None:
             existing = SubElement(self.root, 'color_map')
@@ -2589,7 +2592,7 @@ class _ColorMap(object):
                 self._remove_all(existing, section)     # removes custom map if exists
         self._shared.generic_property(existing, 'name', name)   # will replace with another predefined -- no del func
 
-    def remove_color_map(self, color: object):
+    def remove_color_map(self, color: object) -> None:
         """
         Removes custom color map color
 
