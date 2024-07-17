@@ -2480,11 +2480,11 @@ class _ColorMode(object):
         self._add_color_mode(self._shared.ColorMode.TYPE_USHORT_GRAY)
 
 class _RegionsOfInterest(object):
-    def add_roi(self, roi) -> None:
+    def add_roi(self, roi: object) -> None:
         """
         Add ROI to list of ROIs for widget
 
-        :param roi: roi object
+        :param roi: ROI object
         """
         rois_tag = self.root.find('rois')
         if rois_tag is None:
@@ -2497,7 +2497,7 @@ class _RegionsOfInterest(object):
             else:
                 rois_tag.append(roi.root)
 
-    def remove_roi(self, roi):
+    def remove_roi(self, roi: object):
         """
         Removes ROI from widget
 
@@ -2520,16 +2520,16 @@ class _ColorBarSize(object):
         """
         Add size value to color bar
 
-        :param val: size value
+        :param val: Bar size value
         """
         self._shared.integer_property(self.root, 'bar_size', val)
 
 class _ColorBar(object):
-    def add_color_bar(self, bar) -> None:
+    def add_color_bar(self, bar: object) -> None:
         """
         Add color bar property to widget
 
-        :param bar: color bar object
+        :param bar: Color bar object
         """
         existing_color_bar = self.root.findall('color_bar')
         if existing_color_bar:
@@ -2540,11 +2540,11 @@ class _ColorBar(object):
         else:
             self.root.append(bar.root)
 
-    def remove_color_bar(self, bar):
+    def remove_color_bar(self, bar: object):
         """
         Removes color bar from widget
 
-        :param bar: color bar object
+        :param bar: Color bar object
         """
         if self.root.findall('color_bar'):
             self.root.remove(bar.root)
@@ -2552,11 +2552,11 @@ class _ColorBar(object):
             print('Color bar does not exist.')
 
 class _ColorMap(object):
-    def add_color_map(self, color):
+    def add_color_map(self, color: object):
         """
         Adds custom color map
 
-        :param color_list: color map object
+        :param color: Color map object
         """
         existing = self.root.find('color_map')
         if existing is None:
@@ -2574,11 +2574,11 @@ class _ColorMap(object):
                 colors = existing.findall('section')
                 existing = self._reorder(existing, colors) # puts in descending order by value
 
-    def add_predefined_color_map(self, name: object):
+    def add_predefined_color_map(self, name: str):
         """
         Adds color map from one of the predefined enums
 
-        :param name: color map enum
+        :param name: Name of predefined color map
         """
         existing = self.root.find('color_map')
         if existing is None:
@@ -2589,7 +2589,12 @@ class _ColorMap(object):
                 self._remove_all(existing, section)     # removes custom map if exists
         self._shared.generic_property(existing, 'name', name)   # will replace with another predefined -- no del func
 
-    def remove_color_map(self, color):
+    def remove_color_map(self, color: object):
+        """
+        Removes custom color map color
+
+        :param color: Color map object
+        """
         existing = self.root.find('color_map')
         if existing is None:
             print('This graph has no color map.')
