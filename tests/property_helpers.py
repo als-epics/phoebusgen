@@ -614,11 +614,33 @@ class TestForegroundColor(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
                                                           'blue': '255', 'alpha': '255'})
 
-    def test_foreground_color(self):
+    def test_foreground_color_rgb(self):
         tag_name = 'foreground_color'
         self.element.foreground_color(5, 10, 15)
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
+        
+    def test_foreground_color_rgb_alpha(self):
+        tag_name = 'foreground_color'
+        self.element.foreground_color(5, 10, 15, 100)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '100'})
+        
+    def test_foreground_color_hex(self):
+        tag_name = 'foreground_color'
+        self.element.foreground_color('#ffffc3')
+        self.child_element_test(tag_name, 'color', None, {'red': '255', 'green': '255',
+                                                          'blue': '195', 'alpha': '255'})
+        
+    def test_foreground_color_hex_alpha(self):
+        tag_name = 'foreground_color'
+        self.element.foreground_color('#ffffc3', 100)
+        self.child_element_test(tag_name, 'color', None, {'red': '255', 'green': '255',
+                                                          'blue': '195', 'alpha': '100'})
+        
+    def test_foreground_color_bad_args(self):
+        tag_name = 'foreground_color'
+        self.assertRaises(TypeError, self.element.foreground_color, 5, 10, 15, '#ffffff')
 
 
 class TestBackgroundColor(GenericTest):
@@ -627,10 +649,31 @@ class TestBackgroundColor(GenericTest):
         self.element.predefined_background_color(self.colors.MINOR)
         self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128', 'blue': '0', 'alpha': '255'})
 
-    def test_background_color(self):
+    def test_background_color_rgb(self):
         tag_name = 'background_color'
         self.element.background_color(5, 10, 15)
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10', 'blue': '15', 'alpha': '255'})
+        
+    def test_background_color_rgb_alpha(self):
+        tag_name = 'background_color'
+        self.element.background_color(5, 10, 15, 100)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10', 'blue': '15', 'alpha': '100'})
+
+    def test_background_color_hex(self):
+        tag_name = 'background_color'
+        self.element.background_color('#ffffc3')
+        self.child_element_test(tag_name, 'color', None, {'red': '255', 'green': '255',
+                                                          'blue': '195', 'alpha': '255'})
+
+    def test_background_color_hex_alpha(self):
+        tag_name = 'background_color'
+        self.element.background_color('#ffffc3', 100)
+        self.child_element_test(tag_name, 'color', None, {'red': '255', 'green': '255',
+                                                          'blue': '195', 'alpha': '100'})
+        
+    def test_background_color_bad_args(self):
+        tag_name = 'background_color'
+        self.assertRaises(TypeError, self.element.background_color, 5, 10, 15, '#ffffff')
 
 
 class TestTransparent(GenericTest):
