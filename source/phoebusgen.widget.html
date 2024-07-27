@@ -487,12 +487,14 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.foreground_color"><code class="docutils literal notranslate"><span class="pre">Group.foreground_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.get_element_value"><code class="docutils literal notranslate"><span class="pre">Group.get_element_value()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.height"><code class="docutils literal notranslate"><span class="pre">Group.height()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.line_color"><code class="docutils literal notranslate"><span class="pre">Group.line_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.macro"><code class="docutils literal notranslate"><span class="pre">Group.macro()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.name"><code class="docutils literal notranslate"><span class="pre">Group.name()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.no_style"><code class="docutils literal notranslate"><span class="pre">Group.no_style()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.predefined_background_color"><code class="docutils literal notranslate"><span class="pre">Group.predefined_background_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.predefined_font"><code class="docutils literal notranslate"><span class="pre">Group.predefined_font()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.predefined_foreground_color"><code class="docutils literal notranslate"><span class="pre">Group.predefined_foreground_color()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.predefined_line_color"><code class="docutils literal notranslate"><span class="pre">Group.predefined_line_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.remove_element"><code class="docutils literal notranslate"><span class="pre">Group.remove_element()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.rule"><code class="docutils literal notranslate"><span class="pre">Group.rule()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.Group.style_group_box"><code class="docutils literal notranslate"><span class="pre">Group.style_group_box()</span></code></a></li>
@@ -7515,7 +7517,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">Group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Group" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Structure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Macro</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Style</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Structure</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Macro</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Style</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_LineColor</span></code></p>
 <p>Group Phoebus Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group.add_widget">
@@ -7744,6 +7746,25 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group.line_color">
+<span class="sig-name descname"><span class="pre">line_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">red</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">green</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">255</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Group.line_color" title="Link to this definition">¶</a></dt>
+<dd><p>Add line color property using RGB values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>red</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 0-255</p></li>
+<li><p><strong>green</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 0-255</p></li>
+<li><p><strong>blue</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 0-255</p></li>
+<li><p><strong>alpha</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – 0-255. Default is 255</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group.macro">
 <span class="sig-name descname"><span class="pre">macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Group.macro" title="Link to this definition">¶</a></dt>
 <dd><p>Add macro to widget</p>
@@ -7816,6 +7837,20 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group.predefined_foreground_color">
 <span class="sig-name descname"><span class="pre">predefined_foreground_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Group.predefined_foreground_color" title="Link to this definition">¶</a></dt>
 <dd><p>Add named foreground color to widget</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – &lt;phoebusgen.colors&gt; Predefined color name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.Group.predefined_line_color">
+<span class="sig-name descname"><span class="pre">predefined_line_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.Group.predefined_line_color" title="Link to this definition">¶</a></dt>
+<dd><p>Add named line color property</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></span>) – &lt;phoebusgen.colors&gt; Predefined color name</p>
