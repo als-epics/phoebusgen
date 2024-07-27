@@ -559,6 +559,8 @@ class _LineColor(object):
 
         :param name: <phoebusgen.colors> Predefined color name
         """
+        if (self.root.attrib['type'] == 'group'):
+            self.version('3.0.0')
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
@@ -571,6 +573,8 @@ class _LineColor(object):
         :param blue: 0-255
         :param alpha: 0-255. Default is 255
         """
+        if (self.root.attrib['type'] == 'group'):
+            self.version('3.0.0')
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
 

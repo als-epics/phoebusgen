@@ -675,7 +675,8 @@ class EmbeddedDisplay(_Widget, _p._Macro, _p._File, _p._ResizeBehavior, _p._Grou
         _Widget.__init__(self, 'embedded', name, x, y, width, height)
         self.file(file)
 
-class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent):
+class Group(_Widget, _p._Structure, _p._Macro, _p._Style, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent,
+            _p._LineColor):
     """ Group Phoebus Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
