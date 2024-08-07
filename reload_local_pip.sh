@@ -2,5 +2,7 @@
 
 echo y | pip3 uninstall phoebusgen
 rm -rf build
-python3 setup.py sdist bdist_wheel
+rm -rf phoebusgen.egg-info
+rm -rf dist
+python3 -m build
 pip3 install --user .

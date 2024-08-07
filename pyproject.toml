@@ -1,6 +1,6 @@
 [build-system]
-requires = ['setuptools']
-build-backend = 'setuptools.build_meta'
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = 'phoebusgen'
@@ -11,6 +11,7 @@ authors = [
 description = 'Screen generator for CS-Studio Phoebus displays'
 readme = {file = 'README.md', content-type = 'text/markdown'}
 license = {file = "LICENSE"}
+dynamic = ["version"]
 requires-python = '>=3.5'
 classifiers=[
     'Programming Language :: Python :: 3',
@@ -20,9 +21,22 @@ classifiers=[
     'Topic :: Software Development :: Code Generators'
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+]
+docs = [
+  "sphinx",
+  "sphinx_rtd_theme",
+  "sphinx_autodoc_typehints",
+]
+
+[tool.setuptools_scm]
+version_file = "phoebusgen/_version.py"
+
 [project.urls]
 Homepage = "https://github.com/als-epics/phoebusgen"
 Documentation = "https://als-epics.github.io/phoebusgen"
 Repository = "https://github.com/als-epics/phoebusgen"
-Issues = "https://github.com/als-epics/phoebusgen/issues"
+"Bug Tracker" = "https://github.com/als-epics/phoebusgen/issues"
 Changelog = "https://github.com/als-epics/phoebusgen/blob/master/CHANGELOG.md"
