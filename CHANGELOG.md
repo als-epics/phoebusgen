@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Widget base class now inherits from a shared Generic class which is also
   used for new classes StripChartTrace, XYPlotTrace, StripChartYAxis, etc.
+- Switched from versioneer to setuptools_scm for package versioning
+
+### Removed
+
+- setup.py and setup.cfg files in favor of pyproject.toml
 
 ### Fixed
 
