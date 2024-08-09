@@ -23,3 +23,5 @@ local/
 .docbuild/_build
 .docbuild/source
 docs
+
+phoebusgen/_version.py

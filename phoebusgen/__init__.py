@@ -7,7 +7,9 @@ Builder Editor.
 
 In addition, phoebusgen.colors and phoebusgen.fonts are Enum objects that are available
 to use to add predefined colors/fonts to widgets.
-    Example: text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
+
+Example: text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
+
 A custom site specific color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts
 to reflect your site's custom definitions.
 """
@@ -108,5 +110,9 @@ colors = _enum('colors', _predefined_colors)
 _predefined_fonts = _update_font_def(_font_def)
 fonts = _enum('fonts', _predefined_fonts)
 
-from . import _version
-__version__ = _version.get_versions()['version']
+try:
+    from ._version import version as __version__
+    from ._version import version_tuple as __version_tuple__
+except ImportError:
+    __version__ = "unknown version"
+    __version_tuple__ = (0, 0, "unknown version")
