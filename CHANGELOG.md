@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Bug in items property, only could have one item previously 
+- Bug in items property, only could have one item previously
 
 ## [2.6.2] - 2023-08-01
 
@@ -94,7 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Codacy checks to repository 
+- Codacy checks to repository
 
 ### Changed
 
