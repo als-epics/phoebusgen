@@ -10,7 +10,7 @@
 Phoebus is the next generation of Control System Studio, a graphical platform for EPICS control systems.
 https://github.com/ControlSystemStudio/phoebus
 
-This module aims to provide a way to generate Phoebus xml through Python. See examples [here](examples).
+This module provides a way through Python to generate the Display Builder XML format used by Phoebus (and other tools like DBWR). See examples [here](examples).
 
 API docs here: [https://als-epics.github.io/phoebusgen](https://als-epics.github.io/phoebusgen/)
 

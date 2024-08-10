@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = 'phoebusgen'
+authors = [
+    {name = 'Tynan Ford', email = 'tford@lbl.gov'},
+    {name = 'Madeline Park', email = 'MadelinePark@lbl.gov'}
+]
+description = 'Screen generator for CS-Studio Phoebus displays'
+readme = {file = 'README.md', content-type = 'text/markdown'}
+license = {file = "LICENSE"}
+dynamic = ["version"]
+requires-python = '>=3.5'
+classifiers=[
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+    'Operating System :: OS Independent',
+    'Development Status :: 5 - Production/Stable',
+    'Topic :: Software Development :: Code Generators'
+]
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit",
+]
+docs = [
+  "sphinx",
+  "sphinx_rtd_theme",
+  "sphinx_autodoc_typehints",
+]
+
+[tool.setuptools_scm]
+version_file = "phoebusgen/_version.py"
+
+[project.urls]
+Homepage = "https://github.com/als-epics/phoebusgen"
+Documentation = "https://als-epics.github.io/phoebusgen"
+Repository = "https://github.com/als-epics/phoebusgen"
+"Bug Tracker" = "https://github.com/als-epics/phoebusgen/issues"
+Changelog = "https://github.com/als-epics/phoebusgen/blob/master/CHANGELOG.md"
