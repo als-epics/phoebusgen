@@ -83,7 +83,8 @@ class _Widget(_Generic):
 
         super().__init__('widget')
         self.root.attrib['type'] = w_type
-        self.root.attrib['version'] = '2.0.0'
+        #self.root.attrib['version'] = '2.0.0'
+        self.root.attrib['version'] = self._shared.widget_versions[w_type].value
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
@@ -140,8 +141,6 @@ class _Widget(_Generic):
         """
         self._shared.integer_property(self.root, 'y', val)
 
-    #def class_name(self, name):
-    #    pass
 
     def rule(self, name: str, widget_property: str, pv_dict: dict,
              expression_dict: dict, value_as_expression: bool = False) -> None:

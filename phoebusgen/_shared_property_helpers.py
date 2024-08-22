@@ -4,11 +4,12 @@ from enum import Enum
 class _SharedPropertyFunctions(object):
     def __init__(self, root_element):
         self.root = root_element
-        from phoebusgen import colors, _predefined_colors, fonts, _predefined_fonts
+        from phoebusgen import colors, _predefined_colors, fonts, _predefined_fonts, widget_versions, _versions
         self.predefined_colors = _predefined_colors
         self.predefined_fonts = _predefined_fonts
         self.colors = colors
         self.fonts = fonts
+        self.widget_versions = widget_versions
         #self.font_styles = {'regular': 'REGULAR', 'italic': 'ITALIC', 'bold': 'BOLD', 'bold_and_italic': 'BOLD_ITALIC'}
         self.arrow_types = {'None': 0, 'From': 1, 'To': 2, 'Both': 3}
         #self.line_styles = {'Solid': 0, 'Dashed': 1, 'Dot': 2, 'Dash-Dot': 3, 'Dash-Dot-Dot': 4}

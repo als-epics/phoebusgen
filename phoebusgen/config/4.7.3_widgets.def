@@ -1,0 +1,56 @@
+# 4.3.7 Widgets
+
+# Graphics
+arc = 2.0.0
+ellipse = 2.0.0
+label = 2.0.0
+picture = 2.0.0
+polygon = 2.0.0
+polyline = 2.0.0
+rectangle = 2.0.0
+
+# Monitors
+byte_monitor = 2.0.0
+led = 2.0.0
+multi_state_led = 2.0.0
+meter = 3.0.0
+progressbar = 2.0.0
+symbol = 2.0.0
+table = 2.0.0
+tank = 2.0.0
+text-symbol = 2.0.0
+textupdate = 2.0.0
+thermometer = 2.0.0
+
+# Controls
+action_button = 2.0.0
+bool_button = 2.0.0
+checkbox = 2.0.0
+choice = 2.0.0
+combo = 2.0.0
+fileselector = 2.0.0
+radio = 2.0.0
+scaledslider = 2.0.0
+scrollbar = 2.0.0
+slide_button = 2.0.0
+spinner = 2.0.0
+textentry = 2.0.0
+thumbwheel = 2.0.0
+
+# Plots
+databrowser = 2.0.0
+image = 2.0.0
+stripchart = 2.1.0
+xyplot = 3.0.0
+
+# Structure
+array = 2.0.0
+tabs = 2.0.0
+embedded = 2.0.0
+group = 3.0.0
+navtabs = 2.0.0
+template = 2.0.0
+
+# Miscellaneous
+3dviewer = 2.0.0
+webbrowser = 2.0.0

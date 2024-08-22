@@ -31,10 +31,16 @@ _font_def = _curr_path + '/config/font.def'
 _classes_bcf = _curr_path + '/config/classes.bcf'
 _local_color_def = _path.expanduser('~/.phoebusgen/color.def')
 _local_font_def = _path.expanduser('~/.phoebusgen/font.def')
+_version = '4.7.3'  # hard coded for now
+_version_def = _curr_path + '/config/' + _version + '_widgets.def'
+_local_version_def = _path.expanduser('~/.phoebusgen/' + _version + '_widgets.def')
+
 if _path.isfile(_local_color_def):
     _color_def = _local_color_def
 if _path.isfile(_local_font_def):
     _font_def = _local_font_def
+if _path.isfile(_local_version_def):
+    _version_def = _local_version_def
 
 def _update_color_def(file_path):
     #print('Using color.def file at: {}'.format(file_path))
@@ -103,12 +109,27 @@ def _update_font_def(file_path):
                     predefined_fonts[font.replace(' ', '')] = {'name': font, 'family': family, 'style': style, 'size': size}
         return predefined_fonts
 
+def _update_version_def(file_path):
+    versions = {}
+    if not _path.isfile(file_path):
+        print('File at this path does not exist: {}'.format(file_path))
+    with open(file_path, 'r') as version_file:
+        for line in version_file:
+            line = line.partition('#')[0].rstrip()
+            if line != '':
+                widget, version = line.split('=')
+                widget = widget.strip()
+                versions[widget] = version.strip()
+
+    return versions
 
 
 _predefined_colors = _update_color_def(_color_def)
 colors = _enum('colors', _predefined_colors)
 _predefined_fonts = _update_font_def(_font_def)
 fonts = _enum('fonts', _predefined_fonts)
+_versions = _update_version_def(_version_def)
+widget_versions = _enum('widget_versions', _versions)
 
 try:
     from ._version import version as __version__
