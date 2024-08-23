@@ -123,6 +123,15 @@ def _update_version_def(file_path):
 
     return versions
 
+def change_phoebus_version(version):
+    global _version
+    global _versions
+    global widget_versions
+    _version = version
+    _version_def = _curr_path + '/config/' + _version + '_widgets.def'
+    _versions = _update_version_def(_version_def)
+    widget_versions = _enum('widget_versions', _versions)
+    print('Phoebus version manually changed to ' + version + '.')
 
 _predefined_colors = _update_color_def(_color_def)
 colors = _enum('colors', _predefined_colors)

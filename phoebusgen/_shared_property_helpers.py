@@ -9,6 +9,7 @@ class _SharedPropertyFunctions(object):
         self.predefined_fonts = _predefined_fonts
         self.colors = colors
         self.fonts = fonts
+        self.versions = _versions
         self.widget_versions = widget_versions
         #self.font_styles = {'regular': 'REGULAR', 'italic': 'ITALIC', 'bold': 'BOLD', 'bold_and_italic': 'BOLD_ITALIC'}
         self.arrow_types = {'None': 0, 'From': 1, 'To': 2, 'Both': 3}
