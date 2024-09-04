@@ -25,21 +25,27 @@ from sys import platform as _platform
 import re as _re
 from enum import Enum as _enum
 
+
 _curr_path = _path.dirname(__file__)
 _color_def = _curr_path + '/config/color.def'
 _font_def = _curr_path + '/config/font.def'
 _classes_bcf = _curr_path + '/config/classes.bcf'
 _local_color_def = _path.expanduser('~/.phoebusgen/color.def')
 _local_font_def = _path.expanduser('~/.phoebusgen/font.def')
-_version = '4.7.3'  # hard coded for now
-_version_def = _curr_path + '/config/' + _version + '_widgets.def'
-_local_version_def = _path.expanduser('~/.phoebusgen/' + _version + '_widgets.def')
+
+phoebus_version = '4.7.3'
+_version_def = _curr_path + '/config/' + phoebus_version + '_widgets.def'
+_widget_version_def = _path.expanduser('~/.phoebusgen/widgets.def')    # highest priority
+_local_version_def = _path.expanduser('~/.phoebusgen/' + phoebus_version + '_widgets.def')
+_versions = {}
 
 if _path.isfile(_local_color_def):
     _color_def = _local_color_def
 if _path.isfile(_local_font_def):
     _font_def = _local_font_def
-if _path.isfile(_local_version_def):
+if _path.isfile(_widget_version_def):
+    _version_def = _widget_version_def
+elif _path.isfile(_local_version_def):
     _version_def = _local_version_def
 
 def _update_color_def(file_path):
@@ -109,8 +115,7 @@ def _update_font_def(file_path):
                     predefined_fonts[font.replace(' ', '')] = {'name': font, 'family': family, 'style': style, 'size': size}
         return predefined_fonts
 
-def _update_version_def(file_path):
-    versions = {}
+def _update_version_def(file_path): # modifies _version dict in place
     if not _path.isfile(file_path):
         print('File at this path does not exist: {}'.format(file_path))
     with open(file_path, 'r') as version_file:
@@ -119,17 +124,20 @@ def _update_version_def(file_path):
             if line != '':
                 widget, version = line.split('=')
                 widget = widget.strip()
-                versions[widget] = version.strip()
-
-    return versions
+                _versions[widget] = version.strip()
 
 def change_phoebus_version(version):
-    global _version
-    global _versions
+    global phoebus_version
     global widget_versions
-    _version = version
-    _version_def = _curr_path + '/config/' + _version + '_widgets.def'
-    _versions = _update_version_def(_version_def)
+    ''' need to check widgets.def and local before using phoebus version '''
+    phoebus_version = version
+    _version_def = _curr_path + '/config/' + phoebus_version + '_widgets.def'
+
+    if _path.isfile(_widget_version_def):
+        _version_def = _widget_version_def
+    elif _path.isfile(_local_version_def):
+        _version_def = _local_version_def
+    _update_version_def(_version_def)   # modifies _versions
     widget_versions = _enum('widget_versions', _versions)
     print('Phoebus version manually changed to ' + version + '.')
 
@@ -137,7 +145,7 @@ _predefined_colors = _update_color_def(_color_def)
 colors = _enum('colors', _predefined_colors)
 _predefined_fonts = _update_font_def(_font_def)
 fonts = _enum('fonts', _predefined_fonts)
-_versions = _update_version_def(_version_def)
+_update_version_def(_version_def)   # sets _versions
 widget_versions = _enum('widget_versions', _versions)
 
 try:

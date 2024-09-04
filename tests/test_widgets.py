@@ -243,7 +243,7 @@ class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFon
 
 class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
                         ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
-                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation):
+                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage):
     def setUp(self):
         self.name = 'boolean button'
         self.type = 'bool_button'
@@ -486,6 +486,7 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
         self.width = 10
         self.height = 12
         self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
+        self.element.version('2.0.0')
 
 class TestNavigationTabs(unittest.TestCase, ph.TestNavTabs, ph.TestActiveTab, ph.TestTabWidth, ph.TestTabSpacing,
                          ph.TestTabHeight, ph.TestSelectedColor, ph.TestDeselectedColor, ph.TestDirection,
