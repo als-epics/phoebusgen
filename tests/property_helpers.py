@@ -948,6 +948,39 @@ class TestLineColor(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
 
+    def test_predefined_line_color_group(self):
+        tag_name = 'line_color'
+        self.element.version('2.0.0')
+        self.element.predefined_line_color(self.colors.Background)
+        if self.type == 'group':
+            self.assertIsNone(self.element.root.find('line_color'))
+        else:
+            self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_line_color_group(self):
+        tag_name = 'line_color'
+        self.element.version('2.0.0')
+        self.element.line_color(5, 10, 15)
+        if self.type == 'group':
+            self.assertIsNone(self.element.root.find('line_color'))
+        else:
+            self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+    def test_predefined_line_color_group2(self):
+        tag_name = 'line_color'
+        self.element.version('3.1.2')
+        self.element.predefined_line_color(self.colors.Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_line_color_group2(self):
+        tag_name = 'line_color'
+        self.element.version('3.1.2')
+        self.element.line_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
 
 class TestOffColor(GenericTest):
     def test_predefined_off_color(self):
@@ -3208,3 +3241,16 @@ class TestColorMap(InternalTest):
         self.element.remove_color_map(map1)
         color_map = self.element.root.find('color_map')
         self.assertEqual(color_map, None)
+
+class TestStructure(GenericTest):
+    def test_add_widget_structure(self):
+        obj = self.widget_obj
+        self.element.add_widget(obj)
+        self.assertEqual(self.element.root.find('widget').attrib['type'], 'xyplot')
+
+
+    def test_add_widget_structure_list(self):
+        lst = self.widget_list
+        self.element.add_widget(lst)
+        self.assertEqual(self.element.root.findall('widget')[0].attrib['type'], 'label')
+        self.assertEqual(self.element.root.findall('widget')[1].attrib['type'], 'xyplot')

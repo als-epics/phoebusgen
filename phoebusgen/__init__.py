@@ -118,6 +118,7 @@ def _update_font_def(file_path):
 def _update_version_def(file_path): # modifies _version dict in place
     if not _path.isfile(file_path):
         print('File at this path does not exist: {}'.format(file_path))
+        return
     with open(file_path, 'r') as version_file:
         for line in version_file:
             line = line.partition('#')[0].rstrip()

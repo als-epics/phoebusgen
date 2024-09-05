@@ -561,6 +561,7 @@ class _LineColor(object):
         """
         if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
             print('Line color not compatible with group widget version less than 3.0.0.')
+            return
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
@@ -575,6 +576,7 @@ class _LineColor(object):
         """
         if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
             print('Line color not compatible with group widget version less than 3.0.0.')
+            return
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
 
