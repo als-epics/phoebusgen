@@ -510,6 +510,7 @@ class TestTabs(unittest.TestCase, ph.TestMacro, ph.TestTabs, ph.TestFont, ph.Tes
         self.width = 10
         self.height = 12
         self.element = widgets.Tabs(self.name, self.x, self.y, self.width, self.height)
+        self.widget = widgets.Group('testGroup', 0, 0, 0, 0)    # to test add_widget
 
 
 class TestThreeDViewer(unittest.TestCase, ph.TestFile):
