@@ -129,7 +129,6 @@ def _update_version_def(file_path): # modifies _version dict in place
 def change_phoebus_version(version):
     global phoebus_version
     global widget_versions
-    ''' need to check widgets.def and local before using phoebus version '''
     phoebus_version = version
     _version_def = _curr_path + '/config/' + phoebus_version + '_widgets.def'
 
