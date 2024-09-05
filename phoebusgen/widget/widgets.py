@@ -525,7 +525,7 @@ class StripChartYAxis(_Generic, _p._Title, _p._AutoScale, _p._LogScale, _p._MinM
     def __init__(self) -> None:
         _Generic.__init__(self, 'y_axis')
 
-class XYPlotYAxis(StripChartYAxis, _p._TitleFont, _p._ScaleFont, _p._OnRight):
+class XYPlotYAxis(StripChartYAxis, _p._TitleFont, _p._ScaleFont, _p._OnRight, _p._Color):
     def __init__(self) -> None:
         super().__init__()
 

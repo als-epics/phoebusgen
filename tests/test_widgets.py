@@ -243,7 +243,7 @@ class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFon
 
 class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
                         ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
-                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation):
+                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage):
     def setUp(self):
         self.name = 'boolean button'
         self.type = 'bool_button'
@@ -477,7 +477,7 @@ class TestEmbeddedDisplay(unittest.TestCase, ph.TestMacro, ph.TestFile, ph.TestR
         self.element = widgets.EmbeddedDisplay(self.name, self.file, self.x, self.y, self.width, self.height)
 
 class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForegroundColor,
-                ph.TestBackgroundColor, ph.TestTransparent, ph.TestLineColor):
+                ph.TestBackgroundColor, ph.TestTransparent, ph.TestLineColor, ph.TestStructure):
     def setUp(self):
         self.name = 'MyGroup Display'
         self.type = 'group'
@@ -486,6 +486,8 @@ class TestGroup(unittest.TestCase, ph.TestMacro, ph.TestStyle, ph.TestForeground
         self.width = 10
         self.height = 12
         self.element = widgets.Group(self.name, self.x, self.y, self.width, self.height)
+        self.widget_list = [widgets.Label('Label1', 'hello', 0, 0, 10, 10), widgets.XYPlot('XYPlot1', 0, 0, 100, 100)]
+        self.widget_obj = widgets.XYPlot('XYPlot2', 0, 0, 100, 100)
 
 class TestNavigationTabs(unittest.TestCase, ph.TestNavTabs, ph.TestActiveTab, ph.TestTabWidth, ph.TestTabSpacing,
                          ph.TestTabHeight, ph.TestSelectedColor, ph.TestDeselectedColor, ph.TestDirection,
@@ -509,6 +511,7 @@ class TestTabs(unittest.TestCase, ph.TestMacro, ph.TestTabs, ph.TestFont, ph.Tes
         self.width = 10
         self.height = 12
         self.element = widgets.Tabs(self.name, self.x, self.y, self.width, self.height)
+        self.widget = widgets.Group('testGroup', 0, 0, 0, 0)    # to test add_widget
 
 
 class TestThreeDViewer(unittest.TestCase, ph.TestFile):
@@ -581,10 +584,6 @@ class TestROI(unittest.TestCase, ph.TestName, ph.TestColor, ph.TestInteractive, 
 class TestColorBar(unittest.TestCase, ph.TestColorBarSize, ph.TestScaleFontInternal):
     def setUp(self):
         self.element = widgets.ColorBar()
-
-class TestColorMap(unittest.TestCase):
-    def setUp(self) -> None:
-        self.element = widgets.ColorMapColor()
 
 if __name__ == '__main__':
     unittest.main()

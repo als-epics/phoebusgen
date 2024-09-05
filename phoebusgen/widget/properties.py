@@ -559,8 +559,9 @@ class _LineColor(object):
 
         :param name: <phoebusgen.colors> Predefined color name
         """
-        if (self.root.attrib['type'] == 'group'):
-            self.version('3.0.0')
+        if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
+            print('Line color not compatible with group widget version less than 3.0.0.')
+            return
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
@@ -573,8 +574,9 @@ class _LineColor(object):
         :param blue: 0-255
         :param alpha: 0-255. Default is 255
         """
-        if (self.root.attrib['type'] == 'group'):
-            self.version('3.0.0')
+        if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
+            print('Line color not compatible with group widget version less than 3.0.0.')
+            return
         e = self._shared.create_element(self.root, 'line_color')
         self._shared.create_color_element(e, None, red, green, blue, alpha)
 
@@ -770,13 +772,13 @@ class _Actions(object):
         :param macros: Dictionary of macros. key=macro name and value=macro value
         :return:
         """
-        if description is None:
+        if not description:
             description = 'Open Display'
         possible_targets = ['tab', 'replace', 'window']
         if target.lower() not in possible_targets:
             print('Target must be one of {}, not: {}'.format(possible_targets, target))
             return
-        if macros is not None and not isinstance(macros, dict):
+        if macros is not None and isinstance(macros, dict) is False:
             print('The macro parameter must be a dictionary with key=MacroName and val=MacroValue')
             return
         args = {'file': file, 'target': target.lower()}

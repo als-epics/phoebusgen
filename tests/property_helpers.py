@@ -948,6 +948,39 @@ class TestLineColor(GenericTest):
         self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
                                                           'blue': '15', 'alpha': '255'})
 
+    def test_predefined_line_color_group(self):
+        tag_name = 'line_color'
+        self.element.version('2.0.0')
+        self.element.predefined_line_color(self.colors.Background)
+        if self.type == 'group':
+            self.assertIsNone(self.element.root.find('line_color'))
+        else:
+            self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_line_color_group(self):
+        tag_name = 'line_color'
+        self.element.version('2.0.0')
+        self.element.line_color(5, 10, 15)
+        if self.type == 'group':
+            self.assertIsNone(self.element.root.find('line_color'))
+        else:
+            self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
+
+    def test_predefined_line_color_group2(self):
+        tag_name = 'line_color'
+        self.element.version('3.1.2')
+        self.element.predefined_line_color(self.colors.Background)
+        self.child_element_test(tag_name, 'color', None, {'name': 'Background', 'red': '255', 'green': '255',
+                                                          'blue': '255', 'alpha': '255'})
+
+    def test_line_color_group2(self):
+        tag_name = 'line_color'
+        self.element.version('3.1.2')
+        self.element.line_color(5, 10, 15)
+        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10',
+                                                          'blue': '15', 'alpha': '255'})
 
 class TestOffColor(GenericTest):
     def test_predefined_off_color(self):
@@ -1191,6 +1224,30 @@ class TestActions(GenericTest):
         self.element.action_open_display(file, target)
         self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
 
+    def test_execute_as_one_str(self):
+        tag_name = 'actions'
+        self.element.action_execute_as_one('True')
+        file = 'test.bob'
+        target = 'TaB'
+        self.element.action_open_display(file, target)
+        self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
+
+    def test_execute_as_one_str_wrong(self):
+        tag_name = 'actions'
+        self.element.action_execute_as_one('abc')
+        file = 'test.bob'
+        target = 'TaB'
+        self.element.action_open_display(file, target)
+        self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
+
+    def test_execute_as_one_int(self):
+        tag_name = 'actions'
+        self.element.action_execute_as_one(1)
+        file = 'test.bob'
+        target = 'TaB'
+        self.element.action_open_display(file, target)
+        self.child_element_test(tag_name, 'action', None, {'type': 'open_display'})
+
     def test_open_display(self):
         file = 'test.bob'
         target = 'TaB'
@@ -1219,9 +1276,15 @@ class TestActions(GenericTest):
     def test_open_display_macros(self):
         file = 'test.bob'
         target = 'replace'
-        macro_dict = { 'TestMac': '1', 'MOD': 'Mod1'}
+        macro_dict = {'TestMac': '1', 'MOD': 'Mod1'}
         self.element.action_open_display(file, target, macros=macro_dict)
         self.action_test('open_display', 'Open Display', {'file': file, 'target': 'replace'}, macro_dict)
+
+    def test_open_display_macros_wrong_type(self):
+        file = 'test.bob'
+        target = 'replace'
+        macro_str = 'TestMac'
+        self.assertIsNone(self.element.action_open_display(file, target, macros=macro_str))
 
     def test_open_display_macros_and_desc(self):
         file = 'test.bob'
@@ -1230,6 +1293,11 @@ class TestActions(GenericTest):
         self.element.action_open_display(file, target, desc, {'BPM': 'BPMA'})
         self.action_test('open_display', desc, {'file': file, 'target': 'replace'}, {'BPM': 'BPMA'})
 
+    def test_open_display_wrong_target(self):
+        file = 'test.bob'
+        target = 'hello'
+        self.assertIsNone(self.element.action_open_display(file, target))
+
     def test_write_pv(self):
         pv = 'TEST:PV'
         value = 235
@@ -1237,11 +1305,22 @@ class TestActions(GenericTest):
         self.element.action_write_pv(pv, value, description)
         self.action_test('write_pv', description, {'pv_name': pv, 'value': str(value), 'description': description})
 
+    def test_write_pv_no_desc(self):
+        pv = 'TEST:PV'
+        value = 235
+        self.element.action_write_pv(pv, value)
+        self.action_test('write_pv', 'Write PV', {'pv_name': pv, 'value': str(value), 'description': 'Write PV'})
+
     def test_execute_command(self):
         command = '/bin/bash /home/test.sh'
         description = 'test description'
         self.element.action_execute_command(command, description)
         self.action_test('command', description, {'command': command})
+
+    def test_execute_command_no_desc(self):
+        command = '/bin/bash /home/test.sh'
+        self.element.action_execute_command(command)
+        self.action_test('command', 'Execute Command', {'command': command})
 
     def test_open_file(self):
         file_name = '/home/my-file.pdf'
@@ -1563,7 +1642,7 @@ class TestOffImage(TestOff):
         self.generic_element_test(tag_name, val)
 
 class TestOnImage(TestOn):
-    def test_image_file(self):
+    def test_on_image_file(self):
         tag_name = 'on_image'
         val = './test/image.png'
         self.element.on_image(val)
@@ -1661,6 +1740,10 @@ class TestPoints(GenericTest):
 
     def test_points_wrong(self):
         self.element.point('2', 5)
+        self.null_test('points')
+
+    def test_points_wrong_again(self):
+        self.element.point(2, '5')
         self.null_test('points')
 
     def test_multiple_points(self):
@@ -1858,6 +1941,11 @@ class TestLabels(GenericTest):
         self.element.labels(label_names)
         self.assertEqual(len(self.element.find_element('labels').findall('text')), len(label_names))
 
+    def test_label_wrong(self):
+        label_name = 112358
+        self.element.labels(label_name)
+        self.assertFalse(self.element.find_element('labels'))
+
 class TestArrayIndex(GenericTest):
     def test_array_index(self):
         tag_name = 'array_index'
@@ -1891,6 +1979,11 @@ class TestSymbols(GenericTest):
         self.assertEqual(len(self.element.find_element('symbols').findall('symbol')), len(label_names))
         self.element.symbols(label_name)
         self.child_element_test('symbols', 'symbol', label_name, {}, True)
+
+    def test_symbols_wrong(self):
+        label_name = 123456789
+        self.element.symbols(label_name)
+        self.assertFalse(self.element.find_element('symbols'))
 
 class TestInitialIndex(GenericTest):
     def test_initial_index_index(self):
@@ -2005,6 +2098,18 @@ class TestLevelsAndShow(GenericTest):
         tag_name = 'level_high'
         val = 2.23
         self.element.level_high(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_lolo(self):
+        tag_name = 'level_lolo'
+        val = 500.23
+        self.element.level_lolo(val)
+        self.generic_element_test(tag_name, val)
+
+    def test_level_lolo_int(self):
+        tag_name = 'level_lolo'
+        val = 100
+        self.element.level_lolo(val)
         self.generic_element_test(tag_name, val)
 
     def test_level_low(self):
@@ -2134,8 +2239,39 @@ class TestColumns(GenericTest):
         self.element.column('col2', 123, True, 'optionStr')
         self.assertEqual(len(self.element.find_element('columns').findall('column')), 2)
 
+    def test_columns_options_wrong(self):
+        self.element.column('col1', 123, False, ['opt532', 'option35'])
+        self.element.column('col2', 123, True, 123)
+        self.assertEqual(len(self.element.find_element('columns').findall('column')), 2)
+
+    def test_columns_options_none(self):
+        self.element.column('col1', 123, False, ['opt532', 'option35'])
+        self.element.column('col2', 123, True, None)
+        self.assertEqual(len(self.element.find_element('columns').findall('column')), 2)
+
+
 class TestTabs(GenericTest):
-    pass
+    def test_tab(self):
+        self.element.tab('tab1')
+        self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 1)
+        self.assertEqual(self.element.root.find('tabs').findall('tab')[0].find('name').text, 'tab1')
+
+    def test_add_widget(self):
+        self.element.tab('tab1')
+        self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 1)
+        self.element.add_widget('tab1', self.widget)
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('children')[0].find('name').text, 'testGroup')
+
+    def test_add_widget_none(self):
+        self.element.add_widget('tab1', self.widget)
+        self.assertIsNone(self.element.root.find('tabs'))
+
+    def test_add_widget_not_found(self):
+        self.element.tab('tab1')
+        self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 1)
+        self.element.add_widget('tab2', self.widget)
+        self.assertNotEqual(self.element.root.find('tabs').find('tab').find('name').text, 'tab2')
+
 
 class TestNavTabs(GenericTest):
     def test_nav_tab(self):
@@ -2147,6 +2283,18 @@ class TestNavTabs(GenericTest):
         self.assertEqual(self.element.root.find('tabs').find('tab').find('group_name').text, 'TabGroupName')
         self.assertIsNotNone(self.element.root.find('tabs').find('tab').find('macros'))
         self.assertEqual(self.element.root.find('tabs').find('tab').find('macros').find('MAC1').text, 'MacV')
+        self.element.tab('TabElement', './tab.bob', 'TabGroupName')
+        self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 2)
+
+    def test_nav_tab_macros_wrong(self):
+        self.element.tab('TabElement2', './tab2.bob', 'TabGroupName', 'macro')
+        self.assertIsNotNone(self.element.root.find('tabs'))
+        self.assertIsNotNone(self.element.root.find('tabs').find('tab'))
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('name').text, 'TabElement2')
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('file').text, './tab2.bob')
+        self.assertEqual(self.element.root.find('tabs').find('tab').find('group_name').text, 'TabGroupName')
+        self.assertIsNotNone(self.element.root.find('tabs').find('tab').find('macros'))
+        self.assertIsNone(self.element.root.find('tabs').find('tab').find('macros').find('MAC1'))
         self.element.tab('TabElement', './tab.bob', 'TabGroupName')
         self.assertEqual(len(self.element.root.find('tabs').findall('tab')), 2)
 
@@ -3093,3 +3241,16 @@ class TestColorMap(InternalTest):
         self.element.remove_color_map(map1)
         color_map = self.element.root.find('color_map')
         self.assertEqual(color_map, None)
+
+class TestStructure(GenericTest):
+    def test_add_widget_structure(self):
+        obj = self.widget_obj
+        self.element.add_widget(obj)
+        self.assertEqual(self.element.root.find('widget').attrib['type'], 'xyplot')
+
+
+    def test_add_widget_structure_list(self):
+        lst = self.widget_list
+        self.element.add_widget(lst)
+        self.assertEqual(self.element.root.findall('widget')[0].attrib['type'], 'label')
+        self.assertEqual(self.element.root.findall('widget')[1].attrib['type'], 'xyplot')
