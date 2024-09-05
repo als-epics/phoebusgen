@@ -38,14 +38,13 @@ class Screen(object):
         rough_string = tostring(self.root, 'utf-8')
         reparse_xml = minidom.parseString(rough_string)
         if file_name is None:
+            if self.bob_file is None:
+                print('Output Phoebus file name is not set! First set bob_file or use file_name parameter')
+                return False
             file_name = self.bob_file
-        if file_name is None:
-            print('Output Phoebus file name is not set! First set bob_file or use file_name parameter')
-            return False
-        else:
-            with open(file_name, 'w') as f:
-                reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
-            return True
+        with open(file_name, 'w') as f:
+            reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
+        return True
 
     def find_widget(self, widget_tag_name: str) -> Element:
         """
