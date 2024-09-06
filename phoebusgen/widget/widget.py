@@ -83,9 +83,8 @@ class _Widget(_Generic):
 
         super().__init__('widget')
         self.root.attrib['type'] = w_type
-        #self.root.attrib['version'] = '2.0.0'
-        if (w_type in self._shared.versions):
-            self.root.attrib['version'] = self._shared.versions[w_type]
+        if (w_type in self._shared.widget_versions):
+            self.root.attrib['version'] = self._shared.widget_versions[w_type]
         else:
             self.root.attrib['version'] = '2.0.0'
         name_child = SubElement(self.root, 'name')
