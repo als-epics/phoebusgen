@@ -37,7 +37,7 @@ phoebus_version = '4.7.3'
 _version_def = _curr_path + '/config/' + phoebus_version + '_widgets.def'
 _widget_version_def = _path.expanduser('~/.phoebusgen/widgets.def')    # highest priority
 _local_version_def = _path.expanduser('~/.phoebusgen/' + phoebus_version + '_widgets.def')
-_versions = {}
+widget_versions = {}
 
 if _path.isfile(_local_color_def):
     _color_def = _local_color_def
@@ -125,11 +125,11 @@ def _update_version_def(file_path): # modifies _version dict in place
             if line != '':
                 widget, version = line.split('=')
                 widget = widget.strip()
-                _versions[widget] = version.strip()
+                widget_versions[widget] = version.strip()
 
 def change_phoebus_version(version):
     global phoebus_version
-    global widget_versions
+    global _versions
     phoebus_version = version
     _version_def = _curr_path + '/config/' + phoebus_version + '_widgets.def'
 
@@ -137,16 +137,16 @@ def change_phoebus_version(version):
         _version_def = _widget_version_def
     elif _path.isfile(_local_version_def):
         _version_def = _local_version_def
-    _update_version_def(_version_def)   # modifies _versions
-    widget_versions = _enum('widget_versions', _versions)
+    _update_version_def(_version_def)   # modifies widget_versions
+    _versions = _enum('_versions', widget_versions)
     print('Phoebus version manually changed to ' + version + '.')
 
 _predefined_colors = _update_color_def(_color_def)
 colors = _enum('colors', _predefined_colors)
 _predefined_fonts = _update_font_def(_font_def)
 fonts = _enum('fonts', _predefined_fonts)
-_update_version_def(_version_def)   # sets _versions
-widget_versions = _enum('widget_versions', _versions)
+_update_version_def(_version_def)   # sets widget_versions
+_versions = _enum('_versions', widget_versions)
 
 try:
     from ._version import version as __version__
