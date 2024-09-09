@@ -13,6 +13,9 @@ Phoebusgen can be downloded via pip, `see here <https://pypi.org/project/phoebus
 
 Look at :doc:`the widget docs <source/phoebusgen.widget>` and :doc:`the screen docs <source/phoebusgen.screen>`.
 
+To update the widget versioning, check the phoebusgen.phoebus_version and phoebusgen.widget_versions variables, along with
+the phoebusgen.change_widget_version method.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

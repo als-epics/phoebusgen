@@ -104,9 +104,66 @@ Example
 </display>
 ```
 
+## Phoebus Version Support
+
+In some cases, the XML definitions for a widget can differ between CS Studio Phoebus versions. With phoebusgen 3.0.0 and above,
+versioning is supported via several methods.
+
+phoebusgen will default to use the latest Phoebus released version. At this time for example:
+
+```python
+>>> import phoebusgen
+>>> phoebusgen.phoebus_version
+'4.7.3'
+>>> phoebusgen.widget_versions
+{'arc': '2.0.0', 'ellipse': '2.0.0', 'label': '2.0.0', 'picture': '2.0.0', 'polygon': '2.0.0', 'polyline': '2.0.0',
+ 'rectangle': '2.0.0', 'byte_monitor': '2.0.0', 'led': '2.0.0', 'multi_state_led': '2.0.0', 'meter': '3.0.0',
+ 'progressbar': '2.0.0', 'symbol': '2.0.0', 'table': '2.0.0', 'tank': '2.0.0', 'text-symbol': '2.0.0',
+ 'textupdate': '2.0.0', 'thermometer': '2.0.0', 'action_button': '2.0.0', 'bool_button': '2.0.0', 'checkbox': '2.0.0',
+ 'choice': '2.0.0', 'combo': '2.0.0', 'fileselector': '2.0.0', 'radio': '2.0.0', 'scaledslider': '2.0.0',
+ 'scrollbar': '2.0.0', 'slide_button': '2.0.0', 'spinner': '2.0.0', 'textentry': '2.0.0', 'thumbwheel': '2.0.0',
+ 'databrowser': '2.0.0', 'image': '2.0.0', 'stripchart': '2.1.0', 'xyplot': '3.0.0', 'array': '2.0.0', 'tabs': '2.0.0',
+ 'embedded': '2.0.0', 'group': '3.0.0', 'navtabs': '2.0.0', 'template': '2.0.0', '3dviewer': '2.0.0',
+ 'webbrowser': '2.0.0'}
+```
+
+Here are several ways to change the widget versioning:
+
+- Call the change_phoebus_version method. Currently version 4.7, 4.7.1, 4.7.2, and 4.7.3 are supported. This will update
+  all the widget version to what they were in that specific release of phoebus.
+  - `phoebusgen.change_phoebus_version("4.7.2")`
+- Add your own version definition file (overrides any other def files in ~/.phoebusgen)
+  - `~/.phoebusgen/widgets.def`
+- Add your own version definition file that matches `phoebusgen.phoebus_version`
+  - `~/.phoebusgen/4.7.2_widgets.def`
+- Change the version on an individual widget object
+  - `my_group = phoebusgen.widget.Group("test", 2,2,2,2); my_group.version("2.0.0")`
+
+See the available versions supported in phoebusgen here: [config directory](./phoebusgen/config)
+
+```python
+>>> import phoebusgen
+>>> phoebusgen.phoebus_version
+'4.7.3'
+>>> phoebusgen.change_phoebus_version("4.7.2")
+Phoebus version manually changed to 4.7.2.
+>>> b = phoebusgen.widget.Group("test", 2,2,2,2)
+>>> b
+<?xml version="1.0" ?>
+<widget type="group" version="2.0.0">
+  <name>test</name>
+  <x>2</x>
+  <y>2</y>
+  <width>2</width>
+  <height>2</height>
+</widget>
+>>> b.predefined_line_color("OK")
+Line color not compatible with group widget version less than 3.0.0.
+```
+
 ## Site specific color and font definitions
 
-Place a custom color.def or font.def in ~/.phoebusgen/ to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions.
+Place a custom `color.def` or `font.def` in `~/.phoebusgen/` to force phoebusgen.colors or phoebusgen.fonts to reflect your site's custom definitions.
 
 ```python
 my_widget.predefined_font(phoebusgen.fonts.Header1)

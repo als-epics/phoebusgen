@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.0.0] - 2024-09-08
+
+### Added
+
+- Widget versioning support via the change_phoebus_version method and optional files in ~/.phoebusgen
+- More tests
+
+### Changed
+
+- line_color and predefined_line_color to check the version for the Group widget
+
+### Fixed
+
+- Missing Color property on the XY Plot widget
+
+## [2.8.0] - 2024-09-08
 
 ### Added
 
@@ -20,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Widget base class now inherits from a shared Generic class which is also
   used for new classes StripChartTrace, XYPlotTrace, StripChartYAxis, etc.
 - Switched from versioneer to setuptools_scm for package versioning
+- Switched from setup.py to pyproject.toml
 
 ### Removed
 
