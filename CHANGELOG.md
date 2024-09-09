@@ -246,7 +246,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for most widgets but not all properties on all widgets
 
-[unreleased]: https://github.com/als-epics/phoebusgen/compare/2.7.0...HEAD
+[unreleased]: https://github.com/als-epics/phoebusgen/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/als-epics/phoebusgen/compare/2.8.0...3.0.0
+[2.8.0]: https://github.com/als-epics/phoebusgen/compare/2.7.0...2.8.0
 [2.7.0]: https://github.com/als-epics/phoebusgen/compare/2.6.2...2.7.0
 [2.6.2]: https://github.com/als-epics/phoebusgen/compare/2.6.1...2.6.2
 [2.6.1]: https://github.com/als-epics/phoebusgen/compare/2.6.0...2.6.1
