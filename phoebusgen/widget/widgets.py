@@ -588,7 +588,7 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
             _p._AlarmBorder, _p._MinMax, _p._AutoScale, _p._DataHeightAndWidth, _p._UnsignedData,
             _p._LogScale, _p._Cursor, _p._Interpolation, _p._XAxis, _p._YAxis, _p._ColorMode,
             _p._RegionsOfInterest, _p._ColorBar, _p._ColorMap):
-    """ Image - Incomplete Widget """
+    """ Image Phoebus Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Image Widget
@@ -610,7 +610,7 @@ class Image(_Widget, _p._PVName, _p._ForegroundColor, _p._BackgroundColor, _p._S
 class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
                  _p._TitleFont, _p._ShowLegend, _p._ShowGrid, _p._TimeRange, _p._LabelFont,
                  _p._ScaleFont, _p._YAxes, _p._Traces):
-    """ StripChart - Incomplete Widget """
+    """ StripChart Phoebus Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create StripChart Widget
@@ -629,7 +629,7 @@ class StripChart(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowTool
 #    pass
 class XYPlot(_Widget, _p._ForegroundColor, _p._BackgroundColor, _p._ShowToolbar, _p._Title,
              _p._TitleFont, _p._GridColor, _p._XAxis, _p._YAxes, _p._Traces, _p._Markers):
-    """ XYPlot - Incomplete Widget """
+    """ XYPlot Phoebus Widget """
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create XYPlot Widget

@@ -62,11 +62,6 @@ Python API to directly create Phoebus widgets. All standard Phoebus widgets are 
 
 [Widgets Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
-#### Incomplete Widgets
--   Image
--   Strip Chart
--   X/Y Plot
-
 Example
 -   ```text_update_xml = phoebusgen.widget.TextUpdate(widget_name, pv_name, x, y, width, height)```
 

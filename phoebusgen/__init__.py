@@ -115,7 +115,7 @@ def _update_font_def(file_path):
                     predefined_fonts[font.replace(' ', '')] = {'name': font, 'family': family, 'style': style, 'size': size}
         return predefined_fonts
 
-def _update_version_def(file_path): # modifies _version dict in place
+def _update_version_def(file_path): # modifies widget_version dict in place
     if not _path.isfile(file_path):
         print('File at this path does not exist: {}'.format(file_path))
         return
