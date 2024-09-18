@@ -58,7 +58,7 @@ Phoebus widgets and a Phoebus screen are all Python objects. Widgets can be adde
 
 ### phoebusgen.widget
 
-Python API to directly create Phoebus widgets. All standard Phoebus widgets are available, but some (3) are not fully feature complete.
+Python API to directly create Phoebus widgets. All standard Phoebus widgets and their specific properties are available as of version 3.0.0
 
 [Widgets Docs](https://als-epics.github.io/phoebusgen/source/phoebusgen.widget.html#module-phoebusgen.widget.widgets)
 
