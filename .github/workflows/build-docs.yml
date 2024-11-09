@@ -26,7 +26,7 @@ jobs:
     - name: Build Docs
       run: ./.docbuild/build-docs.sh
     - name: Archive docs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: save-docs
         path: docs
