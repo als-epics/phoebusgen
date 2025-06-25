@@ -319,6 +319,11 @@ class _HorizontalAlignment(object):
         if not isinstance(alignment, self._shared.HorizontalAlignment):
             print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
             return
+        if (self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']):
+            v = list(map(int, self.p_version.split('.')))
+            if (v[0] < 4 or v[1] < 7 or v[2] < 3):
+                print('Must be Phoebus version 4.7.3 or later to use horizontal alignment with buttons.')
+                return
         self._shared.generic_property(self.root, 'horizontal_alignment', alignment.value)
 
     def horizontal_alignment_left(self) -> None:
@@ -344,6 +349,11 @@ class _VerticalAlignment(object):
         if not isinstance(alignment, self._shared.VerticalAlignment):
             print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
             return
+        if (self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']):
+            v = list(map(int, self.p_version.split('.')))
+            if (v[0] < 4 or v[1] < 7 or v[2] < 3):
+                print('Must be Phoebus version 4.7.3 or later to use vertical alignment with buttons.')
+                return
         self._shared.generic_property(self.root, 'vertical_alignment', alignment.value)
 
     def vertical_alignment_top(self) -> None:
