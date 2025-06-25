@@ -321,7 +321,7 @@ class _HorizontalAlignment(object):
             return
         if (self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']):
             v = list(map(int, self.p_version.split('.')))
-            if (v[0] < 4 or v[1] < 7 or v[2] < 3):
+            if (v < [4, 7, 3]):
                 print('Must be Phoebus version 4.7.3 or later to use horizontal alignment with buttons.')
                 return
         self._shared.generic_property(self.root, 'horizontal_alignment', alignment.value)
@@ -351,7 +351,7 @@ class _VerticalAlignment(object):
             return
         if (self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']):
             v = list(map(int, self.p_version.split('.')))
-            if (v[0] < 4 or v[1] < 7 or v[2] < 3):
+            if (v < [4, 7, 3]):
                 print('Must be Phoebus version 4.7.3 or later to use vertical alignment with buttons.')
                 return
         self._shared.generic_property(self.root, 'vertical_alignment', alignment.value)
