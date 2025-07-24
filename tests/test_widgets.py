@@ -229,7 +229,7 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
 
 class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                        ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions,
-                       ph.TestAlarmBorder):
+                       ph.TestAlarmBorder, ph.TestVerticalAlignment, ph.TestHorizontalAlignment):
     def setUp(self):
         self.name = 'Label_1'
         self.type = 'action_button'
@@ -239,11 +239,12 @@ class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFon
         self.y = 12
         self.width = 14
         self.height = 15
+        self.p_version = '4.7.2'
         self.element = widgets.ActionButton(self.name, self.text, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
                         ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
-                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage):
+                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage, ph.TestHorizontalAlignment, ph.TestVerticalAlignment):
     def setUp(self):
         self.name = 'boolean button'
         self.type = 'bool_button'
@@ -252,6 +253,7 @@ class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.Te
         self.y = 3245
         self.width = 1
         self.height = 2
+        self.p_version = '4.7.3'
         self.element = widgets.BooleanButton(self.name, self.pv_name, 23.2, 3245.9, 1.1, 2.8)
 
 class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph.TestForegroundColor,
@@ -269,7 +271,7 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
 
 class TestChoiceButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                     ph.TestSelectedColor, ph.TestHorizontal, ph.TestAlarmBorder, ph.TestItems, ph.TestItemsFromPV,
-                    ph.TestConfirmation):
+                    ph.TestConfirmation, ph.TestHorizontalAlignment, ph.TestVerticalAlignment):
     def setUp(self):
         self.name = 'choice box'
         self.pv_name = 'TEST:PV:BOOL'
@@ -278,6 +280,7 @@ class TestChoiceButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestFor
         self.y = 12
         self.width = 14
         self.height = 15
+        self.p_version = '4.7.3'
         self.element = widgets.ChoiceButton(self.name, self.pv_name, self.x, self.y, self.width, self.height)
 
 class TestComboBox(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,

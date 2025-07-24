@@ -687,6 +687,13 @@ class TestHorizontalAlignment(GenericTest):
         self.element.horizontal_alignment_right()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_horizontal_alignment_lower_version(self):
+        tag_name = 'horizontal_alignment'
+        if self.type in ['action_button', 'bool_button', 'choice']:
+            self.element.p_version = '4.7.2'
+            self.element.horizontal_alignment_right()
+            self.assertIsNone(self.element.root.find(tag_name))
+
 class TestVerticalAlignment(GenericTest):
     def test_vertical_alignment_1(self):
         tag_name = 'vertical_alignment'
@@ -705,6 +712,13 @@ class TestVerticalAlignment(GenericTest):
         xml_value = 2
         self.element.vertical_alignment_bottom()
         self.generic_element_test(tag_name, xml_value)
+
+    def test_vertical_alignment_lower_version(self):
+        tag_name = 'vertical_alignment'
+        if self.type in ['action_button', 'bool_button', 'choice']:
+            self.element.p_version = '4.7.2'
+            self.element.vertical_alignment_bottom()
+            self.assertIsNone(self.element.root.find(tag_name))
 
 class TestWrapWords(GenericTest):
     def test_wrap_words(self):
