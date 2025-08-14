@@ -315,15 +315,12 @@ class _ShowUnits(object):
         self._shared.boolean_property(self.root, 'show_units', show)
 
 class _HorizontalAlignment(object):
+    # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
+    # but not handled due to widget versions not being incremented
     def _add_horizontal_alignment(self, alignment):
         if not isinstance(alignment, self._shared.HorizontalAlignment):
             print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
             return
-        if self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']:
-            v = list(map(int, self.p_version.split('.')))
-            if v < [4, 7, 3]:
-                print('Must be Phoebus version 4.7.3 or later to use horizontal alignment with buttons.')
-                return
         self._shared.generic_property(self.root, 'horizontal_alignment', alignment.value)
 
     def horizontal_alignment_left(self) -> None:
@@ -345,15 +342,12 @@ class _HorizontalAlignment(object):
         self._add_horizontal_alignment(self._shared.HorizontalAlignment.right)
 
 class _VerticalAlignment(object):
+    # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
+    # but not handled due to widget versions not being incremented
     def _add_vertical_alignment(self, alignment):
         if not isinstance(alignment, self._shared.VerticalAlignment):
             print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
             return
-        if self.root.attrib['type'] in ['action_button', 'bool_button', 'choice']:
-            v = list(map(int, self.p_version.split('.')))
-            if v < [4, 7, 3]:
-                print('Must be Phoebus version 4.7.3 or later to use vertical alignment with buttons.')
-                return
         self._shared.generic_property(self.root, 'vertical_alignment', alignment.value)
 
     def vertical_alignment_top(self) -> None:

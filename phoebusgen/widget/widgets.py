@@ -317,7 +317,6 @@ class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._For
         _Widget.__init__(self, 'action_button', name, x, y, width, height)
         self.pv_name(pv_name)
         self.text(text)
-        self.p_version = phoebusgen.phoebus_version
 
 class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
                     _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation, _p._HorizontalAlignment, _p._VerticalAlignment):
@@ -335,7 +334,6 @@ class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p.
         """
         _Widget.__init__(self, 'bool_button', name, x, y, width, height)
         self.pv_name(pv_name)
-        self.p_version = phoebusgen.phoebus_version
 
 class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._ForegroundColor, _p._AutoSize,
                _p._AlarmBorder, _p._Confirmation):
@@ -372,7 +370,6 @@ class ChoiceButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._Backg
         """
         _Widget.__init__(self, 'choice', name, x, y, width, height)
         self.pv_name(pv_name)
-        self.p_version = phoebusgen.phoebus_version
 
 class ComboBox(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._AlarmBorder, _p._Items,
                _p._ItemsFromPV, _p._Editable, _p._Enabled, _p._Confirmation):
