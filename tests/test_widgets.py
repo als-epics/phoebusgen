@@ -229,7 +229,7 @@ class TestThermometer(unittest.TestCase, ph.TestPVName, ph.TestFillColor, ph.Tes
 
 class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                        ph.TestTransparent, ph.TestRotationStep, ph.TestEnabled, ph.TestConfirmation, ph.TestActions,
-                       ph.TestAlarmBorder):
+                       ph.TestAlarmBorder, ph.TestVerticalAlignment, ph.TestHorizontalAlignment):
     def setUp(self):
         self.name = 'Label_1'
         self.type = 'action_button'
@@ -243,7 +243,7 @@ class TestActionButton(unittest.TestCase, ph.TestPVName, ph.TestText, ph.TestFon
 
 class TestBooleanButton(unittest.TestCase, ph.TestOffImage, ph.TestPVName, ph.TestBit, ph.TestShowLED, ph.TestFont,
                         ph.TestForegroundColor, ph.TestBackgroundColor, ph.TestLabelsFromPV, ph.TestAlarmBorder,
-                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage):
+                        ph.TestEnabled, ph.TestMode, ph.TestConfirmation, ph.TestOnImage, ph.TestHorizontalAlignment, ph.TestVerticalAlignment):
     def setUp(self):
         self.name = 'boolean button'
         self.type = 'bool_button'
@@ -269,7 +269,7 @@ class TestCheckBox(unittest.TestCase, ph.TestPVName, ph.TestBit, ph.TestFont, ph
 
 class TestChoiceButton(unittest.TestCase, ph.TestPVName, ph.TestFont, ph.TestForegroundColor, ph.TestBackgroundColor,
                     ph.TestSelectedColor, ph.TestHorizontal, ph.TestAlarmBorder, ph.TestItems, ph.TestItemsFromPV,
-                    ph.TestConfirmation):
+                    ph.TestConfirmation, ph.TestHorizontalAlignment, ph.TestVerticalAlignment):
     def setUp(self):
         self.name = 'choice box'
         self.pv_name = 'TEST:PV:BOOL'

@@ -299,7 +299,7 @@ class Thermometer(_Widget, _p._PVName, _p._FillColor, _p._AlarmBorder, _p._Limit
 
 # Controls
 class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-                   _p._Transparent, _p._RotationStep, _p._Enabled, _p._AlarmBorder, _p._Confirmation):
+                   _p._Transparent, _p._HorizontalAlignment, _p._VerticalAlignment, _p._RotationStep, _p._Enabled, _p._AlarmBorder, _p._Confirmation):
     """ ActionButton Phoebus Widget """
     def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -318,7 +318,7 @@ class ActionButton(_Widget, _p._PVName, _p._Actions, _p._Text, _p._Font, _p._For
         self.text(text)
 
 class BooleanButton(_Widget, _p._PVName, _p._Bit, _p._OffImage, _p._OnImage, _p._ShowLED, _p._Font, _p._ForegroundColor, _p._BackgroundColor,
-                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation):
+                    _p._LabelsFromPV, _p._AlarmBorder, _p._Enabled, _p._Mode, _p._Confirmation, _p._HorizontalAlignment, _p._VerticalAlignment):
     """ BooleanButton Phoebus Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -354,7 +354,7 @@ class CheckBox(_Widget, _p._PVName, _p._Bit, _p._Label, _p._Font, _p._Foreground
         self.label(label)
 
 class ChoiceButton(_Widget, _p._PVName, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._SelectedColor, _p._Horizontal,
-                   _p._AlarmBorder, _p._Items, _p._ItemsFromPV, _p._Confirmation):
+                   _p._AlarmBorder, _p._Items, _p._ItemsFromPV, _p._Confirmation, _p._HorizontalAlignment, _p._VerticalAlignment):
     """ ChoiceButton Phoebus Widget """
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

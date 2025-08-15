@@ -127,9 +127,9 @@ class TestWidgetClass(unittest.TestCase):
     def test_embedded_python_script(self):
         w = self.create_basic_widget()
         script = """# Embedded python script
-from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
-print 'Hello'
-# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))"""
+        from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+        print 'Hello'
+        # widget.setPropertyValue('text', PVUtil.getString(pvs[0]))"""
         pvs = {'pv0': True, '$(pv_name)': False, 'pv2': True}
         w.embedded_python_script(script, pvs, False)
         self.assertEqual(len(w.root.findall('scripts')), 1)
@@ -144,11 +144,11 @@ print 'Hello'
     def test_embedded_javascript_script(self):
         w = self.create_basic_widget()
         script = """/* Embedded javascript */
-importClass(org.csstudio.display.builder.runtime.script.PVUtil);
-importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
-logger = ScriptUtil.getLogger();
-logger.info("Hello");
-/* widget.setPropertyValue("text", PVUtil.getString(pvs[0])); */"""
+        importClass(org.csstudio.display.builder.runtime.script.PVUtil);
+        importClass(org.csstudio.display.builder.runtime.script.ScriptUtil);
+        logger = ScriptUtil.getLogger();
+        logger.info("Hello");
+        /* widget.setPropertyValue("text", PVUtil.getString(pvs[0])); */"""
         pvs = {'pv0': True, '$(pv_name)': False, 'pv2': True}
         w.embedded_javascript_script(script, pvs, True)
         self.assertEqual(len(w.root.findall('scripts')), 1)

@@ -83,7 +83,7 @@ class _Widget(_Generic):
 
         super().__init__('widget')
         self.root.attrib['type'] = w_type
-        if (w_type in self._shared.widget_versions):
+        if w_type in self._shared.widget_versions:
             self.root.attrib['version'] = self._shared.widget_versions[w_type]
         else:
             self.root.attrib['version'] = '2.0.0'

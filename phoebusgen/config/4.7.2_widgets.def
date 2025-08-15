@@ -23,7 +23,7 @@ textupdate = 2.0.0
 thermometer = 2.0.0
 
 # Controls
-action_button = 2.0.0
+action_button = 3.0.0
 bool_button = 2.0.0
 checkbox = 2.0.0
 choice = 2.0.0

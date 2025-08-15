@@ -315,6 +315,8 @@ class _ShowUnits(object):
         self._shared.boolean_property(self.root, 'show_units', show)
 
 class _HorizontalAlignment(object):
+    # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
+    # but not handled due to widget versions not being incremented
     def _add_horizontal_alignment(self, alignment):
         if not isinstance(alignment, self._shared.HorizontalAlignment):
             print('The component parameter must be of type HorizontalAlignment enum! Not: {}'.format(type(alignment)))
@@ -340,6 +342,8 @@ class _HorizontalAlignment(object):
         self._add_horizontal_alignment(self._shared.HorizontalAlignment.right)
 
 class _VerticalAlignment(object):
+    # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
+    # but not handled due to widget versions not being incremented
     def _add_vertical_alignment(self, alignment):
         if not isinstance(alignment, self._shared.VerticalAlignment):
             print('The component parameter must be of type VerticalAlignment enum! Not: {}'.format(type(alignment)))
@@ -559,7 +563,7 @@ class _LineColor(object):
 
         :param name: <phoebusgen.colors> Predefined color name
         """
-        if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
+        if self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3:
             print('Line color not compatible with group widget version less than 3.0.0.')
             return
         e = self._shared.create_element(self.root, 'line_color')
@@ -574,7 +578,7 @@ class _LineColor(object):
         :param blue: 0-255
         :param alpha: 0-255. Default is 255
         """
-        if (self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3):
+        if self.root.attrib['type'] == 'group' and int(self.root.attrib['version'].split('.')[0]) < 3:
             print('Line color not compatible with group widget version less than 3.0.0.')
             return
         e = self._shared.create_element(self.root, 'line_color')
@@ -906,7 +910,7 @@ class _Traces(object):
 
         :param trace: trace object
         """
-        if (type(self).__name__ not in str(type(trace))):
+        if type(self).__name__ not in str(type(trace)):
             print('Chart type and trace type do not match.')
             return
         root_traces = self.root.find('traces')
@@ -1120,7 +1124,7 @@ class _YAxes(object):
 
         :param axis: y-axis object
         """
-        if (type(self).__name__ not in str(type(axis))):
+        if type(self).__name__ not in str(type(axis)):
             print('Chart type and axis type do not match.')
             return
         root_axes = self.root.find('y_axes')
@@ -2586,7 +2590,7 @@ class _ColorMap(object):
 
         :param name: Name of predefined color map
         """
-        if (name not in (predef.value for predef in self._shared.ColorMap)):
+        if name not in (predef.value for predef in self._shared.ColorMap):
             print('Color map name is undefined.')
             return
         existing = self.root.find('color_map')
