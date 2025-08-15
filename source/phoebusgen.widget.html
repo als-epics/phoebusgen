@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>phoebusgen.widget package &mdash; phoebusgen 2.3.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
@@ -76,6 +76,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.foreground_color"><code class="docutils literal notranslate"><span class="pre">ActionButton.foreground_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.get_element_value"><code class="docutils literal notranslate"><span class="pre">ActionButton.get_element_value()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.height"><code class="docutils literal notranslate"><span class="pre">ActionButton.height()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_center"><code class="docutils literal notranslate"><span class="pre">ActionButton.horizontal_alignment_center()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_left"><code class="docutils literal notranslate"><span class="pre">ActionButton.horizontal_alignment_left()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_right"><code class="docutils literal notranslate"><span class="pre">ActionButton.horizontal_alignment_right()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.name"><code class="docutils literal notranslate"><span class="pre">ActionButton.name()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.predefined_background_color"><code class="docutils literal notranslate"><span class="pre">ActionButton.predefined_background_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.predefined_font"><code class="docutils literal notranslate"><span class="pre">ActionButton.predefined_font()</span></code></a></li>
@@ -91,6 +94,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.tool_tip"><code class="docutils literal notranslate"><span class="pre">ActionButton.tool_tip()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.transparent"><code class="docutils literal notranslate"><span class="pre">ActionButton.transparent()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.version"><code class="docutils literal notranslate"><span class="pre">ActionButton.version()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_bottom"><code class="docutils literal notranslate"><span class="pre">ActionButton.vertical_alignment_bottom()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_middle"><code class="docutils literal notranslate"><span class="pre">ActionButton.vertical_alignment_middle()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_top"><code class="docutils literal notranslate"><span class="pre">ActionButton.vertical_alignment_top()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.visible"><code class="docutils literal notranslate"><span class="pre">ActionButton.visible()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.width"><code class="docutils literal notranslate"><span class="pre">ActionButton.width()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ActionButton.x"><code class="docutils literal notranslate"><span class="pre">ActionButton.x()</span></code></a></li>
@@ -169,6 +175,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.foreground_color"><code class="docutils literal notranslate"><span class="pre">BooleanButton.foreground_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.get_element_value"><code class="docutils literal notranslate"><span class="pre">BooleanButton.get_element_value()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.height"><code class="docutils literal notranslate"><span class="pre">BooleanButton.height()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_center"><code class="docutils literal notranslate"><span class="pre">BooleanButton.horizontal_alignment_center()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_left"><code class="docutils literal notranslate"><span class="pre">BooleanButton.horizontal_alignment_left()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_right"><code class="docutils literal notranslate"><span class="pre">BooleanButton.horizontal_alignment_right()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.labels_from_pv"><code class="docutils literal notranslate"><span class="pre">BooleanButton.labels_from_pv()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.mode_push"><code class="docutils literal notranslate"><span class="pre">BooleanButton.mode_push()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.mode_push_inverted"><code class="docutils literal notranslate"><span class="pre">BooleanButton.mode_push_inverted()</span></code></a></li>
@@ -191,6 +200,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.show_led"><code class="docutils literal notranslate"><span class="pre">BooleanButton.show_led()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.tool_tip"><code class="docutils literal notranslate"><span class="pre">BooleanButton.tool_tip()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.version"><code class="docutils literal notranslate"><span class="pre">BooleanButton.version()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_bottom"><code class="docutils literal notranslate"><span class="pre">BooleanButton.vertical_alignment_bottom()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_middle"><code class="docutils literal notranslate"><span class="pre">BooleanButton.vertical_alignment_middle()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_top"><code class="docutils literal notranslate"><span class="pre">BooleanButton.vertical_alignment_top()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.visible"><code class="docutils literal notranslate"><span class="pre">BooleanButton.visible()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.width"><code class="docutils literal notranslate"><span class="pre">BooleanButton.width()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.BooleanButton.x"><code class="docutils literal notranslate"><span class="pre">BooleanButton.x()</span></code></a></li>
@@ -289,6 +301,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.get_element_value"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.get_element_value()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.height"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.height()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.horizontal()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_center"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.horizontal_alignment_center()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_left"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.horizontal_alignment_left()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_right"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.horizontal_alignment_right()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.item"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.item()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.items_from_pv"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.items_from_pv()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.name"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.name()</span></code></a></li>
@@ -302,6 +317,9 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.selected_color"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.selected_color()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.tool_tip"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.tool_tip()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.version"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.version()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_bottom"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.vertical_alignment_bottom()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_middle"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.vertical_alignment_middle()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_top"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.vertical_alignment_top()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.visible"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.visible()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.width"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.width()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.ChoiceButton.x"><code class="docutils literal notranslate"><span class="pre">ChoiceButton.x()</span></code></a></li>
@@ -1797,7 +1815,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">ActionButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Actions</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Text</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RotationStep</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Enabled</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Actions</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Text</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_HorizontalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_VerticalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RotationStep</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Enabled</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code></p>
 <p>ActionButton Phoebus Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.action_execute_as_one">
@@ -2224,6 +2242,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.horizontal_alignment_center">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_center</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_center" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to center</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.horizontal_alignment_left">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_left" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignmnet to Left</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.horizontal_alignment_right">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.horizontal_alignment_right" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to right</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.name">
 <span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.name" title="Link to this definition">¶</a></dt>
 <dd><p>Change widget name</p>
@@ -2422,6 +2473,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.vertical_alignment_bottom">
+<span class="sig-name descname"><span class="pre">vertical_alignment_bottom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_bottom" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Bottom</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.vertical_alignment_middle">
+<span class="sig-name descname"><span class="pre">vertical_alignment_middle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_middle" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Middle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ActionButton.vertical_alignment_top">
+<span class="sig-name descname"><span class="pre">vertical_alignment_top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ActionButton.vertical_alignment_top" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Top</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3217,7 +3301,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">BooleanButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Bit</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_OffImage</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_OnImage</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowLED</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_LabelsFromPV</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Enabled</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Mode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Bit</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_OffImage</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_OnImage</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowLED</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_LabelsFromPV</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Enabled</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Mode</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_HorizontalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_VerticalAlignment</span></code></p>
 <p>BooleanButton Phoebus Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.alarm_border">
@@ -3497,6 +3581,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_center">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_center</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_center" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to center</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_left">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_left" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignmnet to Left</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_right">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.horizontal_alignment_right" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to right</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3811,6 +3928,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.vertical_alignment_bottom">
+<span class="sig-name descname"><span class="pre">vertical_alignment_bottom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_bottom" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Bottom</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.vertical_alignment_middle">
+<span class="sig-name descname"><span class="pre">vertical_alignment_middle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_middle" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Middle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.BooleanButton.vertical_alignment_top">
+<span class="sig-name descname"><span class="pre">vertical_alignment_top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.BooleanButton.vertical_alignment_top" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Top</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -4872,7 +5022,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">ChoiceButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_SelectedColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Horizontal</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Items</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ItemsFromPV</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_SelectedColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Horizontal</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Items</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ItemsFromPV</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Confirmation</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_HorizontalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_VerticalAlignment</span></code></p>
 <p>ChoiceButton Phoebus Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.alarm_border">
@@ -5143,6 +5293,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_center">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_center</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_center" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to center</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_left">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_left</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_left" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignmnet to Left</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_right">
+<span class="sig-name descname"><span class="pre">horizontal_alignment_right</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.horizontal_alignment_right" title="Link to this definition">¶</a></dt>
+<dd><p>Change horizontal alignment to right</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.item">
 <span class="sig-name descname"><span class="pre">item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.item" title="Link to this definition">¶</a></dt>
 <dd><p>Add item property to widget</p>
@@ -5330,6 +5513,39 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_bottom">
+<span class="sig-name descname"><span class="pre">vertical_alignment_bottom</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_bottom" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Bottom</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_middle">
+<span class="sig-name descname"><span class="pre">vertical_alignment_middle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_middle" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Middle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_top">
+<span class="sig-name descname"><span class="pre">vertical_alignment_top</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.ChoiceButton.vertical_alignment_top" title="Link to this definition">¶</a></dt>
+<dd><p>Change vertical alignment to Top</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -24493,7 +24709,7 @@ by calling the widget class constructor, i.e. phoebusgen.widget.TextUpdate(…) 
 phoebusgen.widget.ScaledSlider(…). Once the class is created and assigned to a Python
 variable, additional methods to change widget properties are available.</p>
 <dl>
-<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">phoebusgen</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">phoebusgen</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">text_update_widget</span> <span class="o">=</span> <span class="n">phoebusgen</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">TextUpdate</span><span class="p">(</span><span class="s1">&#39;test widget&#39;</span><span class="p">,</span> <span class="s1">&#39;TEST:PV&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">text_update_widget</span><span class="o">.</span><span class="n">predefined_foreground_color</span><span class="p">(</span><span class="n">phoebusgen</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">text_update_widget</span><span class="o">.</span><span class="n">font_style_bold</span><span class="p">()</span>
