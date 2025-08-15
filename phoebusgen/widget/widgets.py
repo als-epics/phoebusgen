@@ -1,6 +1,5 @@
 from phoebusgen.widget.widget import _Widget, _Generic
 from phoebusgen.widget import properties as _p
-import phoebusgen
 
 # Displays
 class Arc(_Widget, _p._Macro, _p._Angle, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent):
