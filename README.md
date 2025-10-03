@@ -18,7 +18,7 @@ Suggestions, comments, and pull requests are welcome.
 
 ## Requirements
 
--   Python >= 3.5
+-   Python >= 3.6
 
 ## Install
 Pip Package: [phoebusgen](https://pypi.org/project/phoebusgen/)
