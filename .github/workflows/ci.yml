@@ -18,8 +18,6 @@ jobs:
       matrix:
         # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
         include:
-          - python-version: "3.5"
-            container: "python:3.5"
           - python-version: "3.6"
             container: "python:3.6"
           - python-version: "3.7"
