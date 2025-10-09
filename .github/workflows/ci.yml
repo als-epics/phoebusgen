@@ -28,7 +28,7 @@ jobs:
           - python-version: "3.11"
           - python-version: "3.12"
           - python-version: "3.13"
-          - python-version: "3.14.0-rc.3"
+          - python-version: "3.14"
     name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v4
