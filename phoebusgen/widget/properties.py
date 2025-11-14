@@ -10,6 +10,14 @@ class _PVName(object):
         """
         self._shared.generic_property(self.root, 'pv_name', name)
 
+    def get_pv_name(self) -> str:
+        """
+        Get PV name from widget
+
+        :return: PV name string
+        """
+        return self.get_element_value('pv_name')
+
 class _Font(object):
     def predefined_font(self, name: object) -> None:
         """
@@ -279,6 +287,16 @@ class _Transparent(object):
         """
         self._shared.boolean_property(self.root, 'transparent', transparent)
 
+    def is_transparent(self) -> bool:
+        """
+        Get transparent property from widget
+        :return: Is widget transparent?
+        """
+        val = self.get_element_value('transparent')
+        if val.lower() == 'true':
+            return True
+        return False
+
 class _Format(object):
     # this should use an enum
     def format(self, format_val: str) -> None:
@@ -296,6 +314,14 @@ class _Format(object):
             return
         self._shared.generic_property(self.root, 'format', v)
 
+    def get_format(self) -> str:
+        """
+        Get format property from widget
+        :return: Format string name
+        """
+        val = int(self.get_element_value('format'))
+        return self._shared.formats_array[val].capitalize()
+
 class _Precision(object):
     def precision(self, val: int) -> None:
         """
@@ -305,6 +331,13 @@ class _Precision(object):
         """
         self._shared.integer_property(self.root, 'precision', val)
 
+    def get_precision(self) -> int:
+        """
+        Get precision value from widget
+        :return: Precision value
+        """
+        return int(self.get_element_value('precision'))
+
 class _ShowUnits(object):
     def show_units(self, show: bool = True) -> None:
         """
@@ -313,6 +346,16 @@ class _ShowUnits(object):
         :param show: Show units?
         """
         self._shared.boolean_property(self.root, 'show_units', show)
+
+    def is_showing_units(self) -> bool:
+        """
+        Get show units property from widget
+        :return: Is showing units?
+        """
+        val = self.get_element_value('show_units')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _HorizontalAlignment(object):
     # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
@@ -341,6 +384,13 @@ class _HorizontalAlignment(object):
         """
         self._add_horizontal_alignment(self._shared.HorizontalAlignment.right)
 
+    def get_horizontal_alignment(self) -> str:
+        """
+        Get horizontal alignment property from widget
+        :return: Horizontal alignment string name
+        """
+        return self._shared.HorizontalAlignment(int(self.get_element_value('horizontal_alignment'))).name
+
 class _VerticalAlignment(object):
     # unsupported for action_button, bool_button, choice in Phoebus versions < 4.7.3
     # but not handled due to widget versions not being incremented
@@ -368,6 +418,13 @@ class _VerticalAlignment(object):
         """
         self._add_vertical_alignment(self._shared.VerticalAlignment.bottom)
 
+    def get_vertical_alignment(self) -> str:
+        """
+        Get vertical alignment property from widget
+        :return: Vertical alignment string name
+        """
+        return self._shared.VerticalAlignment(int(self.get_element_value('vertical_alignment'))).name
+
 class _WrapWords(object):
     def wrap_words(self, wrap: bool = True) -> None:
         """
@@ -376,6 +433,16 @@ class _WrapWords(object):
         :param wrap: Wrap words?
         """
         self._shared.boolean_property(self.root, 'wrap_words', wrap)
+
+    def is_wrapping_words(self) -> bool:
+        """
+        Get wrap words property from widget
+        :return: Is wrapping words?
+        """
+        val = self.get_element_value('wrap_words')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _Text(object):
     def text(self, text: str) -> None:
@@ -386,6 +453,13 @@ class _Text(object):
         """
         self._shared.generic_property(self.root, 'text', text)
 
+    def get_text(self) -> str:
+        """
+        Get text property from widget
+        :return: Text string
+        """
+        return self.get_element_value('text')
+
 class _AutoSize(object):
     def auto_size(self, auto: bool = True) -> None:
         """
@@ -394,6 +468,16 @@ class _AutoSize(object):
         :param auto: Auto size widget?
         """
         self._shared.boolean_property(self.root, 'auto_size', auto)
+
+    def is_auto_sized(self) -> bool:
+        """
+        Get auto size property from widget
+        :return: Is auto sized?
+        """
+        val = self.get_element_value('auto_size')
+        if val.lower() == 'true':
+            return True
+        return False
 
 # 0, 90, 180, -90
 class _RotationStep(object):
@@ -427,6 +511,14 @@ class _RotationStep(object):
         """
         self._add_rotation_step(self._shared.RotationStep.negative_ninety)
 
+    def get_rotation_step(self) -> str:
+        """
+        Get rotation step property from widget
+        :return: Rotation step string name
+        """
+        rot_step = int(self.get_element_value('rotation_step'))
+        return rot_step * 90 if rot_step != 3 else -90
+
 class _Border(object):
     def border_width(self, width: int) -> None:
         """
@@ -435,6 +527,13 @@ class _Border(object):
         :param width: Border width value
         """
         self._shared.integer_property(self.root, 'border_width', width)
+
+    def get_border_width(self) -> int:
+        """
+        Get border width property from widget
+        :return: Border width value
+        """
+        return int(self.get_element_value('border_width'))
 
     def predefined_border_color(self, name: object) -> None:
         """
@@ -507,6 +606,13 @@ class _Off(_OffColor):
         """
         self._shared.generic_property(self.root, 'off_label', label)
 
+    def get_off_label(self) -> str:
+        """
+        Get Off label string from widget
+        :return: Off label string
+        """
+        return self.get_element_value('off_label')
+
 class _OffImage(_Off):
     def off_image(self, image_file: str) -> None:
         """
@@ -515,6 +621,13 @@ class _OffImage(_Off):
         :param image_file: Path to image file
         """
         self._shared.generic_property(self.root, 'off_image', image_file)
+
+    def get_off_image(self) -> str:
+        """
+        Get Off image file name from widget
+        :return: Off image file name
+        """
+        return self.get_element_value('off_image')
 
 class _OnColor(object):
     def predefined_on_color(self, name: object) -> None:
@@ -547,6 +660,13 @@ class _On(_OnColor):
         """
         self._shared.generic_property(self.root, 'on_label', label)
 
+    def get_on_label(self) -> str:
+        """
+        Get On label string from widget
+        :return: On label string
+        """
+        return self.get_element_value('on_label')
+
 class _OnImage(_On):
     def on_image(self, image_file: str) -> None:
         """
@@ -555,6 +675,13 @@ class _OnImage(_On):
         :param image_file: Path to image file
         """
         self._shared.generic_property(self.root, 'on_image', image_file)
+
+    def get_on_image(self) -> str:
+        """
+        Get On image file name from widget
+        :return: On image file name
+        """
+        return self.get_element_value('on_image')
 
 class _LineColor(object):
     def predefined_line_color(self, name: object) -> None:
@@ -593,6 +720,13 @@ class _LineWidth(object):
         """
         self._shared.integer_property(self.root, 'line_width', width)
 
+    def get_line_width(self) -> int:
+        """
+        Get line width property from widget
+        :return: Line width value
+        """
+        return int(self.get_element_value('line_width'))
+
 class _Corner(object):
     def corner_width(self, width: int) -> None:
         """
@@ -602,6 +736,13 @@ class _Corner(object):
         """
         self._shared.integer_property(self.root, 'corner_width', width)
 
+    def get_corner_width(self) -> int:
+        """
+        Get corner width property from widget
+        :return: Corner width value
+        """
+        return int(self.get_element_value('corner_width'))
+
     def corner_height(self, height: int) -> None:
         """
         Add corner height property to widget
@@ -609,6 +750,13 @@ class _Corner(object):
         :param height: Corner height
         """
         self._shared.integer_property(self.root, 'corner_height', height)
+
+    def get_corner_height(self) -> int:
+        """
+        Get corner height property from widget
+        :return: Corner height value
+        """
+        return int(self.get_element_value('corner_height'))
 
 class _Square(object):
     def square(self, val: bool) -> None:
@@ -619,6 +767,16 @@ class _Square(object):
         """
         self._shared.boolean_property(self.root, 'square', val)
 
+    def is_square(self) -> bool:
+        """
+        Get square property from widget
+        :return: Is width square?
+        """
+        val = self.get_element_value('square')
+        if val.lower() == 'true':
+            return True
+        return False
+
 class _LabelsFromPV(object):
     def labels_from_pv(self, val: bool) -> None:
         """
@@ -627,6 +785,16 @@ class _LabelsFromPV(object):
         :param val: Show labels from PV?
         """
         self._shared.boolean_property(self.root, 'labels_from_pv', val)
+
+    def uses_labels_from_pv(self) -> bool:
+        """
+        Get labels from pv property from widget
+        :return: Show labels from PV?
+        """
+        val = self.get_element_value('labels_from_pv')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _AlarmBorder(object):
     def alarm_border(self, val: bool) -> None:
@@ -637,6 +805,16 @@ class _AlarmBorder(object):
         """
         self._shared.boolean_property(self.root, 'border_alarm_sensitive', val)
 
+    def uses_alarm_border(self) -> bool:
+        """
+        Get alarm border property from widget
+        :return: Is alarm border ON/OFF?
+        """
+        val = self.get_element_value('border_alarm_sensitive')
+        if val.lower() == 'true':
+            return True
+        return False
+
 class _Enabled(object):
     def enabled(self, val: bool) -> None:
         """
@@ -645,6 +823,16 @@ class _Enabled(object):
         :param val: Is widget enabled?
         """
         self._shared.boolean_property(self.root, 'enabled', val)
+
+    def is_enabled(self) -> bool:
+        """
+        Get enabled property from widget
+        :return: Is widget enabled?
+        """
+        val = self.get_element_value('enabled')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _Confirmation(object):
     def confirmation_dialog(self, message: str, password: str = None) -> None:
@@ -665,6 +853,16 @@ class _Confirmation(object):
         """
         self._shared.boolean_property(self.root, 'show_confirm_dialog', False)
 
+    def has_confirmation_dialog(self) -> bool:
+        """
+        Get confirmation dialog property from widget
+        :return: Is confirmation dialog enabled?
+        """
+        val = self.get_element_value('show_confirm_dialog')
+        if val.lower() == 'true':
+            return True
+        return False
+
 class _MultiLine(object):
     def multi_line(self, val: bool) -> None:
         """
@@ -673,6 +871,16 @@ class _MultiLine(object):
         :param val: Use multi line?
         """
         self._shared.boolean_property(self.root, 'multi_line', val)
+
+    def is_multi_line(self) -> bool:
+        """
+        Get multi line property from widget
+        :return: Is multi line enabled?
+        """
+        val = self.get_element_value('multi_line')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _Angle(object):
     def angle_start(self, val: Union[float, int]) -> None:
@@ -683,13 +891,28 @@ class _Angle(object):
         """
         self._shared.number_property(self.root, 'start_angle', val)
 
+    def get_angle_start(self) -> float:
+        """
+        Get angle start value from widget
+        :return: Start angle value
+        """
+        return float(self.get_element_value('start_angle'))
+
     def angle_size(self, val: Union[float, int]) -> None:
         """
         Add angle size value for widget
 
         :param val: Angle size value
         """
+
         self._shared.number_property(self.root, 'total_angle', val)
+
+    def get_angle_size(self) -> float:
+        """
+        Get angle size value from widget
+        :return: Angle size value
+        """
+        return float(self.get_element_value('total_angle'))
 
 class _Rotation(object):
     def rotation(self, val: Union[float, int]) -> None:
@@ -700,6 +923,13 @@ class _Rotation(object):
         """
         self._shared.number_property(self.root, 'rotation', val)
 
+    def get_rotation(self) -> float:
+        """
+        Get rotation value from widget
+        :return: Rotation value
+        """
+        return float(self.get_element_value('rotation'))
+
 class _File(object):
     def file(self, val: str) -> None:
         """
@@ -709,6 +939,13 @@ class _File(object):
         """
         self._shared.generic_property(self.root, 'file', val)
 
+    def get_file(self) -> str:
+        """
+        Get file name property from widget
+        :return: File name
+        """
+        return self.get_element_value('file')
+
 class _StretchToFit(object):
     def stretch_to_fit(self, val: bool) -> None:
         """
@@ -717,6 +954,16 @@ class _StretchToFit(object):
         :param val: Stretch widget to fit?
         """
         self._shared.boolean_property(self.root, 'stretch_image', val)
+
+    def is_stretched_to_fit(self) -> bool:
+        """
+        Get stretch to fit property from widget
+        :return: Is stretch to fit enabled?
+        """
+        val = self.get_element_value('stretch_image')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _Actions(object):
     def _add_action(self, action_type, description, args, isScript, macros=None):
@@ -882,6 +1129,13 @@ class _Label(object):
         """
         self._shared.generic_property(self.root, 'label', val)
 
+    def get_label(self) -> str:
+        """
+        Get label from widget
+        :return: Label string
+        """
+        return self.get_element_value('label')
+
 class _Horizontal(object):
     def horizontal(self, val: bool) -> None:
         """
@@ -890,6 +1144,16 @@ class _Horizontal(object):
         :param val: Is widget horizontal?
         """
         self._shared.boolean_property(self.root, 'horizontal', val)
+
+    def is_horizontal(self) -> bool:
+        """
+        Get horizontal property from widget
+        :return: Is widget horizontal?
+        """
+        val = self.get_element_value('horizontal')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _Items(object):
     def item(self, item_text: str) -> None:
@@ -1016,6 +1280,13 @@ class _PointType(object):
         """
         self._shared.integer_property(self.root, 'point_type', self._shared.PointType.triangles.value)
 
+    def get_point_type(self) -> str:
+        """
+        Get point type property from widget
+        :return: Point type string name
+        """
+        return self._shared.PointType(int(self.get_element_value('point_type'))).name
+
 class _PointSize(object):
     def point_size(self, size: int) -> None:
         """
@@ -1024,6 +1295,13 @@ class _PointSize(object):
         :param size: Trace point size
         """
         self._shared.integer_property(self.root, 'point_size', size)
+
+    def get_point_size(self) -> int:
+        """
+        Get trace point size from widget
+        :return: Trace point size
+        """
+        return int(self.get_element_value('point_size'))
 
 class _Color(object):
     def color(self, red: int, green: int, blue: int, alpha: int = 255) -> None:
@@ -1055,6 +1333,13 @@ class _Name(object):
         """
         self._shared.generic_property(self.root, 'name', name)
 
+    def get_name(self) -> str:
+        """
+        Get trace name from widget
+        :return: Trace name
+        """
+        return self.get_element_value('name')
+
 class _Axis(object):
     def axis(self, axis: int) -> None:
         """
@@ -1063,6 +1348,13 @@ class _Axis(object):
         :param axis: Trace y-axis
         """
         self._shared.integer_property(self.root, 'axis', axis)
+
+    def get_axis(self) -> int:
+        """
+        Get axis property from widget
+        :return: Axis value
+        """
+        return int(self.get_element_value('axis'))
 
 class _XPV(object):
     def x_pv(self, pv: str) -> None:
@@ -1073,6 +1365,13 @@ class _XPV(object):
         """
         self._shared.generic_property(self.root, 'x_pv', pv)
 
+    def get_x_pv(self) -> str:
+        """
+        Get x_pv property from widget
+        :return: x_pv string
+        """
+        return self.get_element_value('x_pv')
+
 class _YPV(object):
     def y_pv(self, pv: str) -> None:
         """
@@ -1081,6 +1380,13 @@ class _YPV(object):
         :param pv: Trace y_pv
         """
         self._shared.generic_property(self.root, 'y_pv', pv)
+
+    def get_y_pv(self) -> str:
+        """
+        Get y_pv property from widget
+        :return: y_pv string
+        """
+        return self.get_element_value('y_pv')
 
 class _ErrPV(object):
     def err_pv(self, pv: str) -> None:
@@ -1091,6 +1397,13 @@ class _ErrPV(object):
         """
         self._shared.generic_property(self.root, 'err_pv', pv)
 
+    def get_err_pv(self) -> str:
+        """
+        Get err_pv property from widget
+        :return: err_pv string
+        """
+        return self.get_element_value('err_pv')
+
 class _WidthPV(object):
     def width_pv(self, pv: str) -> None:
         """
@@ -1099,6 +1412,13 @@ class _WidthPV(object):
         :param pv: ROI width_pv
         """
         self._shared.generic_property(self.root, 'width_pv', pv)
+
+    def get_width_pv(self) -> str:
+        """
+        Get width_pv property from widget
+        :return: width_pv string
+        """
+        return self.get_element_value('width_pv')
 
 class _HeightPV(object):
     def height_pv(self, pv: str) -> None:
@@ -1109,6 +1429,13 @@ class _HeightPV(object):
         """
         self._shared.generic_property(self.root, 'height_pv', pv)
 
+    def get_height_pv(self) -> str:
+        """
+        Get height_pv property from widget
+        :return: height_pv string
+        """
+        return self.get_element_value('height_pv')
+
 class _OnRight(object):
     def on_right(self, right: bool) -> None:
         """
@@ -1116,6 +1443,16 @@ class _OnRight(object):
         :param right: Is y-axis on right side of screen?
         """
         self._shared.boolean_property(self.root, 'on_right', right)
+
+    def is_on_right(self) -> bool:
+        """
+        Get y-axis position from widget
+        :return: Is y-axis on right side of screen?
+        """
+        val = self.get_element_value('on_right')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _YAxes(object):
     def add_y_axis(self, axis: object) -> None:
@@ -1256,6 +1593,16 @@ class _Interactive(object):
 
         self._shared.boolean_property(self.root, 'interactive', val)
 
+    def is_interactive(self) -> bool:
+        """
+        Get interactive property from widget
+        :return: Is marker interactive?
+        """
+        val = self.get_element_value('interactive')
+        if val.lower() == 'true':
+            return True
+        return False
+
 class _ItemsFromPV(object):
     def items_from_pv(self, val: bool) -> None:
         """
@@ -1264,6 +1611,16 @@ class _ItemsFromPV(object):
         :param val: Use items from pv?
         """
         self._shared.boolean_property(self.root, 'items_from_pv', val)
+
+    def uses_items_from_pv(self) -> bool:
+        """
+        Get items from pv property from widget
+        :return: Uses items from pv?
+        """
+        val = self.get_element_value('items_from_pv')
+        if val.lower() == 'true':
+            return True
+        return False
 
 class _ShowValueTip(object):
     def show_value_tip(self, val: bool) -> None:
