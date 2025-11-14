@@ -118,6 +118,9 @@ class TestPVName(GenericTest):
     def test_pv_name(self):
         self.assertEqual(self.element.find_element('pv_name').text, self.pv_name)
 
+    def test_pv_name_getter(self):
+        self.assertEqual(self.element.get_pv_name(), self.pv_name)
+
 class TestPVNameInternal(InternalTest):
     def test_pv_name(self):
         pv_name = 'test'
@@ -127,6 +130,9 @@ class TestPVNameInternal(InternalTest):
 class TestText(GenericTest):
     def test_text(self):
         self.assertEqual(self.element.find_element('text').text, self.text)
+
+    def test_text_getter(self):
+        self.assertEqual(self.element.get_text(), self.text)
 
 class TestFont(GenericTest):
     font_element_name = 'font'
@@ -640,6 +646,9 @@ class TestTransparent(GenericTest):
         self.element.transparent(value)
         self.generic_element_test(tag_name, value)
 
+    def test_transparent_getter(self):
+        self.element.transparent(True)
+        self.assertTrue(self.element.is_transparent())
 
 class TestFormat(GenericTest):
     def test_format(self):
@@ -649,6 +658,9 @@ class TestFormat(GenericTest):
         self.element.format(value)
         self.generic_element_test(tag_name, xml_value)
 
+    def test_format_getter(self):
+        self.element.format('Exponential')
+        self.assertEqual(self.element.get_format(), 'Exponential')
 
 class TestPrecision(GenericTest):
     def test_precision(self):
@@ -658,6 +670,9 @@ class TestPrecision(GenericTest):
         self.element.precision(value)
         self.generic_element_test(tag_name, real_value)
 
+    def test_precision_getter(self):
+        self.element.precision(5)
+        self.assertEqual(self.element.get_precision(), 5)
 
 class TestShowUnits(GenericTest):
     def test_show_units(self):
@@ -666,6 +681,9 @@ class TestShowUnits(GenericTest):
         self.element.show_units(value)
         self.generic_element_test(tag_name, value)
 
+    def test_show_units_getter(self):
+        self.element.show_units(False)
+        self.assertFalse(self.element.is_showing_units())
 
 class TestHorizontalAlignment(GenericTest):
     def test_horizontal_alignment(self):
@@ -687,6 +705,11 @@ class TestHorizontalAlignment(GenericTest):
         self.element.horizontal_alignment_right()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_horizontal_alignment_getter(self):
+        self.element.horizontal_alignment_right()
+        self.assertEqual(self.element.get_horizontal_alignment(),
+                         "right")
+
 class TestVerticalAlignment(GenericTest):
     def test_vertical_alignment_1(self):
         tag_name = 'vertical_alignment'
@@ -706,6 +729,11 @@ class TestVerticalAlignment(GenericTest):
         self.element.vertical_alignment_bottom()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_vertical_alignment_getter(self):
+        self.element.vertical_alignment_bottom()
+        self.assertEqual(self.element.get_vertical_alignment(),
+                         "bottom")
+
 class TestWrapWords(GenericTest):
     def test_wrap_words(self):
         tag_name = 'wrap_words'
@@ -713,6 +741,9 @@ class TestWrapWords(GenericTest):
         self.element.wrap_words(value)
         self.generic_element_test(tag_name, value)
 
+    def test_wrap_words_getter(self):
+        self.element.wrap_words(False)
+        self.assertFalse(self.element.is_wrapping_words())
 
 class TestRotationStep(GenericTest):
     def test_rotation_step(self):
@@ -740,12 +771,21 @@ class TestRotationStep(GenericTest):
         self.element.rotation_step_negative_90()
         self.generic_element_test(tag_name, xml_value)
 
+    def test_rotation_step_getter(self):
+        self.element.rotation_step_negative_90()
+        self.assertEqual(self.element.get_rotation_step(),
+                         -90)
+
 class TestBorder(GenericTest):
     def test_border_width(self):
         tag_name = 'border_width'
         value = 2
         self.element.border_width(value)
         self.generic_element_test(tag_name, value)
+
+    def test_border_width_getter(self):
+        self.element.border_width(3)
+        self.assertEqual(self.element.get_border_width(), 3)
 
     def test_border_color(self):
         tag_name = 'border_color'
@@ -795,6 +835,11 @@ class TestAutoSize(GenericTest):
         self.element.auto_size()
         self.generic_element_test(tag_name, True)
 
+    def test_auto_size_getter(self):
+        self.element.auto_size(False)
+        self.assertFalse(self.element.is_auto_sized())
+        self.element.auto_size(True)
+        self.assertTrue(self.element.is_auto_sized())
 
 class TestMultiLine(GenericTest):
     def test_multi_line(self):
@@ -803,6 +848,9 @@ class TestMultiLine(GenericTest):
         self.element.multi_line(val)
         self.generic_element_test(tag_name, val)
 
+    def test_multi_line_getter(self):
+        self.element.multi_line(True)
+        self.assertTrue(self.element.is_multi_line())
 
 class TestSquare(GenericTest):
     def test_square(self):
@@ -819,6 +867,10 @@ class TestLabelsFromPV(GenericTest):
         self.element.labels_from_pv(val)
         self.generic_element_test(tag_name, val)
 
+    def test_labels_from_pv_getter(self):
+        self.element.labels_from_pv(True)
+        self.assertTrue(self.element.uses_labels_from_pv())
+
 
 class TestAlarmBorder(GenericTest):
     def test_alarm_border(self):
@@ -827,6 +879,9 @@ class TestAlarmBorder(GenericTest):
         self.element.alarm_border(val)
         self.generic_element_test(tag_name, val)
 
+    def test_alarm_border_getter(self):
+        self.element.alarm_border(True)
+        self.assertTrue(self.element.uses_alarm_border())
 
 class TestEnabled(GenericTest):
     def test_enabled(self):
@@ -835,6 +890,9 @@ class TestEnabled(GenericTest):
         self.element.enabled(val)
         self.generic_element_test(tag_name, val)
 
+    def test_enabled_getter(self):
+        self.element.enabled(False)
+        self.assertFalse(self.element.is_enabled())
 
 class TestLineWidth(GenericTest):
     tag_name = 'line_width'
@@ -843,6 +901,10 @@ class TestLineWidth(GenericTest):
         val = 5
         self.element.line_width(val)
         self.generic_element_test(self.tag_name, val)
+
+    def test_line_width_getter(self):
+        self.element.line_width(7)
+        self.assertEqual(self.element.get_line_width(), 7)
 
     def test_line_width_wrong(self):
         val = 'asdfs'
@@ -870,6 +932,10 @@ class TestCorner(GenericTest):
         self.element.corner_width(val)
         self.generic_element_test(tag_name, val)
 
+    def test_corner_width_getter(self):
+        self.element.corner_width(8)
+        self.assertEqual(self.element.get_corner_width(), 8)
+
     def test_corner_width_string(self):
         tag_name = 'corner_width'
         val = 'asdjflksdjf'
@@ -881,6 +947,10 @@ class TestCorner(GenericTest):
         val = 5
         self.element.corner_height(val)
         self.generic_element_test(tag_name, val)
+
+    def test_corner_height_getter(self):
+        self.element.corner_height(8)
+        self.assertEqual(self.element.get_corner_height(), 8)
 
     def test_corner_height_string(self):
         tag_name = 'corner_height'
@@ -896,11 +966,19 @@ class TestAngle(GenericTest):
         self.element.angle_start(val)
         self.generic_element_test(tag_name, val)
 
+    def test_angle_start_getter(self):
+        self.element.angle_start(45)
+        self.assertEqual(self.element.get_angle_start(), 45)
+
     def test_angle_size(self):
         tag_name = 'total_angle'
         val = 92
         self.element.angle_size(val)
         self.generic_element_test(tag_name, val)
+
+    def test_angle_size_getter(self):
+        self.element.angle_size(180)
+        self.assertEqual(self.element.get_angle_size(), 180)
 
 
 class TestConfirmation(GenericTest):
@@ -934,6 +1012,11 @@ class TestConfirmation(GenericTest):
         self.generic_element_test(self.password_tag, password)
         self.generic_element_test(self.message_tag, self.message)
         self.generic_element_test(self.dialog_tag, False)
+
+    def test_has_confirmation_getter(self):
+        password = 'mypassword'
+        self.element.confirmation_dialog(self.message, password)
+        self.assertTrue(self.element.has_confirmation_dialog())
 
 class TestLineColor(GenericTest):
     def test_predefined_line_color(self):
@@ -1015,6 +1098,11 @@ class TestOff(TestOffColor):
         self.element.off_label(value)
         self.generic_element_test(tag_name, value)
 
+    def test_off_label_getter(self):
+        value = 'This is off!'
+        self.element.off_label(value)
+        self.assertEqual(self.element.get_off_label(), value)
+
 class TestOnColor(GenericTest):
     def test_predefined_on_color(self):
         tag_name = 'on_color'
@@ -1034,6 +1122,11 @@ class TestOn(TestOnColor):
         value = 'This is on!'
         self.element.on_label(value)
         self.generic_element_test(tag_name, value)
+
+    def test_on_label_getter(self):
+        value = 'This is on!'
+        self.element.on_label(value)
+        self.assertEqual(self.element.get_on_label(), value)
 
 class TestStretchToFit(GenericTest):
     def test_stretch_to_fit1(self):
@@ -1060,6 +1153,10 @@ class TestStretchToFit(GenericTest):
         self.element.stretch_to_fit(val)
         self.generic_element_test(tag_name, True)
 
+    def test_stretch_to_fit_getter(self):
+        self.element.stretch_to_fit(True)
+        self.assertTrue(self.element.is_stretched_to_fit())
+
 
 class TestFile(GenericTest):
     # file is a constructor param for widgets (similar to x or pv_name)
@@ -1067,6 +1164,9 @@ class TestFile(GenericTest):
     def test_file(self):
         tag_name = 'file'
         self.generic_element_test(tag_name, self.file)
+
+    def test_file_getter(self):
+        self.assertEqual(self.element.get_file(), self.file)
 
 class TestFileInternal(InternalTest):
     # ROI-specific test -> ROI object does not have a file parameter in its constructor
@@ -1098,6 +1198,10 @@ class TestRotation(GenericTest):
         val = 'sadfdsf'
         self.element.rotation(val)
         self.null_test(self.tag_name)
+
+    def test_rotation_getter(self):
+        self.element.rotation(45)
+        self.assertEqual(self.element.get_rotation(), 45)
 
 
 class TestResizeBehavior(GenericTest):
