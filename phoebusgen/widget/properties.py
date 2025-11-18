@@ -1,14 +1,81 @@
+from abc import abstractmethod
 from xml.etree.ElementTree import Element, SubElement
-from typing import Union
+from typing import Union, TypeVar, Generic, Tuple
 
-class _PVName(object):
-    def pv_name(self, name: str) -> None:
-        """
-        Add PV name to widget
+Primitive = Union[str, int, float, bool]
+PropertyType = (
+    Primitive
+    | Tuple[Primitive, ...]
+)
+PrimitiveT = TypeVar('PrimitiveT', bound=Primitive)
+PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
-        :param name: PV name
+ColorType = Union[Tuple[int, int, int], Tuple[int, int, int, int], str]
+
+
+
+class _GenericProperty(Generic[PropertyTypeT]):
+
+    @abstractmethod
+    def __set(self, value: PropertyTypeT) -> None:
+        pass
+
+    @abstractmethod
+    def __get(self) -> PropertyTypeT:
+        pass
+
+class _BooleanProperty(_GenericProperty[bool]):
+    def set(self, value: bool) -> None:
+        self._shared.generic_property(self.root, self.name, str(value).lower())
+
+    def get(self) -> bool:
+        return self._shared.get_element_value(self.root, self.name) == 'true'
+
+class _StringProperty(_GenericProperty[str]):
+    def __set(self, value: str) -> None:
+        print(f"Setting {self.name} to {value}")
+        self._shared.generic_property(self.root, self.name, value)
+
+    def __get(self) -> str:
+        return self._shared.get_element_value(self.root, self.name)
+
+class IntegerProperty(_GenericProperty[int]):
+    def set(self, value: int) -> None:
+        self._shared.integer_property(self.root, self.name, value)
+
+    def get(self) -> int:
+        return int(self._shared.get_element_value(self.root, self.name))
+
+class _FloatProperty(_GenericProperty[float]):
+    def set(self, value: float) -> None:
+        self._shared.number_property(self.root, self.name, value)
+
+    def get(self) -> float:
+        return float(self._shared.get_element_value(self.root, self.name))
+
+def dynamic_property(prop_name: str):
+    def decorator(cls):
+        def getter(self):
+            return self.__get()
+
+        def setter(self, value):
+            self.__set(value)
+
+        setattr(cls, prop_name, property(getter, setter))
+        return cls
+    return decorator
+
+
+class _PVName(_StringProperty):
+
+    def pv_name(self, image_file: str) -> None:
         """
-        self._shared.generic_property(self.root, 'pv_name', name)
+        Add image for on property using file name
+
+        :param image_file: Path to image file
+        """
+        self._shared.generic_property(self.root, 'pv_name', image_file)
+
 
 class _Font(object):
     def predefined_font(self, name: object) -> None:
@@ -377,14 +444,10 @@ class _WrapWords(object):
         """
         self._shared.boolean_property(self.root, 'wrap_words', wrap)
 
-class _Text(object):
-    def text(self, text: str) -> None:
-        """
-        Add text property to widget
+@dynamic_property('text')
+class _Text(_StringProperty):
+    ...
 
-        :param text: Text string
-        """
-        self._shared.generic_property(self.root, 'text', text)
 
 class _AutoSize(object):
     def auto_size(self, auto: bool = True) -> None:

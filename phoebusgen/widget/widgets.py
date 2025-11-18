@@ -1,5 +1,6 @@
 from phoebusgen.widget.widget import _Widget, _Generic
 from phoebusgen.widget import properties as _p
+from phoebusgen.widget.property_mixins import HasText
 
 # Displays
 class Arc(_Widget, _p._Macro, _p._Angle, _p._LineWidth, _p._LineColor, _p._BackgroundColor, _p._Transparent):
@@ -30,7 +31,7 @@ class Ellipse(_Widget, _p._Macro, _p._LineWidth, _p._LineColor, _p._BackgroundCo
         """
         _Widget.__init__(self, 'ellipse', name, x, y, width, height)
 
-class Label(_Widget, _p._Text, _p._Macro, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._HorizontalAlignment,
+class Label(_Widget, HasText, _p._Macro, _p._Font, _p._ForegroundColor, _p._BackgroundColor, _p._Transparent, _p._HorizontalAlignment,
             _p._VerticalAlignment, _p._RotationStep, _p._WrapWords, _p._AutoSize, _p._Border):
     """ Label Phoebus Widget """
     def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
@@ -45,7 +46,7 @@ class Label(_Widget, _p._Text, _p._Macro, _p._Font, _p._ForegroundColor, _p._Bac
         :param height: Widget height
         """
         _Widget.__init__(self, 'label', name, x, y, width, height)
-        self.text(text)
+        self.text = text
 
 class Picture(_Widget, _p._Macro, _p._File, _p._StretchToFit, _p._Rotation):
     """ Picture Phoebus Widget """
