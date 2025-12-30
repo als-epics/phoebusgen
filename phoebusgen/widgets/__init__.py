@@ -1,4 +1,4 @@
-""" phoebusgen.widget Module
+""" phoebusgen.widgets Module
 
 This module contains Python class representations of each widget. Widgets can be created
 by calling the widget class constructor, i.e. phoebusgen.widget.TextUpdate(...) or
@@ -7,7 +7,7 @@ variable, additional methods to change widget properties are available.
 
 Example:
     >>> import phoebusgen
-    >>> text_update_widget = phoebusgen.widget.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
+    >>> text_update_widget = phoebusgen.widgets.TextUpdate('test widget', 'TEST:PV', 10, 20, 20, 50)
     >>> text_update_widget.predefined_foreground_color(phoebusgen.colors.OK)
     >>> text_update_widget.font_style_bold()
     >>> print(text_update_widget)
@@ -28,9 +28,42 @@ Example:
     </widget>
 """
 
-# Copyright (c) 2022 Lawrence Berkeley National Laboratory,
-# Advanced Light Source, Engineering Division
+from .widget import Widget
+from .misc import WebBrowser, ThreeDViewer
+from .monitors import (
+    ByteMonitor,
+    LED,
+    LEDMultiState,
+    Meter,
+    ProgressBar,
+    Symbol,
+    Table,
+    Tank,
+    TextSymbol,
+    TextUpdate,
+    Thermometer
+)
 
-from phoebusgen.widget.widgets import *
+# from .plots import (
+#     XYPlot,
+#     Image,
+#     StripChart,
+#     DataBrowser
+# )
 
-__all__ = ['widgets']
+__all__ = [
+    "Widget",
+    "WebBrowser",
+    "ThreeDViewer",
+    "ByteMonitor",
+    "LED",
+    "LEDMultiState",
+    "Meter",
+    "ProgressBar",
+    "Symbol",
+    "Table",
+    "Tank",
+    "TextSymbol",
+    "TextUpdate",
+    "Thermometer"
+]

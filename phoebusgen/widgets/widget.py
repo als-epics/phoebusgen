@@ -1,20 +1,12 @@
-from xml.etree.ElementTree import Element, SubElement, tostring
-from xml.dom import minidom
-from phoebusgen._shared_property_helpers import _SharedPropertyFunctions
+from xml.etree.ElementTree import Element, SubElement
+import phoebusgen
+from phoebusgen.properties import HasName, HasX, HasY, HasWidth, HasHeight, HasVisible
+from phoebusgen.utils import prettify_xml
 
 
-def prettify(elem):
-    """Return a pretty-printed XML string for the Element.
-        From: https://pymotw.com/3/xml.etree.ElementTree/create.html
-    """
-    rough_string = tostring(elem, 'utf-8')
-    reparse_xml = minidom.parseString(rough_string)
-    return reparse_xml.toprettyxml(indent='  ', newl='\n')
-
-class _Generic(object):
+class Generic(HasVisible):
     def __init__(self, w_type: str) -> None:
         self.root = Element(w_type)
-        self._shared = _SharedPropertyFunctions(self.root)
 
     def find_element(self, tag: str) -> Element:
         """
@@ -53,21 +45,14 @@ class _Generic(object):
         """
         return self.find_element(tag).text
 
-    def visible(self, visible: bool) -> None:
-        """
-        Change visible property for widget
-
-        :param visible: Is widget visible?
-        """
-        self._shared.boolean_property(self.root, 'visible', visible)
 
     def __str__(self):
-        return prettify(self.root)
+        return prettify_xml(self.root)
 
     def __repr__(self):
-        return prettify(self.root)
+        return prettify_xml(self.root)
 
-class _Widget(_Generic):
+class Widget(Generic, HasName, HasX, HasY, HasWidth, HasHeight):
     """ Base Class for all Phoebus widgets """
     def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
@@ -83,17 +68,17 @@ class _Widget(_Generic):
 
         super().__init__('widget')
         self.root.attrib['type'] = w_type
-        if w_type in self._shared.widget_versions:
-            self.root.attrib['version'] = self._shared.widget_versions[w_type]
+        if w_type in phoebusgen.widget_versions:
+            self.root.attrib['version'] = phoebusgen.widget_versions[w_type]
         else:
             self.root.attrib['version'] = '2.0.0'
         name_child = SubElement(self.root, 'name')
         name_child.text = name
 
-        self._shared.integer_property(self.root, 'x', x_pos)
-        self._shared.integer_property(self.root, 'y', y_pos)
-        self._shared.integer_property(self.root, 'width', width)
-        self._shared.integer_property(self.root, 'height', height)
+        self.x = x_pos
+        self.y = y_pos
+        self.width = width
+        self.height = height
 
     def version(self, version: str) -> None:
         """
@@ -102,46 +87,6 @@ class _Widget(_Generic):
         :param version: Version string
         """
         self.root.attrib['version'] = version
-
-    def name(self, name: str) -> None:
-        """
-        Change widget name
-
-        :param name: Widget name
-        """
-        self._shared.generic_property(self.root, 'name', name)
-
-    def width(self, width: int) -> None:
-        """
-        Change widget width
-
-        :param width: Width
-        """
-        self._shared.integer_property(self.root, 'width', width)
-
-    def height(self, height: int) -> None:
-        """
-        Change widget height
-
-        :param height: height
-        """
-        self._shared.integer_property(self.root, 'height', height)
-
-    def x(self, val: int) -> None:
-        """
-        Change widget x position
-
-        :param val: x
-        """
-        self._shared.integer_property(self.root, 'x', val)
-
-    def y(self, val: int) -> None:
-        """
-        Change widget y position
-
-        :param val: y
-        """
-        self._shared.integer_property(self.root, 'y', val)
 
 
     def rule(self, name: str, widget_property: str, pv_dict: dict,
@@ -250,11 +195,13 @@ class _Widget(_Generic):
         """
         self._script(file_name, None, pv_dict, only_trigger_if_connected)
 
-    def tool_tip(self, tool_tip: str) -> None:
+    def has_property(self, prop_cls: type) -> bool:
         """
-        Add tool tip string to widget
+        Check if widget has a property
 
-        :param tool_tip: Tool tip string
+        :param prop_cls: Property class to check for
+        :return: True if property exists, False if not
         """
-        child = SubElement(self.root, 'tooltip')
-        child.text = tool_tip
+        if isinstance(self, prop_cls):
+            return True
+        return False
