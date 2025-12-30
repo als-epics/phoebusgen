@@ -17,8 +17,7 @@ to reflect your site's custom definitions.
 # Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
-import phoebusgen.widget
-import phoebusgen.screen
+from . import properties, screen, widgets
 
 from os import path as _path
 from sys import platform as _platform
