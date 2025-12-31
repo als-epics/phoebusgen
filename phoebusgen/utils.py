@@ -9,3 +9,4 @@ def prettify_xml(elem):
     reparse_xml = minidom.parseString(rough_string)
     return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
+

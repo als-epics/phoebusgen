@@ -28,7 +28,16 @@ Example:
     </widget>
 """
 
-from .widget import Widget
+from .widget import WidgetType, Widget
+from .graphics import (
+    Arc,
+    Ellipse,
+    Polygon,
+    Polyline,
+    Rectangle,
+    Label,
+    Picture,
+)
 from .misc import WebBrowser, ThreeDViewer
 from .monitors import (
     ByteMonitor,
@@ -43,6 +52,28 @@ from .monitors import (
     TextUpdate,
     Thermometer
 )
+from .controls import (
+    ActionButton,
+    CheckBox,
+    ComboBox,
+    RadioButton,
+    ScaledSlider,
+    TextEntry,
+    ChoiceButton,
+    BooleanButton,
+    FileSelector,
+    Spinner,
+    Scrollbar,
+    SlideButton
+)
+from .structure import (
+    Tabs,
+    Group,
+    NavigationTabs,
+    Array,
+    EmbeddedDisplay,
+)
+
 
 # from .plots import (
 #     XYPlot,

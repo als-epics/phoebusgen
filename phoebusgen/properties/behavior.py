@@ -1,5 +1,5 @@
 from .property_helpers import PropertyBase, dynamic_property
-from .types import ButtonMode, Color, State, InterpolationType, ColorMap, ColorMode, Script, Action, Rule, ObservableList
+from .types import ButtonMode, Color, State, InterpolationType, ColorMap, ColorMode, Script, Action, Rule, ObservableList, Trace
 
 @dynamic_property("rules", ObservableList[Rule])
 class HasRules(PropertyBase):
@@ -187,4 +187,8 @@ class HasColorMap(PropertyBase):
 
 @dynamic_property("items", ObservableList[str])
 class HasItems(PropertyBase):
+    ...
+
+@dynamic_property("traces", ObservableList[Trace])
+class HasTraces(PropertyBase):
     ...

@@ -1,4 +1,4 @@
-from .widget import Widget
+from .widget import WidgetType, Widget
 from phoebusgen.properties import (
     HasName,
     HasMacros,
@@ -9,8 +9,7 @@ from phoebusgen.properties import (
     HasBorder,
     HasResizeBehavior,
     HasGroupName,
-    HasStructure,
-    HasStyle,
+    HasGroupStyle,
     HasTabs,
     HasActiveTab,
     HasTabWidth,
@@ -21,11 +20,14 @@ from phoebusgen.properties import (
     HasTransparent,
     HasFont,
     HasLineColor,
-    HasDirection,
+    HasTabDirection,
 )
 
 class Array(Widget, HasName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """
+
+    _widget_type: WidgetType = WidgetType.ARRAY
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Array Widget
@@ -37,11 +39,14 @@ class Array(Widget, HasName, HasMacros, HasForegroundColor, HasBackgroundColor, 
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'array', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
     """ EmbeddedDisplay Phoebus Widget """
+
+    _widget_type: WidgetType = WidgetType.EMBEDDED
+
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create EmbeddedDisplay Widget
@@ -53,12 +58,15 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'embedded', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)
         self.file = file
 
-class Group(Widget, HasStructure, HasMacros, HasStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
+class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
             HasLineColor):
     """ Group Phoebus Widget """
+
+    _widget_type: WidgetType = WidgetType.GROUP
+
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Group Widget
@@ -69,11 +77,14 @@ class Group(Widget, HasStructure, HasMacros, HasStyle, HasFont, HasForegroundCol
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'group', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)
 
 class NavigationTabs(Widget, HasTabs, HasActiveTab, HasTabWidth, HasTabSpacing, HasTabHeight,
-                     HasSelectedColor, HasDeselectedColor, HasDirection, HasFont):
+                     HasSelectedColor, HasDeselectedColor, HasTabDirection, HasFont):
     """ NavigationTabs Phoebus Widget """
+
+    _widget_type: WidgetType = WidgetType.NAVTABS
+
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create NavigationTabs Widget
@@ -84,10 +95,13 @@ class NavigationTabs(Widget, HasTabs, HasActiveTab, HasTabWidth, HasTabSpacing, 
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'navtabs', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)
 
-class Tabs(Widget, HasMacros, HasTabs, HasActiveTab, HasTabHeight, HasFont, HasBackgroundColor, HasDirection):
+class Tabs(Widget, HasMacros, HasTabs, HasActiveTab, HasTabHeight, HasFont, HasBackgroundColor, HasTabDirection):
     """ Tabs Phoebus Widget """
+
+    _widget_type: WidgetType = WidgetType.TABS
+
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Tabs Widget
@@ -98,4 +112,4 @@ class Tabs(Widget, HasMacros, HasTabs, HasActiveTab, HasTabHeight, HasFont, HasB
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'tabs', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)

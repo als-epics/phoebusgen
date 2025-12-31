@@ -33,13 +33,14 @@ Example:
 """
 
 
-from xml.etree.ElementTree import Element, SubElement, tostring
+import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from typing import Union
 import os
 from phoebusgen.properties import HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, HasName, HasGridVisible, HasGridColor, HasGridStepX, HasGridStepY, HasActions, HasRules, HasScripts, PropertyBase
 from phoebusgen.widgets import Widget
 from phoebusgen.utils import prettify_xml
+from collections.abc import Sequence, Mapping
 
 class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, HasName, HasGridVisible, HasGridColor, HasGridStepX, HasGridStepY, HasActions, HasRules, HasScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
@@ -51,11 +52,11 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
         :param f_name: File name for Phoebus screen
         """
         self.bob_file = f_name
-        self.root = Element('display', version='2.0.0')
+        self.root = ET.Element('display', version='2.0.0')
         if f_name is not None and os.path.exists(f_name):
             with open(f_name, 'r') as f:
                 rough_string = f.read()
-            self.root = Element.fromstring(rough_string)
+            self.root = ET.fromstring(rough_string)
 
         self.name = name
 
@@ -66,7 +67,7 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
         :param file_name: File name to write to
         :return: True is successful write, False otherwise
         """
-        rough_string = tostring(self.root, encoding = 'utf-8')
+        rough_string = ET.tostring(self.root, encoding = 'utf-8')
         reparse_xml = minidom.parseString(rough_string)
         if file_name is None:
             if self.bob_file is None:
@@ -77,7 +78,7 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
             reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
         return True
 
-    def find_widget(self, widget_tag_name: str) -> Element:
+    def find_widget(self, widget_tag_name: str) -> ET.Element | list[ET.Element] | None:
         """
         Find widget in the screen
 
@@ -102,26 +103,26 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
     def get_widgets_by_property(self, prop_type: type[PropertyBase]) -> list[Widget]:
         return [w for w in self.get_widgets() if isinstance(w, prop_type)]
 
-    def add_widget(self, elem: Union[list, object]) -> None:
+    def add_widget(self, elem: Widget | Sequence[Widget]) -> None:
         """
         Add widget or list of widgets to screen
 
         :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
         """
-        if isinstance(elem, list):
+        if isinstance(elem, Sequence):
             for e in elem:
                 self.root.append(e.root)
         else:
             self.root.append(elem.root)
 
-    def predefined_background_color(self, name: object) -> None:
-        """
-        Add named background color to screen
+    # def predefined_background_color(self, name: object) -> None:
+    #     """
+    #     Add named background color to screen
 
-        :param name: <Phoebusgen.colors> Predefined color name
-        """
-        e = self._shared.create_element(self.root, 'background_color')
-        self._shared.create_color_element(e, name, None, None, None, None)
+    #     :param name: <Phoebusgen.colors> Predefined color name
+    #     """
+    #     e = self._shared.create_element(self.root, 'background_color')
+    #     self._shared.create_color_element(e, name, None, None, None, None)
 
     def __str__(self):
         return prettify_xml(self.root)

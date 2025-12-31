@@ -4,6 +4,7 @@ from typing import Any, Union, get_origin
 from enum import Enum
 
 from collections.abc import Sequence, Mapping
+
 from .types import (
     Color,
     Font,
@@ -11,11 +12,15 @@ from .types import (
     ObservableDict,
     ObservableList,
     ValidListTypeT,
-    ObservableDataclass
+    ObservableDataclass,
+    _validate_color_value
 )
 from typing import Tuple, TypeVar, Generic, get_args
 import inspect
 from dataclasses import is_dataclass
+from abc import ABC
+
+from collections import namedtuple
 
 Primitive = int | float | str | bool
 PropertyType = (
@@ -29,6 +34,8 @@ PropertyType = (
     | ObservableDataclass
 )
 PropertyTypeT = TypeVar("PropertyTypeT", bound=PropertyType)
+
+PropertyInfo = namedtuple("PropertyInfo", ["name", "type"])
 
 
 def _create_element(prop_name: str, value: str | None = None) -> Element:
@@ -62,8 +69,10 @@ def _find_getter_setter_by_type(property_type: type[PropertyType], func: str = "
         return property_type_str
 
 
-def _get_primitive_property(element: Element, prop_type: type[Primitive]) -> Primitive:
+def _get_primitive_property(element: Element, prop_type: type[Primitive], default_value: Primitive | None = None) -> Primitive:
     if element is None or element.text is None:
+        if default_value is not None:
+            return default_value
         return prop_type()
 
     if prop_type is bool:
@@ -76,8 +85,10 @@ def _set_primitive_property(prop_name: str, value: Primitive) -> Element:
         return _create_element(prop_name, str(value).lower())
     return _create_element(prop_name, str(value))
 
-def _get_enum_property(element: Element, enum_type: type[Enum]) -> Enum:
+def _get_enum_property(element: Element, enum_type: type[Enum], default_value: Enum | None = None) -> Enum:
     if element is None or element.text is None:
+        if default_value is not None:
+            return default_value
         return enum_type(list(enum_type)[0])
 
     actual_value = element.text
@@ -97,22 +108,16 @@ def _set_enum_property(prop_name: str, value: Enum) -> Element:
     return _create_element(prop_name, value.value)
 
 
-def _validate_color_value(value: Color | tuple[int] | str) -> bool:
-    if isinstance(value, Color):
-        return True
-    if isinstance(value, tuple) and all(isinstance(i, int) for i in value) and (len(value) == 3 or len(value) == 4):
-        return True
-    if isinstance(value, str) and value.startswith("#") and (len(value) == 7 or len(value) == 9):
-        return True
-    # TODO: validate predefined color names
-    return False
-
-
-def _get_color_property(element: Element) -> Color:
+def _get_color_property(element: Element | None, default_value: Color | None = None) -> Color:
     if element is None:
+        if default_value is not None:
+            return default_value
         return Color((0, 0, 0))
+
     color_elem = element.find("color")
     if color_elem is None:
+        if default_value is not None:
+            return default_value
         return Color((0, 0, 0))
 
     red = color_elem.get("red", 0)
@@ -145,8 +150,10 @@ def _set_color_property(prop_name: str, value: Color | tuple[int, int, int] | tu
     return element
 
 
-def _get_dataclass_property(element: Element | None, dataclass_type: type[ObservableDataclass]) -> ObservableDataclass:
+def _get_dataclass_property(element: Element | None, dataclass_type: type[ObservableDataclass], default_value: ObservableDataclass | None = None) -> ObservableDataclass:
     if element is None:
+        if default_value is not None:
+            return default_value
         return dataclass_type()
 
     field_values = {}
@@ -189,9 +196,9 @@ def _set_dataclass_property(prop_name: str, value: ObservableDataclass) -> Eleme
                 element.append(sub_elem)
     return element
 
-def _get_action_property(element: Element | None) -> Action | None:
+def _get_action_property(element: Element | None, default_value: Action | None = None) -> Action | None:
     if element is None:
-        return None
+        return default_value
 
     action_type = "".join([word.capitalize() for word in element.attrib.get("type", "").split("_")])
     action_cls_name = f"{action_type}Action"
@@ -213,10 +220,12 @@ def _set_action_property(prop_name: str, value: Action) -> Element:
     element.attrib["type"] = action_type
     return element
 
-def _get_dict_property(element: Element | None) -> ObservableDict:
+def _get_dict_property(element: Element | None, default_value: ObservableDict | None = None) -> ObservableDict:
     result = ObservableDict()
 
     if element is None:
+        if default_value is not None:
+            return default_value
         return result
 
     for item in element:
@@ -231,8 +240,10 @@ def _set_dict_property(prop_name: str, value: Mapping) -> Element:
         dict_elem.append(item_elem)
     return dict_elem
 
-def _get_list_property(element: Element | None, item_type: type[ValidListTypeT], list_item_name: str | None = None) -> ObservableList[ValidListTypeT]:
+def _get_list_property(element: Element | None, item_type: type[ValidListTypeT], list_item_name: str | None = None, default_value: ObservableList[ValidListTypeT] | None = None) -> ObservableList[ValidListTypeT]:
     if element is None:
+        if default_value is not None:
+            return default_value
         return ObservableList[ValidListTypeT]()
 
     result = ObservableList[ValidListTypeT]()
@@ -267,7 +278,7 @@ def _set_list_property(prop_name: str, values: Sequence[ValidListTypeT], list_it
         list_elem.append(setter(list_prop_name, item))
     return list_elem
 
-def dynamic_property(prop_name: str, property_type: type[PropertyTypeT], list_item_name: str | None = None):
+def dynamic_property(prop_name: str, property_type: type[PropertyTypeT], list_item_name: str | None = None, default_value: PropertyTypeT | None = None):
 
     def decorator(cls):
 
@@ -279,10 +290,12 @@ def dynamic_property(prop_name: str, property_type: type[PropertyTypeT], list_it
 
             getter_name = _find_getter_setter_by_type(property_type, func="getter")
             getter_args = [self.root.find(prop_name)]
-            getter_kwargs = {} if list_item_name is None else {"list_item_name": list_item_name}
+            getter_kwargs: dict[str, Any] = {"default_value": default_value} 
+            if element_type is not None:
+                getter_kwargs["list_item_name"] = list_item_name
 
             typed_getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
-            if len(inspect.signature(typed_getter).parameters) != len(getter_args):
+            if len(inspect.signature(typed_getter).parameters) != (len(getter_args) + len(getter_kwargs)):
                 if element_type is not None:
                     getter_args.append(element_type)
                 else:
@@ -299,7 +312,6 @@ def dynamic_property(prop_name: str, property_type: type[PropertyTypeT], list_it
             return new_val
 
         def setter(self, value: PropertyTypeT) -> None:
-            print(property_type, value, isinstance(value, ObservableList),type(value), isinstance(value, Sequence))
             setter_name = _find_getter_setter_by_type(property_type, func="setter")
             setter_args = [prop_name, value]
             setter_kwargs = {} if list_item_name is None else {"list_item_name": list_item_name}
@@ -334,12 +346,59 @@ def dynamic_property(prop_name: str, property_type: type[PropertyTypeT], list_it
             self.root.append(new_elem)
 
         setattr(cls, prop_name, property(getter, setter))
+        if not hasattr(cls, "_all_properties"):
+            setattr(cls, "_all_properties", {})
+        cls._all_properties[cls] = PropertyInfo(prop_name, property_type)
+
 
         return cls
     return decorator
 
 
-# TODO: Should get rid of this, and instead make a compound type.
-class PropertyBase:
-    ...
+class PropertyTypeTracker(type):
+    def __new__(cls, name, bases, attrs):
+        # Collect property names and types from base classes
+        property_types = {}
+        for base in bases:
+            if hasattr(base, "_all_properties"):
+                property_types.update(base._all_properties)
 
+        # Add property names and types from the current class
+        if "_all_properties" in attrs:
+            property_types.update(attrs["_all_properties"])
+
+        attrs["_all_properties"] = property_types
+        return super().__new__(cls, name, bases, attrs)
+
+
+class PropertyBase(metaclass=PropertyTypeTracker):
+    root: Element
+    _all_properties: dict[type['PropertyBase'], PropertyInfo] = {}
+
+    @classmethod
+    def get_property_name(cls, property_cls: type['PropertyBase'] | None = None) -> str:
+        if property_cls is None:
+            property_cls = cls
+
+        if property_cls not in cls._all_properties:
+            raise ValueError(f"Class {cls.__name__} is not a property!")
+
+        return cls._all_properties[property_cls].name
+
+    @classmethod
+    def get_property_type(cls, property_cls: type['PropertyBase'] | None = None) -> type[PropertyType]:
+        if property_cls is None:
+            property_cls = cls
+
+        if property_cls not in cls._all_properties:
+            raise ValueError(f"Class {cls.__name__} is not a property!")
+
+        return cls._all_properties[property_cls].type
+
+    @classmethod
+    def get_property_type_by_name(cls, property_name: str) -> type[PropertyType]:
+
+        for prop_name, prop_type in cls._all_properties.values():
+            if prop_name == property_name:
+                return prop_type
+        raise ValueError(f"Class {cls.__name__} does not have a property named {property_name}!")

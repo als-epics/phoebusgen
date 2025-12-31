@@ -1,8 +1,8 @@
 from .property_helpers import PropertyBase, dynamic_property
 
-from .types import Font, FontStyle, ArrowTypes, LineStyle, TabDirection, Color, Column,  Axis, ObservableList
+from .types import ColorBar, Font, ArrowTypes, LineStyle, TabDirection, Color, Column,  Axis, ObservableList, ResizeBehavior, GroupStyle
 
-@dynamic_property('visible', bool)
+@dynamic_property('visible', bool, default_value=True)
 class HasVisible(PropertyBase):
     ...
 
@@ -318,4 +318,46 @@ class HasYAxis(PropertyBase):
 
 @dynamic_property("y_axes", ObservableList[Axis], list_item_name="y_axis")
 class HasYAxes(PropertyBase):
+    ...
+
+@dynamic_property("group_name", str)
+class HasGroupName(PropertyBase):
+    ...
+
+@dynamic_property("resize_behavior", ResizeBehavior)
+class HasResizeBehavior(PropertyBase):
+    ...
+
+@dynamic_property("style", GroupStyle)
+class HasGroupStyle(PropertyBase):
+    ...
+
+@dynamic_property("color_bar", ColorBar)
+class HasColorBar(PropertyBase):
+    ...
+
+@dynamic_property("scale_font", Font)
+class HasScaleFont(PropertyBase):
+    ...
+
+@dynamic_property("label_font", Font)
+class HasLabelFont(PropertyBase):
+    ...
+
+@dynamic_property("title_font", Font)
+class HasTitleFont(PropertyBase):
+    ...
+
+@dynamic_property("start", str)
+class HasStart(PropertyBase):
+    ...
+
+@dynamic_property("end", str)
+class HasEnd(PropertyBase):
+    ...
+
+class HasTimeRange(
+    HasStart,
+    HasEnd,
+):
     ...

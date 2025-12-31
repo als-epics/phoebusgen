@@ -7,13 +7,15 @@ from typing import Any, Callable, Generic, TypeVar, get_args
 
 Primitive = int | float | str | bool
 
+
 class Color(tuple):
 
-    def __new__(cls, color: tuple[int, int, int] | tuple[int, int, int, int] | str):
+    def __new__(cls, color: tuple[int, int, int] | tuple[int, int, int, int] | str = (0, 0, 0)) -> 'Color':
         red = 0
         green = 0
         blue = 0
         alpha = 255
+
         if isinstance(color, tuple):
             if len(color) < 3:
                 raise ValueError("Color tuple must be of length 3 (RGB) or 4 (RGBA)")
@@ -51,14 +53,22 @@ class Color(tuple):
         else:
             raise ValueError("Color tuple must be of length 3 (RGB) or 4 (RGBA)")
 
+
+def _validate_color_value(value: Color | tuple[int, int, int] | tuple[int, int, int, int] | str) -> bool:
+    if isinstance(value, Color):
+        return True
+    if isinstance(value, tuple) and all(isinstance(i, int) for i in value) and (len(value) == 3 or len(value) == 4):
+        return all(0 <= i <= 255 for i in value)
+    if isinstance(value, str) and value.startswith("#") and (len(value) == 7 or len(value) == 9):
+        return True
+    # TODO: validate predefined color names
+    return False
+
 class FontStyle(Enum):
     REGULAR = "REGULAR"
     ITALIC = "ITALIC"
     BOLD = "BOLD"
     BOLD_AND_ITALIC = "BOLD_ITALIC"
-
-
-
 
 class HorizontalAlignment(Enum):
     LEFT = 0
@@ -116,7 +126,7 @@ class GroupStyle(Enum):
     LINE = 2
     NONE = 3
 
-class ResizeSetting(Enum):
+class ResizeBehavior(Enum):
     NO_RESIZE = 0
     SIZE_CONTENT_TO_FIT_WIDGET = 1
     SIZE_WIDGET_TO_MATCH_CONTENT = 2
@@ -227,7 +237,7 @@ class ObservableDict(MutableMapping):
 @dataclass
 class ObservableDataclass:
 
-    _on_change_callback: Callable[[Any], None] | None = field(init=False, default=None, repr=False)
+    _on_change_callback: Callable[[Any], None] | None = field(init=False, default=None, repr=False, compare=False)
     _attrib_fields: list[str] = field(init=False, default_factory=list, repr=False)
 
     def __setattr__(self, name: str, value: Any) -> None:
@@ -297,13 +307,6 @@ class Font(ObservableDataclass):
     style: FontStyle = FontStyle.REGULAR
     _attrib_fields: list[str] = field(init=False, default_factory=lambda: ["family", "size", "style"], repr=False)
 
-@dataclass
-class Script(ObservableDataclass):
-    file_name: str = ""
-    script_contents: str = ""
-    pv_dict: ObservableDict = field(default_factory=ObservableDict)
-    only_trigger_if_connected: bool = True
-    embedded: bool = False
 
 @dataclass
 class Marker(ObservableDataclass):
@@ -338,6 +341,12 @@ class ROI(ObservableDataclass):
     file: str = ""
 
 @dataclass
+class ColorBar(ObservableDataclass):
+    visible: bool = True
+    bar_size: int = 40
+    scale_font: Font = field(default_factory=Font)
+
+@dataclass
 class Axis(ObservableDataclass):
     visible: bool = True
     title: str = ""
@@ -352,7 +361,7 @@ class Axis(ObservableDataclass):
     color: Color = Color((0, 0, 0))
 
 @dataclass
-class Trace:
+class Trace(ObservableDataclass):
     name: str
     x_pv: str = ""
     y_pv: str = ""
@@ -372,6 +381,23 @@ class Tab(ObservableDataclass):
     file: str = ""
     macros: ObservableDict = field(default_factory=ObservableDict)
     group_name: str = ""
+
+@dataclass
+class Script(ObservableDataclass):
+    file: str = ""
+    pv_names: ObservableList[str] = field(default_factory=ObservableList[str])
+
+@dataclass
+class EmbeddedScript(Script):
+    text: str = ""
+
+@dataclass
+class EmbeddedPythonScript(EmbeddedScript):
+    file: str = field(init=False, default="EmbeddedPy")
+
+@dataclass
+class EmbeddedJavaScript(EmbeddedScript):
+    file: str = field(init=False, default="EmbeddedJS")
 
 
 @dataclass
@@ -408,15 +434,17 @@ class OpenWebpageAction(Action):
 @dataclass
 class RuleExpression(ObservableDataclass):
     bool_exp: str = ""
-    value: str = ""
+    expression: str = ""
+    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ["bool_exp"], repr=False)
 
 @dataclass
 class Rule(ObservableDataclass):
     name: str = ""
     prop_id: str = ""
-    exp: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
-    pv_name: ObservableList[str] = field(default_factory=ObservableList[str])
-    output_as_expression: bool = False
+    exps: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
+    pv_names: ObservableList[str] = field(default_factory=ObservableList[str])
+    out_exp: bool = False
+    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ["name", "prop_id", "out_exp"], repr=False)
 
 
 

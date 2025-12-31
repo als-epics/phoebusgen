@@ -1,60 +1,80 @@
 from xml.etree.ElementTree import Element, SubElement
 import phoebusgen
 from phoebusgen.properties import HasName, HasX, HasY, HasWidth, HasHeight, HasVisible
+from phoebusgen.properties.property_helpers import PropertyBase
 from phoebusgen.utils import prettify_xml
 
+from enum import Enum
 
-class Generic(HasVisible):
-    def __init__(self, w_type: str) -> None:
-        self.root = Element(w_type)
+class WidgetType(str, Enum):
+    """ Enum of Phoebus Widget Types """
 
-    def find_element(self, tag: str) -> Element:
-        """
-        Find first XML element in widget by tag name
+    # Base class
+    BASE = "base"
 
-        :param tag: Tag name to search for
-        :return: Return XML element or None if not found
-        """
-        elements = self.root.findall(tag)
-        # check to make sure there are not more than 1 elements
-        # we don't want duplicate tags
-        if len(elements) > 1:
-            print('Warning, more than one element of the same tag! Returning a list')
-            return elements
-        elif len(elements) == 0:
-            return None
-        else:
-            return elements[0]
+    # Graphics
+    ARC = "arc"
+    ELLIPSE = "ellipse"
+    LABEL = "label"
+    # Graphics
+    PICTURE = "picture"
+    POLYGON = "polygon"
+    POLYLINE = "polyline"
+    RECTANGLE = "rectangle"
 
-    def remove_element(self, tag: str) -> None:
-        """
-        Delete XML element in widget by tag name
+    # Monitors
+    BYTE_MONITOR = "byte_monitor"
+    LED = "led"
+    MULTI_STATE_LED = "multi_state_led"
+    METER = "meter"
+    PROGRESS_BAR = "progressbar"
+    SYMBOL = "symbol"
+    TABLE = "table"
+    TANK = "tank"
+    TEXT_SYMBOL = "text-symbol"
+    TEXT_UPDATE = "textupdate"
+    THERMOMETER = "thermometer"
 
-        :param tag: Tag name to delete
-        """
-        element = self.find_element(tag)
-        if element is not None:
-            self.root.remove(element)
+    # Controls
+    ACTION_BUTTON = "action_button"
+    BOOL_BUTTON = "bool_button"
+    CHECKBOX = "checkbox"
+    CHOICE = "choice"
+    COMBO = "combo"
+    FILE_SELECTOR = "fileselector"
+    RADIO = "radio"
+    SCALED_SLIDER = "scaledslider"
+    SCROLLBAR = "scrollbar"
+    SLIDE_BUTTON = "slide_button"
+    SPINNER = "spinner"
+    TEXT_ENTRY = "textentry"
+    THUMBWHEEL = "thumbwheel"
 
-    def get_element_value(self, tag: str) -> str:
-        """
-        Get value of an XML element by tag name
+    # Plots
+    DATABROWSER = "databrowser"
+    IMAGE = "image"
+    STRIPCHART = "stripchart"
+    XYPLOT = "xyplot"
 
-        :param tag: Tag name to get value from
-        :return: Value of XML tag
-        """
-        return self.find_element(tag).text
+    # Structure
+    ARRAY = "array"
+    TABS = "tabs"
+    EMBEDDED = "embedded"
+    GROUP = "group"
+    NAVTABS = "navtabs"
+    TEMPLATE = "template"
+
+    # Miscellaneous
+    THREED_VIEWER = "3dviewer"
+    WEBBROWSER = "webbrowser"
 
 
-    def __str__(self):
-        return prettify_xml(self.root)
-
-    def __repr__(self):
-        return prettify_xml(self.root)
-
-class Widget(Generic, HasName, HasX, HasY, HasWidth, HasHeight):
+class Widget(HasVisible, HasName, HasX, HasY, HasWidth, HasHeight):
     """ Base Class for all Phoebus widgets """
-    def __init__(self, w_type: str, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
+
+    _widget_type: WidgetType = WidgetType.BASE
+
+    def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
         Base Class for all Phoebus widgets
 
@@ -66,19 +86,62 @@ class Widget(Generic, HasName, HasX, HasY, HasWidth, HasHeight):
         :param height: Widget height:
         """
 
-        super().__init__('widget')
-        self.root.attrib['type'] = w_type
-        if w_type in phoebusgen.widget_versions:
-            self.root.attrib['version'] = phoebusgen.widget_versions[w_type]
+        if self._widget_type is None:
+            raise ValueError("Widget type not defined in subclass!")
+        
+        self.root = Element('widget')
+        self.root.attrib['type'] = self._widget_type.value
+        if self._widget_type in phoebusgen.widget_versions:
+            self.root.attrib['version'] = phoebusgen.widget_versions[self._widget_type.value]
         else:
             self.root.attrib['version'] = '2.0.0'
-        name_child = SubElement(self.root, 'name')
-        name_child.text = name
 
+        self.name = name
         self.x = x_pos
         self.y = y_pos
         self.width = width
         self.height = height
+
+    @classmethod
+    def supported_properties(cls) -> list[type[PropertyBase]]:
+        """
+        Get list of supported properties for this widget
+
+        :return: List of supported property classes
+        """
+        return list(cls._all_properties.keys())
+
+    @classmethod
+    def supported_property_names(cls) -> list[str]:
+        return [name for name, _ in cls._all_properties.values()]
+
+    @classmethod
+    def from_element(cls, element: Element) -> 'Widget':
+        """
+        Docstring for from_element
+        
+        :param cls: Description
+        :param element: Description
+        :type element: Element
+        :return: Description
+        :rtype: Widget
+        """
+
+        if element.tag != 'widget':
+            raise ValueError(f"Expected 'widget' element, got '{element.tag}'")
+
+        w_type = element.attrib.get('type', None)
+        if w_type is None:
+            raise ValueError("Widget type attribute missing!")
+        elif cls._widget_type is WidgetType.BASE:
+            raise ValueError("Instantiating widget base class from XML element is not allowed!")
+        if w_type != cls._widget_type.value:
+            raise ValueError(f"Expected widget type '{cls._widget_type.value}', got '{w_type}'")
+
+        cls_instance = cls.__new__(cls)
+        cls_instance.root = element
+        return cls_instance
+
 
     def version(self, version: str) -> None:
         """
@@ -205,3 +268,9 @@ class Widget(Generic, HasName, HasX, HasY, HasWidth, HasHeight):
         if isinstance(self, prop_cls):
             return True
         return False
+
+    def __str__(self):
+        return prettify_xml(self.root)
+
+    def __repr__(self):
+        return prettify_xml(self.root)
