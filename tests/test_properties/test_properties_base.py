@@ -4,7 +4,7 @@ import pytest
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.properties.property_helpers import dynamic_property, _create_element, _find_getter_setter_by_type, _get_color_property, _get_dataclass_property, _get_enum_property, _get_list_property, _get_primitive_property, _get_dict_property, _set_action_property, _set_color_property, _set_dataclass_property, _set_enum_property, _set_list_property, _set_primitive_property, _set_dict_property, _validate_color_value, _get_action_property
-from phoebusgen.properties.types import ObservableDataclass, ObservableDict, FileComponent, Action, ObservableList, Color, Font, State, Trace, FontStyle, HorizontalAlignment, VerticalAlignment, RotationStep, InterpolationType, ButtonMode, ColorMode, GroupStyle, ResizeSetting, LineStyle, PointType, ColorMap, ArrowTypes, TabDirection, OpenDisplayTarget, TraceType, OpenDisplayAction
+from phoebusgen.properties.types import ObservableDataclass, ObservableDict, FileComponent, Action, ObservableList, Color, Font, State, Trace, FontStyle, HorizontalAlignment, VerticalAlignment, RotationStep, InterpolationType, ButtonMode, ColorMode, GroupStyle, ResizeBehavior, LineStyle, PointType, ColorMap, ArrowTypes, TabDirection, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.utils import prettify_xml
 from enum import Enum
 
