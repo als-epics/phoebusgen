@@ -84,7 +84,7 @@ def test_widget_is_subclass_of_base_widget_properties(widget_class, widget_facto
     assert isinstance(widget, Widget)
     for prop_cls in [HasName, HasPosition, HasVisible]:
         assert isinstance(widget, prop_cls)
-        assert widget.has_property(prop_cls)
+        assert widget.has_property_class(prop_cls)
 
 
 @pytest.mark.parametrize("widget_class", WIDGET_CLASSES)

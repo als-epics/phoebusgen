@@ -134,16 +134,24 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         """
         self.root.attrib['version'] = version
 
-    def has_property(self, prop_cls: type) -> bool:
+    def has_property(self, prop_name: str) -> bool:
         """
-        Check if widget has a property
+        Check if widget has a prop_name
 
-        :param prop_cls: Property class to check for
+        :param prop_name: Property name to check for
         :return: True if property exists, False if not
         """
-        if isinstance(self, prop_cls):
-            return True
-        return False
+        return hasattr(self, prop_name)
+    
+
+    def has_property_class(self, prop_class: type) -> bool:
+        """
+        Check if widget has a property of type prop_class
+
+        :param prop_class: Property class to check for
+        :return: True if property class exists, False if not
+        """
+        return isinstance(self, prop_class)
 
     def __str__(self):
         return prettify_xml(self.root)

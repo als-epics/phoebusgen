@@ -107,7 +107,7 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
         return [w for w in self.get_widgets() if isinstance(w, widget_type)]
 
     def get_widgets_by_property_class(self, prop_type: type[PropertyBase]) -> list[Widget]:
-        return [w for w in self.get_widgets() if w.has_property(prop_type)]
+        return [w for w in self.get_widgets() if w.has_property_class(prop_type)]
 
     def get_widgets_by_property(self, property_name: str) -> list[Widget]:
         widgets_with_property = []
