@@ -29,6 +29,7 @@ from .types import (
     Marker,
     OpenDisplayAction,
     Script,
+    Axis,
 )
 
 from .widget import HasMacros, HasFile, HasName, HasUrl, HasBit, HasFileComponent, HasLabel, HasTabs, HasInstances

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-01-02 14:06:04 by jwlodek-->
+<!--Saved on 2026-01-02 14:33:18 by jwlodek-->
 <display version="2.0.0">
   <name>OneOfEveryWidget</name>
   <macros>
@@ -244,6 +244,25 @@ $(actions)</tooltip>
     <name>Strip Chart</name>
     <x>500</x>
     <y>880</y>
+    <y_axes>
+      <y_axis>
+        <title>Y</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>false</show_grid>
+        <visible>true</visible>
+        <color>
+          <color name="Text" red="0" green="0" blue="0">
+          </color>
+        </color>
+        <title_font>
+          <font family="Madan" style="BOLD" size="14.0">
+          </font>
+        </title_font>
+      </y_axis>
+    </y_axes>
   </widget>
   <widget type="xyplot" version="3.0.0">
     <name>X/Y Plot</name>
@@ -251,6 +270,30 @@ $(actions)</tooltip>
     <y>940</y>
     <width>270</width>
     <height>170</height>
+    <y_axes>
+      <y_axis>
+        <title>Y</title>
+        <autoscale>false</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>false</show_grid>
+        <title_font>
+          <font family="Madan" style="BOLD" size="14.0">
+          </font>
+        </title_font>
+        <scale_font>
+          <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+          </font>
+        </scale_font>
+        <on_right>false</on_right>
+        <visible>true</visible>
+        <color>
+          <color name="Text" red="0" green="0" blue="0">
+          </color>
+        </color>
+      </y_axis>
+    </y_axes>
   </widget>
   <widget type="array" version="2.0.0">
     <name>Array</name>

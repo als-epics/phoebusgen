@@ -1,4 +1,4 @@
-from phoebusgen.properties.types import Font, FontStyle, ObservableDict
+from phoebusgen.properties.types import Font, FontStyle, ObservableDict, ObservableList, Axis
 from phoebusgen.utils import prettify_xml
 import pytest
 from phoebusgen.widgets import (
@@ -8,7 +8,8 @@ from phoebusgen.properties import (
     HasName,
     HasPosition,
     HasVisible,
-    Color
+    Color,
+    Axis
 )
 
 WIDGET_CLASSES = Widget.__subclasses__()
@@ -185,3 +186,83 @@ def test_widget_dict_properties(widget_class, widget_factory, prop_name):
     assert len(prop_elem) == 1
     assert prop_elem.find("Key2") is not None
     assert prop_elem.find("Key1") is None
+
+
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(Axis))
+def test_widget_axis_properties(widget_class, widget_factory, prop_name, check_color_xml):
+    widget = widget_factory(widget_class)
+
+    # Make sure the property attr is set with correct type and default value
+    assert hasattr(widget, prop_name)
+    axis_prop = getattr(widget, prop_name)
+    assert isinstance(axis_prop, Axis)
+    assert axis_prop == Axis() # Default axis value
+
+    # Set some attributes on the Axis property
+    axis_prop.title = "Test Axis"
+    axis_prop.autoscale = False
+    axis_prop.log_scale = True
+    axis_prop.minimum = 0.0
+    axis_prop.maximum = 100.0
+    axis_prop.show_grid = True
+    axis_prop.visible = False
+    axis_prop.color = "#FF0000"
+
+    # Check that the XML reflects the changes
+    axis_elem = widget.root.find(prop_name)
+    assert axis_elem is not None
+    assert axis_elem.find("title").text == "Test Axis"
+    assert axis_elem.find("autoscale").text == "false"
+    assert axis_elem.find("log_scale").text == "true"
+    assert axis_elem.find("minimum").text == "0.0"
+    assert axis_elem.find("maximum").text == "100.0"
+    assert axis_elem.find("show_grid").text == "true"
+    assert axis_elem.find("visible").text == "false"
+    color_elem = axis_elem.find("color")
+    check_color_xml(color_elem.find("color"), (255, 0, 0))
+
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(ObservableList[Axis]))
+def test_widget_axis_list_properties(widget_class, widget_factory, prop_name, check_color_xml):
+    widget = widget_factory(widget_class)
+
+    # Make sure the property attr is set with correct type and default value
+    assert hasattr(widget, prop_name)
+    axis_list_prop = getattr(widget, prop_name)
+    assert isinstance(axis_list_prop, ObservableList)
+    assert len(axis_list_prop) == 0  # Default value is empty list
+
+    # Create and add Axis instances to the list
+    axis1 = Axis(title="Axis 1", minimum=0.0, maximum=50.0, color="#00FF00")
+    axis2 = Axis(title="Axis 2", minimum=50.0, maximum=100.0, color="#0000FF")
+    axis_list_prop.append(axis1)
+    axis_list_prop.append(axis2)
+    assert len(axis_list_prop) == 2
+    assert axis_list_prop[0] == axis1
+    assert axis_list_prop[1] == axis2
+
+    # Check that the XML reflects the changes
+    prop_elem = widget.root.find(prop_name)
+    assert prop_elem is not None
+    assert len(prop_elem) == 2
+
+    axis_elem1 = prop_elem[0]
+    assert axis_elem1.tag.endswith("axis")
+    assert axis_elem1.find("title").text == "Axis 1"
+    assert axis_elem1.find("minimum").text == "0.0"
+    assert axis_elem1.find("maximum").text == "50.0"
+    color_elem1 = axis_elem1.find("color")
+    check_color_xml(color_elem1.find("color"), (0, 255, 0))
+
+    axis_elem2 = prop_elem[1]
+    assert axis_elem2.find("title").text == "Axis 2"
+    assert axis_elem2.find("minimum").text == "50.0"
+    assert axis_elem2.find("maximum").text == "100.0"
+    color_elem2 = axis_elem2.find("color")
+    check_color_xml(color_elem2.find("color"), (0, 0, 255))
+
+    del axis_list_prop[0]
+    assert len(axis_list_prop) == 1
+    prop_elem = widget.root.find(prop_name)
+    assert len(prop_elem) == 1
+    axis_elem_remaining = prop_elem[0]
+    assert axis_elem_remaining.find("title").text == "Axis 2"

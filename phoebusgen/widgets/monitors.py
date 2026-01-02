@@ -116,7 +116,7 @@ class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor
         self.pv_name = pv_name
 
 class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, HasFormat,
-            HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder, HasScaleVisible, HasHorizontal, 
+            HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder, HasScaleVisible, HasHorizontal,
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor, HasKnobAndNeedleSize, HasLinearMeterColors, HasLevelsAndShow):
     """ LinearMeter Phoebus Widget """
 

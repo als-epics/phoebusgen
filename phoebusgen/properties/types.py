@@ -388,7 +388,7 @@ class Axis(ObservableDataclass):
     minimum: float = 0.0
     maximum: float = 10.0
     on_right: bool = False
-    auto_scale: bool = True
+    autoscale: bool = True
     log_scale: bool = False
     show_grid: bool = True
     title_font: Font = field(default_factory=Font)

@@ -218,9 +218,7 @@ def _get_list_property(element: Element, item_type: type[ValidListTypeT]) -> Obs
 
     result = ObservableList[ValidListTypeT]()
     if element is not None:
-        list_item_name = element.tag[:-1] # crude plural to singular
-        
-        for item_elem in element.findall(list_item_name):
+        for item_elem in element:
             getter_name = _find_getter_setter_by_type(item_type, func="getter")
             getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
             getter_args: list[Any] = [item_elem]
@@ -233,7 +231,12 @@ def _set_list_property(prop_name: str, values: Sequence[ValidListTypeT]) -> Elem
 
     list_elem = _create_element(prop_name)
     for item in values:
-        list_item_name = prop_name[:-1]  # crude plural to singular
+        # For lists, the item element name is usually the singular form of the list property name
+        # The only exception is for properties ending in "axis", which become "axes"
+        if prop_name.endswith("axes"):
+            list_item_name = prop_name.replace("axes", "axis")
+        else:
+            list_item_name = prop_name[:-1]
 
         setter_name = _find_getter_setter_by_type(type(item), func="setter")
         setter = getattr(sys.modules[__name__], f"_set_{setter_name}_property")
@@ -299,7 +302,7 @@ class PropertyMetaclass(type):
 
             return new_val
 
-        def setter(self, prop_name: str, property_type: type[PropertyType],value: PropertyType) -> None:
+        def setter(self, prop_name: str, property_type: type[PropertyType], value: PropertyType) -> None:
             setter_name = _find_getter_setter_by_type(property_type, func="setter")
 
             if not is_set_value_valid(value, property_type):
