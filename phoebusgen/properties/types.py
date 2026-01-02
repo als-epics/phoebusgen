@@ -10,6 +10,17 @@ Primitive = int | float | str | bool
 
 class Color(tuple):
 
+    @classmethod
+    def is_color(cls, value: Any) -> bool:
+        if isinstance(value, cls):
+            return True
+        if isinstance(value, (tuple, list)) and all(isinstance(i, int) for i in value) and (len(value) == 3 or len(value) == 4):
+            return all(0 <= i <= 255 for i in value)
+        if isinstance(value, str) and value.startswith("#") and (len(value) == 7 or len(value) == 9):
+            return True
+        # TODO: validate predefined color names
+        return False
+
     def __new__(cls, color: tuple[int, int, int] | tuple[int, int, int, int] | str = (0, 0, 0)) -> 'Color':
         red = 0
         green = 0
@@ -54,49 +65,48 @@ class Color(tuple):
             raise ValueError("Color tuple must be of length 3 (RGB) or 4 (RGBA)")
 
 
-def _validate_color_value(value: Color | tuple[int, int, int] | tuple[int, int, int, int] | str) -> bool:
-    if isinstance(value, Color):
-        return True
-    if isinstance(value, tuple) and all(isinstance(i, int) for i in value) and (len(value) == 3 or len(value) == 4):
-        return all(0 <= i <= 255 for i in value)
-    if isinstance(value, str) and value.startswith("#") and (len(value) == 7 or len(value) == 9):
-        return True
-    # TODO: validate predefined color names
-    return False
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Color):
+            try:
+                other = Color(other)  # type: ignore
+            except:
+                return False
+        return tuple(self) == tuple(other)
 
-class FontStyle(Enum):
+
+class FontStyle(str, Enum):
     REGULAR = "REGULAR"
     ITALIC = "ITALIC"
     BOLD = "BOLD"
     BOLD_AND_ITALIC = "BOLD_ITALIC"
 
-class HorizontalAlignment(Enum):
+class HorizontalAlignment(int, Enum):
     LEFT = 0
     CENTER = 1
     RIGHT = 2
 
-class VerticalAlignment(Enum):
+class VerticalAlignment(int, Enum):
     TOP = 0
     MIDDLE = 1
     BOTTOM = 2
 
-class RotationStep(Enum):
+class RotationStep(int, Enum):
     ZERO = 0
     NINETY = 1
     ONE_HUNDRED_EIGHTY = 2
     NEGATIVE_NINETY = 3
 
-class ButtonMode(Enum):
+class ButtonMode(int, Enum):
     TOGGLE = 0
     PUSH = 1
     PUSH_INVERTED = 2
 
-class InterpolationType(Enum):
+class InterpolationType(int, Enum):
     NONE = 0
     INTERPOLATE = 1
     AUTOMATIC = 2
 
-class ColorMode(Enum):
+class ColorMode(int, Enum):
     TYPE_CUSTOM = 0
     TYPE_MONO = 1
     TYPE_BAYER = 2
@@ -120,26 +130,36 @@ class ColorMode(Enum):
     TYPE_USHORT_565_RGB = 20
     TYPE_USHORT_GRAY = 21
 
-class GroupStyle(Enum):
+class GroupStyle(int, Enum):
     GROUP_BOX = 0
     TITLE_BAR = 1
     LINE = 2
     NONE = 3
 
-class ResizeBehavior(Enum):
+class LabelClass(str, Enum):
+    DEFAULT = "DEFAULT"
+    TITLE = "TITLE"
+    COMMENT = "COMMENT"
+    SECTION = "SECTION"
+    LABEL = "Label"
+    LABEL_1 = "Label_1"
+    LABEL_2 = "Label_2"
+
+
+class ResizeBehavior(int, Enum):
     NO_RESIZE = 0
     SIZE_CONTENT_TO_FIT_WIDGET = 1
     SIZE_WIDGET_TO_MATCH_CONTENT = 2
     STRETCH_CONTENT_TO_FIT_WIDGET = 3
     CROP_CONTENT = 4
 
-class FileComponent(Enum):
+class FileComponent(int, Enum):
     FULL_PATH = 0
     DIRECTORY = 1
     NAME_AND_EXTENSION = 2
     BASE_NAME = 3
 
-class TraceType(Enum):
+class TraceType(int, Enum):
     NONE = 0
     LINE = 1
     STEP = 2
@@ -147,14 +167,14 @@ class TraceType(Enum):
     LINE_ERR_BARS = 4
     BARS = 5
 
-class LineStyle(Enum):
+class LineStyle(int, Enum):
     SOLID = 0
     DASHED = 1
     DOT = 2
     DASH_DOT = 3
     DASH_DOT_DOT = 4
 
-class PointType(Enum):
+class PointType(int, Enum):
     NONE = 0
     SQUARES = 1
     CIRCLES = 2
@@ -162,7 +182,7 @@ class PointType(Enum):
     X = 4
     TRIANGLES = 5
 
-class ColorMap(Enum):
+class ColorMap(str, Enum):
     VIRIDIS = "VIRIDIS"
     GRAYSCALE = "GRAY"
     JET = "JET"
@@ -172,25 +192,37 @@ class ColorMap(Enum):
     SHADED = "SHADED"
     MAGMA = "MAGMA"
 
-class ArrowTypes(Enum):
+class ArrowTypes(str, Enum):
     NONE = "None"
     FROM = "From"
     TO = "To"
     BOTH = "Both"
 
-class TabDirection(Enum):
+class TabDirection(int, Enum):
     HORIZONTAL = 0
     VERTICAL = 1
 
-class OpenDisplayTarget(Enum):
+class OpenDisplayTarget(str, Enum):
     REPLACE = "replace"
     NEW_TAB = "tab"
     NEW_WINDOW = "window"
 
+class RotationStep(int, Enum):
+    ZERO = 0
+    NINETY = 1
+    ONE_HUNDRED_EIGHTY = 2
+    NEGATIVE_NINETY = 3
+
+class Direction(int, Enum):
+    HORIZONTAL = 0
+    VERTICAL = 1
+
 class ObservableDict(MutableMapping):
+
+    _on_change_callback: Callable[["ObservableDict"], None] | None = None
+
     def __init__(self, *args, **kwargs):
         self._dict = dict(*args, **kwargs)
-        self._on_change_callback = None
 
     def _notify_change(self):
         if self._on_change_callback:
@@ -231,7 +263,10 @@ class ObservableDict(MutableMapping):
         return repr(self._dict)
 
     def __eq__(self, other):
-        return self._dict.__eq__(other)
+        if isinstance(other, ObservableDict):
+            return self._dict.__eq__(other._dict)
+        else:
+            return other.__eq__(self._dict)
 
 
 @dataclass
@@ -263,10 +298,10 @@ ValidListType = Primitive | Enum | ObservableDataclass
 ValidListTypeT = TypeVar('ValidListTypeT', bound=ValidListType)
 
 class ObservableList(MutableSequence, Generic[ValidListTypeT]):
+    _on_change_callback: Callable[["ObservableList"], None] | None = None
+
     def __init__(self, *args, **kwargs):
         self._list = list(*args, **kwargs)
-        self._on_change_callback = None
-
 
     def __getitem__(self, i):
         return self._list[i]
@@ -311,7 +346,7 @@ class Font(ObservableDataclass):
 @dataclass
 class Marker(ObservableDataclass):
     pv_name: str = ""
-    color: Color = Color((255, 0, 0))
+    color: Color = field(default_factory=lambda: Color((255, 0, 0)))
     interactive: bool = False
 
 @dataclass
@@ -325,13 +360,13 @@ class Column(ObservableDataclass):
 class State(ObservableDataclass):
     value: int = 0
     label: str = ""
-    color: Color = Color((0, 0, 0))
+    color: Color = field(default_factory=Color)
 
 
 @dataclass
 class ROI(ObservableDataclass):
     name: str = ""
-    color: Color = Color((0, 255, 0))
+    color: Color = field(default_factory=lambda: Color((0, 255, 0)))
     visible: bool = True
     interactive: bool = False
     x_pv: str = ""
@@ -358,7 +393,7 @@ class Axis(ObservableDataclass):
     show_grid: bool = True
     title_font: Font = field(default_factory=Font)
     scale_font: Font = field(default_factory=Font)
-    color: Color = Color((0, 0, 0))
+    color: Color = field(default_factory=Color)
 
 @dataclass
 class Trace(ObservableDataclass):
@@ -368,7 +403,7 @@ class Trace(ObservableDataclass):
     error_pv: str = ""
     y_axis: int = 0
     trace_type: TraceType = TraceType.LINE
-    color = Color((0, 0, 255))
+    color: Color = field(default_factory=lambda: Color((0, 0, 255)))
     line_width: int = 1
     line_style: LineStyle = LineStyle.SOLID
     point_type: PointType = PointType.NONE
@@ -446,5 +481,30 @@ class Rule(ObservableDataclass):
     out_exp: bool = False
     _attrib_fields: list[str] = field(init=False, default_factory=lambda: ["name", "prop_id", "out_exp"], repr=False)
 
+@dataclass
+class Instance(ObservableDataclass):
+    macros: ObservableDict = field(default_factory=ObservableDict)
 
 
+@dataclass
+class Point(ObservableDataclass):
+    x: float = 0.0
+    y: float = 0.0
+    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ["x", "y"], repr=False)
+
+@dataclass
+class LinearMeterColors(ObservableDataclass):
+    """
+    Linear meter widget combines all colors into special XML element, so needs to be its own dataclass
+    """
+
+    # Default colors taken from Phoebus LinearMeter widget
+    foreground_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
+    background_color: Color = field(default_factory=lambda: Color((0, 0, 0, 0)))
+    needle_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
+    knob_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
+    normal_status_color: Color = field(default_factory=lambda: Color((194, 198, 195)))
+    minor_warning_color: Color = field(default_factory=lambda: Color((242, 148, 141)))
+    major_warning_color: Color = field(default_factory=lambda: Color((240, 60, 46)))
+    is_gradient_enabled: bool = False
+    is_highlighting_of_active_regions_enabled: bool = True

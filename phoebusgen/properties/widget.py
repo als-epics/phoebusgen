@@ -1,36 +1,35 @@
-from .property_helpers import PropertyBase, dynamic_property
-from .types import FileComponent, Tab, Action, ObservableDict, ObservableList, Script
+from .property_helpers import PropertyBase
+from .types import FileComponent, Tab, Action, ObservableDict, ObservableList, Script, LabelClass, Instance, Direction
 from xml.etree.ElementTree import SubElement
 
-@dynamic_property("macros", ObservableDict)
 class HasMacros(PropertyBase):
-    ...
+    macros: ObservableDict
 
-@dynamic_property("name", str)
 class HasName(PropertyBase):
-    ...
+    name: str
 
-@dynamic_property("file", str)
 class HasFile(PropertyBase):
-    ...
+    file: str
 
-@dynamic_property("url", str)
 class HasUrl(PropertyBase):
-    ...
+    url: str
 
-@dynamic_property("bit", int)
 class HasBit(PropertyBase):
-    ...
+    bit: int
 
-@dynamic_property("file_component", FileComponent)
 class HasFileComponent(PropertyBase):
-    ...
+    file_component: FileComponent
 
-@dynamic_property("label", str)
 class HasLabel(PropertyBase):
-    ...
+    label: str
 
-@dynamic_property("tabs", ObservableList[Tab])
 class HasTabs(PropertyBase):
-    ...
+    tabs: ObservableList[Tab]
+    tab_height: int
+    tab_width: int
+    tab_spacing: int
+    active_tab: int
+    direction: Direction
 
+class HasInstances(PropertyBase):
+    instances: ObservableList[Instance]

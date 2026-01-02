@@ -1,363 +1,244 @@
-from .property_helpers import PropertyBase, dynamic_property
+from .property_helpers import PropertyBase
 
-from .types import ColorBar, Font, ArrowTypes, LineStyle, TabDirection, Color, Column,  Axis, ObservableList, ResizeBehavior, GroupStyle
+from .types import ColorBar, Font, ArrowTypes, LineStyle, TabDirection, Color, Column,  Axis, ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors
 
-@dynamic_property('visible', bool, default_value=True)
 class HasVisible(PropertyBase):
-    ...
+    visible: bool = True
 
-
-@dynamic_property("font", Font)
 class HasFont(PropertyBase):
-    ...
+    font: Font
 
+class HasArrows(PropertyBase):
+    arrows: ArrowTypes
+    arrow_length: int
 
-@dynamic_property('arrow_length', int)
-class HasArrowLength(PropertyBase):
-    ...
-
-@dynamic_property('arrows', ArrowTypes)
-class HasArrows(HasArrowLength):
-    ...
-
-@dynamic_property("line_style", LineStyle)
 class HasLineStyle(PropertyBase):
-    ...
+    line_style: LineStyle
 
-@dynamic_property('wrap_words', bool)
 class HasWrapWords(PropertyBase):
-    ...
+    wrap_words: bool
 
-@dynamic_property("auto_size", bool)
 class HasAutoSize(PropertyBase):
-    ...
+    auto_size: bool
 
-
-
-@dynamic_property("point_size", int)
 class HasPointSize(PropertyBase):
-    ...
+    point_size: int
 
-@dynamic_property("on_image", str)
-class HasOnImage(PropertyBase):
-    ...
+class HasOnOffImages(PropertyBase):
+    off_image: str
+    on_image: str
 
-@dynamic_property("off_image", str)
-class HasOffImage(PropertyBase):
-    ...
+class HasOnOffLabels(PropertyBase):
+    on_label: str
+    off_label: str
 
-@dynamic_property("on_label", str)
-class HasOnLabel(PropertyBase):
-    ...
-
-@dynamic_property("off_label", str)
-class HasOffLabel(PropertyBase):
-    ...
-
-
-
-@dynamic_property("square", bool)
 class HasSquare(PropertyBase):
-    ...
+    square: bool
 
+class HasCorners(PropertyBase):
+    corner_width: int
+    corner_height: int
 
-@dynamic_property("corner_width", int)
-class HasCornerWidth(PropertyBase):
-    ...
-
-@dynamic_property("corner_height", int)
-class HasCornerHeight(PropertyBase):
-    ...
-
-class HasCorner(HasCornerWidth, HasCornerHeight):
-    ...
-
-
-@dynamic_property("multi_line", bool)
 class HasMultiLine(PropertyBase):
-    ...
+    multi_line: bool
 
-@dynamic_property("start_angle", float)
-class HasStartAngle(PropertyBase):
-    ...
+class HasAngle(PropertyBase):
+    start_angle: float
+    total_angle: float
 
-@dynamic_property("total_angle", float)
-class HasTotalAngle(PropertyBase):
-    ...
-
-
-class HasAngle(
-    HasStartAngle,
-    HasTotalAngle,
-):
-    ...
-
-@dynamic_property("horizontal_alignment", str)
 class HasHorizontalAlignment(PropertyBase):
-    ...
+    horizontal_alignment: str
 
-@dynamic_property("vertical_alignment", str)
 class HasVerticalAlignment(PropertyBase):
-    ...
+    vertical_alignment: str
 
-
-@dynamic_property("rotation", float)
 class HasRotation(PropertyBase):
-    ...
+    rotation: float
 
-
-@dynamic_property("rotation_step", str)
 class HasRotationStep(PropertyBase):
-    ...
+    rotation_step: RotationStep
 
-@dynamic_property("line_color", Color)
 class HasLineColor(PropertyBase):
-    ...
+    line_color: Color
 
-@dynamic_property("background_color", Color)
 class HasBackgroundColor(PropertyBase):
-    ...
+    background_color: Color
 
-@dynamic_property("foreground_color", Color)
 class HasForegroundColor(PropertyBase):
-    ...
+    foreground_color: Color
+
+class HasOnOffColors(PropertyBase):
+    off_color: Color
+    on_color: Color
 
 
-@dynamic_property("on_color", Color)
-class HasOnColor(PropertyBase):
-    ...
-
-@dynamic_property("off_color", Color)
-class HasOffColor(PropertyBase):
-    ...
-
-
-@dynamic_property('text', str)
 class HasText(PropertyBase):
-    ...
+    text: str
 
-@dynamic_property("transparent", bool)
 class HasTransparent(PropertyBase):
-    ...
+    transparent: bool
 
 
-@dynamic_property("format", str)
 class HasFormat(PropertyBase):
-    ...
+    format: str
 
 
-@dynamic_property("precision", int)
 class HasPrecision(PropertyBase):
-    ...
+    precision: int
 
-@dynamic_property("show_units", bool)
 class HasShowUnits(PropertyBase):
-    ...
+    show_units: bool
 
-@dynamic_property("pv_name", str)
 class HasPVName(PropertyBase):
-    ...
+    pv_name: str
 
 
-@dynamic_property("labels_from_pv", bool)
 class HasLabelsFromPV(PropertyBase):
-    ...
+    labels_from_pv: bool
 
-@dynamic_property("labels", ObservableList[str])
 class HasLabels(PropertyBase):
-    ...
+    labels: ObservableList[str]
 
-@dynamic_property("border_alarm_sensitive", bool)
 class HasAlarmBorder(PropertyBase):
-    ...
+    border_alarm_sensitive: bool
 
-@dynamic_property("err_pv", str)
 class HasErrPV(PropertyBase):
-    ...
+    err_pv: str
 
-@dynamic_property("height_pv", str)
 class HasHeightPV(PropertyBase):
-    ...
+    height_pv: str
 
-@dynamic_property("items_from_pv", bool)
 class HasItemsFromPV(PropertyBase):
-    ...
+    items_from_pv: bool
 
-@dynamic_property("limits_from_pv", bool)
 class HasLimitsFromPV(PropertyBase):
-    ...
+    limits_from_pv: bool
 
-@dynamic_property("selection_value_pv", str)
 class HasSelectionValuePV(PropertyBase):
-    ...
+    selection_value_pv: str
 
 
-@dynamic_property("show_toolbar", bool)
 class HasShowToolbar(PropertyBase):
-    ...
+    show_toolbar: bool
 
-@dynamic_property("line_width", int)
 class HasLineWidth(PropertyBase):
-    ...
+    line_width: int
 
-@dynamic_property("stretch_to_fit", bool)
 class HasStretchToFit(PropertyBase):
-    ...
+    stretch_to_fit: bool
 
-@dynamic_property("direction", TabDirection)
-class HasTabDirection(PropertyBase):
-    ...
-
-@dynamic_property("tab_width", int)
-class HasTabWidth(PropertyBase):
-    ...
-
-@dynamic_property("tab_height", int)
-class HasTabHeight(PropertyBase):
-    ...
-
-@dynamic_property("tab_spacing", int)
-class HasTabSpacing(PropertyBase):
-    ...
-
-@dynamic_property("active_tab", int)
-class HasActiveTab(PropertyBase):
-    ...
-
-@dynamic_property("horizontal", bool)
 class HasHorizontal(PropertyBase):
-    ...
+    horizontal: bool
 
-@dynamic_property("show_led", bool)
 class HasShowLED(PropertyBase):
-    ...
+    show_led: bool
 
-@dynamic_property("selected_color", Color)
 class HasSelectedColor(PropertyBase):
-    ...
+    selected_color: Color
 
-@dynamic_property("deselected_color", Color)
 class HasDeselectedColor(PropertyBase):
-    ...
+    deselected_color: Color
 
-@dynamic_property("show_value_tip", bool)
 class HasShowValueTip(PropertyBase):
-    ...
+    show_value_tip: bool
 
-@dynamic_property("buttons_on_left", bool)
 class HasButtonsOnLeft(PropertyBase):
-    ...
+    buttons_on_left: bool
 
-@dynamic_property("show_scale", bool)
 class HasShowScale(PropertyBase):
-    ...
+    show_scale: bool
 
-@dynamic_property("show_minor_ticks", bool)
 class HasShowMinorTicks(PropertyBase):
-    ...
+    show_minor_ticks: bool
 
-@dynamic_property("major_ticks_pixel_dist", int)
 class HasMajorTicksPixelDist(PropertyBase):
-    ...
+    major_ticks_pixel_dist: int
 
-@dynamic_property("scale_format", str)
 class HasScaleFormat(PropertyBase):
-    ...
+    scale_format: str
 
-@dynamic_property("reverse_bits", bool)
 class HasReverseBits(PropertyBase):
-    ...
+    reverse_bits: bool
 
-@dynamic_property("start_bit", int)
 class HasStartBit(PropertyBase):
-    ...
+    start_bit: int
 
-@dynamic_property("num_bits", int)
 class HasNumBits(PropertyBase):
-    ...
+    num_bits: int
 
-@dynamic_property("fill_color", Color)
 class HasFillColor(PropertyBase):
-    ...
+    fill_color: Color
 
-@dynamic_property("show_value", bool)
 class HasShowValue(PropertyBase):
-    ...
+    show_value: bool
 
-@dynamic_property("initial_index", int)
 class HasInitialIndex(PropertyBase):
-    ...
+    initial_index: int
 
-@dynamic_property("show_index", bool)
 class HasShowIndex(PropertyBase):
-    ...
+    show_index: bool
 
-@dynamic_property("disconnect_overlay_color", Color)
 class HasDisconnectOverlayColor(PropertyBase):
-    ...
+    disconnect_overlay_color: Color
 
-@dynamic_property("columns", ObservableList[Column])
 class HasColumns(PropertyBase):
-    ...
+    columns: ObservableList[Column]
 
-@dynamic_property("scale_visible", bool)
 class HasScaleVisible(PropertyBase):
-    ...
+    scale_visible: bool
 
-@dynamic_property("empty_color", Color)
 class HasEmptyColor(PropertyBase):
-    ...
+    empty_color: Color
 
-@dynamic_property("x_axis", Axis)
-class HasXAxis(PropertyBase):
-    ...
-
-@dynamic_property("y_axis", Axis)
-class HasYAxis(PropertyBase):
-    ...
-
-@dynamic_property("y_axes", ObservableList[Axis], list_item_name="y_axis")
-class HasYAxes(PropertyBase):
-    ...
-
-@dynamic_property("group_name", str)
 class HasGroupName(PropertyBase):
-    ...
+    group_name: str
 
-@dynamic_property("resize_behavior", ResizeBehavior)
 class HasResizeBehavior(PropertyBase):
-    ...
+    resize_behavior: ResizeBehavior
 
-@dynamic_property("style", GroupStyle)
 class HasGroupStyle(PropertyBase):
-    ...
+    style: GroupStyle
 
-@dynamic_property("color_bar", ColorBar)
 class HasColorBar(PropertyBase):
-    ...
+    color_bar: ColorBar
 
-@dynamic_property("scale_font", Font)
 class HasScaleFont(PropertyBase):
-    ...
+    scale_font: Font
 
-@dynamic_property("label_font", Font)
 class HasLabelFont(PropertyBase):
-    ...
+    label_font: Font
 
-@dynamic_property("title_font", Font)
+class HasTimeRange(PropertyBase):
+    start: str
+    end: str
+
+class HasTitle(PropertyBase):
+    title: str
+
 class HasTitleFont(PropertyBase):
-    ...
+    title_font: Font
 
-@dynamic_property("start", str)
-class HasStart(PropertyBase):
-    ...
+class HasShowGrid(PropertyBase):
+    show_grid: bool
 
-@dynamic_property("end", str)
-class HasEnd(PropertyBase):
-    ...
+class HasShowLegend(PropertyBase):
+    show_legend: bool
 
-class HasTimeRange(
-    HasStart,
-    HasEnd,
-):
-    ...
+class HasGap(PropertyBase):
+    gap: int
+
+class HasWrapCount(PropertyBase):
+    wrap_count: int
+
+class HasOpacity(PropertyBase):
+    opacity: float
+
+class HasPoints(PropertyBase):
+    points: ObservableList[Point]
+
+class HasLinearMeterColors(PropertyBase):
+    colors: LinearMeterColors
+
+class HasKnobAndNeedleSize(PropertyBase):
+    knob_size: float
+    needle_width: float

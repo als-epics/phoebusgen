@@ -1,194 +1,118 @@
-from .property_helpers import PropertyBase, dynamic_property
-from .types import ButtonMode, Color, State, InterpolationType, ColorMap, ColorMode, Script, Action, Rule, ObservableList, Trace
-
-@dynamic_property("rules", ObservableList[Rule])
-class HasRules(PropertyBase):
-    ...
+from .property_helpers import PropertyBase
+from .types import Axis, ButtonMode, Color, State, InterpolationType, ColorMap, ColorMode, Script, Action, Rule, ObservableList, Trace
 
 
-@dynamic_property("scripts", ObservableList[Script])
-class HasScripts(PropertyBase):
-    ...
+class HasActionsRulesAndScripts(PropertyBase):
+    actions: ObservableList[Action]
+    rules: ObservableList[Rule]
+    scripts: ObservableList[Script]
 
-@dynamic_property("actions", ObservableList[Action], list_item_name="action")
-class HasActions(PropertyBase):
-    ...
-
-@dynamic_property("tooltip", str)
 class HasToolTip(PropertyBase):
-    ...
+    tooltip: str
 
 
-@dynamic_property("show_limits", bool)
 class HasShowLimits(PropertyBase):
-    ...
+    show_limits: bool
 
-@dynamic_property("level_hihi", float)
-class HasLevelHiHi(PropertyBase):
-    ...
+class HasLevelsAndShow(PropertyBase):
+    level_hihi: float
+    level_high: float
+    level_low: float
+    level_lolo: float
+    show_hihi: bool
+    show_high: bool
+    show_low: bool
+    show_lolo: bool
 
-@dynamic_property("level_high", float)
-class HasLevelHigh(PropertyBase):
-    ...
-
-@dynamic_property("level_low", float)
-class HasLevelLow(PropertyBase):
-    ...
-
-@dynamic_property("level_lolo", float)
-class HasLevelLoLo(PropertyBase):
-    ...
-
-@dynamic_property("show_hihi", bool)
-class HasShowHiHi(PropertyBase):
-    ...
-
-@dynamic_property("show_high", bool)
-class HasShowHigh(PropertyBase):
-    ...
-
-@dynamic_property("show_low", bool)
-class HasShowLow(PropertyBase):
-    ...
-
-@dynamic_property("show_lolo", bool)
-class HasShowLoLo(PropertyBase):
-    ...
-
-class HasLevelsAndShow(
-    HasLevelHiHi,
-    HasLevelHigh,
-    HasLevelLow,
-    HasLevelLoLo,
-    HasShowHiHi,
-    HasShowHigh,
-    HasShowLow,
-    HasShowLoLo,
-):
-    ...
-
-@dynamic_property("enabled", bool)
 class HasEnabled(PropertyBase):
-    ...
+    enabled: bool
 
-@dynamic_property("show_confirm_dialog", bool)
-class HasShowConfirmDialog(PropertyBase):
-    ...
+class HasConfirmation(PropertyBase):
+    show_confirm_dialog: bool
+    confirm_message: str
+    password: str
 
-@dynamic_property("confirm_message", str)
-class HasConfirmMessage(PropertyBase):
-    ...
-
-@dynamic_property("password", str)
-class HasPassword(PropertyBase):
-    ...
-
-class HasConfirmation(HasShowConfirmDialog, HasConfirmMessage, HasPassword):
-    ...
-
-@dynamic_property("mode", ButtonMode)
 class HasButtonMode(PropertyBase):
-    ...
+    mode: ButtonMode
 
-@dynamic_property("minimum", float)
-class HasMin(PropertyBase):
-    ...
+class HasMinMax(PropertyBase):
+    minimum: float
+    maximum: float
 
-@dynamic_property("maximum", float)
-class HasMax(PropertyBase):
-    ...
-
-class HasMinMax(HasMin, HasMax):
-    ...
-
-@dynamic_property("bar_length", float)
 class HasBarLength(PropertyBase):
-    ...
+    bar_length: float
 
-@dynamic_property("increment", float)
 class HasIncrement(PropertyBase):
-    ...
+    increment: float
 
-@dynamic_property("wrap_words", bool)
 class HasWrapWords(PropertyBase):
-    ...
+    wrap_words: bool
 
-@dynamic_property("limits_from_pv", bool)
 class HasLimitsFromPV(PropertyBase):
-    ...
+    limits_from_pv: bool
 
-@dynamic_property("editable", bool)
 class HasEditable(PropertyBase):
-    ...
+    editable: bool
 
-@dynamic_property("fallback_symbol", str)
 class HasFallbackSymbol(PropertyBase):
-    ...
+    fallback_symbol: str
 
-@dynamic_property("preserve_ratio", bool)
 class HasPreserveRatio(PropertyBase):
-    ...
+    preserve_ratio: bool
 
-@dynamic_property("run_actions_on_mouse_click", bool)
 class HasRunActionsOnMouseClick(PropertyBase):
-    ...
+    run_actions_on_mouse_click: bool
 
-@dynamic_property("array_index", int)
 class HasArrayIndex(PropertyBase):
-    ...
+    array_index: int
 
-@dynamic_property("symbols", ObservableList[str])
 class HasSymbols(PropertyBase):
-    ...
+    symbols: ObservableList[str]
 
-@dynamic_property("fallback_label", str)
-class HasFallbackLabel(PropertyBase):
-    ...
 
-@dynamic_property("fallback_color", Color)
-class HasFallbackColor(PropertyBase):
-    ...
+class HasFallback(PropertyBase):
+    fallback_label: str
+    fallback_color: Color
 
-class HasFallback(HasFallbackLabel, HasFallbackColor):
-    ...
-
-@dynamic_property("states", ObservableList[State])
 class HasStates(PropertyBase):
-    ...
+    states: ObservableList[State]
 
-@dynamic_property("log_scale", bool)
 class HasLogScale(PropertyBase):
-    ...
+    log_scale: bool
 
-@dynamic_property("selection_value_pv", str)
 class HasSelectionValuePV(PropertyBase):
-    ...
+    selection_value_pv: str
 
+class HasDataWidthAndHeight(PropertyBase):
+    data_width: int
+    data_height: int
 
-@dynamic_property("data_width", int)
-class HasDataWidth(PropertyBase):
-    ...
-
-@dynamic_property("data_height", int)
-class HasDataHeight(PropertyBase):
-    ...
-
-@dynamic_property("interpolation", InterpolationType)
 class HasInterpolation(PropertyBase):
-    ...
+    interpolation: InterpolationType
 
-@dynamic_property("color_mode", ColorMode)
 class HasColorMode(PropertyBase):
-    ...
+    color_mode: ColorMode
 
-@dynamic_property("color_map", ColorMap)
 class HasColorMap(PropertyBase):
-    ...
+    color_map: ColorMap
 
-@dynamic_property("items", ObservableList[str])
 class HasItems(PropertyBase):
-    ...
+    items: ObservableList[str]
 
-@dynamic_property("traces", ObservableList[Trace])
 class HasTraces(PropertyBase):
-    ...
+    traces: ObservableList[Trace]
+
+class HasXAxis(PropertyBase):
+    x_axis: Axis
+
+class HasYAxis(PropertyBase):
+    y_axis: Axis
+
+class HasYAxes(PropertyBase):
+    y_axes: ObservableList[Axis]
+
+class HasAutoScale(PropertyBase):
+    auto_scale: bool
+
+class HasUnisignedData(PropertyBase):
+    unsigned_data: bool

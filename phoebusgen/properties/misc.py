@@ -1,78 +1,35 @@
-from .property_helpers import PropertyBase, dynamic_property
+from .property_helpers import PropertyBase
 from .types import Color, ROI, ObservableList, Marker
 
-@dynamic_property("border_width", int)
-class HasBorderWidth(PropertyBase):
-    ...
+class HasBorder(PropertyBase):
+    border_width: int
+    border_color: Color
 
-@dynamic_property("border_color", Color)
-class HasBorderColor(PropertyBase):
-    ...
-
-class HasBorder(HasBorderWidth, HasBorderColor):
-    ...
-
-@dynamic_property("markers", ObservableList[Marker])
 class HasMarkers(PropertyBase):
-    ...
+    markers: ObservableList[Marker]
 
-@dynamic_property("grid_visible", bool)
-class HasGridVisible(PropertyBase):
-    ...
+class HasGrid(PropertyBase):
+    grid_visible: bool = True
+    grid_color: Color = Color((128, 128, 128))
+    grid_step_x: int = 10
+    grid_step_y: int = 10
 
-@dynamic_property("grid_color", Color)
-class HasGridColor(PropertyBase):
-    ...
 
-@dynamic_property("grid_step_x", int)
-class HasGridStepX(PropertyBase):
-    ...
+class HasKnobAndNeedleColor(PropertyBase):
+    needle_color: Color
+    knob_color: Color
 
-@dynamic_property("grid_step_y", int)
-class HasGridStepY(PropertyBase):
-    ...
-
-@dynamic_property("needle_color", Color)
-class HasNeedleColor(PropertyBase):
-    ...
-
-@dynamic_property("knob_color", Color)
-class HasKnobColor(PropertyBase):
-    ...
-
-@dynamic_property("selection_pv", str)
 class HasSelectionPV(PropertyBase):
-    ...
+    selection_pv: str
 
-@dynamic_property("select_rows", bool)
 class HasSelectRows(PropertyBase):
-    ...
+    select_rows: bool
 
+class HasCursor(PropertyBase):
+    x_pv: str
+    y_pv: str
+    cursor_info_pv: str
+    cursor_crosshair: bool
 
-@dynamic_property("cursor_crosshair", bool)
-class HasCursorCrosshair(PropertyBase):
-    ...
-
-@dynamic_property("x_pv", str)
-class HasCursorXPV(PropertyBase):
-    ...
-
-@dynamic_property("y_pv", str)
-class HasCursorYPV(PropertyBase):
-    ...
-
-@dynamic_property("cursor_info_pv", str)
-class HasCursorInfoPV(PropertyBase):
-    ...
-
-class HasCursor(
-    HasCursorInfoPV,
-    HasCursorXPV,
-    HasCursorYPV,
-    HasCursorCrosshair,
-):
-    ...
-
-@dynamic_property("rois", ObservableList[ROI])
 class HasROIs(PropertyBase):
-    ...
+    rois: ObservableList[ROI]
