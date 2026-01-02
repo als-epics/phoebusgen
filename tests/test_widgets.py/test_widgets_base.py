@@ -1,4 +1,4 @@
-from phoebusgen.properties.types import Font, FontStyle, ObservableDict, ObservableList, Axis
+from phoebusgen.properties.types import Font, FontStyle, ObservableDict, ObservableList, Axis, Trace, TraceType, PointType
 from phoebusgen.utils import prettify_xml
 import pytest
 from phoebusgen.widgets import (
@@ -266,3 +266,38 @@ def test_widget_axis_list_properties(widget_class, widget_factory, prop_name, ch
     assert len(prop_elem) == 1
     axis_elem_remaining = prop_elem[0]
     assert axis_elem_remaining.find("title").text == "Axis 2"
+
+
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(ObservableList[Trace]))
+def test_widget_trace_list_properties(widget_class, widget_factory, prop_name, check_color_xml):
+    widget = widget_factory(widget_class)
+
+    # Make sure the property attr is set with correct type and default value
+    assert hasattr(widget, prop_name)
+    trace_list_prop = getattr(widget, prop_name)
+    assert isinstance(trace_list_prop, ObservableList)
+    assert len(trace_list_prop) == 0  # Default value is empty list
+
+    # Create and add Trace instances to the list
+    trace1 = Trace(name="Trace 1", trace_type=TraceType.STEP)
+    trace2 = Trace(name="Trace 2", trace_type=TraceType.LINE, x_pv="pv1", y_pv="pv2", y_axis=0, color="#FF00FF", line_width=2, visible=False, point_size=10, point_type=PointType.TRIANGLES)
+    trace_list_prop.extend([trace1, trace2])
+    assert len(trace_list_prop) == 2
+    assert trace_list_prop[0] == trace1
+    assert trace_list_prop[1] == trace2
+
+    del trace_list_prop[0]
+    assert len(trace_list_prop) == 1
+    assert trace_list_prop[0] == trace2
+    prop_elem = widget.root.find(prop_name)
+    assert len(prop_elem) == 1
+    trace_elem_remaining = prop_elem[0]
+    assert trace_elem_remaining.find("name").text == "Trace 2"
+    assert trace_elem_remaining.find("trace_type").text == "1"
+    assert trace_elem_remaining.find("x_pv").text == "pv1"
+    assert trace_elem_remaining.find("y_pv").text == "pv2"
+    assert trace_elem_remaining.find("y_axis").text == "0"
+    assert trace_elem_remaining.find("visible").text == "false"
+    assert trace_elem_remaining.find("line_width").text == "2"
+    color_elem = trace_elem_remaining.find("color")
+    check_color_xml(color_elem.find("color"), (255, 0, 255))
