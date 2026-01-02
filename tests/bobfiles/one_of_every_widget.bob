@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-01-02 14:06:04 by jwlodek-->
+<display version="2.0.0">
+  <name>OneOfEveryWidget</name>
+  <macros>
+    <Test>Macro</Test>
+  </macros>
+  <width>2000</width>
+  <height>1200</height>
+  <background_color>
+    <color name="Read_Background" red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <widget type="arc" version="2.0.0">
+    <name>Arc</name>
+    <x>30</x>
+    <y>10</y>
+  </widget>
+  <widget type="ellipse" version="2.0.0">
+    <name>Ellipse</name>
+    <x>210</x>
+    <y>20</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <x>390</x>
+    <y>30</y>
+    <rotation_step>1</rotation_step>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>510</x>
+    <y>20</y>
+  </widget>
+  <widget type="polygon" version="2.0.0">
+    <name>Polygon_1</name>
+    <x>700</x>
+    <y>50</y>
+    <height>80</height>
+    <points>
+      <point x="0.0" y="20.0">
+      </point>
+      <point x="100.0" y="0.0">
+      </point>
+      <point x="40.0" y="80.0">
+      </point>
+    </points>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle</name>
+    <x>1150</x>
+    <y>80</y>
+  </widget>
+  <widget type="byte_monitor" version="2.0.0">
+    <name>Byte Monitor</name>
+    <x>50</x>
+    <y>170</y>
+    <labels>
+      <text>Label 0</text>
+      <text>Label 1</text>
+    </labels>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <x>260</x>
+    <y>180</y>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)</name>
+    <x>330</x>
+    <y>150</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label>State 1</label>
+        <color>
+          <color name="Off" red="60" green="100" blue="60">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label>State 2</label>
+        <color>
+          <color name="On" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+  </widget>
+  <widget type="meter" version="3.0.0">
+    <name>Meter</name>
+    <x>740</x>
+    <y>180</y>
+  </widget>
+  <widget type="progressbar" version="2.0.0">
+    <name>Progress Bar</name>
+    <x>1030</x>
+    <y>210</y>
+  </widget>
+  <widget type="symbol" version="2.0.0">
+    <name>Symbol</name>
+    <x>1190</x>
+    <y>180</y>
+    <tooltip>$(pv_name)
+$(pv_value)
+$(actions)</tooltip>
+  </widget>
+  <widget type="table" version="2.0.0">
+    <name>Table</name>
+    <x>40</x>
+    <y>280</y>
+    <width>200</width>
+    <height>110</height>
+    <columns>
+      <column>
+        <name>Column 1</name>
+        <width>100</width>
+        <editable>true</editable>
+        <options>
+          <option>Option 1</option>
+          <option>Option 2</option>
+        </options>
+      </column>
+      <column>
+        <name>Column 2</name>
+        <width>100</width>
+        <editable>true</editable>
+      </column>
+    </columns>
+  </widget>
+  <widget type="tank" version="2.0.0">
+    <name>Tank</name>
+    <x>300</x>
+    <y>320</y>
+  </widget>
+  <widget type="text-symbol" version="2.0.0">
+    <name>Text Symbol</name>
+    <x>490</x>
+    <y>310</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <x>570</x>
+    <y>310</y>
+  </widget>
+  <widget type="thermometer" version="2.0.0">
+    <name>Thermometer</name>
+    <x>540</x>
+    <y>380</y>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <x>40</x>
+    <y>610</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="bool_button" version="2.0.0">
+    <name>Boolean Button</name>
+    <x>170</x>
+    <y>610</y>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Check Box</name>
+    <x>330</x>
+    <y>620</y>
+  </widget>
+  <widget type="choice" version="2.0.0">
+    <name>Choice Button</name>
+    <x>490</x>
+    <y>620</y>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+      <item>Item 3</item>
+    </items>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Combo Box</name>
+    <x>650</x>
+    <y>630</y>
+    <items>
+      <item>item 0</item>
+      <item>Item 1</item>
+    </items>
+  </widget>
+  <widget type="fileselector" version="2.0.0">
+    <name>File Selector</name>
+    <x>820</x>
+    <y>640</y>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Radio Button</name>
+    <x>880</x>
+    <y>620</y>
+    <items>
+      <item>Item 1</item>
+      <item>Item 2</item>
+    </items>
+  </widget>
+  <widget type="scaledslider" version="2.0.0">
+    <name>Scaled Slider</name>
+    <x>960</x>
+    <y>360</y>
+  </widget>
+  <widget type="scrollbar" version="2.0.0">
+    <name>Scrollbar</name>
+    <x>30</x>
+    <y>710</y>
+  </widget>
+  <widget type="slide_button" version="2.0.0">
+    <name>Slide Button</name>
+    <x>180</x>
+    <y>700</y>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>Spinner</name>
+    <x>280</x>
+    <y>710</y>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>Text Entry</name>
+    <x>430</x>
+    <y>710</y>
+  </widget>
+  <widget type="thumbwheel" version="2.0.0">
+    <name>Thumbwheel</name>
+    <x>570</x>
+    <y>700</y>
+  </widget>
+  <widget type="databrowser" version="2.0.0">
+    <name>Data Browser</name>
+    <x>1230</x>
+    <y>760</y>
+    <width>180</width>
+    <height>180</height>
+  </widget>
+  <widget type="image" version="2.0.0">
+    <name>Image</name>
+    <x>30</x>
+    <y>860</y>
+  </widget>
+  <widget type="stripchart" version="2.1.0">
+    <name>Strip Chart</name>
+    <x>500</x>
+    <y>880</y>
+  </widget>
+  <widget type="xyplot" version="3.0.0">
+    <name>X/Y Plot</name>
+    <x>950</x>
+    <y>940</y>
+    <width>270</width>
+    <height>170</height>
+  </widget>
+  <widget type="array" version="2.0.0">
+    <name>Array</name>
+    <x>1410</x>
+    <y>50</y>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display</name>
+    <x>1570</x>
+    <y>80</y>
+    <width>220</width>
+    <height>210</height>
+  </widget>
+  <widget type="group" version="3.0.0">
+    <name>Group</name>
+    <x>1520</x>
+    <y>380</y>
+  </widget>
+  <widget type="navtabs" version="2.0.0">
+    <name>Navigation Tabs</name>
+    <tabs>
+      <tab>
+        <name>Tab 1</name>
+        <file></file>
+        <macros>
+        </macros>
+        <group_name></group_name>
+      </tab>
+      <tab>
+        <name>Tab 2</name>
+        <file></file>
+        <macros>
+        </macros>
+        <group_name></group_name>
+      </tab>
+    </tabs>
+    <x>1450</x>
+    <y>590</y>
+    <width>350</width>
+    <height>210</height>
+    <direction>0</direction>
+  </widget>
+  <widget type="tabs" version="2.0.0">
+    <name>Tabs</name>
+    <tabs>
+      <tab>
+        <name>Tab 1</name>
+        <children>
+          <widget type="template" version="2.0.0">
+            <name>Template/Instance</name>
+            <x>18</x>
+            <y>13</y>
+            <width>270</width>
+            <height>190</height>
+          </widget>
+        </children>
+      </tab>
+      <tab>
+        <name>Tab 2</name>
+        <children>
+        </children>
+      </tab>
+    </tabs>
+    <x>1540</x>
+    <y>1010</y>
+    <width>250</width>
+    <height>150</height>
+    <active_tab>1</active_tab>
+  </widget>
+  <widget type="webbrowser" version="2.0.0">
+    <name>Web Browser</name>
+    <x>630</x>
+    <y>415</y>
+    <width>270</width>
+    <height>100</height>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline_1</name>
+    <x>850</x>
+    <y>40</y>
+    <width>177</width>
+    <height>90</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+      <point x="177.20000000000005" y="90.0">
+      </point>
+    </points>
+    <arrows>3</arrows>
+  </widget>
+  <widget type="template" version="2.0.0">
+    <name>Template/Instance_1</name>
+    <instances>
+      <instance>
+        <macros>
+        </macros>
+      </instance>
+      <instance>
+        <macros>
+        </macros>
+      </instance>
+    </instances>
+    <x>1050</x>
+    <y>450</y>
+    <width>280</width>
+    <height>185</height>
+  </widget>
+  <widget type="3dviewer" version="2.0.0">
+    <name>3d Viewer</name>
+    <x>1530</x>
+    <y>850</y>
+    <width>160</width>
+    <height>120</height>
+  </widget>
+  <widget type="linearmeter" version="2.0.0">
+    <name>LinearMeter</name>
+    <x>440</x>
+    <y>160</y>
+  </widget>
+</display>

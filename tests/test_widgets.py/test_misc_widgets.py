@@ -9,12 +9,18 @@ def test_threedviewer_file_property() -> None:
     assert hasattr(w, "file")
     assert isinstance(w.file, str)
     assert w.file == "/path/to/model.obj"
+    w.file = "/new/path/to/model.obj"
+    assert w.file == "/new/path/to/model.obj"
+    assert w.root.find('file').text == "/new/path/to/model.obj"
 
 def test_webbrowser_url_property() -> None:
     w = WebBrowser("WebBrowser1", url="https://example.com", x=10, y=10, width=800, height=600)
     assert hasattr(w, "url")
     assert isinstance(w.url, str)
     assert w.url == "https://example.com"
+    w.url = "https://newexample.com"
+    assert w.url == "https://newexample.com"
+    assert w.root.find('url').text == "https://newexample.com"
 
 def test_threedviewer_from_xml(widget_xml_factory) -> None:
     root = widget_xml_factory(ThreeDViewer)

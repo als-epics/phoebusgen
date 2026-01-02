@@ -1,4 +1,4 @@
-from phoebusgen.properties import HasMacros, HasName, HasFile, HasUrl, HasBit, HasLabel, HasFileComponent, HasScripts, HasActions, FileComponent, HasTabs, Tab, OpenDisplayAction, OpenFileAction, ExecuteAction, CommandAction, OpenWebpageAction
+from phoebusgen.properties import HasMacros, HasName, HasFile, HasUrl, HasBit, HasLabel, HasFileComponent, FileComponent, HasTabs, Tab, OpenDisplayAction, OpenFileAction, ExecuteAction, CommandAction, OpenWebpageAction
 from phoebusgen.utils import prettify_xml
 import pytest
 import re

@@ -2,67 +2,7 @@ import pytest
 from phoebusgen.widgets import Widget
 from typing import Callable
 import inspect
-from collections import OrderedDict
 from xml.etree.ElementTree import Element, SubElement
-
-from phoebusgen.properties import (
-    HasBackgroundColor,
-    HasForegroundColor,
-    HasLineColor,
-    HasFillColor,
-    HasOnColor,
-    HasOffColor,
-    HasSelectedColor,
-    HasDeselectedColor,
-HasGridColor,
-HasKnobColor,
-HasNeedleColor,
-HasBorderColor,
-HasFallbackColor,
-HasEmptyColor,
-HasDisconnectOverlayColor,
-
-)
-
-from phoebusgen.widgets import (
-    ActionButton,
-    CheckBox,
-    ComboBox,
-    RadioButton,
-    ScaledSlider,
-    TextEntry,
-    ChoiceButton,
-    BooleanButton,
-    FileSelector,
-    Spinner,
-    Scrollbar,
-    SlideButton,
-    Arc,
-    Ellipse,
-    Polygon,
-    Polyline,
-    Rectangle,
-    Label,
-    Picture,
-    WebBrowser,
-    ThreeDViewer,
-    ByteMonitor,
-    LED,
-    LEDMultiState,
-    Meter,
-    ProgressBar,
-    Symbol,
-    Table,
-    Tank,
-    TextSymbol,
-    TextUpdate,
-    Thermometer,
-    Tabs,
-    Group,
-    NavigationTabs,
-    Array,
-    EmbeddedDisplay,
-)
 
 
 @pytest.fixture
@@ -78,7 +18,7 @@ def widget_factory() -> Callable[..., Widget]:
         }
 
         params = []
-        for i, param_name in enumerate(inspect.signature(widget_cls.__init__).parameters):
+        for param_name in inspect.signature(widget_cls.__init__).parameters:
             if param_name != "self":
                 if param_name in base_params:
                     params.append(base_params[param_name])

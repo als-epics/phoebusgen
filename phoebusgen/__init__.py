@@ -17,7 +17,8 @@ to reflect your site's custom definitions.
 # Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
-from . import properties, screen, widgets
+from .screen import Screen
+from . import widgets, properties, tools
 
 from os import path as _path
 from sys import platform as _platform

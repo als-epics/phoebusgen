@@ -1,13 +1,13 @@
 import pytest
 
-from phoebusgen.properties import HasBorderWidth, HasBorderColor, HasMarkers, HasGridVisible, HasGridColor, HasGridStepX, HasGridStepY, HasGridColor, HasKnobColor, HasNeedleColor, HasROIs, Color, HasSelectionPV, HasSelectRows, HasCursor, Marker, ROI
+from phoebusgen.properties import HasBorder, HasMarkers, HasGrid, HasKnobAndNeedleColor, HasROIs, Color, HasSelectionPV, HasSelectRows, HasCursor, Marker, ROI
 from phoebusgen.utils import prettify_xml
 
 @pytest.mark.parametrize("property_cls, property_name, value", [
-    (HasBorderWidth, "border_width", 5),
-    (HasGridVisible, "grid_visible", True),
-    (HasGridStepX, "grid_step_x", 20),
-    (HasGridStepY, "grid_step_y", 30),
+    (HasBorder, "border_width", 5),
+    (HasGrid, "grid_visible", True),
+    (HasGrid, "grid_step_x", 20),
+    (HasGrid, "grid_step_y", 30),
     (HasSelectionPV, "selection_pv", "test:PV"),
     (HasSelectRows, "select_rows", False),
 ])
@@ -36,10 +36,10 @@ def test_cursor_properties(property_factory, check_xml_element):
 
 
 @pytest.mark.parametrize("property_cls, property_name, value", [
-    (HasBorderColor, "border_color", (255, 0, 0)),
-    (HasBorderColor, "border_color", (0, 255, 0, 128)),
-    (HasNeedleColor, "needle_color", Color((0, 0, 255))),
-    (HasKnobColor, "knob_color", (255, 255, 0)),
+    (HasBorder, "border_color", (255, 0, 0)),
+    (HasBorder, "border_color", (0, 255, 0, 128)),
+    (HasKnobAndNeedleColor, "needle_color", Color((0, 0, 255))),
+    (HasKnobAndNeedleColor, "knob_color", (255, 255, 0)),
 ])
 def test_misc_color_properties(validate_color_property, property_cls, property_name, value):
     validate_color_property(property_cls, property_name, value)
@@ -48,7 +48,7 @@ def test_marker_property(property_factory, check_xml_element, check_color_xml):
     prop = property_factory(HasMarkers)
     assert hasattr(prop, "markers")
     assert prop.markers == []
-    prop.markers = [Marker(pv_name="PV1", color=(0, 0, 255)), Marker(pv_name="PV2", color=(255, 0, 0), interactive=True)]
+    prop.markers = [Marker(pv_name="PV1", color=Color((0, 0, 255))), Marker(pv_name="PV2", color=Color((255, 0, 0)), interactive=True)]
     assert len(prop.markers) == 2
     assert prop.markers[0].pv_name == "PV1"
     assert prop.markers[0].color == (0, 0, 255)
@@ -58,7 +58,7 @@ def test_marker_property(property_factory, check_xml_element, check_color_xml):
     assert prop.markers[0].pv_name == "PV2"
     assert prop.markers[0].color == (255, 0, 0)
     assert prop.markers[0].interactive is True
-    prop.markers.append(Marker(pv_name="PV3", color=(0, 255, 0)))
+    prop.markers.append(Marker(pv_name="PV3", color=Color((0, 255, 0))))
     assert len(prop.markers) == 2
     assert prop.markers[1].pv_name == "PV3"
     markers_elem = prop.root.find("markers")
@@ -78,7 +78,7 @@ def test_roi_property(property_factory, check_xml_element, check_color_xml):
     prop = property_factory(HasROIs)
     assert hasattr(prop, "rois")
     assert prop.rois == []
-    prop.rois = [ROI(name="ROI1"), ROI(name="ROI2", color=(200, 100, 50), interactive=True, visible=False, x_pv="X:PV", y_pv="Y:PV", width_pv="W:PV", height_pv="H:PV")]
+    prop.rois = [ROI(name="ROI1"), ROI(name="ROI2", color=Color((200, 100, 50)), interactive=True, visible=False, x_pv="X:PV", y_pv="Y:PV", width_pv="W:PV", height_pv="H:PV")]
     assert len(prop.rois) == 2
     assert prop.rois[0].name == "ROI1"
     assert prop.rois[0].color == (0,255,0)

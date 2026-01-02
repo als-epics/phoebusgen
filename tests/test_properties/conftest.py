@@ -34,18 +34,6 @@ def validate_primitive_property(property_factory) -> Callable[[type[PropertyBase
     return _validator
 
 
-
-@pytest.fixture
-def check_color_xml() -> Callable[[Element, Color], None]:
-    def _checker(color_elem: Element, expected_color: Color) -> None:
-        assert color_elem is not None
-        assert int(color_elem.attrib.get("red", -1)) == expected_color[0]
-        assert int(color_elem.attrib.get("green", -1)) == expected_color[1]
-        assert int(color_elem.attrib.get("blue", -1)) == expected_color[2]
-        if len(expected_color) == 4:
-            assert int(color_elem.attrib.get("alpha", -1)) == expected_color[3]
-    return _checker
-
 @pytest.fixture
 def validate_color_property(property_factory, check_color_xml) -> Callable[[type[PropertyBase], str, Color], None]:
     def _validator(property_cls: type[PropertyBase], property_name: str, value: Color) -> None:

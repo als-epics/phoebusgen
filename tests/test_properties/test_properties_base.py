@@ -3,7 +3,7 @@ import pytest
 
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.properties.property_helpers import dynamic_property, _create_element, _find_getter_setter_by_type, _get_color_property, _get_dataclass_property, _get_enum_property, _get_list_property, _get_primitive_property, _get_dict_property, _set_action_property, _set_color_property, _set_dataclass_property, _set_enum_property, _set_list_property, _set_primitive_property, _set_dict_property, _validate_color_value, _get_action_property
+from phoebusgen.properties.property_helpers import _create_element, _find_getter_setter_by_type, _get_color_property, _get_dataclass_property, _get_enum_property, _get_list_property, _get_primitive_property, _get_dict_property, _set_action_property, _set_color_property, _set_dataclass_property, _set_enum_property, _set_list_property, _set_primitive_property, _set_dict_property, _get_action_property, is_set_value_valid
 from phoebusgen.properties.types import ObservableDataclass, ObservableDict, FileComponent, Action, ObservableList, Color, Font, State, Trace, FontStyle, HorizontalAlignment, VerticalAlignment, RotationStep, InterpolationType, ButtonMode, ColorMode, GroupStyle, ResizeBehavior, LineStyle, PointType, ColorMap, ArrowTypes, TabDirection, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.utils import prettify_xml
 from enum import Enum
@@ -47,6 +47,31 @@ def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter)
     setter = _find_getter_setter_by_type(prop_type, func = "setter")
     assert getter == expected_getter
     assert setter == expected_setter
+
+
+@pytest.mark.parametrize("value, expected_type, expected_valid",[
+    (255, int, True),
+    (3.14, float, True),
+    (True, bool, True),
+    ("some string", str, True),
+    (Color((0, 0, 0)), Color, True),
+    ((255, 255, 255), Color, True),
+    ("#FFAABB", Color, True),
+    (Font(), Font, True),
+    (ObservableDict(), ObservableDict, True),
+    ({}, ObservableDict, True),
+    (ObservableList[int](), ObservableList[int], True),
+    ([], ObservableList[str], True),
+    ([1, 'str'], ObservableList[int], False),
+    (FileComponent.DIRECTORY, FileComponent, True),
+    ("not-a-color", Color, False),
+    (123, str, False),
+    ([], ObservableDict, False),
+    (["item1", "item2", "item3"], ObservableList[str], True),
+])
+def test_is_set_value_valid(value, expected_type, expected_valid):
+    is_valid = is_set_value_valid(value, expected_type)
+    assert is_valid == expected_valid
 
 
 @pytest.mark.parametrize("text, prop_type, expected_value",
@@ -147,7 +172,7 @@ def test_set_color_property_various_inputs(color_input, expected_attrs, color_ou
                                 ("not-a-color", False),
                             ])
 def test_validate_color_value(color, expected_valid):
-    assert _validate_color_value(color) == expected_valid
+    assert Color.is_color(color) == expected_valid
 
 
 def test_get_font_property():
@@ -242,22 +267,22 @@ def test_set_action_property():
 
 
 def test_get_list_property_primitive():
-    elem = Element("numbers")
+    elem = Element("items")
     for i in range(3):
         item_elem = SubElement(elem, "item")
         item_elem.text = str(i + 1)
-    values = _get_list_property(elem, int, list_item_name="item")
+    values = _get_list_property(elem, int)
     assert values == [1, 2, 3]
 
 def test_set_list_property_primitive():
     values = [1, 2, 3]
-    elem = _set_list_property("numbers", values, list_item_name="item")
-    assert elem.tag == "numbers"
+    elem = _set_list_property("items", values)
+    assert elem.tag == "items"
     items = elem.findall("item")
     assert len(items) == 3
     for i, item_elem in enumerate(items):
         assert item_elem.text == str(values[i])
-    retrieved_values = _get_list_property(elem, int, list_item_name="item")
+    retrieved_values = _get_list_property(elem, int)
     assert retrieved_values == values
 
 def test_get_list_property_dataclass():
@@ -312,3 +337,4 @@ def test_set_dict_property():
         assert item_elem.text == value
     retrieved_data = _get_dict_property(elem)
     assert retrieved_data == data
+

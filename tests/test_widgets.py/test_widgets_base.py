@@ -1,4 +1,4 @@
-from phoebusgen.properties.types import Font, FontStyle
+from phoebusgen.properties.types import Font, FontStyle, ObservableDict
 from phoebusgen.utils import prettify_xml
 import pytest
 from phoebusgen.widgets import (
@@ -6,108 +6,25 @@ from phoebusgen.widgets import (
 )
 from phoebusgen.properties import (
     HasName,
-    HasX,
-    HasY,
-    HasWidth,
-    HasHeight,
+    HasPosition,
     HasVisible,
-    Color,
-    PropertyBase
+    Color
 )
 
-
-from phoebusgen.widgets import (
-    ActionButton,
-    CheckBox,
-    ComboBox,
-    RadioButton,
-    ScaledSlider,
-    TextEntry,
-    ChoiceButton,
-    BooleanButton,
-    FileSelector,
-    Spinner,
-    Scrollbar,
-    SlideButton,
-    Arc,
-    Ellipse,
-    Polygon,
-    Polyline,
-    Rectangle,
-    Label,
-    Picture,
-    WebBrowser,
-    ThreeDViewer,
-    ByteMonitor,
-    LED,
-    LEDMultiState,
-    Meter,
-    ProgressBar,
-    Symbol,
-    Table,
-    Tank,
-    TextSymbol,
-    TextUpdate,
-    Thermometer,
-    Tabs,
-    Group,
-    NavigationTabs,
-    Array,
-    EmbeddedDisplay,
-)
+WIDGET_CLASSES = Widget.__subclasses__()
 
 
-WIDGET_CLASSES = [
-    ActionButton,
-    CheckBox,
-    ComboBox,
-    RadioButton,
-    ScaledSlider,
-    TextEntry,
-    ChoiceButton,
-    BooleanButton,
-    FileSelector,
-    Spinner,
-    Scrollbar,
-    SlideButton,
-    Arc,
-    Ellipse,
-    Polygon,
-    Polyline,
-    Rectangle,
-    Label,
-    Picture,
-    WebBrowser,
-    ThreeDViewer,
-    ByteMonitor,
-    LED,
-    LEDMultiState,
-    Meter,
-    ProgressBar,
-    Symbol,
-    Table,
-    Tank,
-    TextSymbol,
-    TextUpdate,
-    Thermometer,
-    Tabs,
-    Group,
-    NavigationTabs,
-    Array,
-    EmbeddedDisplay,
-]
-
-def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[type[Widget], list[type[PropertyBase]]]]:
+def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[type[Widget], str]]:
     """
     Helper function that generates a list of tuples of widget classes and property classes that match the given property type.
     
     :param property_type: Type of property to filter by
     :return: List of tuples of widget classes and matching property classes
-    :rtype: list[tuple[type[Widget], list[type[PropertyBase]]]]
+    :rtype: list[tuple[type[Widget], str]]
     """
 
     widgets_and_matching_props = [
-        (w, [p for p in w.supported_properties() if w.get_property_type(p) == property_type]) for w in WIDGET_CLASSES
+        (w, [p for p in w.get_property_names() if w.get_property_type_by_name(p) == property_type]) for w in WIDGET_CLASSES
     ]
     parametrized_product = [
         (widget_cls, prop)
@@ -154,13 +71,15 @@ def test_base_widget_properties(widget_class, widget_factory, base_widget_prop_v
     assert widget.visible
     check_xml_element(widget.root, "visible", "true")
 
+
 @pytest.mark.parametrize("widget_class", WIDGET_CLASSES)
 def test_widget_is_subclass_of_base_widget_properties(widget_class, widget_factory):
     widget = widget_factory(widget_class)
     assert isinstance(widget, Widget)
-    for prop_cls in [HasName, HasX, HasY, HasWidth, HasHeight, HasVisible]:
+    for prop_cls in [HasName, HasPosition, HasVisible]:
         assert isinstance(widget, prop_cls)
         assert widget.has_property(prop_cls)
+
 
 @pytest.mark.parametrize("widget_class", WIDGET_CLASSES)
 def test_widget_from_element(widget_class, widget_xml_factory):
@@ -175,13 +94,9 @@ def test_widget_from_element(widget_class, widget_xml_factory):
     assert widget.visible
 
 
-
-@pytest.mark.parametrize("widget_class, color_property", _filter_widget_classes_by_property_type(Color))
-def test_widget_color_properties(widget_class, widget_factory, color_property, check_color_xml):
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(Color))
+def test_widget_color_properties(widget_class, widget_factory, prop_name, check_color_xml):
     widget = widget_factory(widget_class)
-    # Make sure the widget class has the given property
-    prop_name = widget_class.get_property_name(color_property)
-    assert widget.has_property(color_property)
 
     # Make sure the property attr is set with correct type and default value
     assert hasattr(widget, prop_name)
@@ -213,12 +128,9 @@ def test_widget_color_properties(widget_class, widget_factory, color_property, c
     check_color_xml(prop_elem.find("color"), (255, 0, 255))
 
 
-@pytest.mark.parametrize("widget_class, font_property", _filter_widget_classes_by_property_type(Font))
-def test_widget_font_properties(widget_class, widget_factory, font_property, check_font_xml):
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(Font))
+def test_widget_font_properties(widget_class, widget_factory, prop_name, check_font_xml):
     widget = widget_factory(widget_class)
-    # Make sure the widget class has the given property
-    prop_name = widget_class.get_property_name(font_property)
-    assert widget.has_property(font_property)
 
     # Make sure the property attr is set with correct type and default value
     assert hasattr(widget, prop_name)
@@ -239,3 +151,37 @@ def test_widget_font_properties(widget_class, widget_factory, font_property, che
     prop_elem = widget.root.find(prop_name)
     assert prop_elem is not None and prop_elem.attrib.get("size") == "18"
 
+
+@pytest.mark.parametrize("widget_class, prop_name", _filter_widget_classes_by_property_type(ObservableDict))
+def test_widget_dict_properties(widget_class, widget_factory, prop_name):
+    widget = widget_factory(widget_class)
+
+    print(widget)
+
+    # Make sure the property attribute is set with correct type and default value
+    assert hasattr(widget, prop_name)
+    dict_prop = getattr(widget, prop_name)
+    assert isinstance(dict_prop, ObservableDict)
+    assert dict_prop == ObservableDict() # Default value is empty dict
+
+    # Set some key-value pairs in the dict property
+    dict_prop["Key1"] = "Value1"
+    dict_prop["Key2"] = "Value2"
+    assert dict_prop["Key1"] == "Value1"
+    assert dict_prop["Key2"] == "Value2"
+
+    # Check that the XML reflects the changes
+    prop_elem = widget.root.find(prop_name)
+    assert prop_elem is not None
+    assert len(prop_elem) == 2
+    for i in range(2):
+        assert prop_elem[i].tag == f"Key{i+1}"
+        assert prop_elem[i].text == f"Value{i+1}"
+
+    # Delete a key and check updates
+    del dict_prop["Key1"]
+    assert "Key1" not in dict_prop
+    prop_elem = widget.root.find(prop_name)
+    assert len(prop_elem) == 1
+    assert prop_elem.find("Key2") is not None
+    assert prop_elem.find("Key1") is None
