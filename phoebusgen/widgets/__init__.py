@@ -81,7 +81,7 @@ from .plots import (
     XYPlot,
     Image,
     StripChart,
-    DataBrowser
+    DataBrowser,
 )
 
 
@@ -93,9 +93,21 @@ from .plots import (
 # )
 
 __all__ = [
+    # Widget Base Classes
+    "WidgetType",
     "Widget",
+    # Graphics widgets
+    "Arc",
+    "Ellipse",
+    "Polygon",
+    "Polyline",
+    "Rectangle",
+    "Label",
+    "Picture",
+    # Misc widgets
     "WebBrowser",
     "ThreeDViewer",
+    # Monitor widgets
     "ByteMonitor",
     "LED",
     "LEDMultiState",
@@ -106,5 +118,32 @@ __all__ = [
     "Tank",
     "TextSymbol",
     "TextUpdate",
-    "Thermometer"
+    "Thermometer",
+    "LinearMeter",
+    # Control widgets
+    "ActionButton",
+    "CheckBox",
+    "ComboBox",
+    "RadioButton",
+    "ScaledSlider",
+    "TextEntry",
+    "ChoiceButton",
+    "BooleanButton",
+    "FileSelector",
+    "Spinner",
+    "Scrollbar",
+    "SlideButton",
+    "Thumbwheel",
+    # Structure widgets
+    "Tabs",
+    "Group",
+    "NavigationTabs",
+    "Array",
+    "EmbeddedDisplay",
+    "TemplateInstance",
+    # Plot widgets
+    "XYPlot",
+    "Image",
+    "StripChart",
+    "DataBrowser"
 ]

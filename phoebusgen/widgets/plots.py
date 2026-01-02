@@ -1,5 +1,3 @@
-from phoebusgen.properties.behavior import HasDataWidthAndHeight
-from phoebusgen.properties.display import HasLimitsFromPV, HasSelectionValuePV
 from .widget import WidgetType, Widget
 from phoebusgen.properties import (
     HasMacros,
@@ -9,6 +7,8 @@ from phoebusgen.properties import (
     HasForegroundColor,
     HasAlarmBorder,
     HasXAxis,
+    HasDataWidthAndHeight,
+    HasSelectionValuePV,
     HasYAxis,
     HasColorMap,
     HasColorBar,

@@ -67,7 +67,7 @@ class Color(tuple):
         if not isinstance(other, Color):
             try:
                 other = Color(other)  # type: ignore
-            except:
+            except ValueError:
                 return False
         return tuple(self) == tuple(other)
 
@@ -205,11 +205,6 @@ class OpenDisplayTarget(str, Enum):
     NEW_TAB = "tab"
     NEW_WINDOW = "window"
 
-class RotationStep(int, Enum):
-    ZERO = 0
-    NINETY = 1
-    ONE_HUNDRED_EIGHTY = 2
-    NEGATIVE_NINETY = 3
 
 class Direction(int, Enum):
     HORIZONTAL = 0
@@ -281,14 +276,14 @@ class ObservableDataclass:
     @classmethod
     def fields(cls):
         fields = {}
-        for field in cls.__dataclass_fields__:
-            if not field.startswith("_"):
-                fields[field] = cls.__dataclass_fields__[field]
+        for dcls_field in cls.__dataclass_fields__:
+            if not dcls_field.startswith("_"):
+                fields[dcls_field] = cls.__dataclass_fields__[dcls_field]
         return fields
 
     def __eq__(self, other):
-        for field in self.fields():
-            if getattr(self, field) != getattr(other, field):
+        for dcls_field in self.fields():
+            if getattr(self, dcls_field) != getattr(other, dcls_field):
                 return False
         return True
 

@@ -111,9 +111,6 @@ class HasHeightPV(PropertyBase):
 class HasItemsFromPV(PropertyBase):
     items_from_pv: bool
 
-class HasLimitsFromPV(PropertyBase):
-    limits_from_pv: bool
-
 class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
 

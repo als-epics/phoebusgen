@@ -1,9 +1,15 @@
-from phoebusgen.properties.types import Font, FontStyle, ObservableDict, ObservableList, Axis, Trace, TraceType, PointType
 import pytest
 from phoebusgen.widgets import (
     Widget,
 )
 from phoebusgen.properties import (
+    Font,
+    FontStyle,
+    ObservableDict,
+    ObservableList,
+    Trace,
+    TraceType,
+    PointType,
     HasName,
     HasPosition,
     HasVisible,
