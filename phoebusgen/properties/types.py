@@ -307,10 +307,14 @@ class ObservableList(MutableSequence, Generic[ValidListTypeT]):
         self._notify_change()
 
     def __setitem__(self, i, val):
+        if hasattr(val, '_on_change_callback'):
+            val._on_change_callback = lambda _self: self._notify_change()
         self._list.__setitem__(i, val)
         self._notify_change()
 
     def insert(self, index, value):
+        if hasattr(value, '_on_change_callback'):
+            value._on_change_callback = lambda _self: self._notify_change()
         self._list.insert(index, value)
         self._notify_change()
 
