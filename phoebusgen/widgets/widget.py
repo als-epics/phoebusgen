@@ -12,7 +12,6 @@ class WidgetType(str, Enum):
     ARC = "arc"
     ELLIPSE = "ellipse"
     LABEL = "label"
-    # Graphics
     PICTURE = "picture"
     POLYGON = "polygon"
     POLYLINE = "polyline"
