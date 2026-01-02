@@ -51,12 +51,6 @@ class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValueP
         Widget.__init__(self, name, x, y, width, height)
         self.file = file
 
-# colormap, colorbar, xaxis, yaxis, datawidth, dataheight, interpolation, colormode, unsigneddata, autoscale,
-# logscale, cursor, roi
-#class Image(Widget, HasName, _ForegroundColor, HasBackgroundColor, _ShowToolbar, _ColorMap, _ColorBar,
-#            _XAxis, _YAxis, _AlarmBorder, _DataWidth, _Interpolation, _ColorMode, _UnsignedData,
-#            _AutoScale, _LogScale, _MinMax, _Cursor, _RegionsOfInterest):
-#    pass
 class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowToolbar, HasColorMap, HasColorBar, HasXAxis, HasYAxis, 
             HasAlarmBorder, HasLimitsFromPV, HasDataWidthAndHeight, HasInterpolation, HasColorMode, HasUnisignedData, HasAutoScale, HasLogScale, 
             HasMinMax, HasCursor, HasROIs):
@@ -77,10 +71,6 @@ class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowTo
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-# showgrid, labelfont, scalefont, yaxes, traces
-#class StripChart(Widget, _ForegroundColor, HasBackgroundColor, _ShowGrid, _Title, _LabelFont, _ScaleFont,
-#                 _ShowToolbar, _TimeRange, _YAxes, _Traces):
-#    pass
 class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, HasTitle,
                  HasTitleFont, HasLabelFont, HasScaleFont, HasShowToolbar, HasShowLegend, HasTimeRange, 
                  HasYAxes, HasTraces):
@@ -98,10 +88,6 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, Ha
         """
         Widget.__init__(self, name, x, y, width, height)
 
-# title, showlegend, xaxis, yaxes, traces, markers
-#class XYPlot(Widget, _ForegroundColor, HasBackgroundColor, _GridColor, _Title, _ShowToolbar, _ShowLegend,
-#             _XAxis, _YAxes, _Traces, _Markers):
-#    pass
 class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasTitle,
              HasTitleFont, HasShowToolbar, HasShowLegend, HasXAxis, HasYAxes, HasTraces, HasMarkers):
     """ XYPlot Phoebus Widget """
