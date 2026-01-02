@@ -50,7 +50,8 @@ from .monitors import (
     Tank,
     TextSymbol,
     TextUpdate,
-    Thermometer
+    Thermometer,
+    LinearMeter
 )
 from .controls import (
     ActionButton,
@@ -64,7 +65,8 @@ from .controls import (
     FileSelector,
     Spinner,
     Scrollbar,
-    SlideButton
+    SlideButton,
+    Thumbwheel
 )
 from .structure import (
     Tabs,
@@ -72,6 +74,14 @@ from .structure import (
     NavigationTabs,
     Array,
     EmbeddedDisplay,
+    TemplateInstance
+)
+
+from .plots import (
+    XYPlot,
+    Image,
+    StripChart,
+    DataBrowser
 )
 
 

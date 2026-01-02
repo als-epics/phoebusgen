@@ -3,7 +3,7 @@ from phoebusgen.properties import HasFile, HasUrl, HasShowToolbar
 
 class ThreeDViewer(Widget, HasFile):
     """ ThreeDViewer Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.THREED_VIEWER
+    _widget_type: WidgetType | None = WidgetType.THREED_VIEWER
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ThreeDViewer Widget
@@ -20,7 +20,7 @@ class ThreeDViewer(Widget, HasFile):
 
 class WebBrowser(Widget, HasUrl, HasShowToolbar):
     """ WebBrowser Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.WEBBROWSER
+    _widget_type: WidgetType | None = WidgetType.WEBBROWSER
     def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create WebBrowser Widget

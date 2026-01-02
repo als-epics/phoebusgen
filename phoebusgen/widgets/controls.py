@@ -1,7 +1,5 @@
 from .widget import WidgetType, Widget
 from phoebusgen.properties import (
-    HasName,
-    HasActions,
     HasText,
     HasFont,
     HasForegroundColor,
@@ -14,8 +12,7 @@ from phoebusgen.properties import (
     HasAlarmBorder,
     HasConfirmation,
     HasBit,
-    HasOffImage,
-    HasOnImage,
+    HasOnOffImages,
     HasShowLED,
     HasLabelsFromPV,
     HasButtonMode,
@@ -32,8 +29,7 @@ from phoebusgen.properties import (
     HasLimitsFromPV,
     HasBarLength,
     HasIncrement,
-    HasOffColor,
-    HasOnColor,
+    HasOnOffColors,
     HasMultiLine,
     HasFormat,
     HasPrecision,
@@ -45,14 +41,15 @@ from phoebusgen.properties import (
     HasShowMinorTicks,
     HasMajorTicksPixelDist,
     HasScaleFormat,
-    HasWrapWords
+    HasWrapWords,
+    HasPVName,
 )
 
-class ActionButton(Widget, HasName, HasActions, HasText, HasFont, HasForegroundColor, HasBackgroundColor,
+class ActionButton(Widget, HasPVName, HasText, HasFont, HasForegroundColor, HasBackgroundColor,
                    HasTransparent, HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep, HasEnabled, HasAlarmBorder, HasConfirmation):
     """ ActionButton Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.ACTION_BUTTON
+    _widget_type: WidgetType | None = WidgetType.ACTION_BUTTON
     def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ActionButton Widget
@@ -69,11 +66,11 @@ class ActionButton(Widget, HasName, HasActions, HasText, HasFont, HasForegroundC
         self.pv_name = pv_name
         self.text = text
 
-class BooleanButton(Widget, HasName, HasBit, HasOffImage, HasOnImage, HasShowLED, HasFont, HasForegroundColor, HasBackgroundColor,
+class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasShowLED, HasFont, HasForegroundColor, HasBackgroundColor,
                     HasLabelsFromPV, HasAlarmBorder, HasEnabled, HasButtonMode, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ BooleanButton Phoebus Widget """
     
-    _widget_type: WidgetType = WidgetType.BOOL_BUTTON
+    _widget_type: WidgetType | None = WidgetType.BOOL_BUTTON
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -89,11 +86,11 @@ class BooleanButton(Widget, HasName, HasBit, HasOffImage, HasOnImage, HasShowLED
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class CheckBox(Widget, HasName, HasBit, HasLabel, HasFont, HasForegroundColor, HasAutoSize,
+class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor, HasAutoSize,
                HasAlarmBorder, HasConfirmation):
     """ CheckBox Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.CHECKBOX
+    _widget_type: WidgetType | None = WidgetType.CHECKBOX
 
     def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -111,10 +108,10 @@ class CheckBox(Widget, HasName, HasBit, HasLabel, HasFont, HasForegroundColor, H
         self.pv_name = pv_name
         self.label = label
 
-class ChoiceButton(Widget, HasName, HasFont, HasForegroundColor, HasBackgroundColor, HasSelectedColor,
+class ChoiceButton(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasSelectedColor,
                    HasAlarmBorder, HasItems, HasItemsFromPV, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ ChoiceButton Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.CHOICE
+    _widget_type: WidgetType | None = WidgetType.CHOICE
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ChoiceButton Widget
@@ -129,10 +126,10 @@ class ChoiceButton(Widget, HasName, HasFont, HasForegroundColor, HasBackgroundCo
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class ComboBox(Widget, HasName, HasFont, HasForegroundColor, HasBackgroundColor, HasAlarmBorder, HasItems,
+class ComboBox(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasAlarmBorder, HasItems,
                HasItemsFromPV, HasEditable, HasEnabled, HasConfirmation):
     """ ComboBox Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.COMBO
+    _widget_type: WidgetType | None = WidgetType.COMBO
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ComboBox Widget
@@ -148,9 +145,9 @@ class ComboBox(Widget, HasName, HasFont, HasForegroundColor, HasBackgroundColor,
         self.pv_name = pv_name
 
 
-class FileSelector(Widget, HasName, HasFileComponent, HasAlarmBorder, HasEnabled):
+class FileSelector(Widget, HasPVName, HasFileComponent, HasAlarmBorder, HasEnabled):
     """ FileSelector Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.FILE_SELECTOR
+    _widget_type: WidgetType | None = WidgetType.FILE_SELECTOR
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create FileSelector Widget
@@ -165,10 +162,10 @@ class FileSelector(Widget, HasName, HasFileComponent, HasAlarmBorder, HasEnabled
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class RadioButton(Widget, HasName, HasFont, HasForegroundColor, HasHorizontalAlignment, HasAlarmBorder,
+class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalAlignment, HasAlarmBorder,
                   HasItems, HasItemsFromPV, HasEnabled, HasConfirmation):
     """ RadioButton Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.RADIO
+    _widget_type: WidgetType | None = WidgetType.RADIO
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create RadioButton Widget
@@ -183,11 +180,11 @@ class RadioButton(Widget, HasName, HasFont, HasForegroundColor, HasHorizontalAli
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class ScaledSlider(Widget, HasName, HasHorizontalAlignment, HasForegroundColor, HasBackgroundColor, HasTransparent, HasFont,
+class ScaledSlider(Widget, HasPVName, HasHorizontalAlignment, HasForegroundColor, HasBackgroundColor, HasTransparent, HasFont,
                    HasShowScale, HasShowMinorTicks, HasMajorTicksPixelDist, HasScaleFormat, HasLevelsAndShow, HasAlarmBorder,
                    HasIncrement, HasMinMax, HasLimitsFromPV, HasEnabled):
     """ ScaledSlider Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.SCALED_SLIDER
+    _widget_type: WidgetType | None = WidgetType.SCALED_SLIDER
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ScaledSlider Widget
@@ -202,10 +199,10 @@ class ScaledSlider(Widget, HasName, HasHorizontalAlignment, HasForegroundColor, 
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class Scrollbar(Widget, HasName, HasHorizontalAlignment, HasShowValueTip, HasAlarmBorder, HasMinMax,
+class Scrollbar(Widget, HasPVName, HasHorizontalAlignment, HasShowValueTip, HasAlarmBorder, HasMinMax,
                 HasLimitsFromPV, HasBarLength, HasIncrement, HasEnabled):
     """ Scrollbar Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.SCROLLBAR
+    _widget_type: WidgetType | None = WidgetType.SCROLLBAR
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Scrollbar Widget
@@ -220,10 +217,10 @@ class Scrollbar(Widget, HasName, HasHorizontalAlignment, HasShowValueTip, HasAla
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class SlideButton(Widget, HasName, HasBit, HasLabel, HasOffColor, HasOnColor, HasFont, HasForegroundColor,
+class SlideButton(Widget, HasPVName, HasBit, HasLabel, HasOnOffColors, HasFont, HasForegroundColor,
                   HasAutoSize, HasAlarmBorder, HasEnabled, HasConfirmation):
     """ SlideButton Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.SLIDE_BUTTON
+    _widget_type: WidgetType | None = WidgetType.SLIDE_BUTTON
     def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create SlideButton Widget
@@ -240,10 +237,10 @@ class SlideButton(Widget, HasName, HasBit, HasLabel, HasOffColor, HasOnColor, Ha
         self.pv_name = pv_name
         self.label = label
 
-class Spinner(Widget, HasName, HasFormat, HasPrecision, HasShowUnits, HasForegroundColor, HasBackgroundColor,
+class Spinner(Widget, HasPVName, HasFormat, HasPrecision, HasShowUnits, HasForegroundColor, HasBackgroundColor,
               HasButtonsOnLeft, HasAlarmBorder, HasMinMax, HasLimitsFromPV, HasIncrement, HasEnabled):
     """ Spinner Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.SPINNER
+    _widget_type: WidgetType | None = WidgetType.SPINNER
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Spinner Widget
@@ -258,16 +255,36 @@ class Spinner(Widget, HasName, HasFormat, HasPrecision, HasShowUnits, HasForegro
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class TextEntry(Widget, HasName, HasFont, HasForegroundColor, HasBackgroundColor, HasFormat,
+class TextEntry(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasFormat,
                 HasPrecision, HasShowUnits, HasWrapWords, HasMultiLine, HasAlarmBorder, HasEnabled,
                 HasBorder, HasHorizontalAlignment, HasVerticalAlignment):
     """ TextEntry Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.TEXT_ENTRY
+    _widget_type: WidgetType | None = WidgetType.TEXT_ENTRY
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextEntry Widget
+
+        :param name: Widget name
+        :param pv_name: Widget PV
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
+        """
+        Widget.__init__(self, name, x, y, width, height)
+        self.pv_name = pv_name
+
+
+class Thumbwheel(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor):
+    """ Thumbwheel Phoebus Widget """
+
+    _widget_type: WidgetType | None = WidgetType.THUMBWHEEL
+
+    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+        """
+        Create Thumbwheel Widget
 
         :param name: Widget name
         :param pv_name: Widget PV

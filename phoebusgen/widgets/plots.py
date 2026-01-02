@@ -1,4 +1,4 @@
-from phoebusgen.properties.behavior import HasDataWidth, HasToolTip
+from phoebusgen.properties.behavior import HasDataWidthAndHeight, HasToolTip
 from phoebusgen.properties.display import HasLimitsFromPV, HasSelectionValuePV
 from .widget import WidgetType, Widget
 from phoebusgen.properties import (
@@ -14,11 +14,9 @@ from phoebusgen.properties import (
     HasColorMap,
     HasColorBar,
     HasCursor,
-    HasROIs,
-    HasDataHeight,
-    HasInterpolation,
     HasTitle,
-    HasTitleFont,
+    HasROIs,
+    HasInterpolation,
     HasLabelFont,
     HasScaleFont,
     HasShowGrid,
@@ -31,16 +29,16 @@ from phoebusgen.properties import (
     HasLogScale,
     HasTraces,
     HasMinMax,
-    HasGridColor,
+    HasTitleFont,
     HasMarkers,
     HasLimitsFromPV,
     HasToolTip,
     HasPVName
 )
 
-class DataBrowser(Widget, HasToolTip, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
+class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.DATABROWSER
+    _widget_type: WidgetType | None = WidgetType.DATABROWSER
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
@@ -61,10 +59,12 @@ class DataBrowser(Widget, HasToolTip, HasMacros, HasFile, HasShowToolbar, HasSel
 #            _XAxis, _YAxis, _AlarmBorder, _DataWidth, _Interpolation, _ColorMode, _UnsignedData,
 #            _AutoScale, _LogScale, _MinMax, _Cursor, _RegionsOfInterest):
 #    pass
-class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowToolbar, HasColorMap, HasColorBar, HasXAxis, HasYAxis, HasToolTip, HasAlarmBorder, HasLimitsFromPV, HasDataWidth, HasDataHeight, HasInterpolation, HasColorMode, HasUnisignedData, HasAutoScale, HasLogScale, HasMinMax, HasCursor, HasROIs):
+class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowToolbar, HasColorMap, HasColorBar, HasXAxis, HasYAxis, 
+            HasAlarmBorder, HasLimitsFromPV, HasDataWidthAndHeight, HasInterpolation, HasColorMode, HasUnisignedData, HasAutoScale, HasLogScale, 
+            HasMinMax, HasCursor, HasROIs):
     """ Image Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.IMAGE
+    _widget_type: WidgetType | None = WidgetType.IMAGE
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Image Widget
@@ -83,11 +83,11 @@ class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowTo
 #class StripChart(Widget, _ForegroundColor, HasBackgroundColor, _ShowGrid, _Title, _LabelFont, _ScaleFont,
 #                 _ShowToolbar, _TimeRange, _YAxes, _Traces):
 #    pass
-class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowToolbar, HasTitle,
-                 HasTitleFont, HasShowLegend, HasShowGrid, HasTimeRange, HasLabelFont,
-                 HasScaleFont, HasYAxes, HasTraces):
+class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, HasTitle,
+                 HasTitleFont, HasLabelFont, HasScaleFont, HasShowToolbar, HasShowLegend, HasTimeRange, 
+                 HasYAxes, HasTraces):
     """ StripChart Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.STRIPCHART
+    _widget_type: WidgetType | None = WidgetType.STRIPCHART
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create StripChart Widget
@@ -104,10 +104,10 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowToolbar,
 #class XYPlot(Widget, _ForegroundColor, HasBackgroundColor, _GridColor, _Title, _ShowToolbar, _ShowLegend,
 #             _XAxis, _YAxes, _Traces, _Markers):
 #    pass
-class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasShowToolbar, HasTitle,
-             HasTitleFont, HasGridColor, HasXAxis, HasYAxes, HasTraces, HasMarkers):
+class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasTitle,
+             HasTitleFont, HasShowToolbar, HasShowLegend, HasXAxis, HasYAxes, HasTraces, HasMarkers):
     """ XYPlot Phoebus Widget """
-    _widget_type: WidgetType = WidgetType.XYPLOT
+    _widget_type: WidgetType | None = WidgetType.XYPLOT
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create XYPlot Widget
@@ -118,4 +118,4 @@ class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasShowToolbar, Has
         :param width: Widget width
         :param height: Widget height
         """
-        Widget.__init__(self, 'xyplot', name, x, y, width, height)
+        Widget.__init__(self, name, x, y, width, height)

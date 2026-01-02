@@ -1,6 +1,5 @@
 from .widget import WidgetType, Widget
 from phoebusgen.properties import (
-    HasName,
     HasMacros,
     HasBackgroundColor,
     HasAlarmBorder,
@@ -11,22 +10,22 @@ from phoebusgen.properties import (
     HasGroupName,
     HasGroupStyle,
     HasTabs,
-    HasActiveTab,
-    HasTabWidth,
-    HasTabSpacing,
-    HasTabHeight,
     HasSelectedColor,
     HasDeselectedColor,
     HasTransparent,
     HasFont,
     HasLineColor,
-    HasTabDirection,
+    HasHorizontal,
+    HasToolTip,
+    HasWrapCount,
+    HasGap,
+    HasInstances
 )
 
-class Array(Widget, HasName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
+class Array(Widget, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.ARRAY
+    _widget_type: WidgetType | None = WidgetType.ARRAY
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -45,7 +44,7 @@ class Array(Widget, HasName, HasMacros, HasForegroundColor, HasBackgroundColor, 
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
     """ EmbeddedDisplay Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.EMBEDDED
+    _widget_type: WidgetType | None = WidgetType.EMBEDDED
 
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -61,11 +60,10 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
         Widget.__init__(self, name, x, y, width, height)
         self.file = file
 
-class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
-            HasLineColor):
+class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
     """ Group Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.GROUP
+    _widget_type: WidgetType | None = WidgetType.GROUP
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -79,11 +77,10 @@ class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBa
         """
         Widget.__init__(self, name, x, y, width, height)
 
-class NavigationTabs(Widget, HasTabs, HasActiveTab, HasTabWidth, HasTabSpacing, HasTabHeight,
-                     HasSelectedColor, HasDeselectedColor, HasTabDirection, HasFont):
+class NavigationTabs(Widget, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.NAVTABS
+    _widget_type: WidgetType | None = WidgetType.NAVTABS
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -97,10 +94,10 @@ class NavigationTabs(Widget, HasTabs, HasActiveTab, HasTabWidth, HasTabSpacing, 
         """
         Widget.__init__(self, name, x, y, width, height)
 
-class Tabs(Widget, HasMacros, HasTabs, HasActiveTab, HasTabHeight, HasFont, HasBackgroundColor, HasTabDirection):
+class Tabs(Widget, HasMacros, HasTabs, HasFont, HasBackgroundColor):
     """ Tabs Phoebus Widget """
 
-    _widget_type: WidgetType = WidgetType.TABS
+    _widget_type: WidgetType | None = WidgetType.TABS
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -113,3 +110,23 @@ class Tabs(Widget, HasMacros, HasTabs, HasActiveTab, HasTabHeight, HasFont, HasB
         :param height: Widget height
         """
         Widget.__init__(self, name, x, y, width, height)
+
+
+class TemplateInstance(Widget, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
+    """ TemplateInstance Phoebus Widget """
+
+    _widget_type: WidgetType | None = WidgetType.TEMPLATE_INSTANCE
+
+    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+        """
+        Create TemplateInstance Widget
+
+        :param name: Widget name
+        :param file: File path
+        :param x: X position
+        :param y: Y position
+        :param width: Widget width
+        :param height: Widget height
+        """
+        Widget.__init__(self, name, x, y, width, height)
+        self.file = file

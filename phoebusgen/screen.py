@@ -37,14 +37,14 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from typing import Union
 import os
-from phoebusgen.properties import HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, HasName, HasGridVisible, HasGridColor, HasGridStepX, HasGridStepY, HasActions, HasRules, HasScripts, PropertyBase
+from phoebusgen.properties import HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts, PropertyBase
 from phoebusgen.widgets import Widget
 from phoebusgen.utils import prettify_xml
 from collections.abc import Sequence, Mapping
 
-class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, HasName, HasGridVisible, HasGridColor, HasGridStepX, HasGridStepY, HasActions, HasRules, HasScripts):
+class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
-    def __init__(self, name: str, f_name: str | None = None) -> None:
+    def __init__(self, name: str | None = None, f_name: str | None = None) -> None:
         """
         Create Phoebus screen object. File name is optional and can be specified later
 
@@ -52,13 +52,22 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
         :param f_name: File name for Phoebus screen
         """
         self.bob_file = f_name
-        self.root = ET.Element('display', version='2.0.0')
         if f_name is not None and os.path.exists(f_name):
             with open(f_name, 'r') as f:
-                rough_string = f.read()
+                rough_string = "".join([line.strip() for line in f.readlines()])
             self.root = ET.fromstring(rough_string)
+        else:
+            self.root = ET.Element("display", attrib={"version": "2.0.0"})
 
-        self.name = name
+            # Default screen size for new screens
+            self.width = 800
+            self.height = 600
+
+        name_elem = self.root.find("name")
+        if name_elem is None or name_elem.text is None:
+            self.name = "Display" if not name else name
+        else:
+            self.name = name_elem.text if not name else name
 
     def write_screen(self, file_name: str | None = None) -> bool:
         """
@@ -71,37 +80,42 @@ class Screen(HasHeight, HasWidth, HasBackgroundColor, HasX, HasY, HasMacros, Has
         reparse_xml = minidom.parseString(rough_string)
         if file_name is None:
             if self.bob_file is None:
-                print('Output Phoebus file name is not set! First set bob_file or use file_name parameter')
-                return False
+                raise ValueError("Outptut file name not specified. Set bob_file member or provide file_name parameter")
+
             file_name = self.bob_file
         with open(file_name, 'w') as f:
             reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
         return True
 
-    def find_widget(self, widget_tag_name: str) -> ET.Element | list[ET.Element] | None:
-        """
-        Find widget in the screen
-
-        :param widget_tag_name: Tag name of widget to find
-        :return: None if not found or widget that was found
-        """
-        elements = self.root.findall(widget_tag_name)
-        if len(elements) > 1:
-            print('Warning, more than one element of the same tag! Returning a list')
-            return elements
-        elif len(elements) == 0:
-            return None
-        else:
-            return elements[0]
-        
     def get_widgets(self) -> list[Widget]:
-        return [Widget(elem) for elem in self.root.findall('widget')]
+        widget_elems = self.root.findall('widget')
+        widgets = []
+        for elem in widget_elems:
+            elem_type = elem.attrib.get("type", None)
+            if elem_type is None:
+                raise ValueError(f"Unknown widget type for element: {prettify_xml(elem)}")
+            widget_cls = None
+            for cls in Widget.__subclasses__():
+                if cls._widget_type is not None and cls._widget_type.value == elem_type:
+                    widget_cls = cls
+                    break
+            if widget_cls is None:
+                raise ValueError(f"Unsupported widget type '{elem_type}' for element: {prettify_xml(elem)}")
+            widgets.append(widget_cls.from_element(elem))
+        return widgets
 
     def get_widgets_by_type(self, widget_type: type[Widget]) -> list[Widget]:
         return [w for w in self.get_widgets() if isinstance(w, widget_type)]
 
-    def get_widgets_by_property(self, prop_type: type[PropertyBase]) -> list[Widget]:
-        return [w for w in self.get_widgets() if isinstance(w, prop_type)]
+    def get_widgets_by_property_class(self, prop_type: type[PropertyBase]) -> list[Widget]:
+        return [w for w in self.get_widgets() if w.has_property(prop_type)]
+
+    def get_widgets_by_property(self, property_name: str) -> list[Widget]:
+        widgets_with_property = []
+        for widget in self.get_widgets():
+            if hasattr(widget, property_name):
+                widgets_with_property.append(widget)
+        return widgets_with_property
 
     def add_widget(self, elem: Widget | Sequence[Widget]) -> None:
         """
