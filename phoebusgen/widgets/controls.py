@@ -8,7 +8,6 @@ from phoebusgen.properties import (
     HasHorizontalAlignment,
     HasVerticalAlignment,
     HasRotationStep,
-    HasEnabled,
     HasAlarmBorder,
     HasConfirmation,
     HasBit,

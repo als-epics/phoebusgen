@@ -1,6 +1,6 @@
 from .property_helpers import PropertyBase
 
-from .types import ColorBar, Font, ArrowTypes, LineStyle, TabDirection, Color, Column,  Axis, ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors
+from .types import ColorBar, Font, ArrowTypes, LineStyle, Color, Column,  ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors
 
 class HasVisible(PropertyBase):
     visible: bool = True

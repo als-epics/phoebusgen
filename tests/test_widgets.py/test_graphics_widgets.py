@@ -1,4 +1,3 @@
-import pytest
 from phoebusgen.widgets import Label
 
 def test_label_widget_properties(widget_factory, check_xml_element):

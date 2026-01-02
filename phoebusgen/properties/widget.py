@@ -1,6 +1,5 @@
 from .property_helpers import PropertyBase
-from .types import FileComponent, Tab, Action, ObservableDict, ObservableList, Script, LabelClass, Instance, Direction
-from xml.etree.ElementTree import SubElement
+from .types import FileComponent, Tab, ObservableDict, ObservableList, Instance, Direction
 
 class HasMacros(PropertyBase):
     macros: ObservableDict

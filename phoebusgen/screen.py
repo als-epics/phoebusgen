@@ -35,12 +35,11 @@ Example:
 
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-from typing import Union
 import os
 from phoebusgen.properties import HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts, PropertyBase
 from phoebusgen.widgets import Widget
 from phoebusgen.utils import prettify_xml
-from collections.abc import Sequence, Mapping
+from collections.abc import Sequence
 
 class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """

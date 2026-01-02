@@ -1,9 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass, field
-from xml.etree.ElementTree import Element
-from abc import ABC
 from collections.abc import MutableMapping, MutableSequence
-from typing import Any, Callable, Generic, TypeVar, get_args
+from typing import Any, Callable, Generic, TypeVar
 
 Primitive = int | float | str | bool
 

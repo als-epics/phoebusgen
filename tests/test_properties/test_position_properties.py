@@ -1,6 +1,4 @@
-import pytest
 
-from xml.etree.ElementTree import Element
 from phoebusgen.properties.position import HasPosition
 from phoebusgen.utils import prettify_xml
 

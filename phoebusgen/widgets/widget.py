@@ -1,7 +1,6 @@
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import Element
 import phoebusgen
 from phoebusgen.properties import HasName, HasVisible, HasPosition, HasActionsRulesAndScripts, HasToolTip
-from phoebusgen.properties.property_helpers import PropertyBase
 from phoebusgen.utils import prettify_xml
 
 from enum import Enum

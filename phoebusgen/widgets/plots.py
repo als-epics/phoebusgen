@@ -1,11 +1,10 @@
-from phoebusgen.properties.behavior import HasDataWidthAndHeight, HasToolTip
+from phoebusgen.properties.behavior import HasDataWidthAndHeight
 from phoebusgen.properties.display import HasLimitsFromPV, HasSelectionValuePV
 from .widget import WidgetType, Widget
 from phoebusgen.properties import (
     HasMacros,
     HasFile,
     HasShowToolbar,
-    HasName,
     HasBackgroundColor,
     HasForegroundColor,
     HasAlarmBorder,
@@ -32,7 +31,6 @@ from phoebusgen.properties import (
     HasTitleFont,
     HasMarkers,
     HasLimitsFromPV,
-    HasToolTip,
     HasPVName
 )
 

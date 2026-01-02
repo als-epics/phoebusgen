@@ -4,7 +4,6 @@ from phoebusgen.properties.property_helpers import PropertyBase
 from phoebusgen.properties.types import Color
 from typing import Any, Callable
 from enum import Enum
-from phoebusgen.utils import prettify_xml
 
 @pytest.fixture
 def property_factory() -> Callable[[type[PropertyBase]], PropertyBase]:

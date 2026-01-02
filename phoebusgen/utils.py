@@ -1,4 +1,4 @@
-from xml.etree.ElementTree import Element, tostring
+from xml.etree.ElementTree import tostring
 from xml.dom import minidom
 
 def prettify_xml(elem):

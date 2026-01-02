@@ -49,7 +49,7 @@ def test_parse_screen_from_file():
     assert screen.width == 2000
     assert screen.height == 1200
     assert screen.background_color == Color("#F0F0F0")
-    assert screen.grid_visible == True
+    assert screen.grid_visible
     assert screen.grid_step_x == 10
     assert screen.grid_step_y == 10
     for widget in Widget.__subclasses__():

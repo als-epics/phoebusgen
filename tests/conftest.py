@@ -2,8 +2,7 @@ from xml.etree.ElementTree import Element
 import pytest
 from typing import Any, Callable
 from phoebusgen.utils import prettify_xml
-from phoebusgen.properties import PropertyBase, Color
-from enum import Enum
+from phoebusgen.properties import Color
 
 
 

@@ -1,11 +1,10 @@
 from phoebusgen.properties.behavior import HasDataWidthAndHeight
 import pytest
 from phoebusgen.properties import (
-    HasActionsRulesAndScripts, OpenDisplayAction, HasStates, HasSymbols, OpenFileAction, ExecuteAction, CommandAction, 
+    HasActionsRulesAndScripts, OpenDisplayAction, HasStates, HasSymbols, OpenFileAction, CommandAction, 
 OpenWebpageAction, HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, ButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale, HasSelectionValuePV, 
 InterpolationType, ColorMode, ColorMap, HasInterpolation, HasColorMode, HasColorMap, HasItems, State)
 from phoebusgen.utils import prettify_xml
-from enum import Enum
 
 
 @pytest.mark.parametrize("property_cls, property_name, value", [

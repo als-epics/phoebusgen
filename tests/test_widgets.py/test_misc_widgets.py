@@ -1,7 +1,5 @@
-import pytest
-from phoebusgen.widgets import Widget, ThreeDViewer, WebBrowser
-from xml.etree.ElementTree import Element, SubElement
-from typing import Callable
+from phoebusgen.widgets import ThreeDViewer, WebBrowser
+from xml.etree.ElementTree import SubElement
 
 
 def test_threedviewer_file_property() -> None:

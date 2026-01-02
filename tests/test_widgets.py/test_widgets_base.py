@@ -1,5 +1,4 @@
 from phoebusgen.properties.types import Font, FontStyle, ObservableDict, ObservableList, Axis, Trace, TraceType, PointType
-from phoebusgen.utils import prettify_xml
 import pytest
 from phoebusgen.widgets import (
     Widget,

@@ -137,7 +137,6 @@ from .behavior import (
     HasPreserveRatio,
     HasRunActionsOnMouseClick,
     HasSymbols,
-    HasFallback,
     HasLogScale,
     HasXAxis,
     HasYAxes,

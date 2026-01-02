@@ -1,10 +1,9 @@
 import copy
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import Element
 import sys
-from typing import Any, Callable, Union, get_origin
+from typing import Any, get_origin
 from enum import Enum
 
-from functools import partial
 
 from collections.abc import Sequence, Mapping
 
@@ -17,10 +16,9 @@ from .types import (
     ValidListTypeT,
     ObservableDataclass
 )
-from typing import Tuple, TypeVar, Generic, get_args
+from typing import Tuple, TypeVar, get_args
 import inspect
 from dataclasses import is_dataclass
-from abc import ABC
 
 from collections import namedtuple
 
@@ -323,8 +321,10 @@ class PropertyMetaclass(type):
                 property_type = attrs["__annotations__"][prop_name]
                 default_value = attrs.get(prop_name, property_type() if not issubclass(property_type, Enum) else list(property_type)[0])
 
-                prop_getter = lambda self, prop_name=prop_name, prop_type=property_type: getter(self, prop_name, prop_type)
-                prop_setter = lambda self, value, prop_name=prop_name, prop_type=property_type: setter(self, prop_name, prop_type, value)
+                def prop_getter(self, prop_name=prop_name, prop_type=property_type):
+                    return getter(self, prop_name, prop_type)
+                def prop_setter(self, value, prop_name=prop_name, prop_type=property_type):
+                    return setter(self, prop_name, prop_type, value)
 
                 setattr(cls, prop_name, property(prop_getter, prop_setter))
                 all_properties[cls][prop_name] = PropertyInfo(property_type, default_value)

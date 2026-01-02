@@ -14,7 +14,6 @@ from phoebusgen.properties import (
     HasOnOffLabels,
     HasLineColor,
     HasStates,
-    HasFallbackSymbol,
     HasBackgroundColor,
     HasFormat,
     HasPrecision,
@@ -53,7 +52,6 @@ from phoebusgen.properties import (
     HasLevelsAndShow,
     HasLinearMeterColors,
     HasKnobAndNeedleSize,
-    HasScaleFormat,
 )
 
 class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, HasHorizontal, HasSquare,

@@ -16,7 +16,6 @@ from phoebusgen.properties import (
     HasFont,
     HasLineColor,
     HasHorizontal,
-    HasToolTip,
     HasWrapCount,
     HasGap,
     HasInstances
