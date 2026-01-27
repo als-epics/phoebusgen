@@ -33,13 +33,23 @@ Example:
 """
 
 
+import copy
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import os
 from phoebusgen.properties import HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts, PropertyBase
+from phoebusgen.properties.types import OpenDisplayAction
 from phoebusgen.widgets import Widget
 from phoebusgen.utils import prettify_xml
 from collections.abc import Sequence
+from pathlib import Path
+from typing import TypeVar
+
+from phoebusgen.widgets.structure import EmbeddedDisplay
+
+
+WidgetT = TypeVar('WidgetT', bound=Widget)
+PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
@@ -53,18 +63,18 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
         self.bob_file = f_name
         if f_name is not None and os.path.exists(f_name):
             with open(f_name, 'r') as f:
-                rough_string = "".join([line.strip() for line in f.readlines()])
+                rough_string = ''.join([line.strip() for line in f.readlines()])
             self.root = ET.fromstring(rough_string)
         else:
-            self.root = ET.Element("display", attrib={"version": "2.0.0"})
+            self.root = ET.Element('display', attrib={'version': '2.0.0'})
 
             # Default screen size for new screens
             self.width = 800
             self.height = 600
 
-        name_elem = self.root.find("name")
+        name_elem = self.root.find('name')
         if name_elem is None or name_elem.text is None:
-            self.name = "Display" if not name else name
+            self.name = 'Display' if not name else name
         else:
             self.name = name_elem.text if not name else name
 
@@ -79,7 +89,7 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
         reparse_xml = minidom.parseString(rough_string)
         if file_name is None:
             if self.bob_file is None:
-                raise ValueError("Outptut file name not specified. Set bob_file member or provide file_name parameter")
+                raise ValueError('Outptut file name not specified. Set bob_file member or provide file_name parameter')
 
             file_name = self.bob_file
         with open(file_name, 'w') as f:
@@ -90,7 +100,7 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
         widget_elems = self.root.findall('widget')
         widgets = []
         for elem in widget_elems:
-            elem_type = elem.attrib.get("type", None)
+            elem_type = elem.attrib.get('type', None)
             if elem_type is None:
                 raise ValueError(f"Unknown widget type for element: {prettify_xml(elem)}")
             widget_cls = None
@@ -103,11 +113,11 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
             widgets.append(widget_cls.from_element(elem))
         return widgets
 
-    def get_widgets_by_type(self, widget_type: type[Widget]) -> list[Widget]:
+    def get_widgets_by_type(self, widget_type: type[WidgetT]) -> list[WidgetT]:
         return [w for w in self.get_widgets() if isinstance(w, widget_type)]
 
-    def get_widgets_by_property_class(self, prop_type: type[PropertyBase]) -> list[Widget]:
-        return [w for w in self.get_widgets() if w.has_property_class(prop_type)]
+    def get_widgets_by_property_class(self, prop_type: type[PropertyT]) -> list[PropertyT]:
+        return [w for w in self.get_widgets() if isinstance(w, prop_type)]
 
     def get_widgets_by_property(self, property_name: str) -> list[Widget]:
         widgets_with_property = []
@@ -127,6 +137,28 @@ class Screen(HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasAc
                 self.root.append(e.root)
         else:
             self.root.append(elem.root)
+
+    def get_linked_screens(self) -> dict[Path, dict[str, str]]:
+        linked_screens = {}
+
+        # Add any actions that open displays from the screen
+        for action in self.actions:
+            if isinstance(action, OpenDisplayAction):
+                linked_screens[Path(action.file)] = copy.deepcopy(action.macros).update(self.macros)
+
+        # Add any actions that open displays from the widgets
+        for widget in self.get_widgets():
+            for action in widget.actions:
+                if isinstance(action, OpenDisplayAction):
+                    linked_screens[Path(action.file)] = copy.deepcopy(action.macros).update(self.macros)
+                    if isinstance(widget, HasMacros):
+                        linked_screens[Path(action.file)].update(widget.macros)
+
+        # Add any embedded displays from the widgets
+        for widget in self.get_widgets_by_type(EmbeddedDisplay):
+            linked_screens[Path(widget.file)] = copy.deepcopy(widget.macros).update(self.macros)
+
+        return linked_screens
 
     # def predefined_background_color(self, name: object) -> None:
     #     """
