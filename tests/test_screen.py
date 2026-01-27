@@ -1,82 +1,65 @@
-import sys
-sys.path.insert(1, '../phoebusgen/screen/')
-sys.path.insert(1, './phoebusgen/screen/')
-sys.path.insert(1, '../phoebusgen/widget/')
-sys.path.insert(1, './phoebusgen/widget/')
-sys.path.insert(1, '../phoebusgen/')
-sys.path.insert(1, './phoebusgen/')
-import unittest
-from unittest.mock import patch, mock_open
-import screen as s
-import widgets
-from phoebusgen import colors
+from phoebusgen.properties.display import HasPVName
+from phoebusgen.widgets.widget import Widget, WidgetType
+import pytest
+from xml.etree.ElementTree import Element
+
+from phoebusgen.screen import Screen
+from phoebusgen.properties import Color
 
 
-class TestScreen(unittest.TestCase):
-    def setUp(self):
-        self.name = 'test screen'
-        self.file_name = './test.bob'
-        self.test_screen = s.Screen(self.name, self.file_name)
-        print(self.test_screen)
+@pytest.fixture
+def sample_screen():
+    screen = Screen(name="Sample Screen")
+    return screen
 
-    def child_element_test(self, parent_tag, tag_name, value, attrib, do_not_remove=False):
-        parent = self.test_screen.find_widget(parent_tag)
-        self.assertIsNotNone(parent)
-        child = parent.find(tag_name)
-        self.assertIsNotNone(child)
-        if value is None:
-            self.assertIsNone(child.text)
-        else:
-            self.assertEqual(child.text, str(value))
-        self.assertEqual(child.attrib, attrib)
-
-    def test_screen_write(self):
-        test_screen_write = s.Screen('TEST', './test_write.bob')
-        open_mock = mock_open()
-        with patch('builtins.open', open_mock, create=True):
-            test_screen_write.write_screen()
-
-        open_mock.assert_called_with('./test_write.bob', 'w')
-        self.assertEqual(open_mock.return_value.write.call_count, 13)
-
-    def test_screen_blank(self):
-        self.assertEqual(len(self.test_screen.root), 1)
-        element = widgets.TextUpdate('Text Update 1', 'TEST:ME', 200, 200, 160, 20)
-        self.test_screen.add_widget(element)
-        self.assertEqual(len(self.test_screen.root), 2)
-        element2 = widgets.TextUpdate('Text Update 2', 'TEST:ME', 200, 200, 160, 20)
-        element3 = widgets.TextUpdate('Text Update 3', 'TEST:ME', 200, 200, 160, 20)
-        self.test_screen.add_widget([element2, element3])
-        self.assertEqual(len(self.test_screen.root), 4)
-
-    def test_width(self):
-        self.test_screen.width(500)
-        elem = self.test_screen.find_widget('width')
-        self.assertIsNotNone(elem)
-        self.assertEqual(str(500), elem.text)
-
-    def test_height(self):
-        self.test_screen.height(102.2)
-        elem = self.test_screen.find_widget('height')
-        self.assertIsNotNone(elem)
-        self.assertEqual(str(102.2), elem.text)
-
-    def test_macro(self):
-        self.test_screen.macro('test', 'mac1')
-        self.child_element_test('macros', 'test', 'mac1', {}, True)
-        self.test_screen.macro('test2', 'mac2')
-        self.child_element_test('macros', 'test', 'mac1', {}, True)
-
-    def test_predefined_background_color(self):
-        tag_name = 'background_color'
-        self.test_screen.predefined_background_color(colors.MINOR)
-        self.child_element_test(tag_name, 'color', None, {'name': 'MINOR', 'red': '255', 'green': '128', 'blue': '0', 'alpha': '255'})
-
-    def test_background_color(self):
-        tag_name = 'background_color'
-        self.test_screen.background_color(5, 10, 15)
-        self.child_element_test(tag_name, 'color', None, {'red': '5', 'green': '10', 'blue': '15', 'alpha': '255'})
+@pytest.mark.parametrize("screen_name", [None, "My Test Screen"])
+def test_create_fresh_screen(screen_name):
+    screen = Screen(name=screen_name)
+    assert screen is not None
+    assert isinstance(screen.root, Element)
+    assert screen.root.tag == "display"
+    if screen_name is None:
+        assert screen.name == "Display"
+    else:
+        assert screen.name == screen_name
 
 
-if __name__ == '__main__':
-    unittest.main()
+@pytest.mark.parametrize("property_name, initial_value, new_value", [
+    ("width", 800, 1280),
+    ("height", 600, 720),
+    ("grid_visible", True, False),
+    ("grid_color", Color((128, 128, 128)), Color((100, 100, 100))),
+    ("background_color", "#000000", "#FF0000"),
+    ("macros", {}, {"TestA": "ValueA", "TestB": "ValueB"}),
+])
+def test_screen_properties(sample_screen, property_name, initial_value, new_value):
+    print(sample_screen)
+    print(sample_screen.actions)
+    assert hasattr(sample_screen, property_name)
+    assert getattr(sample_screen, property_name) == initial_value
+    setattr(sample_screen, property_name, new_value)
+    assert getattr(sample_screen, property_name) == new_value
+
+
+def test_parse_screen_from_file():
+    screen = Screen(f_name="tests/bobfiles/one_of_every_widget.bob")
+    assert screen is not None
+    assert isinstance(screen.root, Element)
+    assert screen.name == "OneOfEveryWidget"
+    assert screen.width == 2000
+    assert screen.height == 1200
+    assert screen.background_color == Color("#F0F0F0")
+    assert screen.grid_visible
+    assert screen.grid_step_x == 10
+    assert screen.grid_step_y == 10
+    for widget in Widget.__subclasses__():
+        assert len(screen.get_widgets_by_type(widget)) == 1
+    assert len(screen.get_widgets()) == len(list(WidgetType))
+
+
+def test_get_widgets_by_property():
+    screen = Screen(f_name="tests/bobfiles/one_of_every_widget.bob")
+    widgets_with_pv_name = screen.get_widgets_by_property_class(HasPVName)
+    assert len(widgets_with_pv_name) == 26  # 26 of the 44 widgets have the PV Name property
+    widgets_with_tabs = screen.get_widgets_by_property("tabs")
+    assert len(widgets_with_tabs) == 2 # There are 2 widgets with tabs property in the test file

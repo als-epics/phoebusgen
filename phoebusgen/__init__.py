@@ -17,8 +17,8 @@ to reflect your site's custom definitions.
 # Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
-import phoebusgen.widget
-import phoebusgen.screen
+from .screen import Screen
+from . import widgets, properties
 
 from os import path as _path
 from sys import platform as _platform
@@ -154,3 +154,12 @@ try:
 except ImportError:
     __version__ = 'unknown version'
     __version_tuple__ = (0, 0, 'unknown version')
+
+
+__all__ = [
+    "Screen",
+    "widgets",
+    "properties",
+    "__version__",
+    "change_phoebus_version",
+]
