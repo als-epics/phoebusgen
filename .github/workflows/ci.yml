@@ -1,4 +1,4 @@
-name: Python unittest
+name: Unit Tests
 permissions:
   contents: read
 on:
