@@ -1,9 +1,16 @@
+import copy
+from pathlib import Path
+from typing import Sequence, TypeVar
 from xml.etree.ElementTree import Element
 import phoebusgen.v4 as phoebusgen
 from phoebusgen.v4.properties import HasName, HasVisible, HasPosition, HasActionsRulesAndScripts, HasToolTip
+from phoebusgen.v4.properties.property_helpers import PropertyBase
+from phoebusgen.v4.properties.types import OpenDisplayAction
+from phoebusgen.v4.properties.widget import HasMacros
 from phoebusgen.v4.utils import prettify_xml
 
 from enum import Enum
+
 
 class WidgetType(str, Enum):
     """ Enum of Phoebus Widget Types """
@@ -158,3 +165,52 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 
     def __repr__(self):
         return prettify_xml(self.root)
+
+
+WidgetT = TypeVar('WidgetT', bound=Widget)
+PropertyT = TypeVar('PropertyT', bound=PropertyBase)
+
+class WidgetContainer:
+
+    def get_widgets(self) -> list[Widget]:
+        widget_elems = self.root.findall('widget')
+        widgets = []
+        for elem in widget_elems:
+            elem_type = elem.attrib.get('type', None)
+            if elem_type is None:
+                raise ValueError(f"Unknown widget type for element: {prettify_xml(elem)}")
+            widget_cls = None
+            for cls in Widget.__subclasses__():
+                if cls._widget_type is not None and cls._widget_type.value == elem_type:
+                    widget_cls = cls
+                    break
+            if widget_cls is None:
+                raise ValueError(f"Unsupported widget type '{elem_type}' for element: {prettify_xml(elem)}")
+            widgets.append(widget_cls.from_element(elem))
+        return widgets
+
+    def get_widgets_by_type(self, widget_type: type[WidgetT]) -> list[WidgetT]:
+        return [w for w in self.get_widgets() if isinstance(w, widget_type)]
+
+    def get_widgets_by_property_class(self, prop_type: type[PropertyT]) -> list[PropertyT]:
+        return [w for w in self.get_widgets() if isinstance(w, prop_type)]
+
+    def get_widgets_by_property(self, property_name: str) -> list[Widget]:
+        widgets_with_property = []
+        for widget in self.get_widgets():
+            if hasattr(widget, property_name):
+                widgets_with_property.append(widget)
+        return widgets_with_property
+
+    def add_widget(self, elem: Widget | Sequence[Widget]) -> None:
+        """
+        Add widget or list of widgets to screen
+
+        :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
+        """
+        if isinstance(elem, Sequence):
+            for e in elem:
+                self.root.append(e.root)
+        else:
+            self.root.append(elem.root)
+

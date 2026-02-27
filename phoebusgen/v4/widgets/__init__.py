@@ -28,7 +28,7 @@ Example:
     </widget>
 """
 
-from .widget import WidgetType, Widget
+from .widget import WidgetType, Widget, WidgetContainer
 from .graphics import (
     Arc,
     Ellipse,
@@ -96,6 +96,7 @@ __all__ = [
     # Widget Base Classes
     'WidgetType',
     'Widget',
+    "WidgetContainer",
     # Graphics widgets
     'Arc',
     'Ellipse',

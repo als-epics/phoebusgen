@@ -1,4 +1,4 @@
-from .widget import WidgetType, Widget
+from .widget import WidgetType, Widget, WidgetContainer
 from phoebusgen.v4.properties import (
     HasMacros,
     HasBackgroundColor,
@@ -59,7 +59,7 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
         Widget.__init__(self, name, x, y, width, height)
         self.file = file
 
-class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
+class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
     """ Group Phoebus Widget """
 
     _widget_type: WidgetType | None = WidgetType.GROUP
@@ -76,7 +76,7 @@ class Group(Widget, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBa
         """
         Widget.__init__(self, name, x, y, width, height)
 
-class NavigationTabs(Widget, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
+class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
 
     _widget_type: WidgetType | None = WidgetType.NAVTABS
@@ -93,7 +93,7 @@ class NavigationTabs(Widget, HasTabs, HasSelectedColor, HasDeselectedColor, HasF
         """
         Widget.__init__(self, name, x, y, width, height)
 
-class Tabs(Widget, HasMacros, HasTabs, HasFont, HasBackgroundColor):
+class Tabs(Widget, WidgetContainer, HasMacros, HasTabs, HasFont, HasBackgroundColor):
     """ Tabs Phoebus Widget """
 
     _widget_type: WidgetType | None = WidgetType.TABS
@@ -111,7 +111,7 @@ class Tabs(Widget, HasMacros, HasTabs, HasFont, HasBackgroundColor):
         Widget.__init__(self, name, x, y, width, height)
 
 
-class TemplateInstance(Widget, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
+class TemplateInstance(Widget, WidgetContainer, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
     """ TemplateInstance Phoebus Widget """
 
     _widget_type: WidgetType | None = WidgetType.TEMPLATE_INSTANCE
