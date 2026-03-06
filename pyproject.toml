@@ -6,7 +6,8 @@ build-backend = "setuptools.build_meta"
 name = 'phoebusgen'
 authors = [
     {name = 'Tynan Ford', email = 'tford@lbl.gov'},
-    {name = 'Madeline Park', email = 'MadelinePark@lbl.gov'}
+    {name = 'Madeline Park', email = 'MadelinePark@lbl.gov'},
+    {name = 'Jakub Wlodek', email = 'jwlodek@bnl.gov'}
 ]
 description = 'Screen generator for CS-Studio Phoebus displays'
 readme = {file = 'README.md', content-type = 'text/markdown'}
@@ -24,6 +25,7 @@ classifiers=[
 [project.optional-dependencies]
 dev = [
   "pre-commit",
+  "pytest",
 ]
 docs = [
   "sphinx",
