@@ -197,7 +197,7 @@ class _Widget(_Generic):
                     elif widget_property == 'points':
                         # value expected: [x1, y1, x2, y2, ...]
                         if len(value) % 2 != 0:
-                            raise ValueError("Points list must have x, y pairs")
+                            raise ValueError('Points list must have x, y pairs')
                         pairs = [(value[coord], value[coord+1]) for coord in range(0, len(value), 2)]
                         for x, y in pairs:
                             SubElement(val_element, 'point', {

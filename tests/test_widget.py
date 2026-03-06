@@ -264,7 +264,7 @@ class TestWidgetClass(unittest.TestCase):
     def test_rule_points(self):
         w = self.create_basic_widget()
         pvs = {'pv0': True, '$(pv_name)': False}
-        points = {"pv0==0": [0, 0.0, 80, 20.0, 80.0, 80.0], "pv0==1": [0.0, 0.0, 90, 0.0, 90.0, 90.0]}
+        points = {'pv0==0': [0, 0.0, 80, 20.0, 80.0, 80.0], 'pv0==1': [0.0, 0.0, 90, 0.0, 90.0, 90.0]}
         rule_name = 'points rule'
         w.rule(rule_name, 'points', pvs, points, False)
 
