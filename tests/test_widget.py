@@ -261,6 +261,16 @@ class TestWidgetClass(unittest.TestCase):
         self.assertEqual(rule_element.attrib['name'], rule_name)
         self.assertEqual(rule_element.attrib['prop_id'], 'color')
 
+    def test_rule_points(self):
+        w = self.create_basic_widget()
+        pvs = {'pv0': True, '$(pv_name)': False}
+        points = {"pv0==0": [0, 0.0, 80, 20.0, 80.0, 80.0], "pv0==1": [0.0, 0.0, 90, 0.0, 90.0, 90.0]}
+        rule_name = 'points rule'
+        w.rule(rule_name, 'points', pvs, points, False)
+
+        rule_element = w.root.findall('rules')[0].findall('rule')[0]
+        self.assertEqual(rule_element.attrib['name'], rule_name)
+        self.assertEqual(rule_element.attrib['prop_id'], 'points')
 
 class TestGenericWidget(unittest.TestCase):
     def setUp(self):

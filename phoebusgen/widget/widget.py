@@ -194,6 +194,16 @@ class _Widget(_Generic):
                         else: # predefined colors
                             name = str(value)
                         self._shared.create_color_element(val_element, name, red, green, blue, alpha, False)
+                    elif widget_property == 'points':
+                        # value expected: [x1, y1, x2, y2, ...]
+                        if len(value) % 2 != 0:
+                            raise ValueError("Points list must have x, y pairs")
+                        pairs = [(value[coord], value[coord+1]) for coord in range(0, len(value), 2)]
+                        for x, y in pairs:
+                            SubElement(val_element, 'point', {
+                                'x': f'{float(x)}',
+                                'y': f'{float(y)}'
+                            })
                     else:
                         val_element.text = str(value)
         if pv_dict is not None:
