@@ -26,6 +26,7 @@ classifiers=[
 dev = [
   "pre-commit",
   "pytest",
+  "pytest-cov",
 ]
 docs = [
   "sphinx",
