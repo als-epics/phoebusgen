@@ -1,5 +1,6 @@
 from .widget import WidgetType, Widget
-from phoebusgen.v4.properties import HasFile, HasUrl, HasShowToolbar
+from phoebusgen.v4.properties.display import HasShowToolbar
+from phoebusgen.v4.properties.widget import HasFile, HasUrl
 
 class ThreeDViewer(Widget, HasFile):
     """ ThreeDViewer Phoebus Widget """

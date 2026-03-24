@@ -1,26 +1,26 @@
 from .widget import WidgetType, Widget
-from phoebusgen.v4.properties import (
-    HasMacros,
-    HasFile,
+from phoebusgen.v4.properties.display import (
     HasShowToolbar,
     HasBackgroundColor,
     HasForegroundColor,
     HasAlarmBorder,
-    HasXAxis,
-    HasDataWidthAndHeight,
     HasSelectionValuePV,
-    HasYAxis,
-    HasColorMap,
     HasColorBar,
-    HasCursor,
     HasTitle,
-    HasROIs,
-    HasInterpolation,
     HasLabelFont,
     HasScaleFont,
     HasShowGrid,
     HasShowLegend,
     HasTimeRange,
+    HasTitleFont,
+    HasPVName,
+)
+from phoebusgen.v4.properties.behavior import (
+    HasXAxis,
+    HasDataWidthAndHeight,
+    HasYAxis,
+    HasColorMap,
+    HasInterpolation,
     HasColorMode,
     HasUnisignedData,
     HasAutoScale,
@@ -28,11 +28,10 @@ from phoebusgen.v4.properties import (
     HasLogScale,
     HasTraces,
     HasMinMax,
-    HasTitleFont,
-    HasMarkers,
     HasLimitsFromPV,
-    HasPVName
 )
+from phoebusgen.v4.properties.widget import HasMacros, HasFile
+from phoebusgen.v4.properties.misc import HasCursor, HasROIs, HasMarkers
 
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """

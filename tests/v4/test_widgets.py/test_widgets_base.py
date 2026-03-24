@@ -2,7 +2,7 @@ import pytest
 from phoebusgen.v4.widgets import (
     Widget,
 )
-from phoebusgen.v4.properties import (
+from phoebusgen.v4.properties.types import (
     Font,
     FontStyle,
     ObservableDict,
@@ -10,12 +10,12 @@ from phoebusgen.v4.properties import (
     Trace,
     TraceType,
     PointType,
-    HasName,
-    HasPosition,
-    HasVisible,
     Color,
-    Axis
+    Axis,
 )
+from phoebusgen.v4.properties.widget import HasName
+from phoebusgen.v4.properties.position import HasPosition
+from phoebusgen.v4.properties.display import HasVisible
 
 WIDGET_CLASSES = Widget.__subclasses__()
 

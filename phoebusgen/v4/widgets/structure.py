@@ -1,16 +1,12 @@
 from .widget import WidgetType, Widget, WidgetContainer
-from phoebusgen.v4.properties import (
+from phoebusgen.v4.properties.display import (
     HasPVName,
-    HasMacros,
     HasBackgroundColor,
     HasAlarmBorder,
     HasForegroundColor,
-    HasFile,
-    HasBorder,
     HasResizeBehavior,
     HasGroupName,
     HasGroupStyle,
-    HasTabs,
     HasSelectedColor,
     HasDeselectedColor,
     HasTransparent,
@@ -19,8 +15,9 @@ from phoebusgen.v4.properties import (
     HasHorizontal,
     HasWrapCount,
     HasGap,
-    HasInstances
 )
+from phoebusgen.v4.properties.widget import HasMacros, HasFile, HasTabs, HasInstances
+from phoebusgen.v4.properties.misc import HasBorder
 
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """

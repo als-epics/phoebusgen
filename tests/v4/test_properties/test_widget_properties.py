@@ -1,4 +1,5 @@
-from phoebusgen.v4.properties import HasMacros, HasName, HasFile, HasUrl, HasBit, HasLabel, HasFileComponent, FileComponent, HasTabs, Tab
+from phoebusgen.v4.properties.widget import HasMacros, HasName, HasFile, HasUrl, HasBit, HasLabel, HasFileComponent, HasTabs
+from phoebusgen.v4.properties.types import FileComponent, Tab
 import pytest
 import re
 

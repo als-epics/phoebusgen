@@ -37,7 +37,12 @@ import copy
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import os
-from phoebusgen.v4.properties import HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts, PropertyBase
+from phoebusgen.v4.properties.position import HasPosition
+from phoebusgen.v4.properties.display import HasBackgroundColor
+from phoebusgen.v4.properties.widget import HasMacros, HasName
+from phoebusgen.v4.properties.misc import HasGrid
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
+from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
 from phoebusgen.v4.widgets import Widget, WidgetContainer
 from phoebusgen.v4.utils import prettify_xml

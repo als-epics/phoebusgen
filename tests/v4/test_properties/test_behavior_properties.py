@@ -1,9 +1,15 @@
 from phoebusgen.v4.properties.behavior import HasDataWidthAndHeight
 import pytest
-from phoebusgen.v4.properties import (
-    HasActionsRulesAndScripts, OpenDisplayAction, HasStates, HasSymbols, OpenFileAction, CommandAction,
-OpenWebpageAction, HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, ButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale, HasSelectionValuePV,
-InterpolationType, ColorMode, ColorMap, HasInterpolation, HasColorMode, HasColorMap, HasItems, State)
+from phoebusgen.v4.properties.behavior import (
+    HasActionsRulesAndScripts, HasStates, HasSymbols,
+    HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale,
+    HasInterpolation, HasColorMode, HasColorMap, HasItems,
+)
+from phoebusgen.v4.properties.display import HasSelectionValuePV
+from phoebusgen.v4.properties.types import (
+    OpenDisplayAction, OpenFileAction, CommandAction, OpenWebpageAction,
+    ButtonMode, InterpolationType, ColorMode, ColorMap, State,
+)
 from phoebusgen.v4.utils import prettify_xml
 
 

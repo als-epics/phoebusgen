@@ -1,6 +1,5 @@
 from .widget import WidgetType, Widget
-from phoebusgen.v4.properties import (
-    HasMacros,
+from phoebusgen.v4.properties.display import (
     HasAngle,
     HasLineWidth,
     HasLineColor,
@@ -12,10 +11,7 @@ from phoebusgen.v4.properties import (
     HasHorizontalAlignment,
     HasVerticalAlignment,
     HasRotationStep,
-    HasWrapWords,
     HasAutoSize,
-    HasBorder,
-    HasFile,
     HasStretchToFit,
     HasRotation,
     HasLineStyle,
@@ -24,6 +20,9 @@ from phoebusgen.v4.properties import (
     HasOpacity,
     HasPoints,
 )
+from phoebusgen.v4.properties.widget import HasMacros, HasFile
+from phoebusgen.v4.properties.behavior import HasWrapWords
+from phoebusgen.v4.properties.misc import HasBorder
 
 # Graphics
 class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):

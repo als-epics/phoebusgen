@@ -1,5 +1,5 @@
 from .widget import WidgetType, Widget
-from phoebusgen.v4.properties import (
+from phoebusgen.v4.properties.display import (
     HasText,
     HasFont,
     HasForegroundColor,
@@ -9,40 +9,40 @@ from phoebusgen.v4.properties import (
     HasVerticalAlignment,
     HasRotationStep,
     HasAlarmBorder,
-    HasConfirmation,
-    HasBit,
     HasOnOffImages,
     HasShowLED,
     HasLabelsFromPV,
-    HasButtonMode,
-    HasEnabled,
-    HasLevelsAndShow,
-    HasFileComponent,
     HasAutoSize,
-    HasLabel,
     HasItemsFromPV,
     HasSelectedColor,
-    HasItems,
     HasShowValueTip,
-    HasMinMax,
-    HasLimitsFromPV,
-    HasBarLength,
-    HasIncrement,
     HasOnOffColors,
     HasMultiLine,
     HasFormat,
     HasPrecision,
     HasShowUnits,
     HasButtonsOnLeft,
-    HasEditable,
-    HasBorder,
     HasShowScale,
     HasShowMinorTicks,
     HasMajorTicksPixelDist,
     HasScaleFormat,
-    HasWrapWords,
     HasPVName,
 )
+from phoebusgen.v4.properties.behavior import (
+    HasConfirmation,
+    HasButtonMode,
+    HasEnabled,
+    HasLevelsAndShow,
+    HasItems,
+    HasMinMax,
+    HasLimitsFromPV,
+    HasBarLength,
+    HasIncrement,
+    HasEditable,
+    HasWrapWords,
+)
+from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel
+from phoebusgen.v4.properties.misc import HasBorder
 
 class ActionButton(Widget, HasPVName, HasText, HasFont, HasForegroundColor, HasBackgroundColor,
                    HasTransparent, HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep, HasEnabled, HasAlarmBorder, HasConfirmation):

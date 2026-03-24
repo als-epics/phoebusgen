@@ -3,10 +3,12 @@ from pathlib import Path
 from typing import Sequence, TypeVar
 from xml.etree.ElementTree import Element
 import phoebusgen.v4 as phoebusgen
-from phoebusgen.v4.properties import HasName, HasVisible, HasPosition, HasActionsRulesAndScripts, HasToolTip
+from phoebusgen.v4.properties.widget import HasName, HasMacros
+from phoebusgen.v4.properties.display import HasVisible
+from phoebusgen.v4.properties.position import HasPosition
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
-from phoebusgen.v4.properties.widget import HasMacros
 from phoebusgen.v4.utils import prettify_xml
 
 from enum import Enum

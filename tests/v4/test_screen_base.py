@@ -4,7 +4,7 @@ import pytest
 from xml.etree.ElementTree import Element
 
 from phoebusgen.v4.screen import Screen
-from phoebusgen.v4.properties import Color
+from phoebusgen.v4.properties.types import Color
 
 
 @pytest.fixture
