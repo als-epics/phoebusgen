@@ -213,4 +213,3 @@ class WidgetContainer:
                 self.root.append(e.root)
         else:
             self.root.append(elem.root)
-

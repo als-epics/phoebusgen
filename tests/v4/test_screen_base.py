@@ -65,6 +65,6 @@ def test_parse_screen_from_file(one_of_every_widget_screen):
 def test_get_widgets_by_property(one_of_every_widget_screen):
     screen = one_of_every_widget_screen
     widgets_with_pv_name = screen.get_widgets_by_property_class(HasPVName)
-    assert len(widgets_with_pv_name) == 26  # 26 of the 44 widgets have the PV Name property
+    assert len(widgets_with_pv_name) == 27  # 27 of the 44 widgets have the PV Name property
     widgets_with_tabs = screen.get_widgets_by_property('tabs')
     assert len(widgets_with_tabs) == 2 # There are 2 widgets with tabs property in the test file
