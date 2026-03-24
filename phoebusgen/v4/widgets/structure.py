@@ -41,7 +41,7 @@ class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
     """ EmbeddedDisplay Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.EMBEDDED
+    _widget_type: WidgetType | None = WidgetType.EMBEDDED_DISPLAY
 
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -77,7 +77,7 @@ class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForeg
 class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.NAVTABS
+    _widget_type: WidgetType | None = WidgetType.NAVIGATION_TABS
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

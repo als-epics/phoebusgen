@@ -69,7 +69,7 @@ class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasShowLED, HasFo
                     HasLabelsFromPV, HasAlarmBorder, HasEnabled, HasButtonMode, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ BooleanButton Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.BOOL_BUTTON
+    _widget_type: WidgetType | None = WidgetType.BOOLEAN_BUTTON
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -89,7 +89,7 @@ class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor,
                HasAlarmBorder, HasConfirmation):
     """ CheckBox Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.CHECKBOX
+    _widget_type: WidgetType | None = WidgetType.CHECK_BOX
 
     def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -110,7 +110,7 @@ class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor,
 class ChoiceButton(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasSelectedColor,
                    HasAlarmBorder, HasItems, HasItemsFromPV, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ ChoiceButton Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.CHOICE
+    _widget_type: WidgetType | None = WidgetType.CHOICE_BUTTON
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ChoiceButton Widget
@@ -128,7 +128,7 @@ class ChoiceButton(Widget, HasPVName, HasFont, HasForegroundColor, HasBackground
 class ComboBox(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasAlarmBorder, HasItems,
                HasItemsFromPV, HasEditable, HasEnabled, HasConfirmation):
     """ ComboBox Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.COMBO
+    _widget_type: WidgetType | None = WidgetType.COMBO_BOX
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ComboBox Widget
@@ -164,7 +164,7 @@ class FileSelector(Widget, HasPVName, HasFileComponent, HasAlarmBorder, HasEnabl
 class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalAlignment, HasAlarmBorder,
                   HasItems, HasItemsFromPV, HasEnabled, HasConfirmation):
     """ RadioButton Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.RADIO
+    _widget_type: WidgetType | None = WidgetType.RADIO_BUTTON
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create RadioButton Widget

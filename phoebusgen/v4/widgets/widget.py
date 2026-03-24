@@ -1,3 +1,4 @@
+import re
 from typing import Sequence, TypeVar
 from xml.etree.ElementTree import Element
 import phoebusgen.v4 as phoebusgen
@@ -26,7 +27,7 @@ class WidgetType(str, Enum):
     # Monitors
     BYTE_MONITOR = 'byte_monitor'
     LED = 'led'
-    MULTI_STATE_LED = 'multi_state_led'
+    LEDMULTI_STATE = 'multi_state_led'
     METER = 'meter'
     PROGRESS_BAR = 'progressbar'
     LINEAR_METER = 'linearmeter'
@@ -39,12 +40,12 @@ class WidgetType(str, Enum):
 
     # Controls
     ACTION_BUTTON = 'action_button'
-    BOOL_BUTTON = 'bool_button'
-    CHECKBOX = 'checkbox'
-    CHOICE = 'choice'
-    COMBO = 'combo'
+    BOOLEAN_BUTTON = 'bool_button'
+    CHECK_BOX = 'checkbox'
+    CHOICE_BUTTON = 'choice'
+    COMBO_BOX = 'combo'
     FILE_SELECTOR = 'fileselector'
-    RADIO = 'radio'
+    RADIO_BUTTON = 'radio'
     SCALED_SLIDER = 'scaledslider'
     SCROLLBAR = 'scrollbar'
     SLIDE_BUTTON = 'slide_button'
@@ -53,28 +54,27 @@ class WidgetType(str, Enum):
     THUMBWHEEL = 'thumbwheel'
 
     # Plots
-    DATABROWSER = 'databrowser'
+    DATA_BROWSER = 'databrowser'
     IMAGE = 'image'
-    STRIPCHART = 'stripchart'
+    STRIP_CHART = 'stripchart'
     XYPLOT = 'xyplot'
 
     # Structure
     ARRAY = 'array'
     TABS = 'tabs'
-    EMBEDDED = 'embedded'
+    EMBEDDED_DISPLAY = 'embedded'
     GROUP = 'group'
-    NAVTABS = 'navtabs'
+    NAVIGATION_TABS = 'navtabs'
     TEMPLATE_INSTANCE = 'template'
 
     # Miscellaneous
-    THREED_VIEWER = '3dviewer'
-    WEBBROWSER = 'webbrowser'
+    THREE_DVIEWER = '3dviewer'
+    WEB_BROWSER = 'webbrowser'
+
 
 
 class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """ Base Class for all Phoebus widgets """
-
-    _widget_type: WidgetType | None = None
 
     def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
@@ -88,10 +88,15 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         :param height: Widget height:
         """
 
-        if self._widget_type is None:
-            raise ValueError('Widget type must be defined in subclass!')
-
         self.root = Element('widget')
+
+        if type(self) is Widget:
+            raise ValueError('Widget is an abstract base class and cannot be instantiated directly!')
+
+        # Use the name of the class to determine the widget type attribute in the XML. i.e. TextUpdate -> textupdate
+        _enum_key = re.sub(r'([a-z])([A-Z])', r'\1_\2', type(self).__name__).upper()
+        self._widget_type: WidgetType = WidgetType[_enum_key]
+
         self.root.attrib['type'] = self._widget_type.value
         if self._widget_type in phoebusgen.widget_versions:
             self.root.attrib['version'] = phoebusgen.widget_versions[self._widget_type.value]

@@ -101,7 +101,7 @@ class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, Ha
 class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor, HasSquare,
                     HasAlarmBorder, HasStates, HasFallback):
     """ LEDMultiState Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.MULTI_STATE_LED
+    _widget_type: WidgetType | None = WidgetType.LEDMULTI_STATE
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

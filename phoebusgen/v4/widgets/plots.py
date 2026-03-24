@@ -35,7 +35,7 @@ from phoebusgen.v4.properties.misc import HasCursor, HasROIs, HasMarkers
 
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.DATABROWSER
+    _widget_type: WidgetType | None = WidgetType.DATA_BROWSER
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
@@ -74,7 +74,7 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, Ha
                  HasTitleFont, HasLabelFont, HasScaleFont, HasShowToolbar, HasShowLegend, HasTimeRange,
                  HasYAxes, HasTraces):
     """ StripChart Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.STRIPCHART
+    _widget_type: WidgetType | None = WidgetType.STRIP_CHART
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create StripChart Widget
