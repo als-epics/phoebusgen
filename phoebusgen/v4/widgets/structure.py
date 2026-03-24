@@ -1,5 +1,6 @@
 from .widget import WidgetType, Widget, WidgetContainer
 from phoebusgen.v4.properties import (
+    HasPVName,
     HasMacros,
     HasBackgroundColor,
     HasAlarmBorder,
@@ -21,7 +22,7 @@ from phoebusgen.v4.properties import (
     HasInstances
 )
 
-class Array(Widget, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
+class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """
 
     _widget_type: WidgetType | None = WidgetType.ARRAY
