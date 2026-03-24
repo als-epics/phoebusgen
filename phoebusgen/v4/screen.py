@@ -48,7 +48,6 @@ from phoebusgen.v4.widgets import Widget, WidgetContainer
 from phoebusgen.v4.utils import prettify_xml
 from collections.abc import Sequence
 from pathlib import Path
-from typing import TypeVar
 
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
 
