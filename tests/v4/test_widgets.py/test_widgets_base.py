@@ -48,6 +48,10 @@ def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[t
     ]
     return parametrized_product
 
+def test_init_widget_base_cls_raises_value_error():
+    with pytest.raises(ValueError, match='Widget is an abstract base class and cannot be instantiated directly!'):
+        Widget(name='BaseWidget', x_pos=0, y_pos=0, width=100, height=100)
+
 @pytest.mark.parametrize('widget_class', WIDGET_CLASSES)
 def test_base_widget_properties(widget_class, widget_factory, base_widget_prop_validator, check_xml_element):
     widget = widget_factory(widget_class)
