@@ -13,6 +13,8 @@ from .types import (
     Color,
     Font,
     Action,
+    Rule,
+    RuleExpression,
     ObservableDict,
     ObservableList,
     ValidListTypeT,
@@ -31,6 +33,9 @@ PropertyType = (
     | Enum
     | Color
     | Font
+    | Action
+    | Rule
+    | RuleExpression
     | ObservableDict
     | ObservableList
     | ObservableDataclass
@@ -39,6 +44,47 @@ PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
 PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
 
+def _get_property_type_from_prop_id(prop_id: str, all_properties: dict[type['PropertyBase'], dict[str, PropertyInfo]]) -> type:
+    """Given a property ID string, get the type of the innermost property.
+    
+    For example, given the prop_id 'y_axes[0].title_font.style', this function will return FontStyle,
+    because y_axes is a list of `Axis` dataclass objects, and the title_font field is a Font dataclass,
+    which has a style field that is of type FontStyle.
+
+    :param prop_id: The property ID string to get the type for
+    :param all_properties: The dictionary of all property classes and their properties to look up the types from
+    :return: The type of the property specified by the prop_id
+    """
+
+    names_to_types = {prop_name: prop_info.type for cls_props in all_properties.values() for prop_name, prop_info in cls_props.items()}
+    print(names_to_types)
+    base_prop_name = prop_id
+    if "." in base_prop_name:
+        base_prop_name = base_prop_name.split(".")[0]
+    if "[" in base_prop_name:
+        base_prop_name = base_prop_name.split("[")[0]
+
+    base_prop_type = names_to_types.get(base_prop_name, None)
+    if base_prop_type is None:
+        raise ValueError(f"Property type for prop_id '{prop_id}' not found in all_properties dictionary!")
+
+    def get_nested_property_type(prop_id: str, base_type: type):
+        if get_origin(base_type) is ObservableList:
+            return get_nested_property_type(prop_id.split("]", 1)[1], get_args(base_type)[0])
+        elif get_origin(base_type) is ObservableDict:
+            return get_nested_property_type(prop_id.split(".", 1)[1], get_args(base_type)[1])
+        elif issubclass(base_type, ObservableDataclass):
+            dataclass_field_name = prop_id.split(".")[1]
+            if "[" in dataclass_field_name:
+                dataclass_field_name = dataclass_field_name.split("[")[0]
+            dataclass_fields = base_type.fields()
+            if dataclass_field_name in dataclass_fields:
+                field_type = dataclass_fields[dataclass_field_name].type
+                return get_nested_property_type(prop_id.split(".", 1)[1], field_type)
+        else:
+            return base_type
+
+    return get_nested_property_type(prop_id, base_prop_type)
 
 def _create_element(prop_name: str, value: str | None = None) -> Element:
     element = Element(prop_name)
@@ -60,6 +106,10 @@ def _find_getter_setter_by_type(property_type: type[PropertyType], func: str = '
         return property_type_str
     elif issubclass(property_type, Action):
         return 'action'
+    elif property_type is Rule:
+        return 'rule'
+    elif property_type is RuleExpression:
+        return 'rule_expression'
     elif property_type is ObservableList:
         return 'list'
     elif property_type is ObservableDict:
@@ -201,6 +251,71 @@ def _set_action_property(prop_name: str, value: Action) -> Element:
     element.attrib['type'] = action_type
     return element
 
+def _get_rule_expression_property(element: Element, property_type: ValidListTypeT) -> RuleExpression:
+    bool_exp = element.attrib.get('bool_exp', None)
+    if bool_exp is None:
+        raise ValueError("Rule expression element is missing required 'bool_exp' attribute!")
+
+    expression = element.find('expression')
+    if expression is not None:
+        value_as_expression = True
+        value = expression.text
+    else:
+        value_as_expression = False
+        value_get_func = _find_getter_setter_by_type(property_type, func='getter')
+        value = value_get_func(element.find('value'), property_type) if element.find('value') is not None else None
+
+    return RuleExpression(bool_exp=bool_exp, value=value, value_as_expression=value_as_expression)
+
+
+def _set_rule_expression_property(prop_name: str, value: RuleExpression) -> Element:
+    element = _create_element(prop_name)
+    element.attrib['bool_exp'] = value.bool_exp
+    if value.value_as_expression:
+        expression_elem = _create_element('expression', str(value.value))
+        element.append(expression_elem)
+    else:
+        value_set_func = _find_getter_setter_by_type(type(value.value), func='setter')
+        value_elem = value_set_func('value', value.value)
+        element.append(value_elem)
+
+    return element
+
+
+def _get_rule_property(element: Element, property_type: ValidListTypeT) -> Any:
+    name = element.attrib.get('name', 'None')
+    out_exp = element.attrib.get("out_exp", False)
+    prop_id = element.attrib.get("prop_id", None)
+
+    expressions: ObservableList[RuleExpression] = ObservableList()
+    pv_names: ObservableDict[str, bool] = ObservableDict()
+    for expr_elem in element.findall('exp'):
+        expressions.append(_get_rule_expression_property(expr_elem, property_type))
+    for pv_elem in element.findall("pv_name"):
+        pv_names[pv_elem.text] = pv_elem.attrib.get('trigger', 'true') == 'true'
+
+    return Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id)
+
+
+def _set_rule_property(prop_name: str, value: Rule) -> Element:
+    element = _create_element(prop_name)
+    element.attrib['name'] = value.name
+    element.attrib['out_exp'] = str(value.out_exp).lower()
+    if value.prop_id is not None:
+        element.attrib['prop_id'] = value.prop_id
+
+    for expr in value.exps:
+        expr_elem = _set_rule_expression_property('exp', expr)
+        element.append(expr_elem)
+
+    for pv_name, trigger in value.pv_names.items():
+        pv_elem = _create_element("pv_name", pv_name)
+        pv_elem.attrib['trigger'] = str(trigger).lower()
+        element.append(pv_elem)
+
+    return element
+
+
 def _get_dict_property(element: Element) -> ObservableDict:
 
     result = ObservableDict()
@@ -287,6 +402,7 @@ class PropertyMetaclass(type):
 
                 getter_args = [prop_element]
 
+                # TODO: for rules, need to pass property type of prop ID value
                 if len(inspect.signature(typed_getter).parameters) != len(getter_args):
                     getter_args.append(property_type)
 
@@ -323,6 +439,7 @@ class PropertyMetaclass(type):
         if name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases):
             all_properties[cls] = {}
             for prop_name, annotation in get_annotations(cls).items():
+                base_prop_type = annotation
                 if hasattr(annotation, '__origin__'):
                     property_type = annotation.__origin__
                 else:
@@ -335,7 +452,7 @@ class PropertyMetaclass(type):
                     return setter(self, prop_name, prop_type, value)
 
                 setattr(cls, prop_name, property(prop_getter, prop_setter))
-                all_properties[cls][prop_name] = PropertyInfo(property_type, default_value)
+                all_properties[cls][prop_name] = PropertyInfo(base_prop_type, default_value)
 
         # Collect property names and types from base classes to keep a running dictionary
         # of all property classes and the individual properties they define

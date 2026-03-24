@@ -4,6 +4,8 @@ import pytest
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.v4.properties.property_helpers import _create_element, _find_getter_setter_by_type, _get_color_property, _get_dataclass_property, _get_enum_property, _get_list_property, _get_primitive_property, _get_dict_property, _set_action_property, _set_color_property, _set_dataclass_property, _set_enum_property, _set_list_property, _set_primitive_property, _set_dict_property, _get_action_property, is_set_value_valid
+from phoebusgen.v4.properties.property_helpers import _get_property_type_from_prop_id
+from phoebusgen.v4.widgets import XYPlot
 from phoebusgen.v4.properties.types import ObservableDict, FileComponent, Action, ObservableList, Color, Font, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
 from enum import Enum
@@ -337,3 +339,22 @@ def test_set_dict_property():
         assert item_elem.text == value
     retrieved_data = _get_dict_property(elem)
     assert retrieved_data == data
+
+
+@pytest.mark.parametrize('prop_id, expected_type', [
+    ('name', str),
+    ('x', int),
+    ('y', int),
+    ('width', int),
+    ('height', int),
+    ('background_color', Color),
+    ('show_legend', bool),
+    ('x_axis.title', str),
+    ('x_axis.title_font.family', str),
+    ('y_axes[0].title', str),
+    ('y_axes[0].color', Color),
+    ('y_axes[0].title_font.style', FontStyle),
+])
+def test_get_property_type_from_prop_id(prop_id, expected_type):
+    prop_type = _get_property_type_from_prop_id(prop_id, XYPlot._all_properties)
+    assert prop_type == expected_type

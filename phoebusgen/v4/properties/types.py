@@ -221,7 +221,7 @@ class ObservableDict(MutableMapping):
         if self._on_change_callback:
             self._on_change_callback(self)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key , value):
         self._dict[key] = value
         self._notify_change()
 
@@ -466,17 +466,16 @@ class OpenWebpageAction(Action):
 @dataclass
 class RuleExpression(ObservableDataclass):
     bool_exp: str = ''
-    expression: str = ''
-    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ['bool_exp'], repr=False)
+    value: ValidListTypeT | None = None
+    value_as_expression: bool = False
 
 @dataclass
 class Rule(ObservableDataclass):
-    name: str = ''
-    prop_id: str = ''
+    name: str = 'New Rule'
+    prop_id: str = 'name'
     exps: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
-    pv_names: ObservableList[str] = field(default_factory=ObservableList[str])
+    pv_names: ObservableDict = field(default_factory=ObservableDict)
     out_exp: bool = False
-    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ['name', 'prop_id', 'out_exp'], repr=False)
 
 @dataclass
 class Instance(ObservableDataclass):
