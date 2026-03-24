@@ -1,4 +1,4 @@
-from .widget import WidgetType, Widget
+from .widget import Widget
 from phoebusgen.v4.properties.display import (
     HasShowToolbar,
     HasBackgroundColor,
@@ -35,7 +35,7 @@ from phoebusgen.v4.properties.misc import HasCursor, HasROIs, HasMarkers
 
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.DATA_BROWSER
+
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
@@ -55,7 +55,6 @@ class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowTo
             HasMinMax, HasCursor, HasROIs):
     """ Image Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.IMAGE
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Image Widget
@@ -74,7 +73,7 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, Ha
                  HasTitleFont, HasLabelFont, HasScaleFont, HasShowToolbar, HasShowLegend, HasTimeRange,
                  HasYAxes, HasTraces):
     """ StripChart Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.STRIP_CHART
+
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create StripChart Widget
@@ -90,7 +89,7 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, Ha
 class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasTitle,
              HasTitleFont, HasShowToolbar, HasShowLegend, HasXAxis, HasYAxes, HasTraces, HasMarkers):
     """ XYPlot Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.XYPLOT
+
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create XYPlot Widget

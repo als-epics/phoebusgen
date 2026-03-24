@@ -1,4 +1,4 @@
-from .widget import WidgetType, Widget
+from .widget import Widget
 from phoebusgen.v4.properties.display import (
     HasAngle,
     HasLineWidth,
@@ -28,8 +28,6 @@ from phoebusgen.v4.properties.misc import HasBorder
 class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
     """ Arc Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.ARC
-
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Arc Widget
@@ -44,8 +42,6 @@ class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle,
 
 class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
     """ Ellipse Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.ELLIPSE
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -62,8 +58,6 @@ class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBa
 class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasHorizontalAlignment,
             HasVerticalAlignment, HasRotationStep, HasWrapWords, HasAutoSize, HasBorder):
     """ Label Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.LABEL
 
     def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -82,8 +76,6 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
 class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpacity):
     """ Picture Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.PICTURE
-
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Picture Widget
@@ -101,8 +93,6 @@ class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpaci
 class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTransparent, HasPoints, HasBackgroundColor):
     """ Polygon Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.POLYGON
-
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Polygon Widget
@@ -118,8 +108,6 @@ class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTr
 class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasArrows, HasPoints):
     """ Polyline Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.POLYLINE
-
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Polyline Widget
@@ -134,8 +122,6 @@ class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasA
 
 class Rectangle(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent, HasCorners):
     """ Rectangle Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.RECTANGLE
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

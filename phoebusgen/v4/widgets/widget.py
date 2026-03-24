@@ -72,6 +72,19 @@ class WidgetType(str, Enum):
     WEB_BROWSER = 'webbrowser'
 
 
+def _widget_type_from_class_name(class_name: str) -> WidgetType:
+    """Convert a CamelCase class name to its corresponding WidgetType enum member.
+
+    Inserts underscores between lowercase-uppercase boundaries and uppercases the result.
+    e.g. 'TextUpdate' -> 'TEXT_UPDATE' -> WidgetType.TEXT_UPDATE
+
+    :param class_name: CamelCase class name
+    :return: Corresponding WidgetType enum member
+    :raises KeyError: If no matching WidgetType member exists
+    """
+    enum_key = re.sub(r'([a-z])([A-Z])', r'\1_\2', class_name).upper()
+    return WidgetType[enum_key]
+
 
 class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """ Base Class for all Phoebus widgets """
@@ -94,8 +107,7 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
             raise ValueError('Widget is an abstract base class and cannot be instantiated directly!')
 
         # Use the name of the class to determine the widget type attribute in the XML. i.e. TextUpdate -> textupdate
-        _enum_key = re.sub(r'([a-z])([A-Z])', r'\1_\2', type(self).__name__).upper()
-        self._widget_type: WidgetType = WidgetType[_enum_key]
+        self._widget_type: WidgetType = _widget_type_from_class_name(type(self).__name__)
 
         self.root.attrib['type'] = self._widget_type.value
         if self._widget_type in phoebusgen.widget_versions:
@@ -127,10 +139,10 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         w_type = element.attrib.get('type', None)
         if w_type is None:
             raise ValueError('Widget type attribute missing!')
-        elif cls._widget_type is None:
-            raise ValueError('Instantiating widget base class from XML element is not allowed!')
-        if w_type != cls._widget_type.value:
-            raise ValueError(f"Expected widget type '{cls._widget_type.value}', got '{w_type}'")
+
+        expected_type = _widget_type_from_class_name(cls.__name__)
+        if w_type != expected_type.value:
+            raise ValueError(f"Expected widget type '{expected_type.value}', got '{w_type}'")
 
         cls_instance = cls.__new__(cls)
         cls_instance.root = element
@@ -185,7 +197,8 @@ class WidgetContainer:
                 raise ValueError(f"Unknown widget type for element: {prettify_xml(elem)}")
             widget_cls = None
             for cls in Widget.__subclasses__():
-                if cls._widget_type is not None and cls._widget_type.value == elem_type:
+                cls_widget_type = _widget_type_from_class_name(cls.__name__)
+                if cls_widget_type.value == elem_type:
                     widget_cls = cls
                     break
             if widget_cls is None:

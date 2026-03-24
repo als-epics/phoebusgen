@@ -1,10 +1,10 @@
-from .widget import WidgetType, Widget
+from .widget import Widget
 from phoebusgen.v4.properties.display import HasShowToolbar
 from phoebusgen.v4.properties.widget import HasFile, HasUrl
 
 class ThreeDViewer(Widget, HasFile):
     """ ThreeDViewer Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.THREE_DVIEWER
+
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ThreeDViewer Widget
@@ -21,7 +21,7 @@ class ThreeDViewer(Widget, HasFile):
 
 class WebBrowser(Widget, HasUrl, HasShowToolbar):
     """ WebBrowser Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.WEB_BROWSER
+
     def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create WebBrowser Widget

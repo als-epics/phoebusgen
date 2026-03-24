@@ -1,5 +1,6 @@
 import pytest
 from phoebusgen.v4.widgets import Widget
+from phoebusgen.v4.widgets.widget import _widget_type_from_class_name
 from typing import Callable
 import inspect
 from xml.etree.ElementTree import Element, SubElement
@@ -33,7 +34,7 @@ def widget_factory() -> Callable[..., Widget]:
 def widget_xml_factory():
     def _factory(widget_cls: type[Widget], num = 1, **kwargs) -> Element:
         root = Element('widget')
-        root.attrib['type'] = widget_cls._widget_type.value
+        root.attrib['type'] = _widget_type_from_class_name(widget_cls.__name__).value
         root.attrib['version'] = '2.0.0'
         SubElement(root, 'name').text = f"{widget_cls.__name__}_{num}"
         SubElement(root, 'x').text = str(10)

@@ -1,4 +1,4 @@
-from .widget import WidgetType, Widget
+from .widget import Widget
 from phoebusgen.v4.properties.display import (
     HasStartBit,
     HasNumBits,
@@ -62,8 +62,6 @@ class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, Has
                   HasOnOffColors, HasForegroundColor, HasFont, HasLabels, HasAlarmBorder):
     """ ByteMonitor Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.BYTE_MONITOR
-
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ByteMonitor Widget
@@ -82,8 +80,6 @@ class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, Ha
           HasSquare, HasLabelsFromPV, HasAlarmBorder):
     """ LED Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.LED
-
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create LED Widget
@@ -101,7 +97,6 @@ class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, Ha
 class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor, HasSquare,
                     HasAlarmBorder, HasStates, HasFallback):
     """ LEDMultiState Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.LEDMULTI_STATE
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -122,8 +117,6 @@ class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, Has
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor, HasKnobAndNeedleSize, HasLinearMeterColors, HasLevelsAndShow):
     """ LinearMeter Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.LINEAR_METER
-
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create LinearMeter Widget
@@ -142,7 +135,7 @@ class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, 
             HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder,
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor):
     """ Meter Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.METER
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Meter Widget
@@ -160,7 +153,7 @@ class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, 
 class ProgressBar(Widget, HasPVName, HasFillColor, HasBackgroundColor, HasHorizontal,
                   HasAlarmBorder, HasLimitsFromPV, HasMinMax):
     """ ProgressBar Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.PROGRESS_BAR
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create ProgressBar Widget
@@ -179,7 +172,7 @@ class Symbol(Widget, HasPVName, HasSymbols, HasBackgroundColor, HasInitialIndex,
              HasRotation, HasShowIndex, HasTransparent, HasAlarmBorder, HasArrayIndex,
              HasAutoSize, HasEnabled, HasPreserveRatio):
     """ Symbol Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.SYMBOL
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Symbol Widget
@@ -197,7 +190,7 @@ class Symbol(Widget, HasPVName, HasSymbols, HasBackgroundColor, HasInitialIndex,
 class Table(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasShowToolbar,
             HasAlarmBorder, HasEditable, HasSelectRows, HasSelectionPV, HasColumns):
     """ Table Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.TABLE
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Table Widget
@@ -216,7 +209,7 @@ class Tank(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor,
            HasFillColor, HasEmptyColor, HasScaleVisible, HasAlarmBorder, HasLimitsFromPV,
            HasMinMax, HasLogScale, HasHorizontal):
     """ Tank Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.TANK
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Tank Widget
@@ -235,7 +228,7 @@ class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
                  HasHorizontalAlignment, HasVerticalAlignment, HasRotation, HasWrapWords,
                  HasAlarmBorder, HasEnabled, HasArrayIndex, HasSymbols):
     """ TextSymbol Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.TEXT_SYMBOL
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextSymbol Widget
@@ -254,7 +247,7 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
                  HasFormat, HasPrecision, HasShowUnits, HasHorizontalAlignment, HasVerticalAlignment, HasWrapWords,
                  HasRotationStep, HasBorder, HasAlarmBorder):
     """ TextUpdate Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.TEXT_UPDATE
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create TextUpdate Widget
@@ -271,7 +264,7 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
 
 class Thermometer(Widget, HasPVName, HasFillColor, HasAlarmBorder, HasLimitsFromPV, HasMinMax):
     """ Thermometer Phoebus Widget """
-    _widget_type: WidgetType | None = WidgetType.THERMOMETER
+
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Thermometer Widget

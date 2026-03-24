@@ -2,6 +2,7 @@ import pytest
 from phoebusgen.v4.widgets import (
     Widget,
 )
+from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
 from phoebusgen.v4.properties.types import (
     Font,
     FontStyle,
@@ -18,6 +19,14 @@ from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.display import HasVisible
 
 WIDGET_CLASSES = Widget.__subclasses__()
+
+
+@pytest.mark.parametrize('widget_class', WIDGET_CLASSES, ids=lambda cls: cls.__name__)
+def test_widget_type_from_class_name(widget_class):
+    """Verify that every Widget subclass resolves to a valid WidgetType enum member."""
+    wt = _widget_type_from_class_name(widget_class.__name__)
+    assert isinstance(wt, WidgetType), f"{widget_class.__name__} did not resolve to a WidgetType"
+    assert wt.value, f"{widget_class.__name__} resolved to an enum member with an empty value"
 
 
 def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[type[Widget], str]]:

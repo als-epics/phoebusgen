@@ -1,4 +1,4 @@
-from .widget import WidgetType, Widget, WidgetContainer
+from .widget import Widget, WidgetContainer
 from phoebusgen.v4.properties.display import (
     HasPVName,
     HasBackgroundColor,
@@ -22,8 +22,6 @@ from phoebusgen.v4.properties.misc import HasBorder
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.ARRAY
-
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Array Widget
@@ -40,8 +38,6 @@ class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor
 
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
     """ EmbeddedDisplay Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.EMBEDDED_DISPLAY
 
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -60,8 +56,6 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
 class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
     """ Group Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.GROUP
-
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Group Widget
@@ -76,8 +70,6 @@ class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForeg
 
 class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.NAVIGATION_TABS
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -94,8 +86,6 @@ class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDese
 class Tabs(Widget, WidgetContainer, HasMacros, HasTabs, HasFont, HasBackgroundColor):
     """ Tabs Phoebus Widget """
 
-    _widget_type: WidgetType | None = WidgetType.TABS
-
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
         Create Tabs Widget
@@ -111,8 +101,6 @@ class Tabs(Widget, WidgetContainer, HasMacros, HasTabs, HasFont, HasBackgroundCo
 
 class TemplateInstance(Widget, WidgetContainer, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
     """ TemplateInstance Phoebus Widget """
-
-    _widget_type: WidgetType | None = WidgetType.TEMPLATE_INSTANCE
 
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
         """
