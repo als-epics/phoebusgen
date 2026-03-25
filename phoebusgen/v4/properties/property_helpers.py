@@ -341,7 +341,10 @@ def _get_list_property(element: Element, item_type: type[ValidListTypeT]) -> Obs
             getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
             getter_args: list[Any] = [item_elem]
             if len(inspect.signature(getter).parameters) > 1:
-                getter_args.append(item_type)
+                if item_type is Rule:
+                    rule_prop_id = item_elem.attrib.get('prop_id', None)
+                else:
+                    getter_args.append(item_type)
             result.append(getter(*getter_args))
     return result
 
@@ -402,7 +405,6 @@ class PropertyMetaclass(type):
 
                 getter_args = [prop_element]
 
-                # TODO: for rules, need to pass property type of prop ID value
                 if len(inspect.signature(typed_getter).parameters) != len(getter_args):
                     getter_args.append(property_type)
 

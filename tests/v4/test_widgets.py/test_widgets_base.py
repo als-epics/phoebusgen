@@ -1,6 +1,7 @@
 import pytest
 from phoebusgen.v4.widgets import (
     Widget,
+    TextUpdate
 )
 from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
 from phoebusgen.v4.properties.types import (
@@ -319,3 +320,29 @@ def test_widget_trace_list_properties(widget_class, widget_factory, prop_name, c
     assert trace_elem_remaining.find('line_width').text == '2'
     color_elem = trace_elem_remaining.find('color')
     check_color_xml(color_elem.find('color'), (255, 0, 255))
+
+
+def test_widget_from_element_error_conditions(widget_xml_factory):
+    # Create an XML element with missing 'type' attribute
+    xml_element = widget_xml_factory(TextUpdate)
+    xml_element.tag = 'not-a-widget'
+    del xml_element.attrib['type']
+
+    with pytest.raises(ValueError, match="Expected 'widget' element, got 'not-a-widget'"):
+        TextUpdate.from_element(xml_element)
+
+    xml_element.tag = 'widget'  # Change tag back to 'widget' but it's still missing 'type' attribute
+
+    with pytest.raises(ValueError, match="Widget type attribute missing!"):
+        TextUpdate.from_element(xml_element)
+
+    xml_element.attrib['type'] = 'nonexistent_widget_type'
+
+    with pytest.raises(ValueError, match="Widget type 'nonexistent_widget_type' is not a valid widget type!"):
+        TextUpdate.from_element(xml_element)
+
+    xml_element.attrib['type'] = 'label'
+
+    with pytest.raises(ValueError, match="Expected widget type 'textupdate', got 'label'"):
+        TextUpdate.from_element(xml_element)
+

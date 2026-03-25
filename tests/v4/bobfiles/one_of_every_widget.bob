@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-01-02 14:33:18 by jwlodek-->
+<!--Saved on 2026-03-24 14:27:47 by jwlodek-->
 <display version="2.0.0">
   <name>OneOfEveryWidget</name>
   <macros>
@@ -128,6 +128,18 @@ $(actions)</tooltip>
         <editable>true</editable>
       </column>
     </columns>
+    <rules>
+      <rule name="New Rule" prop_id="columns[1].width" out_exp="false">
+        <exp bool_exp="new expr">
+          <value>100</value>
+        </exp>
+        <exp bool_exp="new expr">
+          <value>100</value>
+        </exp>
+        <pv_name trigger="false">$(pv_name)</pv_name>
+        <pv_name>$(pv_name)</pv_name>
+      </rule>
+    </rules>
   </widget>
   <widget type="tank" version="2.0.0">
     <name>Tank</name>
@@ -257,10 +269,6 @@ $(actions)</tooltip>
           <color name="Text" red="0" green="0" blue="0">
           </color>
         </color>
-        <title_font>
-          <font family="Madan" style="BOLD" size="14.0">
-          </font>
-        </title_font>
       </y_axis>
     </y_axes>
   </widget>

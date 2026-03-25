@@ -139,6 +139,9 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         w_type = element.attrib.get('type', None)
         if w_type is None:
             raise ValueError('Widget type attribute missing!')
+        
+        if w_type not in [t.value for t in WidgetType]:
+            raise ValueError(f"Widget type '{w_type}' is not a valid widget type!")
 
         expected_type = _widget_type_from_class_name(cls.__name__)
         if w_type != expected_type.value:
@@ -148,7 +151,16 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         cls_instance.root = element
         return cls_instance
 
+    @property
+    def version(self) -> str:
+        """
+        Get widget version from root widget
 
+        :return: Version string
+        """
+        return self.root.attrib.get('version', '2.0.0')
+
+    @version.setter
     def version(self, version: str) -> None:
         """
         Change widget version in root widget. i.e. <widget type="textupdate" version="2.0.0">
