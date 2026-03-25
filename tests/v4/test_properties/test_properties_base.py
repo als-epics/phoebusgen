@@ -3,10 +3,30 @@ import pytest
 
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.v4.properties.property_helpers import _create_element, _find_getter_setter_by_type, _get_color_property, _get_dataclass_property, _get_enum_property, _get_list_property, _get_primitive_property, _get_dict_property, _set_action_property, _set_color_property, _set_dataclass_property, _set_enum_property, _set_list_property, _set_primitive_property, _set_dict_property, _get_action_property, is_set_value_valid
-from phoebusgen.v4.properties.property_helpers import _get_property_type_from_prop_id
+from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
+
+# Create an instance to access instance methods for testing
+_pb = PropertyBase()
+_find_getter_by_type = _pb._find_getter_by_type
+_find_setter_by_type = _pb._find_setter_by_type
+_get_primitive_property = _pb._get_primitive_property
+_set_primitive_property = _pb._set_primitive_property
+_get_enum_property = _pb._get_enum_property
+_set_enum_property = _pb._set_enum_property
+_get_color_property = _pb._get_color_property
+_set_color_property = _pb._set_color_property
+_get_dataclass_property = _pb._get_dataclass_property
+_set_dataclass_property = _pb._set_dataclass_property
+_get_action_property = _pb._get_action_property
+_set_action_property = _pb._set_action_property
+_get_list_property = _pb._get_list_property
+_set_list_property = _pb._set_list_property
+_get_dict_property = _pb._get_dict_property
+_set_dict_property = _pb._set_dict_property
+_get_property_type_from_prop_id = _pb._get_property_type_from_prop_id
+is_set_value_valid = _pb._is_set_value_valid
 from phoebusgen.v4.widgets import XYPlot
-from phoebusgen.v4.properties.types import ObservableDict, FileComponent, Action, ObservableList, Color, Font, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
+from phoebusgen.v4.properties.types import ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
 from enum import Enum
 
@@ -31,22 +51,24 @@ def test_create_element():
 
 @pytest.mark.parametrize('prop_type, expected_getter, expected_setter',
                          [
-                                (int, 'primitive', 'primitive'),
-                                (str, 'primitive', 'primitive'),
-                                (float, 'primitive', 'primitive'),
-                                (bool, 'primitive', 'primitive'),
-                                (ObservableDict, 'dict', 'dict'),
-                                (ObservableList[int], 'list', 'list'),
-                                (FileComponent, 'enum', 'enum'),
-                                (Color, 'color', 'color'),
-                                (Font, 'dataclass', 'dataclass'),
-                                (Enum, 'enum', 'enum'),
-                                (Trace, 'dataclass', 'dataclass'),
-                                (Action, 'action', 'action'),
+                                (int, _pb._get_primitive_property, _pb._set_primitive_property),
+                                (str, _pb._get_primitive_property, _pb._set_primitive_property),
+                                (float, _pb._get_primitive_property, _pb._set_primitive_property),
+                                (bool, _pb._get_primitive_property, _pb._set_primitive_property),
+                                (ObservableDict, _pb._get_dict_property, _pb._set_dict_property),
+                                (ObservableList[int], _pb._get_list_property, _pb._set_list_property),
+                                (FileComponent, _pb._get_enum_property, _pb._set_enum_property),
+                                (Color, _pb._get_color_property, _pb._set_color_property),
+                                (Font, _pb._get_dataclass_property, _pb._set_dataclass_property),
+                                (Enum, _pb._get_enum_property, _pb._set_enum_property),
+                                (Trace, _pb._get_dataclass_property, _pb._set_dataclass_property),
+                                (Action, _pb._get_action_property, _pb._set_action_property),
+                                (RuleExpression, _pb._get_rule_expression_property, _pb._set_rule_expression_property),
+                                (Rule, _pb._get_rule_property, _pb._set_rule_property),
                          ])
 def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter):
-    getter = _find_getter_setter_by_type(prop_type, func = 'getter')
-    setter = _find_getter_setter_by_type(prop_type, func = 'setter')
+    getter = _find_getter_by_type(prop_type)
+    setter = _find_setter_by_type(prop_type)
     assert getter == expected_getter
     assert setter == expected_setter
 
@@ -340,6 +362,59 @@ def test_set_dict_property():
     retrieved_data = _get_dict_property(elem)
     assert retrieved_data == data
 
+def test_get_rule_expression_property():
+    elem = Element('exp')
+    elem.attrib["bool_exp"] = 'true'
+    SubElement(elem, 'expression').text = 'pvStr0'
+    rule_expr = _pb._get_rule_expression_property(elem, str)
+    assert isinstance(rule_expr, RuleExpression)
+    assert rule_expr.bool_exp == 'true'
+    assert rule_expr.value_as_expression
+    assert rule_expr.value == 'pvStr0'
+
+    elem = Element('exp')
+    elem.attrib['bool_exp'] = 'pv0 == 0'
+    value_elem = SubElement(elem, 'value')
+    SubElement(value_elem, 'color').attrib = {'red': '255', 'green': '0', 'blue': '0', 'alpha': '255'}
+
+    rule_expr = _pb._get_rule_expression_property(elem, Color)
+    assert isinstance(rule_expr, RuleExpression)
+    assert rule_expr.bool_exp == 'pv0 == 0'
+    assert not rule_expr.value_as_expression
+    assert rule_expr.value == Color((255, 0, 0, 255))
+
+# TODO: Currently this doesn't raise an error, but it should.
+# def test_get_rule_expression_incorrect_type():
+#     elem = Element('exp')
+#     elem.attrib['bool_exp'] = 'pv0 == 0'
+#     value_elem = SubElement(elem, 'value')
+#     SubElement(value_elem, 'color').attrib = {'red': '255', 'green': '0', 'blue': '0', 'alpha': '255'}
+#     _pb._get_rule_expression_property(elem, Font) # Should raise an error
+
+
+def test_set_rule_expression_property():
+    rule_expr = RuleExpression(bool_exp='pv0 == 0', value=Color((255, 0, 0, 255)), value_as_expression=False)
+    elem = _pb._set_rule_expression_property('exp', rule_expr)
+    assert elem.tag == 'exp'
+    assert elem.attrib['bool_exp'] == 'pv0 == 0'
+    value_elem = _get_elem(elem, 'value')
+    color_elem = _get_elem(value_elem, 'color')
+    assert color_elem.attrib['red'] == '255'
+    assert color_elem.attrib['green'] == '0'
+    assert color_elem.attrib['blue'] == '0'
+    assert color_elem.attrib['alpha'] == '255'
+    retrieved_rule_expr = _pb._get_rule_expression_property(elem, Color)
+    assert retrieved_rule_expr == rule_expr
+
+    rule_expr2 = RuleExpression(bool_exp='true', value='pvStr0', value_as_expression=True)
+    elem2 = _pb._set_rule_expression_property('exp', rule_expr2)
+    assert elem2.tag == 'exp'
+    assert elem2.attrib['bool_exp'] == 'true'
+    expression_elem = _get_elem(elem2, 'expression')
+    assert expression_elem.text == 'pvStr0'
+    retrieved_rule_expr2 = _pb._get_rule_expression_property(elem2, str)
+    assert retrieved_rule_expr2 == rule_expr2
+
 
 @pytest.mark.parametrize('prop_id, expected_type', [
     ('name', str),
@@ -356,5 +431,6 @@ def test_set_dict_property():
     ('y_axes[0].title_font.style', FontStyle),
 ])
 def test_get_property_type_from_prop_id(prop_id, expected_type):
-    prop_type = _get_property_type_from_prop_id(prop_id, XYPlot._all_properties)
+    xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
+    prop_type = xy_plot._get_property_type_from_prop_id(prop_id)
     assert prop_type == expected_type
