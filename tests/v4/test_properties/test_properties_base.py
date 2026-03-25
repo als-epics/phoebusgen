@@ -3,28 +3,14 @@ import pytest
 
 from xml.etree.ElementTree import Element, SubElement
 
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes
+from phoebusgen.v4.properties.display import HasBackgroundColor, HasForegroundColor, HasShowLegend, HasShowLegend, HasShowToolbar, HasShowToolbar, HasTitle, HasTitleFont, HasVisible
+from phoebusgen.v4.properties.display import HasTitleFont
+from phoebusgen.v4.properties.misc import HasMarkers
+from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
 
-# Create an instance to access instance methods for testing
-_pb = PropertyBase()
-_find_getter_by_type = _pb._find_getter_by_type
-_find_setter_by_type = _pb._find_setter_by_type
-_get_primitive_property = _pb._get_primitive_property
-_set_primitive_property = _pb._set_primitive_property
-_get_enum_property = _pb._get_enum_property
-_set_enum_property = _pb._set_enum_property
-_get_color_property = _pb._get_color_property
-_set_color_property = _pb._set_color_property
-_get_dataclass_property = _pb._get_dataclass_property
-_set_dataclass_property = _pb._set_dataclass_property
-_get_action_property = _pb._get_action_property
-_set_action_property = _pb._set_action_property
-_get_list_property = _pb._get_list_property
-_set_list_property = _pb._set_list_property
-_get_dict_property = _pb._get_dict_property
-_set_dict_property = _pb._set_dict_property
-_get_property_type_from_prop_id = _pb._get_property_type_from_prop_id
-is_set_value_valid = _pb._is_set_value_valid
+from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.widgets import XYPlot
 from phoebusgen.v4.properties.types import ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
@@ -50,25 +36,25 @@ def test_create_element():
 
 
 @pytest.mark.parametrize('prop_type, expected_getter, expected_setter',
-                         [
-                                (int, _pb._get_primitive_property, _pb._set_primitive_property),
-                                (str, _pb._get_primitive_property, _pb._set_primitive_property),
-                                (float, _pb._get_primitive_property, _pb._set_primitive_property),
-                                (bool, _pb._get_primitive_property, _pb._set_primitive_property),
-                                (ObservableDict, _pb._get_dict_property, _pb._set_dict_property),
-                                (ObservableList[int], _pb._get_list_property, _pb._set_list_property),
-                                (FileComponent, _pb._get_enum_property, _pb._set_enum_property),
-                                (Color, _pb._get_color_property, _pb._set_color_property),
-                                (Font, _pb._get_dataclass_property, _pb._set_dataclass_property),
-                                (Enum, _pb._get_enum_property, _pb._set_enum_property),
-                                (Trace, _pb._get_dataclass_property, _pb._set_dataclass_property),
-                                (Action, _pb._get_action_property, _pb._set_action_property),
-                                (RuleExpression, _pb._get_rule_expression_property, _pb._set_rule_expression_property),
-                                (Rule, _pb._get_rule_property, _pb._set_rule_property),
-                         ])
+[
+    (int, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
+    (str, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
+    (float, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
+    (bool, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
+    (ObservableDict, PropertyBase._get_dict_property, PropertyBase._set_dict_property),
+    (ObservableList[int], PropertyBase._get_list_property, PropertyBase._set_list_property),
+    (FileComponent, PropertyBase._get_enum_property, PropertyBase._set_enum_property),
+    (Color, PropertyBase._get_color_property, PropertyBase._set_color_property),
+    (Font, PropertyBase._get_dataclass_property, PropertyBase._set_dataclass_property),
+    (Enum, PropertyBase._get_enum_property, PropertyBase._set_enum_property),
+    (Trace, PropertyBase._get_dataclass_property, PropertyBase._set_dataclass_property),
+    (Action, PropertyBase._get_action_property, PropertyBase._set_action_property),
+    (RuleExpression, PropertyBase._get_rule_expression_property, PropertyBase._set_rule_expression_property),
+    (Rule, PropertyBase._get_rule_property, PropertyBase._set_rule_property),
+])
 def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter):
-    getter = _find_getter_by_type(prop_type)
-    setter = _find_setter_by_type(prop_type)
+    getter = PropertyBase._find_getter_by_type(prop_type)
+    setter = PropertyBase._find_setter_by_type(prop_type)
     assert getter == expected_getter
     assert setter == expected_setter
 
@@ -94,51 +80,52 @@ def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter)
     (['item1', 'item2', 'item3'], ObservableList[str], True),
 ])
 def test_is_set_value_valid(value, expected_type, expected_valid):
-    is_valid = is_set_value_valid(value, expected_type)
+    is_valid = PropertyBase._is_set_value_valid(value, expected_type)
     assert is_valid == expected_valid
 
 
 @pytest.mark.parametrize('text, prop_type, expected_value',
-                         [
-                             ('255', int, 255),
-                             ('3.14', float, 3.14),
-                             ('true', bool, True),
-                             ('false', bool, False),
-                             ('some string', str, 'some string'),
-                         ])
+[
+    ('255', int, 255),
+    ('3.14', float, 3.14),
+    ('true', bool, True),
+    ('false', bool, False),
+    ('some string', str, 'some string'),
+])
 def test_get_primitive_property(text, prop_type, expected_value):
     elem = Element('widget')
     elem.text = text
-    value = _get_primitive_property(elem, prop_type)
+    value = PropertyBase._get_primitive_property(elem, prop_type)
     assert value == expected_value
 
 
 @pytest.mark.parametrize('value, prop_type, expected_text',
-                            [
-                                (255, int, '255'),
-                                (3.14, float, '3.14'),
-                                (True, bool, 'true'),
-                                (False, bool, 'false'),
-                                ('some string', str, 'some string'),
-                            ])
+[
+    (255, int, '255'),
+    (3.14, float, '3.14'),
+    (True, bool, 'true'),
+    (False, bool, 'false'),
+    ('some string', str, 'some string'),
+])
 def test_set_primitive_property(value, prop_type, expected_text):
-    elem = _set_primitive_property('widget', value)
+    elem = PropertyBase._set_primitive_property('widget', value)
     assert elem.tag == 'widget'
     assert elem.text == expected_text
-    assert _get_primitive_property(elem, prop_type) == value
+    assert PropertyBase._get_primitive_property(elem, prop_type) == value
 
 
 @pytest.mark.parametrize('text, prop_type, expected_value',
-                         [('0', TraceType, TraceType.NONE),
-                          ('1', TraceType, TraceType.LINE),
-                          ('2', TraceType, TraceType.STEP),
-                          ('Both', ArrowTypes, ArrowTypes.BOTH),
-                          ('replace', OpenDisplayTarget, OpenDisplayTarget.REPLACE)
-                         ])
+[
+    ('0', TraceType, TraceType.NONE),
+    ('1', TraceType, TraceType.LINE),
+    ('2', TraceType, TraceType.STEP),
+    ('Both', ArrowTypes, ArrowTypes.BOTH),
+    ('replace', OpenDisplayTarget, OpenDisplayTarget.REPLACE)
+])
 def test_get_enum_property(text, prop_type, expected_value):
     elem = Element('test')
     elem.text = text
-    value = _get_enum_property(elem, prop_type)
+    value = PropertyBase._get_enum_property(elem, prop_type)
     assert value == expected_value
 
 @pytest.mark.parametrize('value, prop_type, expected_text',
@@ -149,10 +136,10 @@ def test_get_enum_property(text, prop_type, expected_value):
                                 (OpenDisplayTarget.REPLACE, OpenDisplayTarget, 'replace')
                                 ])
 def test_set_enum_property(value, prop_type, expected_text):
-    elem = _set_enum_property('test', value)
+    elem = PropertyBase._set_enum_property('test', value)
     assert elem.tag == 'test'
     assert elem.text == expected_text
-    assert _get_enum_property(elem, prop_type) == value
+    assert PropertyBase._get_enum_property(elem, prop_type) == value
 
 
 def test_get_color_property():
@@ -163,38 +150,38 @@ def test_get_color_property():
     color_elem.attrib['green'] = '0'
     color_elem.attrib['blue'] = '0'
     color_elem.attrib['alpha'] = '255'
-    color = _get_color_property(elem)
+    color = PropertyBase._get_color_property(elem)
     assert color == Color((255, 0, 0, 255))
 
 
 @pytest.mark.parametrize('color_input, expected_attrs, color_output',
-                         [
-                             (Color((0, 255, 0, 128)), {'red': '0', 'green': '255', 'blue': '0', 'alpha': '128'}, Color((0, 255, 0, 128))),
-                                (Color((0, 0, 255)), {'red': '0', 'green': '0', 'blue': '255', 'alpha': '255'}, Color((0, 0, 255, 255))),
-                                ((255, 255, 0, 200), {'red': '255', 'green': '255', 'blue': '0', 'alpha': '200'}, Color((255, 255, 0, 200))),
-                                ((255, 0, 255), {'red': '255', 'green': '0', 'blue': '255', 'alpha': '255'}, Color((255, 0, 255, 255))),
-                                ('#123456', {'red': '18', 'green': '52', 'blue': '86', 'alpha': '255'}, Color((18, 52, 86, 255))),
-                         ])
+[
+    (Color((0, 255, 0, 128)), {'red': '0', 'green': '255', 'blue': '0', 'alpha': '128'}, Color((0, 255, 0, 128))),
+    (Color((0, 0, 255)), {'red': '0', 'green': '0', 'blue': '255', 'alpha': '255'}, Color((0, 0, 255, 255))),
+    ((255, 255, 0, 200), {'red': '255', 'green': '255', 'blue': '0', 'alpha': '200'}, Color((255, 255, 0, 200))),
+    ((255, 0, 255), {'red': '255', 'green': '0', 'blue': '255', 'alpha': '255'}, Color((255, 0, 255, 255))),
+    ('#123456', {'red': '18', 'green': '52', 'blue': '86', 'alpha': '255'}, Color((18, 52, 86, 255))),
+])
 def test_set_color_property_various_inputs(color_input, expected_attrs, color_output):
-    elem = _set_color_property('test', color_input)
+    elem = PropertyBase._set_color_property('test', color_input)
     assert elem.tag == 'test'
     color_elem = elem.find('color')
     assert color_elem is not None
 
     for attr, expected_value in expected_attrs.items():
         assert color_elem.attrib[attr] == expected_value
-    retrieved_color = _get_color_property(elem)
+    retrieved_color = PropertyBase._get_color_property(elem)
     assert retrieved_color == color_output
 
 
 @pytest.mark.parametrize('color, expected_valid',
-                            [
-                                (Color((0, 0, 0)), True),
-                                (Color((255, 255, 255, 128)), True),
-                                ((0, 0, 0), True),
-                                ('#FFAABB', True),
-                                ('not-a-color', False),
-                            ])
+[
+    (Color((0, 0, 0)), True),
+    (Color((255, 255, 255, 128)), True),
+    ((0, 0, 0), True),
+    ('#FFAABB', True),
+    ('not-a-color', False),
+])
 def test_validate_color_value(color, expected_valid):
     assert Color.is_color(color) == expected_valid
 
@@ -206,7 +193,7 @@ def test_get_font_property():
     font_elem.attrib['size'] = '12'
     font_elem.attrib['style'] = 'BOLD'
 
-    font = _get_dataclass_property(font_elem, Font)
+    font = PropertyBase._get_dataclass_property(font_elem, Font)
     assert isinstance(font, Font)
     assert font.family == 'Arial'
     assert font.size == 12
@@ -215,12 +202,12 @@ def test_get_font_property():
 
 def test_set_font_property():
     font = Font(family='Times New Roman', size=16, style=FontStyle.ITALIC)
-    elem = _set_dataclass_property('font', font)
+    elem = PropertyBase._set_dataclass_property('font', font)
     assert elem.tag == 'font'
     assert elem.attrib['family'] == 'Times New Roman'
     assert elem.attrib['size'] == '16'
     assert elem.attrib['style'] == 'ITALIC'
-    assert font == _get_dataclass_property(elem, Font)
+    assert font == PropertyBase._get_dataclass_property(elem, Font)
 
 
 @pytest.fixture
@@ -235,7 +222,7 @@ def sample_state_element():
 
 
 def test_get_state_property(sample_state_element):
-    state = _get_dataclass_property(sample_state_element.find('state'), State)
+    state = PropertyBase._get_dataclass_property(sample_state_element.find('state'), State)
     assert isinstance(state, State)
     assert state.label == 'Test state'
     assert state.value == 1
@@ -245,7 +232,7 @@ def test_get_state_property(sample_state_element):
 def test_set_state_property():
     color = Color((255, 0, 0, 255))
     state = State(label='Active', value=1, color=color)
-    elem = _set_dataclass_property('state', state)
+    elem = PropertyBase._set_dataclass_property('state', state)
     assert elem is not None
     assert elem.tag == 'state'
     _check_elem_val(elem, 'label', 'Active')
@@ -256,8 +243,9 @@ def test_set_state_property():
     assert inner_color_elem.attrib['green'] == '0'
     assert inner_color_elem.attrib['blue'] == '0'
     assert inner_color_elem.attrib['alpha'] == '255'
-    retrieved_state = _get_dataclass_property(elem, State)
+    retrieved_state = PropertyBase._get_dataclass_property(elem, State)
     assert retrieved_state == state
+
 
 def test_get_action_property():
     elem = Element('action')
@@ -268,7 +256,7 @@ def test_get_action_property():
     macros_elem = SubElement(elem, 'macros')
     SubElement(macros_elem, 'test').text = 'value'
 
-    action = _get_action_property(elem)
+    action = PropertyBase._get_action_property(elem)
     assert isinstance(action, OpenDisplayAction)
     assert action.description == 'test'
     assert action.file == 'test.bob'
@@ -278,7 +266,7 @@ def test_get_action_property():
 
 def test_set_action_property():
     action = OpenDisplayAction('test', 'test.bob', OpenDisplayTarget.NEW_WINDOW, ObservableDict({'test': 'value'}))
-    elem = _set_action_property('action', action)
+    elem = PropertyBase._set_action_property('action', action)
     print(prettify_xml(elem))
     assert elem.tag == 'action'
     assert elem.attrib['type'] == 'open_display'
@@ -295,19 +283,21 @@ def test_get_list_property_primitive():
     for i in range(3):
         item_elem = SubElement(elem, 'item')
         item_elem.text = str(i + 1)
-    values = _get_list_property(elem, int)
+    values = PropertyBase._get_list_property(elem, int)
     assert values == [1, 2, 3]
+
 
 def test_set_list_property_primitive():
     values = [1, 2, 3]
-    elem = _set_list_property('items', values)
+    elem = PropertyBase._set_list_property('items', values)
     assert elem.tag == 'items'
     items = elem.findall('item')
     assert len(items) == 3
     for i, item_elem in enumerate(items):
         assert item_elem.text == str(values[i])
-    retrieved_values = _get_list_property(elem, int)
+    retrieved_values = PropertyBase._get_list_property(elem, int)
     assert retrieved_values == values
+
 
 def test_get_list_property_dataclass():
     elem = Element('states')
@@ -317,17 +307,18 @@ def test_get_list_property_dataclass():
         SubElement(state_elem, 'value').text = str(i)
         color_elem = SubElement(state_elem, 'color')
         SubElement(color_elem, 'color').attrib = {'red': str(i * 100), 'green': '0', 'blue': '255', 'alpha': '255'}
-    values = _get_list_property(elem, State)
+    values = PropertyBase._get_list_property(elem, State)
     assert len(values) == 2
     assert values[0] == State(label='State 1', value=0, color=Color((0, 0, 255)))
     assert values[1] == State(label='State 2', value=1, color=Color((100, 0, 255)))
+
 
 def test_set_list_property_dataclass():
     states = [
         State(label='State 1', value=0, color=Color((0, 0, 255))),
         State(label='State 2', value=1, color=Color((100, 0, 255)))
     ]
-    elem = _set_list_property('states', states)
+    elem = PropertyBase._set_list_property('states', states)
     assert elem.tag == 'states'
     state_elems = elem.findall('state')
     assert len(state_elems) == 2
@@ -341,32 +332,35 @@ def test_set_list_property_dataclass():
         assert inner_color_elem.attrib['green'] == str(expected_color[1])
         assert inner_color_elem.attrib['blue'] == str(expected_color[2])
         assert inner_color_elem.attrib['alpha'] == '255'
-    retrieved_states = _get_list_property(elem, State)
+    retrieved_states = PropertyBase._get_list_property(elem, State)
     assert retrieved_states == states
+
 
 def test_get_dict_property():
     elem = Element('macros')
     for key, value in [('key1', 'value1'), ('key2', 'value2')]:
         item_elem = SubElement(elem, key)
         item_elem.text = value
-    result = _get_dict_property(elem)
+    result = PropertyBase._get_dict_property(elem)
     assert result == {'key1': 'value1', 'key2': 'value2'}
+
 
 def test_set_dict_property():
     data = {'key1': 'value1', 'key2': 'value2'}
-    elem = _set_dict_property('macros', ObservableDict(data))
+    elem = PropertyBase._set_dict_property('macros', ObservableDict(data))
     assert elem.tag == 'macros'
     for key, value in data.items():
         item_elem = _get_elem(elem, key)
         assert item_elem.text == value
-    retrieved_data = _get_dict_property(elem)
+    retrieved_data = PropertyBase._get_dict_property(elem)
     assert retrieved_data == data
+
 
 def test_get_rule_expression_property():
     elem = Element('exp')
     elem.attrib["bool_exp"] = 'true'
     SubElement(elem, 'expression').text = 'pvStr0'
-    rule_expr = _pb._get_rule_expression_property(elem, str)
+    rule_expr = PropertyBase._get_rule_expression_property(elem, str)
     assert isinstance(rule_expr, RuleExpression)
     assert rule_expr.bool_exp == 'true'
     assert rule_expr.value_as_expression
@@ -377,11 +371,12 @@ def test_get_rule_expression_property():
     value_elem = SubElement(elem, 'value')
     SubElement(value_elem, 'color').attrib = {'red': '255', 'green': '0', 'blue': '0', 'alpha': '255'}
 
-    rule_expr = _pb._get_rule_expression_property(elem, Color)
+    rule_expr = PropertyBase._get_rule_expression_property(elem, Color)
     assert isinstance(rule_expr, RuleExpression)
     assert rule_expr.bool_exp == 'pv0 == 0'
     assert not rule_expr.value_as_expression
     assert rule_expr.value == Color((255, 0, 0, 255))
+
 
 # TODO: Currently this doesn't raise an error, but it should.
 # def test_get_rule_expression_incorrect_type():
@@ -389,12 +384,12 @@ def test_get_rule_expression_property():
 #     elem.attrib['bool_exp'] = 'pv0 == 0'
 #     value_elem = SubElement(elem, 'value')
 #     SubElement(value_elem, 'color').attrib = {'red': '255', 'green': '0', 'blue': '0', 'alpha': '255'}
-#     _pb._get_rule_expression_property(elem, Font) # Should raise an error
+#     PropertyBase._get_rule_expression_property(elem, Font) # Should raise an error
 
 
 def test_set_rule_expression_property():
     rule_expr = RuleExpression(bool_exp='pv0 == 0', value=Color((255, 0, 0, 255)), value_as_expression=False)
-    elem = _pb._set_rule_expression_property('exp', rule_expr)
+    elem = PropertyBase._set_rule_expression_property('exp', rule_expr)
     assert elem.tag == 'exp'
     assert elem.attrib['bool_exp'] == 'pv0 == 0'
     value_elem = _get_elem(elem, 'value')
@@ -403,16 +398,16 @@ def test_set_rule_expression_property():
     assert color_elem.attrib['green'] == '0'
     assert color_elem.attrib['blue'] == '0'
     assert color_elem.attrib['alpha'] == '255'
-    retrieved_rule_expr = _pb._get_rule_expression_property(elem, Color)
+    retrieved_rule_expr = PropertyBase._get_rule_expression_property(elem, Color)
     assert retrieved_rule_expr == rule_expr
 
     rule_expr2 = RuleExpression(bool_exp='true', value='pvStr0', value_as_expression=True)
-    elem2 = _pb._set_rule_expression_property('exp', rule_expr2)
+    elem2 = PropertyBase._set_rule_expression_property('exp', rule_expr2)
     assert elem2.tag == 'exp'
     assert elem2.attrib['bool_exp'] == 'true'
     expression_elem = _get_elem(elem2, 'expression')
     assert expression_elem.text == 'pvStr0'
-    retrieved_rule_expr2 = _pb._get_rule_expression_property(elem2, str)
+    retrieved_rule_expr2 = PropertyBase._get_rule_expression_property(elem2, str)
     assert retrieved_rule_expr2 == rule_expr2
 
 
@@ -434,3 +429,60 @@ def test_get_property_type_from_prop_id(prop_id, expected_type):
     xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
     prop_type = xy_plot._get_property_type_from_prop_id(prop_id)
     assert prop_type == expected_type
+
+
+def test_set_prop_with_incorrect_type_raises_typerror():
+    xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
+    with pytest.raises(TypeError, match="invalid type for property 'x': must be of type <class 'int'>"):
+        xy_plot.x = 'Hello Phoebusgen'
+
+
+def test_get_property_classes():
+    prop_classes = XYPlot.get_property_classes()
+    assert XYPlot.get_property_classes() == [
+        HasVisible,
+        HasName,
+        HasPosition,
+        HasActionsRulesAndScripts,
+        HasToolTip,
+        HasForegroundColor,
+        HasBackgroundColor,
+        HasTitle,
+        HasTitleFont,
+        HasShowToolbar,
+        HasShowLegend,
+        HasXAxis,
+        HasYAxes,
+        HasTraces,
+        HasMarkers
+    ]
+
+def test_get_property_names():
+    xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
+    assert xy_plot.get_property_names() == [
+        'visible',
+        'name',
+        'x',
+        'y',
+        'width',
+        'height',
+        'actions',
+        'rules',
+        'scripts',
+        'tooltip',
+        'foreground_color',
+        'background_color',
+        'title',
+        'title_font',
+        'show_toolbar',
+        'show_legend',
+        'x_axis',
+        'y_axes',
+        'traces',
+        'markers'
+    ]
+
+    assert xy_plot.get_property_names(property_cls = HasVisible) == ['visible']
+
+    with pytest.raises(ValueError, match="Class 'str' is not a property mixin class that 'XYPlot' inherits from!"):
+        xy_plot.get_property_names(property_cls=str)
