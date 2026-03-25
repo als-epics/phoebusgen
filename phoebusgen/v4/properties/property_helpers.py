@@ -141,10 +141,22 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
     @classmethod
     def get_property_classes(cls) -> list[type['PropertyBase']]:
+        """Return a list of all property mixins this class inheritys, including itself if it is a property mixin.
+        
+        :return: List of property mixin classes
+        """
+
         return list(cls._all_properties.keys())
+
 
     @classmethod
     def get_property_names(cls, property_cls: type['PropertyBase'] | None = None) -> list[str]:
+        """Return a list of property names for a given property class or all property classes if none is specified.
+
+        :param property_cls: The property class to get names for, or None to get names for all property classes
+        :return: List of property names
+        """
+
         if property_cls is not None:
             if property_cls not in cls._all_properties:
                 raise ValueError(f"Property class {property_cls.__name__} not found in class {cls.__name__}!")
@@ -155,12 +167,20 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 property_names.extend(cls._all_properties[property_cls].keys())
             return property_names
 
+
     @classmethod
     def get_property_type_by_name(cls, property_name: str) -> type[PropertyType]:
+        """Given a property name, return the type of that property by looking it up in the _all_properties dictionary.
+
+        :param property_name: The name of the property to get the type for
+        :return: The type of the property
+        """
+
         for property_cls in cls._all_properties:
             if property_name in cls._all_properties[property_cls]:
                 return cls._all_properties[property_cls][property_name].type
         raise ValueError(f"Property {property_name} not found in class {cls.__name__}!")
+
 
     def _get_property_type_from_prop_id(self, prop_id: str) -> type:
         """Given a property ID string, get the type of the innermost property.
@@ -202,13 +222,38 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return get_nested_property_type(prop_id, base_prop_type)
 
+
     def _find_getter_by_type(self, property_type: type[PropertyType]) -> Callable:
+        """Given a property type, find the appropriate low-level getter function for it.
+        
+        For example, if the property type is Color, this function will return the _get_color_property function, 
+        which knows how to parse a Color from XML.
+
+        :param property_type: The type of the property to find a getter for
+        :return: The getter function for the property type
+        """
         return self._find_getter_setter_by_type(property_type, 'get')
 
+
     def _find_setter_by_type(self, property_type: type[PropertyType]) -> Callable:
+        """Given a property type, find the appropriate low-level setter function for it.
+        
+        For example, if the property type is Color, this function will return the _set_color_property function,
+        which knows how to convert a Color to XML.
+        
+        :param property_type: The type of the property to find a setter for
+        :return: The setter function for the property type
+        """
         return self._find_getter_setter_by_type(property_type, 'set')
 
+
     def _find_getter_setter_by_type(self, property_type: type[PropertyType], prefix: str) -> Callable:
+        """Given a property type and whether we are looking for a getter or setter, find the appropriate low-level function for it.
+        
+        :param property_type: The type of the property to find a function for
+        :param prefix: 'get' to find a getter, 'set' to find a setter
+        :return: The getter or setter function for the property type
+        """
         if hasattr(property_type, '__origin__'):
             property_type = property_type.__origin__
 
@@ -236,22 +281,43 @@ class PropertyBase(metaclass=PropertyMetaclass):
         else:
             return getattr(self, method_name)
 
-    def _get_primitive_property(self, element: Element, prop_type: type[Primitive]) -> Primitive:
+
+    def _get_primitive_property(self, element: Element, property_type: type[Primitive]) -> Primitive:
+        """Given an XML element with a primitive type (int, float, str, bool), parse the value from the element text and return it.
+        
+        :param element: The XML element to parse the property value from
+        :param property_type: The primitive type to parse (int, float, str, bool)
+        :return: The parsed primitive value
+        """
 
         if element.text is None:
             raise ValueError(f"XML element for primitive property '{element.tag}' has no text value!")
 
-        if prop_type is bool:
+        if property_type is bool:
             return element.text.lower() == 'true'
         else:
-            return prop_type(element.text)
+            return property_type(element.text)
+
 
     def _set_primitive_property(self, prop_name: str, value: Primitive) -> Element:
+        """Given a primitive value (int, float, str, bool), create an XML element with the value as text.
+
+        :param prop_name: The name of the property
+        :param value: The primitive value to set
+        :return: The XML element representing the primitive property
+        """
         if isinstance(value, bool):
             return _create_element(prop_name, str(value).lower())
         return _create_element(prop_name, str(value))
 
+
     def _get_enum_property(self, element: Element, enum_type: type[Enum]) -> Enum:
+        """Given an XML element representing an enum property, parse the value and return the corresponding Enum member.
+        
+        :param element: The XML element to parse the enum value from
+        :param enum_type: The Enum type to parse
+        :return: The corresponding Enum member
+        """
         if element.text is None:
             raise ValueError('Enum property element has no text value!')
 
@@ -261,10 +327,24 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return enum_type(actual_value)
 
+
     def _set_enum_property(self, prop_name: str, value: Enum) -> Element:
+        """Given an Enum member, create an XML element with the enum value as text.
+        
+        :param prop_name: The name of the property
+        :param value: The Enum member to set
+        :return: The XML element representing the enum property
+        """
         return _create_element(prop_name, value.value)
 
+
     def _get_color_property(self, element: Element) -> Color:
+        """Given an XML element representing a color property, parse the value and return a Color object.
+
+        :param element: The XML element to parse the color value from
+        :return: The corresponding Color object
+        """
+
         color_elem = element.find('color')
         if color_elem is None:
             raise ValueError('Color property element has no color child element!')
@@ -278,7 +358,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
         else:
             return Color((int(red), int(green), int(blue), int(alpha)))
 
+
     def _set_color_property(self, prop_name: str, value: Color | tuple[int, int, int] | tuple[int, int, int, int] | str) -> Element:
+        """Given a Color object or a tuple representing RGB or RGBA values, create an XML element representing the color property.
+
+        :param prop_name: The name of the property
+        :param value: The Color object or tuple to set
+        :return: The XML element representing the color property
+        """
 
         if not isinstance(value, Color):
             value = Color(value)
@@ -297,7 +384,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
         element.append(color_elem)
         return element
 
+
     def _get_dataclass_property(self, element: Element, dataclass_type: type[ObservableDataclass]) -> ObservableDataclass:
+        """Given an XML element representing a dataclass property, parse the value and return an instance of the dataclass.
+        
+        :param element: The XML element to parse the dataclass value from
+        :param dataclass_type: The type of the dataclass to parse
+        :return: An instance of the dataclass with fields populated from the XML
+        """
 
         field_values = {}
         for field in dataclass_type.fields():
@@ -314,7 +408,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return dataclass_type(**field_values)
 
+
     def _set_dataclass_property(self, prop_name: str, value: ObservableDataclass) -> Element:
+        """Given an instance of a dataclass, create an XML element representing the dataclass property, with child elements or attributes for each field.
+        
+        :param prop_name: The name of the property
+        :param value: The dataclass instance to set
+        :return: The XML element representing the dataclass property
+        """
 
         element = _create_element(prop_name)
 
@@ -337,7 +438,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
                     element.append(sub_elem)
         return element
 
+
     def _get_action_property(self, element: Element) -> Action:
+        """Given an XML element representing an action property, parse the value and return an instance of the appropriate Action subclass.
+        
+        :param element: The XML element to parse the action value from
+        :return: An instance of the appropriate Action subclass with fields populated from the XML
+        """
         action_type = ''.join([word.capitalize() for word in element.attrib.get('type', '').split('_')])
         action_cls_name = f"{action_type}Action"
         action_cls = getattr(sys.modules['phoebusgen.v4.properties.types'], action_cls_name, None)
@@ -351,13 +458,28 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return action
 
+
     def _set_action_property(self, prop_name: str, value: Action) -> Element:
+        """Given an instance of an Action subclass, create an XML element representing the action property, with child elements or attributes for each field.
+        
+        :param prop_name: The name of the property
+        :param value: The Action subclass instance to set
+        :return: The XML element representing the action property
+        """
         element = self._set_dataclass_property('action', value)
         action_type = ''.join(['_' + c.lower() if c.isupper() and i != 0 else c.lower() for i, c in enumerate(type(value).__name__[:-6])])
         element.attrib['type'] = action_type
         return element
 
+
     def _get_rule_expression_property(self, element: Element, property_type: ValidListTypeT) -> RuleExpression:
+        """Given an XML element representing a rule expression property, parse the value and return an instance of RuleExpression.
+        
+        :param element: The XML element to parse the rule expression value from
+        :param property_type: The type of the property
+        :return: An instance of RuleExpression with fields populated from the XML
+        """
+
         bool_exp = element.attrib.get('bool_exp', None)
         if bool_exp is None:
             raise ValueError("Rule expression element is missing required 'bool_exp' attribute!")
@@ -376,7 +498,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return RuleExpression(bool_exp=bool_exp, value=value, value_as_expression=value_as_expression)
 
+
     def _set_rule_expression_property(self, prop_name: str, value: RuleExpression) -> Element:
+        """Given an instance of RuleExpression, create an XML element representing the rule expression property, with child elements or attributes for each field.
+        
+        :param prop_name: The name of the property
+        :param value: The RuleExpression instance to set
+        :return: The XML element representing the rule expression property
+        """
         element = _create_element(prop_name)
         element.attrib['bool_exp'] = value.bool_exp
         if value.value_as_expression:
@@ -389,7 +518,15 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return element
 
-    def _get_rule_property(self, element: Element, property_type: ValidListTypeT) -> Any:
+
+    def _get_rule_property(self, element: Element, property_type: ValidListTypeT) -> Rule:
+        """Given an XML element representing a rule property, parse the value and return an instance of Rule.
+        
+        :param element: The XML element to parse the rule property value from
+        :param property_type: The type of the property
+        :return: An instance of Rule with fields populated from the XML
+        """
+
         name = element.attrib.get('name', 'None')
         out_exp = element.attrib.get('out_exp', False)
         prop_id = element.attrib.get('prop_id', None)
@@ -403,7 +540,15 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id)
 
+
     def _set_rule_property(self, prop_name: str, value: Rule) -> Element:
+        """Given an instance of Rule, create an XML element representing the rule property, with child elements or attributes for each field.
+        
+        :param prop_name: The name of the property
+        :param value: The Rule instance to set
+        :return: The XML element representing the rule property
+        """
+
         element = _create_element(prop_name)
         element.attrib['name'] = value.name
         element.attrib['out_exp'] = str(value.out_exp).lower()
@@ -421,7 +566,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return element
 
+
     def _get_dict_property(self, element: Element) -> ObservableDict:
+        """Given an XML element representing a dictionary property, parse the value and return an ObservableDict.
+        
+        :param element: The XML element to parse the dictionary value from
+        :return: An ObservableDict with key-value pairs populated from the XML
+        """
 
         result = ObservableDict()
 
@@ -430,14 +581,29 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         return result
 
+
     def _set_dict_property(self, prop_name: str, value: Mapping) -> Element:
+        """Given a dictionary, create an XML element representing the dictionary property, with child elements for each key-value pair.
+        
+        :param prop_name: The name of the property
+        :param value: The dictionary to set
+        :return: The XML element representing the dictionary property
+        """
+
         dict_elem = _create_element(prop_name)
         for k, v in value.items():
             item_elem = _create_element(str(k), str(v))
             dict_elem.append(item_elem)
         return dict_elem
 
+
     def _get_list_property(self, element: Element, item_type: type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
+        """Given an XML element representing a list property, parse the value and return an ObservableList of the appropriate type.
+        
+        :param element: The XML element to parse the list value from
+        :param item_type: The type of the items in the list
+        :return: An ObservableList with items parsed from the XML
+        """
 
         result = ObservableList[ValidListTypeT]()
         if element is not None:
@@ -452,7 +618,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 result.append(typed_getter(*getter_args))
         return result
 
+
     def _set_list_property(self, prop_name: str, values: Sequence[ValidListTypeT]) -> Element:
+        """Given a sequence of values, create an XML element representing the list property, with child elements for each item in the list.
+        
+        :param prop_name: The name of the property
+        :param values: The sequence of values to set
+        :return: The XML element representing the list property
+        """
 
         list_elem = _create_element(prop_name)
         for item in values:
@@ -467,7 +640,15 @@ class PropertyBase(metaclass=PropertyMetaclass):
             list_elem.append(typed_setter(list_item_name, item))
         return list_elem
 
+
     def _is_set_value_valid(self, value: PropertyType, expected_type: type[PropertyType]) -> bool:
+        """Given a value being set for a property and the expected type of that property, validate that the value is of the correct type.
+        
+        :param value: The value being set for the property
+        :param expected_type: The expected type of the property
+        :return: True if the value is valid for the expected type, False otherwise
+        """
+
         def _validate_element(value: PropertyType, expected_type: type[PropertyType]) -> bool:
             if expected_type is Color:
                 return Color.is_color(value)
