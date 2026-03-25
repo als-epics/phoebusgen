@@ -139,7 +139,7 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         w_type = element.attrib.get('type', None)
         if w_type is None:
             raise ValueError('Widget type attribute missing!')
-        
+
         if w_type not in [t.value for t in WidgetType]:
             raise ValueError(f"Widget type '{w_type}' is not a valid widget type!")
 

@@ -333,7 +333,7 @@ def test_widget_from_element_error_conditions(widget_xml_factory):
 
     xml_element.tag = 'widget'  # Change tag back to 'widget' but it's still missing 'type' attribute
 
-    with pytest.raises(ValueError, match="Widget type attribute missing!"):
+    with pytest.raises(ValueError, match='Widget type attribute missing!'):
         TextUpdate.from_element(xml_element)
 
     xml_element.attrib['type'] = 'nonexistent_widget_type'
@@ -345,4 +345,3 @@ def test_widget_from_element_error_conditions(widget_xml_factory):
 
     with pytest.raises(ValueError, match="Expected widget type 'textupdate', got 'label'"):
         TextUpdate.from_element(xml_element)
-

@@ -46,7 +46,7 @@ PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
 
 def _get_property_type_from_prop_id(prop_id: str, all_properties: dict[type['PropertyBase'], dict[str, PropertyInfo]]) -> type:
     """Given a property ID string, get the type of the innermost property.
-    
+
     For example, given the prop_id 'y_axes[0].title_font.style', this function will return FontStyle,
     because y_axes is a list of `Axis` dataclass objects, and the title_font field is a Font dataclass,
     which has a style field that is of type FontStyle.
@@ -59,10 +59,10 @@ def _get_property_type_from_prop_id(prop_id: str, all_properties: dict[type['Pro
     names_to_types = {prop_name: prop_info.type for cls_props in all_properties.values() for prop_name, prop_info in cls_props.items()}
     print(names_to_types)
     base_prop_name = prop_id
-    if "." in base_prop_name:
-        base_prop_name = base_prop_name.split(".")[0]
-    if "[" in base_prop_name:
-        base_prop_name = base_prop_name.split("[")[0]
+    if '.' in base_prop_name:
+        base_prop_name = base_prop_name.split('.')[0]
+    if '[' in base_prop_name:
+        base_prop_name = base_prop_name.split('[')[0]
 
     base_prop_type = names_to_types.get(base_prop_name, None)
     if base_prop_type is None:
@@ -70,17 +70,17 @@ def _get_property_type_from_prop_id(prop_id: str, all_properties: dict[type['Pro
 
     def get_nested_property_type(prop_id: str, base_type: type):
         if get_origin(base_type) is ObservableList:
-            return get_nested_property_type(prop_id.split("]", 1)[1], get_args(base_type)[0])
+            return get_nested_property_type(prop_id.split(']', 1)[1], get_args(base_type)[0])
         elif get_origin(base_type) is ObservableDict:
-            return get_nested_property_type(prop_id.split(".", 1)[1], get_args(base_type)[1])
+            return get_nested_property_type(prop_id.split('.', 1)[1], get_args(base_type)[1])
         elif issubclass(base_type, ObservableDataclass):
-            dataclass_field_name = prop_id.split(".")[1]
-            if "[" in dataclass_field_name:
-                dataclass_field_name = dataclass_field_name.split("[")[0]
+            dataclass_field_name = prop_id.split('.')[1]
+            if '[' in dataclass_field_name:
+                dataclass_field_name = dataclass_field_name.split('[')[0]
             dataclass_fields = base_type.fields()
             if dataclass_field_name in dataclass_fields:
                 field_type = dataclass_fields[dataclass_field_name].type
-                return get_nested_property_type(prop_id.split(".", 1)[1], field_type)
+                return get_nested_property_type(prop_id.split('.', 1)[1], field_type)
         else:
             return base_type
 
@@ -284,14 +284,14 @@ def _set_rule_expression_property(prop_name: str, value: RuleExpression) -> Elem
 
 def _get_rule_property(element: Element, property_type: ValidListTypeT) -> Any:
     name = element.attrib.get('name', 'None')
-    out_exp = element.attrib.get("out_exp", False)
-    prop_id = element.attrib.get("prop_id", None)
+    out_exp = element.attrib.get('out_exp', False)
+    prop_id = element.attrib.get('prop_id', None)
 
     expressions: ObservableList[RuleExpression] = ObservableList()
     pv_names: ObservableDict[str, bool] = ObservableDict()
     for expr_elem in element.findall('exp'):
         expressions.append(_get_rule_expression_property(expr_elem, property_type))
-    for pv_elem in element.findall("pv_name"):
+    for pv_elem in element.findall('pv_name'):
         pv_names[pv_elem.text] = pv_elem.attrib.get('trigger', 'true') == 'true'
 
     return Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id)
@@ -309,7 +309,7 @@ def _set_rule_property(prop_name: str, value: Rule) -> Element:
         element.append(expr_elem)
 
     for pv_name, trigger in value.pv_names.items():
-        pv_elem = _create_element("pv_name", pv_name)
+        pv_elem = _create_element('pv_name', pv_name)
         pv_elem.attrib['trigger'] = str(trigger).lower()
         element.append(pv_elem)
 
