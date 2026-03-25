@@ -3,7 +3,7 @@ import pytest
 
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes, HasYAxis
 from phoebusgen.v4.properties.display import HasBackgroundColor, HasForegroundColor, HasShowLegend, HasShowLegend, HasShowToolbar, HasShowToolbar, HasTitle, HasTitleFont, HasVisible
 from phoebusgen.v4.properties.display import HasTitleFont
 from phoebusgen.v4.properties.misc import HasMarkers
@@ -12,7 +12,7 @@ from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_elem
 
 from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.widgets import XYPlot
-from phoebusgen.v4.properties.types import ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
+from phoebusgen.v4.properties.types import Axis, ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
 from enum import Enum
 
@@ -486,3 +486,14 @@ def test_get_property_names():
 
     with pytest.raises(ValueError, match="Class 'str' is not a property mixin class that 'XYPlot' inherits from!"):
         xy_plot.get_property_names(property_cls=str)
+
+
+def test_get_property_type_by_name():
+    xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
+    assert xy_plot.get_property_type_by_name('x') == int
+    assert xy_plot.get_property_type_by_name('background_color') == Color
+    assert xy_plot.get_property_type_by_name('y_axes') == ObservableList[Axis]
+    assert xy_plot.get_property_type_by_name('x_axis') == Axis
+
+    with pytest.raises(ValueError, match="Widget 'XYPlot' has no property 'nonexistent'!"):
+        xy_plot.get_property_type_by_name('nonexistent')

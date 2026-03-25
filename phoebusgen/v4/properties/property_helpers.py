@@ -179,7 +179,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         for property_cls in cls._all_properties:
             if property_name in cls._all_properties[property_cls]:
                 return cls._all_properties[property_cls][property_name].type
-        raise ValueError(f"Property {property_name} not found in class {cls.__name__}!")
+        raise ValueError(f"Widget '{cls.__name__}' has no property '{property_name}'!")
 
 
     @classmethod
