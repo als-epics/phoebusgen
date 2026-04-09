@@ -51,9 +51,6 @@ from pathlib import Path
 
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
 
-
-
-
 class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
     def __init__(self, name: str | None = None, f_name: str | None = None) -> None:
