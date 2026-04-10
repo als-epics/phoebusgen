@@ -1,14 +1,14 @@
 import pytest
 from phoebusgen.v4.widgets import Widget
 from phoebusgen.v4.widgets.widget import _widget_type_from_class_name
-from typing import Callable
+from typing import Callable, List, Tuple, Type
 import inspect
 from xml.etree.ElementTree import Element, SubElement
 
 
 @pytest.fixture
 def widget_factory() -> Callable[..., Widget]:
-    def _factory(widget_cls: type[Widget], num = 1, **kwargs) -> Widget:
+    def _factory(widget_cls: Type[Widget], num = 1, **kwargs) -> Widget:
 
         base_params = {
             'name': f'{widget_cls.__name__}_{num}',
@@ -32,7 +32,7 @@ def widget_factory() -> Callable[..., Widget]:
 
 @pytest.fixture
 def widget_xml_factory():
-    def _factory(widget_cls: type[Widget], num = 1, **kwargs) -> Element:
+    def _factory(widget_cls: Type[Widget], num = 1, **kwargs) -> Element:
         root = Element('widget')
         root.attrib['type'] = _widget_type_from_class_name(widget_cls.__name__).value
         root.attrib['version'] = '2.0.0'
@@ -48,7 +48,7 @@ def widget_xml_factory():
     return _factory
 
 
-def verify_widget_has_props(widget: Widget, property_names_and_types: list[tuple[str, type]]) -> None:
+def verify_widget_has_props(widget: Widget, property_names_and_types: List[Tuple[str, type]]) -> None:
 
     for property_name, property_type in property_names_and_types:
         assert hasattr(widget, property_name)

@@ -2,12 +2,12 @@ import pytest
 from xml.etree.ElementTree import Element
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import Color
-from typing import Any, Callable
+from typing import Any, Callable, Type
 from enum import Enum
 
 @pytest.fixture
-def property_factory() -> Callable[[type[PropertyBase]], PropertyBase]:
-    def _factory(property_type: type[PropertyBase]) -> PropertyBase:
+def property_factory() -> Callable[[Type[PropertyBase]], PropertyBase]:
+    def _factory(property_type: Type[PropertyBase]) -> PropertyBase:
         prop = property_type()
         prop.root = Element('widget')
         return prop
@@ -15,8 +15,8 @@ def property_factory() -> Callable[[type[PropertyBase]], PropertyBase]:
 
 
 @pytest.fixture
-def validate_primitive_property(property_factory) -> Callable[[type[PropertyBase], str, Any], None]:
-    def _validator(property_cls: type[PropertyBase], property_name: str, value: Any) -> None:
+def validate_primitive_property(property_factory) -> Callable[[Type[PropertyBase], str, Any], None]:
+    def _validator(property_cls: Type[PropertyBase], property_name: str, value: Any) -> None:
         prop = property_factory(property_cls)
         assert hasattr(prop, property_name)
         setattr(prop, property_name, value)
@@ -34,8 +34,8 @@ def validate_primitive_property(property_factory) -> Callable[[type[PropertyBase
 
 
 @pytest.fixture
-def validate_color_property(property_factory, check_color_xml) -> Callable[[type[PropertyBase], str, Color], None]:
-    def _validator(property_cls: type[PropertyBase], property_name: str, value: Color) -> None:
+def validate_color_property(property_factory, check_color_xml) -> Callable[[Type[PropertyBase], str, Color], None]:
+    def _validator(property_cls: Type[PropertyBase], property_name: str, value: Color) -> None:
         prop = property_factory(property_cls)
         assert hasattr(prop, property_name)
         setattr(prop, property_name, value)

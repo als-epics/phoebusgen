@@ -1,4 +1,5 @@
 import pytest
+from typing import List, Tuple, Type
 from phoebusgen.v4.widgets import (
     Widget,
 )
@@ -29,13 +30,13 @@ def test_widget_type_from_class_name(widget_class):
     assert wt.value, f'{widget_class.__name__} resolved to an enum member with an empty value'
 
 
-def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[type[Widget], str]]:
+def _filter_widget_classes_by_property_type(property_type: type) -> List[Tuple[Type[Widget], str]]:
     """
     Helper function that generates a list of tuples of widget classes and property classes that match the given property type.
 
     :param property_type: Type of property to filter by
     :return: List of tuples of widget classes and matching property classes
-    :rtype: list[tuple[type[Widget], str]]
+    :rtype: List[Tuple[Type[Widget], str]]
     """
 
     widgets_and_matching_props = [
