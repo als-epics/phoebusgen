@@ -51,6 +51,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-cov
           pip install -r requirements.txt || true
+      - name: Install dataclasses backport
+        if: ${{ matrix.python-version == '3.6' }}
+        run: pip install dataclasses
       - name: Run tests with pytest and codecov
         run: PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$PWD" pytest --cov=phoebusgen --cov-report=xml:coverage.xml
       - name: Upload coverage to Codecov
