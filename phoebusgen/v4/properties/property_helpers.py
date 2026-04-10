@@ -74,7 +74,7 @@ def _find_getter_setter_by_type(property_type: Type[PropertyType], func: str = '
         return 'enum'
     elif is_dataclass(property_type):
         return 'dataclass'
-    elif property_type in get_args(Primitive):
+    elif property_type in (int, float, str, bool):
         return 'primitive'
     else:
         return property_type_str
@@ -153,7 +153,7 @@ def _get_dataclass_property(element: Element, dataclass_type: Type[ObservableDat
         field_type = dataclass_type.fields()[field].type
         if field_elem is None and field in element.attrib:
             field_values[field] = field_type(element.attrib[field])
-        elif field_elem is not None and (field_elem.text is not None or field_type not in get_args(Primitive)):
+        elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool)):
             getter_name = _find_getter_setter_by_type(field_type, func='getter')
             getter = getattr(sys.modules[__name__], f'_get_{getter_name}_property')
             getter_args = [field_elem]
@@ -174,7 +174,7 @@ def _set_dataclass_property(prop_name: str, value: ObservableDataclass) -> Eleme
         field_type = property_cls.fields()[field].type
         if field_value is not None:
             if field in value._attrib_fields:
-                if field_type in get_args(Primitive):
+                if field_type in (int, float, str, bool):
                     element.attrib[field] = str(field_value)
                 elif isinstance(field_value, Enum):
                     element.attrib[field] = field_value.value
