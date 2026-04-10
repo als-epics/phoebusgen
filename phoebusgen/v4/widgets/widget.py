@@ -1,7 +1,6 @@
 import re
 from typing import List, Sequence, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
-import phoebusgen.v4 as phoebusgen
 from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
@@ -10,6 +9,9 @@ from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.utils import prettify_xml
 
 from enum import Enum
+
+# Populated at runtime on import of phoebusgen.v4
+widget_versions = {}
 
 
 class WidgetType(str, Enum):
@@ -110,8 +112,8 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         self._widget_type: WidgetType = _widget_type_from_class_name(type(self).__name__)
 
         self.root.attrib['type'] = self._widget_type.value
-        if self._widget_type in phoebusgen.widget_versions:
-            self.root.attrib['version'] = phoebusgen.widget_versions[self._widget_type.value]
+        if self._widget_type in widget_versions:
+            self.root.attrib['version'] = widget_versions[self._widget_type.value]
         else:
             self.root.attrib['version'] = '2.0.0'
 
