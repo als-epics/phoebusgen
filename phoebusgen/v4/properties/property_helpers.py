@@ -8,11 +8,7 @@ from collections.abc import Mapping
 from collections import namedtuple
 from dataclasses import is_dataclass
 
-<<<<<<< HEAD
-from collections.abc import Callable, Sequence, Mapping
-=======
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
->>>>>>> 6ac417e2d6e6deaf802ef6f3223c36d6419046d5
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
 
 # get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7
 try:
@@ -110,11 +106,7 @@ class PropertyMetaclass(type):
             if self.root.find(prop_name) is not None:
                 self.root.remove(self.root.find(prop_name))
 
-<<<<<<< HEAD
             new_elem = typed_setter(prop_name, value)
-=======
-            new_elem = getattr(sys.modules[__name__], f'_set_{setter_name}_property')(prop_name, value)
->>>>>>> 6ac417e2d6e6deaf802ef6f3223c36d6419046d5
             self.root.append(new_elem)
 
         # Only create dynamic properties for classes that directly inherit from PropertyBase, not for subclasses of those classes.
