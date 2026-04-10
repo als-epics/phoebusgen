@@ -1,13 +1,28 @@
 import copy
 from xml.etree.ElementTree import Element
 import sys
-from typing import Any, get_origin
 from enum import Enum
 
+import inspect
+from collections.abc import Mapping
+from collections import namedtuple
+from dataclasses import is_dataclass
 
+<<<<<<< HEAD
 from collections.abc import Callable, Sequence, Mapping
+=======
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
+>>>>>>> 6ac417e2d6e6deaf802ef6f3223c36d6419046d5
 
-from inspect import get_annotations
+# get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7
+try:
+    from typing import get_origin, get_args  # novermin
+except ImportError:
+    def get_origin(tp):
+        return getattr(tp, '__origin__', None)
+
+    def get_args(tp):
+        return getattr(tp, '__args__', ())
 
 from .types import (
     Color,
@@ -20,32 +35,28 @@ from .types import (
     ValidListTypeT,
     ObservableDataclass
 )
-from typing import Tuple, TypeVar, get_args
-import inspect
-from dataclasses import is_dataclass
 
 from collections import namedtuple
 
-Primitive = int | float | str | bool
-PropertyType = (
-    Primitive
-    | Tuple[Primitive, ...]
-    | Enum
-    | Color
-    | Font
-    | Action
-    | Rule
-    | RuleExpression
-    | ObservableDict
-    | ObservableList
-    | ObservableDataclass
-)
+Primitive = Union[int, float, str, bool]
+PropertyType = Union[
+    int, float, str, bool,
+    Tuple,
+    Enum,
+    Color,
+    Font,
+    ObservableDict,
+    ObservableList,
+    ObservableDataclass,
+    Rule,
+    RuleExpression,
+]
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
 PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
 
 
-def _create_element(prop_name: str, value: str | None = None) -> Element:
+def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
     element = Element(prop_name)
     if value is not None:
         element.text = str(value)
@@ -58,7 +69,7 @@ class PropertyMetaclass(type):
         all_properties = {}
         cls = super().__new__(mcs, name, bases, attrs)
 
-        def getter(self, prop_name: str, property_type: type[PropertyType]) -> PropertyType:
+        def getter(self, prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
             prop_element = self.root.find(prop_name)
 
             if prop_element is not None:
@@ -99,14 +110,18 @@ class PropertyMetaclass(type):
             if self.root.find(prop_name) is not None:
                 self.root.remove(self.root.find(prop_name))
 
+<<<<<<< HEAD
             new_elem = typed_setter(prop_name, value)
+=======
+            new_elem = getattr(sys.modules[__name__], f'_set_{setter_name}_property')(prop_name, value)
+>>>>>>> 6ac417e2d6e6deaf802ef6f3223c36d6419046d5
             self.root.append(new_elem)
 
         # Only create dynamic properties for classes that directly inherit from PropertyBase, not for subclasses of those classes.
         # This way we can have property classes that inherit from other property classes without overwriting the properties defined in the parent class.
         if name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases):
             all_properties[cls] = {}
-            for prop_name, annotation in get_annotations(cls).items():
+            for prop_name, annotation in cls.__annotations__.items():
                 base_prop_type = annotation
                 if hasattr(annotation, '__origin__'):
                     property_type = annotation.__origin__
@@ -137,10 +152,10 @@ class PropertyMetaclass(type):
 
 class PropertyBase(metaclass=PropertyMetaclass):
     root: Element
-    _all_properties: dict[type['PropertyBase'], dict[str, PropertyInfo]] = {}
+    _all_properties: Dict[Type['PropertyBase'], Dict[str, PropertyInfo]] = {}
 
     @classmethod
-    def get_property_classes(cls) -> list[type['PropertyBase']]:
+    def get_property_classes(cls) -> List[Type['PropertyBase']]:
         """Return a list of all property mixins this class inheritys, including itself if it is a property mixin.
         
         :return: List of property mixin classes
@@ -150,7 +165,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def get_property_names(cls, property_cls: type['PropertyBase'] | None = None) -> list[str]:
+    def get_property_names(cls, property_cls: Optional[Type['PropertyBase']] = None) -> List[str]:
+
         """Return a list of property names for a given property class or all property classes if none is specified.
 
         :param property_cls: The property class to get names for, or None to get names for all property classes
@@ -169,7 +185,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def get_property_type_by_name(cls, property_name: str) -> type[PropertyType]:
+    def get_property_type_by_name(cls, property_name: str) -> Type[PropertyType]:
         """Given a property name, return the type of that property by looking it up in the _all_properties dictionary.
 
         :param property_name: The name of the property to get the type for
@@ -183,7 +199,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_property_type_from_prop_id(cls, prop_id: str) -> type:
+    def _get_property_type_from_prop_id(cls, prop_id: str) -> Type:
         """Given a property ID string, get the type of the innermost property.
 
         For example, given the prop_id 'y_axes[0].title_font.style', this function will return FontStyle,
@@ -225,7 +241,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _find_getter_by_type(cls, property_type: type[PropertyType]) -> Callable:
+    def _find_getter_by_type(cls, property_type: Type[PropertyType]) -> Callable:
         """Given a property type, find the appropriate low-level getter function for it.
         
         For example, if the property type is Color, this function will return the _get_color_property function, 
@@ -238,7 +254,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _find_setter_by_type(cls, property_type: type[PropertyType]) -> Callable:
+    def _find_setter_by_type(cls, property_type: Type[PropertyType]) -> Callable:
         """Given a property type, find the appropriate low-level setter function for it.
         
         For example, if the property type is Color, this function will return the _set_color_property function,
@@ -251,7 +267,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _find_getter_setter_by_type(cls, property_type: type[PropertyType], prefix: str) -> Callable:
+    def _find_getter_setter_by_type(cls, property_type: Type[PropertyType], prefix: str) -> Callable:
         """Given a property type and whether we are looking for a getter or setter, find the appropriate low-level function for it.
         
         :param property_type: The type of the property to find a function for
@@ -289,7 +305,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_primitive_property(cls, element: Element, property_type: type[Primitive]) -> Primitive:
+    def _get_primitive_property(cls, element: Element, property_type: Type[Primitive]) -> Primitive:
         """Given an XML element with a primitive type (int, float, str, bool), parse the value from the element text and return it.
         
         :param element: The XML element to parse the property value from
@@ -320,7 +336,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_enum_property(cls, element: Element, enum_type: type[Enum]) -> Enum:
+    def _get_enum_property(cls, element: Element, enum_type: Type[Enum]) -> Enum:
         """Given an XML element representing an enum property, parse the value and return the corresponding Enum member.
         
         :param element: The XML element to parse the enum value from
@@ -398,7 +414,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_dataclass_property(cls, element: Element, dataclass_type: type[ObservableDataclass]) -> ObservableDataclass:
+    def _get_dataclass_property(cls, element: Element, dataclass_type: Type[ObservableDataclass]) -> ObservableDataclass:
         """Given an XML element representing a dataclass property, parse the value and return an instance of the dataclass.
         
         :param element: The XML element to parse the dataclass value from
@@ -643,7 +659,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_list_property(cls, element: Element, item_type: type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
+    def _get_list_property(cls, element: Element, item_type: Type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
         """Given an XML element representing a list property, parse the value and return an ObservableList of the appropriate type.
         
         :param element: The XML element to parse the list value from

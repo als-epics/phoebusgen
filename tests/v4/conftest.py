@@ -10,7 +10,7 @@ from phoebusgen.v4.properties.types import Color
 @pytest.fixture
 def check_xml_element() -> Callable[[Element, str, str], None]:
     def _checker(root: Element, property_name: str, expected_text: str) -> None:
-        print(f"Checking XML Element: {property_name} expecting text: {expected_text}")
+        print(f'Checking XML Element: {property_name} expecting text: {expected_text}')
         print(prettify_xml(root))
         elem = root.find(property_name)
         print(elem)

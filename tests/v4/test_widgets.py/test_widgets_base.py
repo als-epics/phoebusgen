@@ -1,4 +1,5 @@
 import pytest
+from typing import List, Tuple, Type
 from phoebusgen.v4.widgets import (
     Widget,
     TextUpdate
@@ -26,17 +27,17 @@ WIDGET_CLASSES = Widget.__subclasses__()
 def test_widget_type_from_class_name(widget_class):
     """Verify that every Widget subclass resolves to a valid WidgetType enum member."""
     wt = _widget_type_from_class_name(widget_class.__name__)
-    assert isinstance(wt, WidgetType), f"{widget_class.__name__} did not resolve to a WidgetType"
-    assert wt.value, f"{widget_class.__name__} resolved to an enum member with an empty value"
+    assert isinstance(wt, WidgetType), f'{widget_class.__name__} did not resolve to a WidgetType'
+    assert wt.value, f'{widget_class.__name__} resolved to an enum member with an empty value'
 
 
-def _filter_widget_classes_by_property_type(property_type: type) -> list[tuple[type[Widget], str]]:
+def _filter_widget_classes_by_property_type(property_type: type) -> List[Tuple[Type[Widget], str]]:
     """
     Helper function that generates a list of tuples of widget classes and property classes that match the given property type.
 
     :param property_type: Type of property to filter by
     :return: List of tuples of widget classes and matching property classes
-    :rtype: list[tuple[type[Widget], str]]
+    :rtype: List[Tuple[Type[Widget], str]]
     """
 
     widgets_and_matching_props = [
@@ -195,8 +196,8 @@ def test_widget_dict_properties(widget_class, widget_factory, prop_name):
     assert prop_elem is not None
     assert len(prop_elem) == 2
     for i in range(2):
-        assert prop_elem[i].tag == f"Key{i+1}"
-        assert prop_elem[i].text == f"Value{i+1}"
+        assert prop_elem[i].tag == f'Key{i+1}'
+        assert prop_elem[i].text == f'Value{i+1}'
 
     # Delete a key and check updates
     del dict_prop['Key1']

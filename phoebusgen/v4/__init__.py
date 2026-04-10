@@ -19,6 +19,7 @@ to reflect your site's custom definitions.
 
 from .screen import Screen
 from . import widgets, properties
+from .widgets import widget_versions
 
 from os import path as _path
 from sys import platform as _platform
@@ -37,7 +38,6 @@ phoebus_version = '4.7.3'
 _version_def = _curr_path + '/../config/' + phoebus_version + '_widgets.def'
 _widget_version_def = _path.expanduser('~/.phoebusgen/widgets.def')    # highest priority
 _local_version_def = _path.expanduser('~/.phoebusgen/' + phoebus_version + '_widgets.def')
-widget_versions = {}
 
 if _path.isfile(_local_color_def):
     _color_def = _local_color_def

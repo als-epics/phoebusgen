@@ -1,9 +1,9 @@
 from enum import Enum
 from dataclasses import dataclass, field
 from collections.abc import MutableMapping, MutableSequence
-from typing import Any, Callable, Generic, TypeVar
+from typing import Any, Callable, Dict, Generic, List, Optional, Tuple, TypeVar, Union
 
-Primitive = int | float | str | bool
+Primitive = Union[int, float, str, bool]
 
 
 class Color(tuple):
@@ -19,7 +19,10 @@ class Color(tuple):
         # TODO: validate predefined color names
         return False
 
-    def __new__(cls, color: tuple[int, int, int] | tuple[int, int, int, int] | str = (0, 0, 0)) -> 'Color':
+    def __new__(cls, color=None):
+        # type: (Union[Tuple[int, int, int], Tuple[int, int, int, int], str]) -> Color
+        if color is None:
+            color = (0, 0, 0)
         red = 0
         green = 0
         blue = 0
@@ -212,7 +215,7 @@ class Direction(int, Enum):
 
 class ObservableDict(MutableMapping):
 
-    _on_change_callback: Callable[['ObservableDict'], None] | None = None
+    _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
 
     def __init__(self, *args, **kwargs):
         self._dict = dict(*args, **kwargs)
@@ -265,8 +268,8 @@ class ObservableDict(MutableMapping):
 @dataclass
 class ObservableDataclass:
 
-    _on_change_callback: Callable[[Any], None] | None = field(init=False, default=None, repr=False, compare=False)
-    _attrib_fields: list[str] = field(init=False, default_factory=list, repr=False)
+    _on_change_callback: Optional[Callable[[Any], None]] = field(init=False, default=None, repr=False, compare=False)
+    _attrib_fields: List[str] = field(init=False, default_factory=list, repr=False)
 
     def __setattr__(self, name: str, value: Any) -> None:
         super().__setattr__(name, value)
@@ -287,11 +290,11 @@ class ObservableDataclass:
                 return False
         return True
 
-ValidListType = Primitive | Enum | ObservableDataclass
+ValidListType = Union[int, float, str, bool, Enum, ObservableDataclass]
 ValidListTypeT = TypeVar('ValidListTypeT', bound=ValidListType)
 
 class ObservableList(MutableSequence, Generic[ValidListTypeT]):
-    _on_change_callback: Callable[['ObservableList'], None] | None = None
+    _on_change_callback = None  # type: Optional[Callable[['ObservableList'], None]]
 
     def __init__(self, *args, **kwargs):
         self._list = list(*args, **kwargs)
@@ -337,7 +340,7 @@ class Font(ObservableDataclass):
     family: str = 'Liberation Sans'
     size: int = 14
     style: FontStyle = FontStyle.REGULAR
-    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ['family', 'size', 'style'], repr=False)
+    _attrib_fields: List[str] = field(init=False, default_factory=lambda: ['family', 'size', 'style'], repr=False)
 
 
 @dataclass
@@ -466,7 +469,7 @@ class OpenWebpageAction(Action):
 @dataclass
 class RuleExpression(ObservableDataclass):
     bool_exp: str = ''
-    value: ValidListTypeT | None = None
+    value: Optional[ValidListTypeT] = None
     value_as_expression: bool = False
 
 @dataclass
@@ -491,7 +494,7 @@ class Instance(ObservableDataclass):
 class Point(ObservableDataclass):
     x: float = 0.0
     y: float = 0.0
-    _attrib_fields: list[str] = field(init=False, default_factory=lambda: ['x', 'y'], repr=False)
+    _attrib_fields: List[str] = field(init=False, default_factory=lambda: ['x', 'y'], repr=False)
 
 @dataclass
 class LinearMeterColors(ObservableDataclass):

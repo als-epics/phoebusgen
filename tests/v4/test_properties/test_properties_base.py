@@ -303,7 +303,7 @@ def test_get_list_property_dataclass():
     elem = Element('states')
     for i in range(2):
         state_elem = SubElement(elem, 'state')
-        SubElement(state_elem, 'label').text = f"State {i+1}"
+        SubElement(state_elem, 'label').text = f'State {i+1}'
         SubElement(state_elem, 'value').text = str(i)
         color_elem = SubElement(state_elem, 'color')
         SubElement(color_elem, 'color').attrib = {'red': str(i * 100), 'green': '0', 'blue': '255', 'alpha': '255'}
