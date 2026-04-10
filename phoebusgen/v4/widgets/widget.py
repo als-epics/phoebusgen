@@ -1,5 +1,5 @@
 import re
-from typing import Sequence, TypeVar
+from typing import List, Sequence, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
 import phoebusgen.v4 as phoebusgen
 from phoebusgen.v4.properties.widget import HasName
@@ -188,13 +188,13 @@ PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 class WidgetContainer:
 
-    def get_widgets(self) -> list[Widget]:
+    def get_widgets(self) -> List[Widget]:
         widget_elems = self.root.findall('widget')
         widgets = []
         for elem in widget_elems:
             elem_type = elem.attrib.get('type', None)
             if elem_type is None:
-                raise ValueError(f"Unknown widget type for element: {prettify_xml(elem)}")
+                raise ValueError(f'Unknown widget type for element: {prettify_xml(elem)}')
             widget_cls = None
             for cls in Widget.__subclasses__():
                 cls_widget_type = _widget_type_from_class_name(cls.__name__)
@@ -206,20 +206,20 @@ class WidgetContainer:
             widgets.append(widget_cls.from_element(elem))
         return widgets
 
-    def get_widgets_by_type(self, widget_type: type[WidgetT]) -> list[WidgetT]:
+    def get_widgets_by_type(self, widget_type: Type[WidgetT]) -> List[WidgetT]:
         return [w for w in self.get_widgets() if isinstance(w, widget_type)]
 
-    def get_widgets_by_property_class(self, prop_type: type[PropertyT]) -> list[PropertyT]:
+    def get_widgets_by_property_class(self, prop_type: Type[PropertyT]) -> List[PropertyT]:
         return [w for w in self.get_widgets() if isinstance(w, prop_type)]
 
-    def get_widgets_by_property(self, property_name: str) -> list[Widget]:
+    def get_widgets_by_property(self, property_name: str) -> List[Widget]:
         widgets_with_property = []
         for widget in self.get_widgets():
             if hasattr(widget, property_name):
                 widgets_with_property.append(widget)
         return widgets_with_property
 
-    def add_widget(self, elem: Widget | Sequence[Widget]) -> None:
+    def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
         """
         Add widget or list of widgets to screen
 

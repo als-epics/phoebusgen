@@ -11,7 +11,7 @@ def widget_factory() -> Callable[..., Widget]:
     def _factory(widget_cls: type[Widget], num = 1, **kwargs) -> Widget:
 
         base_params = {
-            'name': f"{widget_cls.__name__}_{num}",
+            'name': f'{widget_cls.__name__}_{num}',
             'x': 0,
             'y': 0,
             'width': 100,
@@ -36,7 +36,7 @@ def widget_xml_factory():
         root = Element('widget')
         root.attrib['type'] = _widget_type_from_class_name(widget_cls.__name__).value
         root.attrib['version'] = '2.0.0'
-        SubElement(root, 'name').text = f"{widget_cls.__name__}_{num}"
+        SubElement(root, 'name').text = f'{widget_cls.__name__}_{num}'
         SubElement(root, 'x').text = str(10)
         SubElement(root, 'y').text = str(10)
         SubElement(root, 'width').text = str(100)

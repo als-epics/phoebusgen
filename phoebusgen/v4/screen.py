@@ -37,6 +37,7 @@ import copy
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import os
+from typing import Dict, Optional, Sequence
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.display import HasBackgroundColor
 from phoebusgen.v4.properties.widget import HasMacros, HasName
@@ -46,14 +47,13 @@ from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
 from phoebusgen.v4.widgets import Widget, WidgetContainer
 from phoebusgen.v4.utils import prettify_xml
-from collections.abc import Sequence
 from pathlib import Path
 
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
 
 class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
-    def __init__(self, name: str | None = None, f_name: str | None = None) -> None:
+    def __init__(self, name: Optional[str] = None, f_name: Optional[str] = None) -> None:
         """
         Create Phoebus screen object. File name is optional and can be specified later
 
@@ -78,7 +78,7 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
         else:
             self.name = name_elem.text if not name else name
 
-    def write_screen(self, file_name: str | None = None) -> bool:
+    def write_screen(self, file_name: Optional[str] = None) -> bool:
         """
         Writes screen XML to file. File name parameter is optional, if not given Screen bob_file member will be used
 
@@ -96,7 +96,7 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
             reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
         return True
 
-    def get_linked_screens(self) -> dict[Path, dict[str, str]]:
+    def get_linked_screens(self) -> Dict[Path, Dict[str, str]]:
         linked_screens = {}
 
         # Add any actions that open displays from the screen

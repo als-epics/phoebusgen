@@ -1,13 +1,24 @@
 import copy
 from xml.etree.ElementTree import Element
 import sys
-from typing import Any, get_origin
 from enum import Enum
 
+import inspect
+from collections.abc import Mapping
+from collections import namedtuple
+from dataclasses import is_dataclass
 
-from collections.abc import Sequence, Mapping
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
 
-from inspect import get_annotations
+# get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7
+try:
+    from typing import get_origin, get_args  # novermin
+except ImportError:
+    def get_origin(tp):
+        return getattr(tp, '__origin__', None)
+
+    def get_args(tp):
+        return getattr(tp, '__args__', ())
 
 from .types import (
     Color,
@@ -18,36 +29,31 @@ from .types import (
     ValidListTypeT,
     ObservableDataclass
 )
-from typing import Tuple, TypeVar, get_args
-import inspect
-from dataclasses import is_dataclass
 
-from collections import namedtuple
-
-Primitive = int | float | str | bool
-PropertyType = (
-    Primitive
-    | Tuple[Primitive, ...]
-    | Enum
-    | Color
-    | Font
-    | ObservableDict
-    | ObservableList
-    | ObservableDataclass
-)
+Primitive = Union[int, float, str, bool]
+PropertyType = Union[
+    int, float, str, bool,
+    Tuple,
+    Enum,
+    Color,
+    Font,
+    ObservableDict,
+    ObservableList,
+    ObservableDataclass,
+]
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
 PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
 
 
-def _create_element(prop_name: str, value: str | None = None) -> Element:
+def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
     element = Element(prop_name)
     if value is not None:
         element.text = str(value)
     return element
 
 
-def _find_getter_setter_by_type(property_type: type[PropertyType], func: str = 'getter') -> str:
+def _find_getter_setter_by_type(property_type: Type[PropertyType], func: str = 'getter') -> str:
     if func not in ['getter', 'setter']:
         raise ValueError("Func arg must must be either 'getter' or 'setter'!")
 
@@ -56,7 +62,7 @@ def _find_getter_setter_by_type(property_type: type[PropertyType], func: str = '
 
     property_type_str = property_type.__name__.lower()
 
-    if hasattr(sys.modules[__name__], f"_{func[:-3]}_{property_type_str}_property"):
+    if hasattr(sys.modules[__name__], f'_{func[:-3]}_{property_type_str}_property'):
         return property_type_str
     elif issubclass(property_type, Action):
         return 'action'
@@ -74,7 +80,7 @@ def _find_getter_setter_by_type(property_type: type[PropertyType], func: str = '
         return property_type_str
 
 
-def _get_primitive_property(element: Element, prop_type: type[Primitive]) -> Primitive:
+def _get_primitive_property(element: Element, prop_type: Type[Primitive]) -> Primitive:
 
     if element.text is None:
         raise ValueError(f"XML element for primitive property '{element.tag}' has no text value!")
@@ -89,7 +95,7 @@ def _set_primitive_property(prop_name: str, value: Primitive) -> Element:
         return _create_element(prop_name, str(value).lower())
     return _create_element(prop_name, str(value))
 
-def _get_enum_property(element: Element, enum_type: type[Enum]) -> Enum:
+def _get_enum_property(element: Element, enum_type: Type[Enum]) -> Enum:
     if element.text is None:
         raise ValueError('Enum property element has no text value!')
 
@@ -119,7 +125,7 @@ def _get_color_property(element: Element) -> Color:
         return Color((int(red), int(green), int(blue), int(alpha)))
 
 
-def _set_color_property(prop_name: str, value: Color | tuple[int, int, int] | tuple[int, int, int, int] | str) -> Element:
+def _set_color_property(prop_name: str, value: Union[Color, Tuple[int, int, int], Tuple[int, int, int, int], str]) -> Element:
 
     if not isinstance(value, Color):
         value = Color(value)
@@ -139,7 +145,7 @@ def _set_color_property(prop_name: str, value: Color | tuple[int, int, int] | tu
     return element
 
 
-def _get_dataclass_property(element: Element, dataclass_type: type[ObservableDataclass]) -> ObservableDataclass:
+def _get_dataclass_property(element: Element, dataclass_type: Type[ObservableDataclass]) -> ObservableDataclass:
 
     field_values = {}
     for field in dataclass_type.fields():
@@ -149,7 +155,7 @@ def _get_dataclass_property(element: Element, dataclass_type: type[ObservableDat
             field_values[field] = field_type(element.attrib[field])
         elif field_elem is not None and (field_elem.text is not None or field_type not in get_args(Primitive)):
             getter_name = _find_getter_setter_by_type(field_type, func='getter')
-            getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
+            getter = getattr(sys.modules[__name__], f'_get_{getter_name}_property')
             getter_args = [field_elem]
             if len(inspect.signature(getter).parameters) > 1:
                 getter_args.append(field_type)
@@ -176,22 +182,22 @@ def _set_dataclass_property(prop_name: str, value: ObservableDataclass) -> Eleme
                     raise TypeError('Only primitive types or enums can be set as attributes!')
             else:
                 setter_name = _find_getter_setter_by_type(field_type, func='setter')
-                setter = getattr(sys.modules[__name__], f"_set_{setter_name}_property")
+                setter = getattr(sys.modules[__name__], f'_set_{setter_name}_property')
                 sub_elem = setter(field, field_value)
                 element.append(sub_elem)
     return element
 
 def _get_action_property(element: Element) -> Action:
     action_type = ''.join([word.capitalize() for word in element.attrib.get('type', '').split('_')])
-    action_cls_name = f"{action_type}Action"
+    action_cls_name = f'{action_type}Action'
     action_cls = getattr(sys.modules['phoebusgen.v4.properties.types'], action_cls_name, None)
 
     if action_cls is None or not issubclass(action_cls, Action):
-        raise ValueError(f"Action type {action_type} is not recognized.")
+        raise ValueError(f'Action type {action_type} is not recognized.')
 
     action = _get_dataclass_property(element, action_cls)
     if not isinstance(action, Action):
-        raise ValueError(f"Failed to create action of type {action_type}.")
+        raise ValueError(f'Failed to create action of type {action_type}.')
 
     return action
 
@@ -217,14 +223,14 @@ def _set_dict_property(prop_name: str, value: Mapping) -> Element:
         dict_elem.append(item_elem)
     return dict_elem
 
-def _get_list_property(element: Element, item_type: type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
+def _get_list_property(element: Element, item_type: Type[ValidListTypeT]) -> ObservableList:
 
     result = ObservableList[ValidListTypeT]()
     if element is not None:
         for item_elem in element:
             getter_name = _find_getter_setter_by_type(item_type, func='getter')
-            getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
-            getter_args: list[Any] = [item_elem]
+            getter = getattr(sys.modules[__name__], f'_get_{getter_name}_property')
+            getter_args: List[Any] = [item_elem]
             if len(inspect.signature(getter).parameters) > 1:
                 getter_args.append(item_type)
             result.append(getter(*getter_args))
@@ -242,12 +248,12 @@ def _set_list_property(prop_name: str, values: Sequence[ValidListTypeT]) -> Elem
             list_item_name = prop_name[:-1]
 
         setter_name = _find_getter_setter_by_type(type(item), func='setter')
-        setter = getattr(sys.modules[__name__], f"_set_{setter_name}_property")
+        setter = getattr(sys.modules[__name__], f'_set_{setter_name}_property')
         list_elem.append(setter(list_item_name, item))
     return list_elem
 
-def is_set_value_valid(value: PropertyType, expected_type: type[PropertyType]) -> bool:
-    def _validate_element(value: PropertyType, expected_type: type[PropertyType]) -> bool:
+def is_set_value_valid(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
+    def _validate_element(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
         if expected_type is Color:
             return Color.is_color(value)
         elif expected_type is ObservableDict:
@@ -273,13 +279,13 @@ class PropertyMetaclass(type):
         all_properties = {}
         cls = super().__new__(mcs, name, bases, attrs)
 
-        def getter(self, prop_name: str, property_type: type[PropertyType]) -> PropertyType:
+        def getter(self, prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
             prop_element = self.root.find(prop_name)
 
             if prop_element is not None:
 
                 getter_name = _find_getter_setter_by_type(property_type, func='getter')
-                typed_getter = getattr(sys.modules[__name__], f"_get_{getter_name}_property")
+                typed_getter = getattr(sys.modules[__name__], f'_get_{getter_name}_property')
 
                 # For lists, we pass the item type instead
                 if get_origin(property_type) is ObservableList:
@@ -305,7 +311,7 @@ class PropertyMetaclass(type):
 
             return new_val
 
-        def setter(self, prop_name: str, property_type: type[PropertyType], value: PropertyType) -> None:
+        def setter(self, prop_name: str, property_type: Type[PropertyType], value: PropertyType) -> None:
             setter_name = _find_getter_setter_by_type(property_type, func='setter')
 
             if not is_set_value_valid(value, property_type):
@@ -315,14 +321,14 @@ class PropertyMetaclass(type):
             if self.root.find(prop_name) is not None:
                 self.root.remove(self.root.find(prop_name))
 
-            new_elem = getattr(sys.modules[__name__], f"_set_{setter_name}_property")(prop_name, value)
+            new_elem = getattr(sys.modules[__name__], f'_set_{setter_name}_property')(prop_name, value)
             self.root.append(new_elem)
 
         # Only create dynamic properties for classes that directly inherit from PropertyBase, not for subclasses of those classes.
         # This way we can have property classes that inherit from other property classes without overwriting the properties defined in the parent class.
         if name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases):
             all_properties[cls] = {}
-            for prop_name, annotation in get_annotations(cls).items():
+            for prop_name, annotation in cls.__annotations__.items():
                 if hasattr(annotation, '__origin__'):
                     property_type = annotation.__origin__
                 else:
@@ -352,17 +358,17 @@ class PropertyMetaclass(type):
 
 class PropertyBase(metaclass=PropertyMetaclass):
     root: Element
-    _all_properties: dict[type['PropertyBase'], dict[str, PropertyInfo]] = {}
+    _all_properties: Dict[Type['PropertyBase'], Dict[str, PropertyInfo]] = {}
 
     @classmethod
-    def get_property_classes(cls) -> list[type['PropertyBase']]:
+    def get_property_classes(cls) -> List[Type['PropertyBase']]:
         return list(cls._all_properties.keys())
 
     @classmethod
-    def get_property_names(cls, property_cls: type['PropertyBase'] | None = None) -> list[str]:
+    def get_property_names(cls, property_cls: Optional[Type['PropertyBase']] = None) -> List[str]:
         if property_cls is not None:
             if property_cls not in cls._all_properties:
-                raise ValueError(f"Property class {property_cls.__name__} not found in class {cls.__name__}!")
+                raise ValueError(f'Property class {property_cls.__name__} not found in class {cls.__name__}!')
             return list(cls._all_properties[property_cls].keys())
         else:
             property_names = []
@@ -371,8 +377,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
             return property_names
 
     @classmethod
-    def get_property_type_by_name(cls, property_name: str) -> type[PropertyType]:
+    def get_property_type_by_name(cls, property_name: str) -> Type[PropertyType]:
         for property_cls in cls._all_properties:
             if property_name in cls._all_properties[property_cls]:
                 return cls._all_properties[property_cls][property_name].type
-        raise ValueError(f"Property {property_name} not found in class {cls.__name__}!")
+        raise ValueError(f'Property {property_name} not found in class {cls.__name__}!')
