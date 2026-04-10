@@ -266,6 +266,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
         method_name = f"_{prefix}_{property_type_str}_property"
         if hasattr(cls, method_name):
             return getattr(cls, method_name)
+        elif property_type is tuple:
+            return getattr(cls, f"_{prefix}_color_property")
         elif issubclass(property_type, Action):
             return getattr(cls, f"_{prefix}_action_property")
         elif property_type is Rule:
@@ -499,10 +501,10 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if bool_exp is None:
             raise ValueError("Rule expression element is missing required 'bool_exp' attribute!")
 
-        expression = element.find('expression')
-        if expression is not None:
+        expression_elem = element.find('expression')
+        if expression_elem is not None:
             value_as_expression = True
-            value = expression.text
+            value = expression_elem.text
         else:
             value_as_expression = False
             value_get_func = cls._find_getter_by_type(property_type)
@@ -511,7 +513,9 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 getter_args.append(property_type)
             value = value_get_func(*getter_args) if element.find('value') is not None else None
 
-        return RuleExpression(bool_exp=bool_exp, value=value, value_as_expression=value_as_expression)
+        expression = RuleExpression(bool_exp=bool_exp, value=value, value_as_expression=value_as_expression)
+        expression._on_change_callback = lambda new_value: cls._set_rule_expression_property(element.tag, new_value)
+        return expression
 
 
     @classmethod
@@ -522,6 +526,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :param value: The RuleExpression instance to set
         :return: The XML element representing the rule expression property
         """
+
         element = _create_element(prop_name)
         element.attrib['bool_exp'] = value.bool_exp
         if value.value_as_expression:
@@ -545,15 +550,20 @@ class PropertyBase(metaclass=PropertyMetaclass):
         """
 
         name = element.attrib.get('name', 'None')
-        out_exp = element.attrib.get('out_exp', False)
+        out_exp = element.attrib.get('out_exp', 'false') == 'true'
         prop_id = element.attrib.get('prop_id', None)
 
         expressions: ObservableList[RuleExpression] = ObservableList()
         pv_names: ObservableDict[str, bool] = ObservableDict()
+
         for expr_elem in element.findall('exp'):
             expressions.append(cls._get_rule_expression_property(expr_elem, property_type))
         for pv_elem in element.findall('pv_name'):
             pv_names[pv_elem.text] = pv_elem.attrib.get('trigger', 'true') == 'true'
+
+        # Add on change callbacks to children to update the XML when they are modified.
+        expressions._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))
+        pv_names._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))
 
         return Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id)
 
@@ -567,13 +577,28 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The XML element representing the rule property
         """
 
+        # Validate that all expressions in the rule have values of the correct type for the property
+        # id of the rule. For example if the prop_id is 'y_axes[0].title_font.style',
+        # then the expression values must be of type FontStyle, which is the type of the title_font.style property.
+        property_type = cls._get_property_type_from_prop_id(value.prop_id)
+        for exp in value.expressions:
+            if exp.value_as_expression:
+                continue
+            if not cls._is_set_value_valid(exp.value, property_type):
+                raise TypeError(f"Rule {value.name} has expression with value {exp.value} that is of invalid type for property '{value.prop_id}'. Is {type(exp.value)} must be of type {property_type}")
+
+        # Disallow mix-and-match of value_as_expression True and False within the same rule
+        if set(exp.value_as_expression for exp in value.expressions) == {False, True}:
+            raise ValueError(f"All expressions in a rule must either be value_as_expression=True or value_as_expression=False. Rule {value.name} has mixed expressions.")
+
+
         element = _create_element(prop_name)
         element.attrib['name'] = value.name
         element.attrib['out_exp'] = str(value.out_exp).lower()
-        if value.prop_id is not None:
-            element.attrib['prop_id'] = value.prop_id
+        element.attrib['prop_id'] = value.prop_id
 
-        for expr in value.exps:
+
+        for expr in value.expressions:
             expr_elem = cls._set_rule_expression_property('exp', expr)
             element.append(expr_elem)
 
@@ -634,6 +659,10 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 if len(inspect.signature(typed_getter).parameters) > 1:
                     if item_type is Rule:
                         rule_prop_id = item_elem.attrib.get('prop_id', None)
+                        if rule_prop_id is None:
+                            raise ValueError("Rule element is missing required 'prop_id' attribute!")
+                        rule_prop_type = cls._get_property_type_from_prop_id(rule_prop_id)
+                        getter_args.append(rule_prop_type)
                     else:
                         getter_args.append(item_type)
                 result.append(typed_getter(*getter_args))

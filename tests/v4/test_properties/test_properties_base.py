@@ -411,6 +411,33 @@ def test_set_rule_expression_property():
     assert retrieved_rule_expr2 == rule_expr2
 
 
+def test_get_rule_property():
+    elem = Element('rule')
+    elem.attrib['name'] = 'Test Rule'
+    elem.attrib['prop_id'] = 'background_color'
+    elem.attrib['out_exp'] = 'true'
+    exp_elem = SubElement(elem, 'exp')
+    exp_elem.attrib['bool_exp'] = 'pv0 == 0'
+    value_elem = SubElement(exp_elem, 'value')
+    SubElement(value_elem, 'color').attrib = {'red': '255', 'green': '0', 'blue': '0', 'alpha': '255'}
+    pv_name_elem = SubElement(elem, 'pv_name')
+    pv_name_elem.text = 'test_pv1'
+    pv_name_elem2 = SubElement(elem, 'pv_name')
+    pv_name_elem2.text = 'test_pv2'
+    pv_name_elem2.attrib['trigger'] = 'false'
+
+    rule = PropertyBase._get_rule_property(elem, Color)
+    assert isinstance(rule, Rule)
+    assert rule.name == 'Test Rule'
+    assert len(rule.expressions) == 1
+    assert type(rule.expressions[0]) == RuleExpression
+    assert rule.expressions[0].bool_exp == 'pv0 == 0'
+    assert rule.out_exp == True
+    assert not rule.expressions[0].value_as_expression
+    assert rule.expressions[0].value == Color((255, 0, 0, 255))
+    assert rule.pv_names == {"test_pv1": True, "test_pv2": False}
+
+
 @pytest.mark.parametrize('prop_id, expected_type', [
     ('name', str),
     ('x', int),

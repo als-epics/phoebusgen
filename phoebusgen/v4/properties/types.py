@@ -470,10 +470,15 @@ class RuleExpression(ObservableDataclass):
     value_as_expression: bool = False
 
 @dataclass
+class RulePvName(ObservableDataclass):
+    name: str = ''
+    trigger: bool = True
+
+@dataclass
 class Rule(ObservableDataclass):
     name: str = 'New Rule'
     prop_id: str = 'name'
-    exps: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
+    expressions: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
     pv_names: ObservableDict = field(default_factory=ObservableDict)
     out_exp: bool = False
 
