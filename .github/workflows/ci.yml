@@ -39,12 +39,20 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: x64
       - name: Install dependencies
+        if: ${{ !matrix.container }}
         run: |
           python -m pip install --upgrade pip
-          pip install coverage pytest pytest-cov
-          pip install -r requirements.txt
+          pip install -e .[dev]
+      - name: Install dependencies (legacy Python in container)
+        if: ${{ matrix.container }}
+        run: |
+          # setuptools>=64 requires Python >=3.8, so we can't build on 3.6/3.7.
+          # Instead, add the source directory to PYTHONPATH and install test deps.
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          pip install -r requirements.txt || true
       - name: Run tests with pytest and codecov
-        run: pytest --cov=phoebusgen --cov-report=xml:coverage.xml
+        run: PYTHONPATH="${PYTHONPATH:+$PYTHONPATH:}$PWD" pytest --cov=phoebusgen --cov-report=xml:coverage.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
