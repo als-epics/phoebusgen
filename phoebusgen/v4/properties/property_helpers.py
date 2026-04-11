@@ -32,8 +32,6 @@ from .types import (
     ObservableDataclass
 )
 
-from collections import namedtuple
-
 Primitive = Union[int, float, str, bool]
 PropertyType = Union[
     int, float, str, bool,
@@ -96,7 +94,7 @@ class PropertyMetaclass(type):
 
             return new_val
 
-        def setter(self, prop_name: str, property_type: type[PropertyType], value: PropertyType) -> None:
+        def setter(self, prop_name: str, property_type: Type[PropertyType], value: PropertyType) -> None:
             typed_setter = self._find_setter_by_type(property_type)
 
             if not self._is_set_value_valid(value, property_type):
@@ -290,7 +288,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
             return getattr(cls, f"_{prefix}_enum_property")
         elif is_dataclass(property_type):
             return getattr(cls, f"_{prefix}_dataclass_property")
-        elif property_type in get_args(Primitive):
+        elif property_type in (int, float, str, bool):
             return getattr(cls, f"_{prefix}_primitive_property")
         else:
             return getattr(cls, method_name)
@@ -379,7 +377,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _set_color_property(cls, prop_name: str, value: Color | tuple[int, int, int] | tuple[int, int, int, int] | str) -> Element:
+    def _set_color_property(cls, prop_name: str, value: Union[Color, Tuple[int, int, int], Tuple[int, int, int, int], str]) -> Element:
         """Given a Color object or a tuple representing RGB or RGBA values, create an XML element representing the color property.
 
         :param prop_name: The name of the property
@@ -420,7 +418,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
             field_type = dataclass_type.fields()[field].type
             if field_elem is None and field in element.attrib:
                 field_values[field] = field_type(element.attrib[field])
-            elif field_elem is not None and (field_elem.text is not None or field_type not in get_args(Primitive)):
+            elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool)):
                 typed_getter = cls._find_getter_by_type(field_type)
                 getter_args = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
@@ -448,7 +446,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
             field_type = property_cls.fields()[field].type
             if field_value is not None:
                 if field in value._attrib_fields:
-                    if field_type in get_args(Primitive):
+                    if field_type in (int, float, str, bool):
                         element.attrib[field] = str(field_value)
                     elif isinstance(field_value, Enum):
                         element.attrib[field] = field_value.value
@@ -516,7 +514,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         else:
             value_as_expression = False
             value_get_func = cls._find_getter_by_type(property_type)
-            getter_args: list[Any] = [element.find('value')]
+            getter_args = [element.find('value')]  # type: List[Any]
             if len(inspect.signature(value_get_func).parameters) > 1:
                 getter_args.append(property_type)
             value = value_get_func(*getter_args) if element.find('value') is not None else None
@@ -663,7 +661,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if element is not None:
             for item_elem in element:
                 typed_getter = cls._find_getter_by_type(item_type)
-                getter_args: list[Any] = [item_elem]
+                getter_args = [item_elem]  # type: List[Any]
                 if len(inspect.signature(typed_getter).parameters) > 1:
                     if item_type is Rule:
                         rule_prop_id = item_elem.attrib.get('prop_id', None)
@@ -701,7 +699,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _is_set_value_valid(cls, value: PropertyType, expected_type: type[PropertyType]) -> bool:
+    def _is_set_value_valid(cls, value: PropertyType, expected_type: Type[PropertyType]) -> bool:
         """Given a value being set for a property and the expected type of that property, validate that the value is of the correct type.
         
         :param value: The value being set for the property
@@ -709,7 +707,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: True if the value is valid for the expected type, False otherwise
         """
 
-        def _validate_element(value: PropertyType, expected_type: type[PropertyType]) -> bool:
+        def _validate_element(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
             if expected_type is Color:
                 return Color.is_color(value)
             elif expected_type is ObservableDict:

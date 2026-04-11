@@ -15,7 +15,7 @@ widget_versions = {}
 
 
 class WidgetType(str, Enum):
-    """ Enum of Phoebus Widget Types """
+    """Enum of Phoebus Widget types."""
 
     # Graphics
     ARC = 'arc'
@@ -84,12 +84,13 @@ def _widget_type_from_class_name(class_name: str) -> WidgetType:
     :return: Corresponding WidgetType enum member
     :raises KeyError: If no matching WidgetType member exists
     """
+
     enum_key = re.sub(r'([a-z])([A-Z])', r'\1_\2', class_name).upper()
     return WidgetType[enum_key]
 
 
 class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
-    """ Base Class for all Phoebus widgets """
+    """Base Class for all Phoebus widgets."""
 
     def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
         """
@@ -125,8 +126,9 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 
     @classmethod
     def from_element(cls, element: Element) -> 'Widget':
-        """
-        Docstring for from_element
+        """Convert an XML element into a Widget instance.
+
+        Chooses the appropriate subclass based on the 'type' attribute of the element.
 
         :param cls: Description
         :param element: Description
@@ -155,8 +157,7 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 
     @property
     def version(self) -> str:
-        """
-        Get widget version from root widget
+        """Get widget version from root widget.
 
         :return: Version string
         """
@@ -164,16 +165,16 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 
     @version.setter
     def version(self, version: str) -> None:
-        """
-        Change widget version in root widget. i.e. <widget type="textupdate" version="2.0.0">
+        """Change widget version in root widget.
+        
+        i.e. <widget type="textupdate" version="2.0.0">
 
         :param version: Version string
         """
         self.root.attrib['version'] = version
 
     def has_property(self, prop_name: str) -> bool:
-        """
-        Check if widget has a prop_name
+        """Check if widget has a prop_name.
 
         :param prop_name: Property name to check for
         :return: True if property exists, False if not
@@ -182,8 +183,7 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 
 
     def has_property_class(self, prop_class: type) -> bool:
-        """
-        Check if widget has a property of type prop_class
+        """Check if widget has a property of type prop_class.
 
         :param prop_class: Property class to check for
         :return: True if property class exists, False if not
@@ -200,9 +200,23 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
 WidgetT = TypeVar('WidgetT', bound=Widget)
 PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
+
 class WidgetContainer:
+    """Base class for widgets or screen elements that can contain other widgets, such as Tabs or Groups."""
+
+    root: Element
 
     def get_widgets(self) -> List[Widget]:
+        """Get a list of all widgets contained within the container.
+
+        Widgets are returned in the order they appear in the XML, 
+        which is the order they are rendered in Phoebus (i.e. widgets later
+        in the XML will be rendered on top of widgets earlier in the XML).
+        
+         :return: List of Widget instances for each widget element contained within the container
+         :rtype: List[Widget]
+         """
+
         widget_elems = self.root.findall('widget')
         widgets = []
         for elem in widget_elems:
@@ -220,25 +234,49 @@ class WidgetContainer:
             widgets.append(widget_cls.from_element(elem))
         return widgets
 
+
     def get_widgets_by_type(self, widget_type: Type[WidgetT]) -> List[WidgetT]:
+        """Get a list of widgets contained within the container that are of type widget_type.
+        
+        :param widget_type: Widget type to filter by
+        :return: List of Widget instances of type widget_type contained within the container
+        :rtype: List[Widget]
+        """
+
         return [w for w in self.get_widgets() if isinstance(w, widget_type)]
 
+
     def get_widgets_by_property_class(self, prop_type: Type[PropertyT]) -> List[PropertyT]:
+        """Get a list of widgets contained within the container that have a property of type prop_type.
+
+        :param prop_type: Property type to filter by
+        :return: List of Widget instances that have a property of type prop_type
+        :rtype: List[Widget]
+        """
         return [w for w in self.get_widgets() if isinstance(w, prop_type)]
 
+
     def get_widgets_by_property(self, property_name: str) -> List[Widget]:
+        """Get a list of widgets contained within the container that have a property named property_name.
+
+        :param property_name: Name of property to filter by
+        :return: List of Widget instances that have a property named property_name
+        :rtype: List[Widget]
+        """
+
         widgets_with_property = []
         for widget in self.get_widgets():
             if hasattr(widget, property_name):
                 widgets_with_property.append(widget)
         return widgets_with_property
 
+
     def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
-        """
-        Add widget or list of widgets to screen
+        """Add widget or list of widgets to screen.
 
         :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
         """
+
         if isinstance(elem, Sequence):
             for e in elem:
                 self.root.append(e.root)
