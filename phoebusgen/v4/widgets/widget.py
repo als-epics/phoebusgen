@@ -166,7 +166,7 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
     @version.setter
     def version(self, version: str) -> None:
         """Change widget version in root widget.
-        
+
         i.e. <widget type="textupdate" version="2.0.0">
 
         :param version: Version string
@@ -209,10 +209,10 @@ class WidgetContainer:
     def get_widgets(self) -> List[Widget]:
         """Get a list of all widgets contained within the container.
 
-        Widgets are returned in the order they appear in the XML, 
+        Widgets are returned in the order they appear in the XML,
         which is the order they are rendered in Phoebus (i.e. widgets later
         in the XML will be rendered on top of widgets earlier in the XML).
-        
+
          :return: List of Widget instances for each widget element contained within the container
          :rtype: List[Widget]
          """
@@ -237,7 +237,7 @@ class WidgetContainer:
 
     def get_widgets_by_type(self, widget_type: Type[WidgetT]) -> List[WidgetT]:
         """Get a list of widgets contained within the container that are of type widget_type.
-        
+
         :param widget_type: Widget type to filter by
         :return: List of Widget instances of type widget_type contained within the container
         :rtype: List[Widget]

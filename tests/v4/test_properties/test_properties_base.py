@@ -358,7 +358,7 @@ def test_set_dict_property():
 
 def test_get_rule_expression_property():
     elem = Element('exp')
-    elem.attrib["bool_exp"] = 'true'
+    elem.attrib['bool_exp'] = 'true'
     SubElement(elem, 'expression').text = 'pvStr0'
     rule_expr = PropertyBase._get_rule_expression_property(elem, str)
     assert isinstance(rule_expr, RuleExpression)
@@ -435,7 +435,7 @@ def test_get_rule_property():
     assert rule.out_exp == True
     assert not rule.expressions[0].value_as_expression
     assert rule.expressions[0].value == Color((255, 0, 0, 255))
-    assert rule.pv_names == {"test_pv1": True, "test_pv2": False}
+    assert rule.pv_names == {'test_pv1': True, 'test_pv2': False}
 
 
 @pytest.mark.parametrize('prop_id, expected_type', [
