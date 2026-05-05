@@ -1,10 +1,12 @@
 from phoebusgen.v4.properties.display import HasPVName
-from phoebusgen.v4.widgets.widget import Widget, WidgetType
+from phoebusgen.v4.widgets import Widget, WidgetType, EmbeddedDisplay, ActionButton, NavigationTabs
+from phoebusgen.v4.properties import OpenDisplayAction
 import pytest
 from xml.etree.ElementTree import Element
 
 from phoebusgen.v4.screen import Screen
 from phoebusgen.v4.properties.types import Color
+from pathlib import Path
 
 
 @pytest.fixture
@@ -68,3 +70,23 @@ def test_get_widgets_by_property(one_of_every_widget_screen):
     assert len(widgets_with_pv_name) == 27  # 27 of the 44 widgets have the PV Name property
     widgets_with_tabs = screen.get_widgets_by_property('tabs')
     assert len(widgets_with_tabs) == 2 # There are 2 widgets with tabs property in the test file
+
+
+def test_get_linked_screens_no_links(sample_screen):
+    linked_screens = sample_screen.get_linked_screens()
+    assert isinstance(linked_screens, dict)
+    assert len(linked_screens) == 0
+
+
+@pytest.mark.parametrize('macros', [{}, {'Macro1': 'Value1', 'Macro2': 'Value2'}])
+def test_get_linked_screens_embedded_display(sample_screen, macros):
+    embedded_display = EmbeddedDisplay(name='Embedded Display', file='tests/v4/bobfiles/simple_embedded_display.bob', x=0, y=0, width=100, height=100)
+    embedded_display.macros = macros
+    assert embedded_display.macros == macros
+    sample_screen.add_widget(embedded_display)
+    linked_screens = sample_screen.get_linked_screens()
+    assert isinstance(linked_screens, dict)
+    assert len(linked_screens) == 1
+    assert Path('tests/v4/bobfiles/simple_embedded_display.bob') in linked_screens
+    assert linked_screens[Path('tests/v4/bobfiles/simple_embedded_display.bob')] == macros
+

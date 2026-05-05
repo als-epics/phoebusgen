@@ -102,14 +102,18 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
         # Add any actions that open displays from the screen
         for action in self.actions:
             if isinstance(action, OpenDisplayAction):
-                linked_screens[Path(action.file)] = copy.deepcopy(action.macros).update(self.macros)
+                action_macros = copy.deepcopy(action.macros)
+                action_macros.update(self.macros)
+                linked_screens[Path(action.file)] = action_macros
 
         # Add any actions that open displays from the widgets
         def _get_actions_from_widgets(widget: Widget) -> Sequence[PropertyBase]:
             for widget in self.get_widgets():
                 for action in widget.actions:
                     if isinstance(action, OpenDisplayAction):
-                        linked_screens[Path(action.file)] = copy.deepcopy(action.macros).update(self.macros)
+                        action_macros = copy.deepcopy(action.macros)
+                        action_macros.update(self.macros)
+                        linked_screens[Path(action.file)] = action_macros
                         if isinstance(widget, HasMacros):
                             linked_screens[Path(action.file)].update(widget.macros)
 
@@ -118,7 +122,9 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
 
         # Add any embedded displays from the widgets
         for widget in self.get_widgets_by_type(EmbeddedDisplay):
-            linked_screens[Path(widget.file)] = copy.deepcopy(widget.macros).update(self.macros)
+            widget_macros = copy.deepcopy(widget.macros)
+            widget_macros.update(self.macros)
+            linked_screens[Path(widget.file)] = widget_macros
 
         return linked_screens
 
