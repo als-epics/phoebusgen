@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-05-05 13:31:16 by jwlodek-->
+<display version="2.0.0">
+  <name>Nested2</name>
+  <widget type="navtabs" version="2.0.0">
+    <name>Navigation Tabs</name>
+    <tabs>
+      <tab>
+        <name>Tab 1</name>
+        <file>Even_More_Nested/Even_More_Nested1.bob</file>
+        <macros>
+          <C>2</C>
+        </macros>
+        <group_name></group_name>
+      </tab>
+    </tabs>
+    <x>220</x>
+    <y>60</y>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="open_display">
+        <file>Nested1.bob</file>
+        <target>replace</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+    <x>40</x>
+    <y>90</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+</display>

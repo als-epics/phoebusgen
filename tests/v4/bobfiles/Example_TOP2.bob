@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-05-05 13:27:40 by jwlodek-->
+<display version="2.0.0">
+  <name>Example_TOP2</name>
+  <macros>
+    <A>1</A>
+    <B>2</B>
+  </macros>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="open_display">
+        <file>Nested/Nested1.bob</file>
+        <target>replace</target>
+        <description>Open Nested1</description>
+      </action>
+      <action type="open_display">
+        <file>Nested/Nested2.bob</file>
+        <target>replace</target>
+        <description>Open Nested2</description>
+      </action>
+    </actions>
+    <x>40</x>
+    <y>40</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+</display>
