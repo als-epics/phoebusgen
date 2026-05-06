@@ -46,7 +46,7 @@ from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
 from phoebusgen.v4.widgets import Widget, WidgetContainer
-from phoebusgen.v4.utils import prettify_xml
+from phoebusgen.v4.utils import PhoebusElement
 from pathlib import Path
 
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
@@ -60,23 +60,28 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
         :param name: Screen Name
         :param f_name: File name for Phoebus screen
         """
+
         self.bob_file = f_name
         if f_name is not None and os.path.exists(f_name):
             with open(f_name, 'r') as f:
                 rough_string = ''.join([line.strip() for line in f.readlines()])
-            self.root = ET.fromstring(rough_string)
+            root = ET.fromstring(rough_string)
         else:
-            self.root = ET.Element('display', attrib={'version': '2.0.0'})
+            root = ET.Element('display', attrib={'version': '2.0.0'})
 
+        PhoebusElement.__init__(self, root)
+
+        if f_name is None or not os.path.exists(f_name):
             # Default screen size for new screens
             self.width = 800
             self.height = 600
 
-        name_elem = self.root.find('name')
+        name_elem = root.find('name')
         if name_elem is None or name_elem.text is None:
             self.name = 'Display' if not name else name
         else:
             self.name = name_elem.text if not name else name
+        WidgetContainer.__init__(self, root)
 
     def write_screen(self, file_name: Optional[str] = None) -> bool:
         """
@@ -137,13 +142,3 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
     #     e = self._shared.create_element(self.root, 'background_color')
     #     self._shared.create_color_element(e, name, None, None, None, None)
 
-    def __str__(self):
-        return prettify_xml(self.root)
-
-    def __repr__(self):
-        return prettify_xml(self.root)
-
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Screen):
-            return False
-        return prettify_xml(self.root) == prettify_xml(other.root)

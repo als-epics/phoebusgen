@@ -411,7 +411,7 @@ class Trace(ObservableDataclass):
     visible: bool = True
 
 @dataclass
-class Tab(ObservableDataclass):
+class NavTab(ObservableDataclass):
     name: str = ''
     file: str = ''
     macros: ObservableDict = field(default_factory=ObservableDict)

@@ -1,5 +1,5 @@
 from .property_helpers import PropertyBase
-from .types import FileComponent, Tab, ObservableDict, ObservableList, Instance, Direction
+from .types import FileComponent, NavTab, ObservableDict, ObservableList, Instance
 
 class HasMacros(PropertyBase):
     macros: ObservableDict
@@ -22,13 +22,10 @@ class HasFileComponent(PropertyBase):
 class HasLabel(PropertyBase):
     label: str
 
-class HasTabs(PropertyBase):
-    tabs: ObservableList[Tab]
-    tab_height: int
-    tab_width: int
+class HasNavTabs(PropertyBase):
+    tabs: ObservableList[NavTab]
     tab_spacing: int
-    active_tab: int
-    direction: Direction
+    tab_width: int
 
 class HasInstances(PropertyBase):
     instances: ObservableList[Instance]

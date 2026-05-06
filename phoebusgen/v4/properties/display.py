@@ -1,6 +1,6 @@
 from .property_helpers import PropertyBase
 
-from .types import ColorBar, Font, ArrowTypes, LineStyle, Color, Column,  ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors
+from .types import ColorBar, Direction, Font, ArrowTypes, LineStyle, Color, Column,  ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors
 
 class HasVisible(PropertyBase):
     visible: bool = True
@@ -239,3 +239,8 @@ class HasLinearMeterColors(PropertyBase):
 class HasKnobAndNeedleSize(PropertyBase):
     knob_size: float
     needle_width: float
+
+class HasTabActiveHeightDirection(PropertyBase):
+    tab_height: int
+    direction: Direction
+    active_tab: int

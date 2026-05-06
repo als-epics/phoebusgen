@@ -7,6 +7,7 @@ import inspect
 from collections.abc import Mapping
 from collections import namedtuple
 from dataclasses import is_dataclass
+from phoebusgen.v4.utils import PhoebusElement
 
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
 
@@ -272,6 +273,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
         method_name = f'_{prefix}_{property_type_str}_property'
         if hasattr(cls, method_name):
             return getattr(cls, method_name)
+        elif issubclass(property_type, PhoebusElement):
+            return getattr(cls, f'_{prefix}_element_property')
         elif property_type is tuple:
             return getattr(cls, f'_{prefix}_color_property')
         elif issubclass(property_type, Action):
@@ -290,8 +293,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
             return getattr(cls, f'_{prefix}_dataclass_property')
         elif property_type in (int, float, str, bool):
             return getattr(cls, f'_{prefix}_primitive_property')
-        else:
-            return getattr(cls, method_name)
+
+        raise TypeError(f"No getter/setter function found for property type '{property_type}'!")
 
 
     @classmethod
@@ -323,7 +326,16 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if isinstance(value, bool):
             return _create_element(prop_name, str(value).lower())
         return _create_element(prop_name, str(value))
+    
 
+    @classmethod
+    def _get_element_property(cls, element: Element, property_type: Type[PhoebusElement]) -> PhoebusElement:
+        return property_type.from_element(element)
+
+
+    @classmethod
+    def _set_element_property(cls, prop_name: str, value: PhoebusElement) -> Element:
+        return value.root
 
     @classmethod
     def _get_enum_property(cls, element: Element, enum_type: Type[Enum]) -> Enum:

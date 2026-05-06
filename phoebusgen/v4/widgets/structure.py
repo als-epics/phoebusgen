@@ -1,3 +1,8 @@
+from xml.etree.ElementTree import Element, SubElement
+
+from phoebusgen.v4.properties.property_helpers import PropertyBase
+from phoebusgen.v4.properties.types import ObservableList
+
 from .widget import Widget, WidgetContainer
 from phoebusgen.v4.properties.display import (
     HasPVName,
@@ -9,6 +14,7 @@ from phoebusgen.v4.properties.display import (
     HasGroupStyle,
     HasSelectedColor,
     HasDeselectedColor,
+    HasTabActiveHeightDirection,
     HasTransparent,
     HasFont,
     HasLineColor,
@@ -16,7 +22,7 @@ from phoebusgen.v4.properties.display import (
     HasWrapCount,
     HasGap,
 )
-from phoebusgen.v4.properties.widget import HasMacros, HasFile, HasTabs, HasInstances
+from phoebusgen.v4.properties.widget import HasMacros, HasFile, HasName, HasNavTabs, HasInstances
 from phoebusgen.v4.properties.misc import HasBorder
 
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
@@ -67,8 +73,9 @@ class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForeg
         :param height: Widget height
         """
         Widget.__init__(self, name, x, y, width, height)
+        WidgetContainer.__init__(self, self.root)
 
-class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDeselectedColor, HasFont):
+class NavigationTabs(Widget, HasNavTabs, HasTabActiveHeightDirection, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
@@ -83,7 +90,57 @@ class NavigationTabs(Widget, WidgetContainer, HasTabs, HasSelectedColor, HasDese
         """
         Widget.__init__(self, name, x, y, width, height)
 
-class Tabs(Widget, WidgetContainer, HasMacros, HasTabs, HasFont, HasBackgroundColor):
+
+class Tab(WidgetContainer, HasName):
+    """Tab object for tabs widget"""
+    def __init__(self, name: str, root: Element | None = None) -> None:
+        """
+        Create Tab object for tabs widget
+
+        :param name: Tab name
+        :param root: Optional XML element to initialize the tab from
+        """
+        self.root = root
+        if root is None:
+            self.root = Element('tab')
+        self.name = name
+
+        children_elem = self.root.find('children')
+        if children_elem is None:
+            children_elem = SubElement(self.root, 'children')
+
+        WidgetContainer.__init__(self, children_elem)
+
+    @classmethod
+    def from_element(cls, element: Element) -> 'Tab':
+        """Convert an XML element into a Tab instance.
+
+        :param cls: The Tab class
+        :param element: The XML element to convert
+        :type element: Element
+        :return: A Tab instance
+        :rtype: Tab
+        """
+
+        if element.tag != 'tab':
+            raise ValueError(f"Expected 'tab' element, got '{element.tag}'")
+
+        name_element = element.find('name')
+        if name_element is None or name_element.text is None:
+            raise ValueError("Tab element missing 'name' subelement or name text!")
+
+        tab = cls(name_element.text, root=element)
+
+        return tab
+
+
+class HasTabs(PropertyBase):
+    """Interface for widgets that contain tabs that contain other widgets"""
+
+    tabs: ObservableList[Tab]
+
+
+class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, HasBackgroundColor):
     """ Tabs Phoebus Widget """
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:

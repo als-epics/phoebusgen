@@ -7,7 +7,7 @@ from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
 from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.utils import prettify_xml
+from phoebusgen.v4.utils import PhoebusElement, prettify_xml
 
 from enum import Enum
 
@@ -90,7 +90,7 @@ def _widget_type_from_class_name(class_name: str) -> WidgetType:
     return WidgetType[enum_key]
 
 
-class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
+class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
 
     def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
@@ -105,7 +105,8 @@ class Widget(HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToo
         :param height: Widget height:
         """
 
-        self.root = Element('widget')
+        root = Element('widget')
+        PhoebusElement.__init__(self, root)
 
         if type(self) is Widget:
             raise ValueError('Widget is an abstract base class and cannot be instantiated directly!')
@@ -202,10 +203,13 @@ WidgetT = TypeVar('WidgetT', bound=Widget)
 PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 
-class WidgetContainer:
+class WidgetContainer(PhoebusElement):
     """Base class for widgets or screen elements that can contain other widgets, such as Tabs or Groups."""
 
-    root: Element
+    container_root: Element
+
+    def __init__(self, container_root: Element) -> None:
+        self.container_root = container_root
 
     def get_widgets(self) -> List[Widget]:
         """Get a list of all widgets contained within the container.
@@ -218,7 +222,7 @@ class WidgetContainer:
          :rtype: List[Widget]
          """
 
-        widget_elems = self.root.findall('widget')
+        widget_elems = self.container_root.findall('widget')
         widgets = []
         for elem in widget_elems:
             elem_type = elem.attrib.get('type', None)
@@ -280,6 +284,8 @@ class WidgetContainer:
 
         if isinstance(elem, Sequence):
             for e in elem:
-                self.root.append(e.root)
+                self.container_root.append(e.root)
         else:
-            self.root.append(elem.root)
+            self.container_root.append(elem.root)
+
+

@@ -69,6 +69,7 @@ from .controls import (
     Thumbwheel
 )
 from .structure import (
+    Tab,
     Tabs,
     Group,
     NavigationTabs,
@@ -137,6 +138,7 @@ __all__ = [
     'SlideButton',
     'Thumbwheel',
     # Structure widgets
+    'Tab',
     'Tabs',
     'Group',
     'NavigationTabs',

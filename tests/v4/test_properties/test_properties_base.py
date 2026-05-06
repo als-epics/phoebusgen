@@ -11,7 +11,7 @@ from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
 
 from phoebusgen.v4.properties.widget import HasName
-from phoebusgen.v4.widgets import XYPlot
+from phoebusgen.v4.widgets import XYPlot, WidgetContainer, Label, Tab
 from phoebusgen.v4.properties.types import Axis, ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
 from enum import Enum
@@ -51,6 +51,7 @@ def test_create_element():
     (Action, PropertyBase._get_action_property, PropertyBase._set_action_property),
     (RuleExpression, PropertyBase._get_rule_expression_property, PropertyBase._set_rule_expression_property),
     (Rule, PropertyBase._get_rule_property, PropertyBase._set_rule_property),
+    (WidgetContainer, PropertyBase._get_element_property, PropertyBase._set_element_property)
 ])
 def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter):
     getter = PropertyBase._find_getter_by_type(prop_type)
@@ -436,6 +437,46 @@ def test_get_rule_property():
     assert not rule.expressions[0].value_as_expression
     assert rule.expressions[0].value == Color((255, 0, 0, 255))
     assert rule.pv_names == {'test_pv1': True, 'test_pv2': False}
+
+
+def test_get_element_property():
+    root = Element('tab')
+    SubElement(root, 'name').text = 'Test Tab'
+    children = SubElement(root, 'children')
+    label = Label(name='Test Label', text='Hello World', x=10, y=10, width=100, height=30)
+    children.append(label.root)
+    print(prettify_xml(root))
+
+    tab = PropertyBase._get_element_property(root, Tab)
+    print(f"{tab = }")
+    assert isinstance(tab, Tab)
+    assert tab.name == 'Test Tab'
+    assert len(tab.get_widgets()) == 1
+    print(f"{type(tab.get_widgets()[0]) = }")
+    assert isinstance(tab.get_widgets()[0], Label)
+    assert tab.get_widgets()[0].name == 'Test Label'
+    assert tab.get_widgets()[0].text == 'Hello World'
+
+
+def test_set_element_property():
+    label = Label(name='Test Label', text='Hello World', x=10, y=10, width=100, height=30)
+    tab = Tab(name='Test Tab')
+    tab.add_widget(label)
+
+    elem = PropertyBase._set_element_property('tab', tab)
+    assert elem.tag == 'tab'
+    name_elem = _get_elem(elem, 'name')
+    assert name_elem.text == 'Test Tab'
+    children_elem = _get_elem(elem, 'children')
+    widget_elem = _get_elem(children_elem, 'widget')
+    assert widget_elem.attrib['type'] == 'label'
+    assert widget_elem.attrib['version'] == '2.0.0'
+    _check_elem_val(widget_elem, 'name', 'Test Label')
+    _check_elem_val(widget_elem, 'text', 'Hello World')
+    _check_elem_val(widget_elem, 'x', '10')
+    _check_elem_val(widget_elem, 'y', '10')
+    _check_elem_val(widget_elem, 'width', '100')
+    _check_elem_val(widget_elem, 'height', '30')
 
 
 @pytest.mark.parametrize('prop_id, expected_type', [
