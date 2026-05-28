@@ -467,7 +467,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The corresponding Enum member
         """
         if element.text is None:
-            raise ValueError("Enum property element has no text value!")
+            raise ValueError('Enum property element has no text value!')
 
         actual_value = element.text
         if issubclass(property_type, int):
@@ -497,7 +497,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         color_elem = element.find('color')
         if color_elem is None:
-            raise ValueError("Color property element has no color child element!")
+            raise ValueError('Color property element has no color child element!')
 
         red = color_elem.attrib.get('red', 0)
         green = color_elem.attrib.get('green', 0)
