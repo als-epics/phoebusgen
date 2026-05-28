@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, fromstring
 
-from phoebusgen.v4.properties.types import ObservableList
+from phoebusgen.v4.properties.types import ObservableList, TabDirection
 from phoebusgen.v4.widgets.widget import HasWidgets
 import pytest
 
@@ -26,7 +26,6 @@ def test_create_single_tab():
     assert len(tab.get_widgets()) == 1
     assert tab.get_widgets()[0].name == 'Test Label'
     assert tab.get_widgets()[0].text == 'Hello World'
-
     assert str(tab) == """<?xml version="1.0" ?>
 <tab>
   <name>Test Tab</name>
@@ -52,6 +51,12 @@ def test_create_tabs_widget():
     assert tabs.y == 10
     assert tabs.width == 300
     assert tabs.height == 200
+
+    # Default direction, tab height, and active tab should be set
+    assert tabs.direction == TabDirection.HORIZONTAL
+    assert tabs.tab_height == 30
+    assert tabs.active_tab == 1
+
     assert isinstance(tabs.tabs, ObservableList)
     assert len(tabs.tabs) == 0
 
@@ -129,6 +134,10 @@ def test_create_tabs_widget():
     # Now try removing a tab and a widget from one of the tabs
     del tabs.tabs[1]
     del tabs.tabs[0].widgets[1]
+
+    # Also, let's change the tab direction, tab height from the defaults
+    tabs.direction = TabDirection.VERTICAL
+    tabs.tab_height = 40
     assert len(tabs.tabs) == 1
     assert tabs.tabs[0].name == 'Tab 1'
     assert len(tabs.tabs[0].widgets) == 1
@@ -154,6 +163,8 @@ def test_create_tabs_widget():
       <name>Tab 1</name>
     </tab>
   </tabs>
+  <direction>1</direction>
+  <tab_height>40</tab_height>
 </widget>
 """
 

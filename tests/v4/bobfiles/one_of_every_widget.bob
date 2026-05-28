@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-03-24 14:27:47 by jwlodek-->
+<!--Saved on 2026-05-28 10:25:49 by jwlodek-->
 <display version="2.0.0">
   <name>OneOfEveryWidget</name>
   <macros>
@@ -370,6 +370,8 @@ $(actions)</tooltip>
     <width>250</width>
     <height>150</height>
     <active_tab>1</active_tab>
+    <direction>1</direction>
+    <tab_height>40</tab_height>
   </widget>
   <widget type="webbrowser" version="2.0.0">
     <name>Web Browser</name>

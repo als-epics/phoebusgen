@@ -199,17 +199,13 @@ class ArrowTypes(str, Enum):
     TO = 'To'
     BOTH = 'Both'
 
-class TabDirection(int, Enum):
-    HORIZONTAL = 0
-    VERTICAL = 1
-
 class OpenDisplayTarget(str, Enum):
     REPLACE = 'replace'
     NEW_TAB = 'tab'
     NEW_WINDOW = 'window'
 
 
-class Direction(int, Enum):
+class TabDirection(int, Enum):
     HORIZONTAL = 0
     VERTICAL = 1
 
