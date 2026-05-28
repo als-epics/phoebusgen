@@ -113,6 +113,12 @@ class PropertyMetaclass(type):
             # Remove existing property element if found
             if tag_name is not None and self.root.find(tag_name) is not None:
                 self.root.remove(self.root.find(tag_name))
+            elif tag_name is None and get_origin(property_type) is ObservableList:
+                # For list properties stored as direct children (tag_name=None),
+                # remove all existing child elements with the item tag name
+                item_tag = self._get_list_item_tag_name(prop_name)
+                for existing in self.root.findall(item_tag):
+                    self.root.remove(existing)
 
             setter_args = []
             for param_name in inspect.signature(typed_setter).parameters.keys():

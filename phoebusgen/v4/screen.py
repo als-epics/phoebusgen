@@ -34,22 +34,22 @@ Example:
 """
 
 
-import copy
 import os
+import re
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Optional, Sequence
+from typing import Dict, List, Optional, Set
 from xml.dom import minidom
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
 from phoebusgen.v4.properties.display import HasBackgroundColor
 from phoebusgen.v4.properties.misc import HasGrid
 from phoebusgen.v4.properties.position import HasPosition
-from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
-from phoebusgen.v4.properties.widget import HasMacros, HasName
+from phoebusgen.v4.properties.widget import HasMacros, HasName, HasNavTabs
 from phoebusgen.v4.widgets import HasWidgets, Widget
-from phoebusgen.v4.widgets.structure import EmbeddedDisplay
+from phoebusgen.v4.widgets.structure import EmbeddedDisplay, TemplateInstance
 
 
 class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
@@ -102,37 +102,77 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
             reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
         return True
 
-    def get_linked_screens(self) -> Dict[Path, Dict[str, str]]:
-        linked_screens = {}
+    def get_linked_screens(self) -> List['ScreenTransition']:
+        """Get all screens linked from this screen via actions, embedded displays, nav tabs, etc.
 
-        # Add any actions that open displays from the screen
-        for action in self.actions:
-            if isinstance(action, OpenDisplayAction):
-                action_macros = copy.deepcopy(action.macros)
-                action_macros.update(self.macros)
-                linked_screens[Path(action.file)] = action_macros
+        :return: List of ScreenTransition objects describing each link
+        """
+        transitions = []  # type: List[ScreenTransition]
+        screen_macros = dict(self.macros)
 
-        # Add any actions that open displays from the widgets
-        def _get_actions_from_widgets(widget: Widget) -> Sequence[PropertyBase]:
-            for widget in self.get_widgets():
-                for action in widget.actions:
-                    if isinstance(action, OpenDisplayAction):
-                        action_macros = copy.deepcopy(action.macros)
-                        action_macros.update(self.macros)
-                        linked_screens[Path(action.file)] = action_macros
-                        if isinstance(widget, HasMacros):
-                            linked_screens[Path(action.file)].update(widget.macros)
+        def _collect_actions(container):
+            """Collect OpenDisplayAction transitions from a widget or screen."""
+            if not isinstance(container, HasActionsRulesAndScripts):
+                return
+            container_macros = dict(container.macros) if isinstance(container, HasMacros) else {}
+            for action in container.actions:
+                if isinstance(action, OpenDisplayAction) and action.file is not None:
+                    macros = {}
+                    macros.update(screen_macros)
+                    macros.update(container_macros)
+                    macros.update(action.macros)
+                    transitions.append(ScreenTransition(
+                        target=Path(action.file),
+                        macros=macros,
+                    ))
 
-        for widget_container in [self, *self.get_widgets_by_property_class(HasWidgets)]:
-            _get_actions_from_widgets(widget_container)
+        # Collect from the screen itself
+        _collect_actions(self)
 
-        # Add any embedded displays from the widgets
-        for widget in self.get_widgets_by_type(EmbeddedDisplay):
-            widget_macros = copy.deepcopy(widget.macros)
-            widget_macros.update(self.macros)
-            linked_screens[Path(widget.file)] = widget_macros
+        # Collect from all widgets (including nested ones in groups/tabs)
+        all_widgets = list(self.widgets)
+        for container in self.get_widgets_by_property_class(HasWidgets):
+            all_widgets.extend(container.widgets)
 
-        return linked_screens
+        for widget in all_widgets:
+            _collect_actions(widget)
+
+        # Collect from EmbeddedDisplay widgets
+        for widget in all_widgets:
+            if isinstance(widget, EmbeddedDisplay) and widget.file is not None:
+                macros = {}
+                macros.update(screen_macros)
+                macros.update(widget.macros)
+                transitions.append(ScreenTransition(
+                    target=Path(widget.file),
+                    macros=macros,
+                ))
+
+        # Collect from TemplateInstance widgets
+        for widget in all_widgets:
+            if isinstance(widget, TemplateInstance) and widget.file is not None:
+                macros = {}
+                macros.update(screen_macros)
+                macros.update(widget.macros)
+                transitions.append(ScreenTransition(
+                    target=Path(widget.file),
+                    macros=macros,
+                ))
+
+        # Collect from NavigationTabs widgets
+        for widget in all_widgets:
+            if isinstance(widget, HasNavTabs):
+                for tab in widget.tabs:
+                    if tab.file is not None:
+                        macros = {}
+                        macros.update(screen_macros)
+                        macros.update(tab.macros)
+                        transitions.append(ScreenTransition(
+                            target=Path(tab.file),
+                            macros=macros,
+                        ))
+
+        return transitions
 
     def predefined_background_color(self, name: object) -> None:
         """
@@ -142,3 +182,102 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         """
         e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
+
+    def get_used_macros(self) -> Set[str]:
+        """Get all macro names referenced in this screen via the $(MACRO) pattern.
+
+        Scans all text content and attribute values in the screen's XML tree
+        for macro references like $(PV_PREFIX), $(DEVICE), etc.
+
+        :return: Set of macro names found in the screen
+        """
+        macro_pattern = re.compile(r'\$\(([^)]+)\)')
+        macros = set()  # type: Set[str]
+
+        def _scan_element(elem):
+            if elem.text:
+                macros.update(macro_pattern.findall(elem.text))
+            if elem.tail:
+                macros.update(macro_pattern.findall(elem.tail))
+            for value in elem.attrib.values():
+                macros.update(macro_pattern.findall(value))
+            for child in elem:
+                _scan_element(child)
+
+        _scan_element(self.root)
+        return macros
+
+    def build_navigation_graph(self, base_dir: Optional[Path] = None) -> 'NavigationGraph':
+        """Build a navigation graph starting from this screen, recursively following all linked screens.
+
+        :param base_dir: Base directory to resolve relative file paths. If None, uses bob_file's parent or cwd.
+        :return: NavigationGraph with all reachable screens and transitions
+        """
+        if base_dir is None:
+            if self.bob_file is not None:
+                base_dir = Path(self.bob_file).resolve().parent
+            else:
+                base_dir = Path.cwd()
+        else:
+            base_dir = base_dir.resolve()
+
+        graph = NavigationGraph()
+        start_path = Path(self.bob_file) if self.bob_file else Path(self.name + '.bob')
+        visited = set()  # type: Set[Path]
+
+        def _visit(screen_path: Path, screen: 'Screen', screen_dir: Path = None):
+            if screen_dir is None:
+                screen_dir = Path(screen_path).resolve().parent
+
+            resolved = screen_dir / screen_path.name
+            resolved = resolved.resolve()
+            if resolved in visited:
+                return
+            visited.add(resolved)
+            graph.screens.add(screen_path)
+
+            for transition in screen.get_linked_screens():
+                graph.transitions.append(NavigationEdge(
+                    source=screen_path,
+                    target=transition.target,
+                    macros=transition.macros,
+                ))
+                graph.screens.add(transition.target)
+
+                # Resolve the target relative to the current screen's directory
+                target_resolved = (screen_dir / transition.target).resolve()
+                if target_resolved not in visited and target_resolved.exists():
+                    try:
+                        linked_screen = Screen(f_name=str(target_resolved))
+                        _visit(transition.target, linked_screen, target_resolved.parent)
+                    except Exception:
+                        pass  # Skip screens that can't be parsed
+
+        _visit(start_path, self, Path(self.bob_file).resolve().parent if self.bob_file else base_dir)
+        return graph
+
+
+@dataclass
+class ScreenTransition:
+    """A transition from one screen to another, with the macros that are passed."""
+    target: Path
+    macros: Dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
+class NavigationGraph:
+    """A graph of screen navigation paths.
+
+    Nodes are screen file paths. Edges are transitions between screens,
+    each carrying the macros passed during that transition.
+    """
+    screens: Set[Path] = field(default_factory=set)
+    transitions: List['NavigationEdge'] = field(default_factory=list)
+
+
+@dataclass
+class NavigationEdge:
+    """A directed edge in the navigation graph."""
+    source: Path
+    target: Path
+    macros: Dict[str, str] = field(default_factory=dict)

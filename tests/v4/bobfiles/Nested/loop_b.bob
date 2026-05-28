@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>LoopB</name>
+  <widget type="action_button" version="3.0.0">
+    <name>Go to A</name>
+    <actions>
+      <action type="open_display">
+        <file>loop_a.bob</file>
+        <target>replace</target>
+        <description>Open A</description>
+      </action>
+    </actions>
+    <x>10</x>
+    <y>10</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+</display>

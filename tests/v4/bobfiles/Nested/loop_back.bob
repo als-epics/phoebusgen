@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>LoopBack</name>
+  <widget type="action_button" version="3.0.0">
+    <name>Back Button</name>
+    <actions>
+      <action type="open_display">
+        <file>../Example_TOP2.bob</file>
+        <target>replace</target>
+        <description>Go back to TOP2</description>
+      </action>
+    </actions>
+    <x>10</x>
+    <y>10</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+</display>
