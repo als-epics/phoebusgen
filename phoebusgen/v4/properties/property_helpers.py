@@ -791,7 +791,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _set_dict_property(cls, tag_name: str, value: Mapping[str, str]) -> Element | Sequence[Element]:
+    def _set_dict_property(cls, tag_name: str, value: Mapping) -> Element | Sequence[Element]:
         """Given a dictionary, create an XML element representing the dictionary property, with child elements for each key-value pair.
 
         :param tag_name: The XML tag name to use for the dictionary property
