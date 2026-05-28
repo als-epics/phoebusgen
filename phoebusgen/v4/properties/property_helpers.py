@@ -11,6 +11,7 @@ from phoebusgen.v4.utils import PhoebusElement
 
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
 
+
 # get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7
 try:
     from typing import get_origin, get_args  # novermin
@@ -50,7 +51,6 @@ PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
 PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
 
-
 def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
     element = Element(prop_name)
     if value is not None:
@@ -64,21 +64,23 @@ class PropertyMetaclass(type):
         all_properties = {}
         cls = super().__new__(mcs, name, bases, attrs)
 
-        def getter(self, prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
-            prop_element = self.root.find(prop_name)
+        def getter(self: 'PropertyBase', prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
+            tag_name = self._get_property_tag_name(prop_name)
+            element = self.root.find(tag_name) if tag_name is not None else self.root
 
-            if prop_element is not None:
-
+            if element is not None:
+                # Get the appropriate getter function for the property type
                 typed_getter = self._find_getter_by_type(property_type)
 
                 # For lists, we pass the item type instead
                 if get_origin(property_type) is ObservableList:
                     property_type = get_args(property_type)[0]
 
-                getter_args = [prop_element]
-
-                if len(inspect.signature(typed_getter).parameters) != len(getter_args):
-                    getter_args.append(property_type)
+                # Based on the function signature, dynamically create a list of arguments
+                # from the local variables in the current scope
+                getter_args = []
+                for param_name in inspect.signature(typed_getter).parameters.keys():
+                    getter_args.append(locals().get(param_name))
 
                 new_val = typed_getter(*getter_args)
             else:
@@ -95,18 +97,25 @@ class PropertyMetaclass(type):
 
             return new_val
 
-        def setter(self, prop_name: str, property_type: Type[PropertyType], value: PropertyType) -> None:
+        def setter(self: 'PropertyBase', prop_name: str, property_type: Type[PropertyType], value: PropertyType) -> None:
+
+            tag_name = self._get_property_tag_name(prop_name)
             typed_setter = self._find_setter_by_type(property_type)
 
             if not self._is_set_value_valid(value, property_type):
                 raise TypeError(f"Value {value} is of invalid type for property '{prop_name}': must be of type {property_type}")
 
             # Remove existing property element if found
-            if self.root.find(prop_name) is not None:
-                self.root.remove(self.root.find(prop_name))
+            if tag_name is not None and self.root.find(tag_name) is not None:
+                self.root.remove(self.root.find(tag_name))
 
-            new_elem = typed_setter(prop_name, value)
-            self.root.append(new_elem)
+            setter_args = []
+            for param_name in inspect.signature(typed_setter).parameters.keys():
+                setter_args.append(locals().get(param_name))
+
+            # Setter funtions always take property name and a new value
+            new_elem = typed_setter(*setter_args)
+            self.root.extend(new_elem if isinstance(new_elem, Sequence) else [new_elem])
 
         # Only create dynamic properties for classes that directly inherit from PropertyBase, not for subclasses of those classes.
         # This way we can have property classes that inherit from other property classes without overwriting the properties defined in the parent class.
@@ -128,6 +137,7 @@ class PropertyMetaclass(type):
                 setattr(cls, prop_name, property(prop_getter, prop_setter))
                 all_properties[cls][prop_name] = PropertyInfo(base_prop_type, default_value)
 
+
         # Collect property names and types from base classes to keep a running dictionary
         # of all property classes and the individual properties they define
         for base in bases:
@@ -144,6 +154,44 @@ class PropertyMetaclass(type):
 class PropertyBase(metaclass=PropertyMetaclass):
     root: Element
     _all_properties: Dict[Type['PropertyBase'], Dict[str, PropertyInfo]] = {}
+    _property_tag_names: Dict[str, Optional[str]] = {}
+
+    @classmethod
+    def _get_property_tag_name(cls, property_name: str) -> Optional[str]:
+        """Get the XML tag name used for a given property.
+
+        :param property_name: The name of the property to get the tag name for
+        :return: The XML tag name used for the property, or None if the property is configured to add its XML directly to the root element
+        """
+        if property_name not in cls.get_property_names():
+            raise ValueError(f"Property '{property_name}' is not a valid property of class '{cls.__name__}'!")
+
+        if property_name in cls._property_tag_names:
+            return cls._property_tag_names[property_name]
+        else:
+            return property_name
+
+    @classmethod
+    def _override_property_tag_name(cls, property_name: str, tag_name: Optional[str]) -> None:
+        """Override the default XML tag name used for a property.
+
+        By default, the tag name for the XML element for a property is the same as the property name.
+        For example, a property named 'background_color' would be represented in XML as <background_color>...</background_color>.
+        In some cases, such as for the widgets property, we want to use a different tag name (e.g. 'children')
+        or no tag at all and instead add the child elements directly to the root element.
+
+        If None is given for tag_name, the property must be a list or dictionary - and
+        the generated tags will be instead added to the root element instead.
+
+        :param property_name: The name of the property to override the tag for
+        :param tag_name: The XML tag name to use for the property, or None to use the default (same as property name)
+        """
+
+        property_type = cls.get_property_type_by_name(property_name)
+        if tag_name is None and get_origin(property_type) not in (ObservableList, ObservableDict):
+            raise ValueError(f"Only list or dict properties can have tag_name set to None, but property '{property_name}' is of type '{property_type}'!")
+
+        cls._property_tag_names[property_name] = tag_name
 
     @classmethod
     def get_property_classes(cls) -> List[Type['PropertyBase']]:
@@ -330,29 +378,34 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
     @classmethod
     def _get_element_property(cls, element: Element, property_type: Type[PhoebusElement]) -> PhoebusElement:
+        """Given an XML element representing a property that is itself a PhoebusElement, parse the value and return an instance of the PhoebusElement."""
+
         return property_type.from_element(element)
 
 
     @classmethod
     def _set_element_property(cls, prop_name: str, value: PhoebusElement) -> Element:
+        """Given a PhoebusElement, create an XML element representing the property, using the XML from the PhoebusElement."""
+
         return value.root
 
+
     @classmethod
-    def _get_enum_property(cls, element: Element, enum_type: Type[Enum]) -> Enum:
+    def _get_enum_property(cls, element: Element, property_type: Type[Enum]) -> Enum:
         """Given an XML element representing an enum property, parse the value and return the corresponding Enum member.
 
         :param element: The XML element to parse the enum value from
-        :param enum_type: The Enum type to parse
+        :param property_type: The Enum type to parse
         :return: The corresponding Enum member
         """
         if element.text is None:
-            raise ValueError('Enum property element has no text value!')
+            raise ValueError(f"Enum property element has no text value!")
 
         actual_value = element.text
-        if issubclass(enum_type, int):
+        if issubclass(property_type, int):
             actual_value = int(actual_value)
 
-        return enum_type(actual_value)
+        return property_type(actual_value)
 
 
     @classmethod
@@ -376,7 +429,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         color_elem = element.find('color')
         if color_elem is None:
-            raise ValueError('Color property element has no color child element!')
+            raise ValueError(f"Color property element has no color child element!")
 
         red = color_elem.attrib.get('red', 0)
         green = color_elem.attrib.get('green', 0)
@@ -416,18 +469,18 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_dataclass_property(cls, element: Element, dataclass_type: Type[ObservableDataclass]) -> ObservableDataclass:
+    def _get_dataclass_property(cls, element: Element, property_type: Type[ObservableDataclass]) -> ObservableDataclass:
         """Given an XML element representing a dataclass property, parse the value and return an instance of the dataclass.
 
         :param element: The XML element to parse the dataclass value from
-        :param dataclass_type: The type of the dataclass to parse
+        :param property_type: The type of the dataclass to parse
         :return: An instance of the dataclass with fields populated from the XML
         """
 
         field_values = {}
-        for field in dataclass_type.fields():
+        for field in property_type.fields():
             field_elem = element.find(field)
-            field_type = dataclass_type.fields()[field].type
+            field_type = property_type.fields()[field].type
             if field_elem is None and field in element.attrib:
                 field_values[field] = field_type(element.attrib[field])
             elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool)):
@@ -437,7 +490,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
                     getter_args.append(field_type)
                 field_values[field] = typed_getter(*getter_args)
 
-        return dataclass_type(**field_values)
+        return property_type(**field_values)
 
 
     @classmethod
@@ -496,7 +549,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
     def _set_action_property(cls, prop_name: str, value: Action) -> Element:
         """Given an instance of an Action subclass, create an XML element representing the action property, with child elements or attributes for each field.
 
-        :param prop_name: The name of the property
+        :param prop_name: The name of the property (unused, actions always use 'action' as tag)
         :param value: The Action subclass instance to set
         :return: The XML element representing the action property
         """
@@ -515,10 +568,14 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: An instance of RuleExpression with fields populated from the XML
         """
 
+        # bool_exp attribute is required
         bool_exp = element.attrib.get('bool_exp', None)
         if bool_exp is None:
-            raise ValueError("Rule expression element is missing required 'bool_exp' attribute!")
+            raise ValueError(f"Rule expression element is missing required 'bool_exp' attribute!")
 
+        # There are two ways to structure a RuleExpression, with value as an expression or as a literal.
+        # With value_as_expression=True, the value is stored as text in an <expression> child element, 
+        # and the expression is evaluated at runtime to get the value, so we just return it as a string.
         expression_elem = element.find('expression')
         if expression_elem is not None:
             value_as_expression = True
@@ -562,6 +619,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
     def _get_rule_property(cls, element: Element, property_type: ValidListTypeT) -> Rule:
         """Given an XML element representing a rule property, parse the value and return an instance of Rule.
 
+        :param prop_name: The name of the property
         :param element: The XML element to parse the rule property value from
         :param property_type: The type of the property
         :return: An instance of Rule with fields populated from the XML
@@ -645,15 +703,17 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _set_dict_property(cls, prop_name: str, value: Mapping) -> Element:
+    def _set_dict_property(cls, tag_name: str, value: Mapping[str, str]) -> Element | Sequence[Element]:
         """Given a dictionary, create an XML element representing the dictionary property, with child elements for each key-value pair.
 
-        :param prop_name: The name of the property
+        :param tag_name: The XML tag name to use for the dictionary property
         :param value: The dictionary to set
         :return: The XML element representing the dictionary property
         """
 
-        dict_elem = _create_element(prop_name)
+        dict_elem = []
+        if tag_name is not None:
+            dict_elem = _create_element(tag_name)
         for k, v in value.items():
             item_elem = _create_element(str(k), str(v))
             dict_elem.append(item_elem)
@@ -661,53 +721,73 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_list_property(cls, element: Element, item_type: Type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
+    def _get_list_item_tag_name(cls, prop_name: str) -> str:
+        """Given a list property name, return the XML tag name to use for items in the list.
+
+        By default, this is the singular form of the property name (e.g. 'widgets' -> 'widget'), but there are some exceptions
+        such as properties ending in 'axes', which use 'axis' as the item tag name.
+
+        :param prop_name: The name of the list property
+        :return: The XML tag name to use for items in the list
+        """
+
+        if prop_name.endswith('axes'):
+            return prop_name.replace('axes', 'axis')
+        else:
+            return prop_name[:-1]
+
+
+    @classmethod
+    def _get_list_property(cls, prop_name: str, element: Element, property_type: Type[ValidListTypeT]) -> ObservableList[ValidListTypeT]:
         """Given an XML element representing a list property, parse the value and return an ObservableList of the appropriate type.
 
+        :param prop_name: The name of the property
         :param element: The XML element to parse the list value from
-        :param item_type: The type of the items in the list
+        :param property_type: The type of the items in the list
         :return: An ObservableList with items parsed from the XML
         """
 
         result = ObservableList[ValidListTypeT]()
         if element is not None:
-            for item_elem in element:
-                typed_getter = cls._find_getter_by_type(item_type)
+            for item_elem in element.findall(cls._get_list_item_tag_name(prop_name)):
+                typed_getter = cls._find_getter_by_type(property_type)
                 getter_args = [item_elem]  # type: List[Any]
                 if len(inspect.signature(typed_getter).parameters) > 1:
-                    if item_type is Rule:
+                    if property_type is Rule:
                         rule_prop_id = item_elem.attrib.get('prop_id', None)
                         if rule_prop_id is None:
                             raise ValueError("Rule element is missing required 'prop_id' attribute!")
                         rule_prop_type = cls._get_property_type_from_prop_id(rule_prop_id)
                         getter_args.append(rule_prop_type)
                     else:
-                        getter_args.append(item_type)
+                        getter_args.append(property_type)
                 result.append(typed_getter(*getter_args))
         return result
 
 
     @classmethod
-    def _set_list_property(cls, prop_name: str, values: Sequence[ValidListTypeT]) -> Element:
+    def _set_list_property(cls, prop_name: str, tag_name: str, value: Sequence[ValidListTypeT]) -> Union[Element, Sequence[Element]]:
         """Given a sequence of values, create an XML element representing the list property, with child elements for each item in the list.
 
         :param prop_name: The name of the property
-        :param values: The sequence of values to set
+        :param tag_name: The XML tag name to use for the list property
+        :param value: The sequence of values to set
         :return: The XML element representing the list property
         """
 
-        list_elem = _create_element(prop_name)
-        for item in values:
-            # For lists, the item element name is usually the singular form of the list property name
-            # The only exception is for properties ending in "axis", which become "axes"
-            if prop_name.endswith('axes'):
-                list_item_name = prop_name.replace('axes', 'axis')
-            else:
-                list_item_name = prop_name[:-1]
+        items = []
+        for item in value:
 
+            list_item_name = cls._get_list_item_tag_name(prop_name)
             typed_setter = cls._find_setter_by_type(type(item))
-            list_elem.append(typed_setter(list_item_name, item))
-        return list_elem
+            items.append(typed_setter(list_item_name, item))
+
+        if tag_name is not None:
+            list_elem = _create_element(tag_name)
+            list_elem.extend(items)
+            return list_elem
+        else:
+            return items
 
 
     @classmethod

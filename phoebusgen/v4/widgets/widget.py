@@ -1,7 +1,8 @@
 from pathlib import Path
 import re
-from typing import Dict, List, Sequence, Type, TypeVar, Union
+from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
+from phoebusgen.v4.properties.types import ObservableList
 from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
@@ -148,14 +149,27 @@ class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAn
 
         if w_type not in [t.value for t in WidgetType]:
             raise ValueError(f"Widget type '{w_type}' is not a valid widget type!")
+        
 
-        expected_type = _widget_type_from_class_name(cls.__name__)
+        # If using the Widget class directly, try to find the correct subclass based on the type attribute
+        instance_cls = cls
+        if instance_cls == Widget:
+            for subcls in Widget.__subclasses__():
+                try:
+                    subcls_type = _widget_type_from_class_name(subcls.__name__)
+                    if subcls_type.value == w_type:
+                        instance_cls = subcls
+                        break
+                except (KeyError, ValueError):
+                    continue
+
+        expected_type = _widget_type_from_class_name(instance_cls.__name__)
         if w_type != expected_type.value:
             raise ValueError(f"Expected widget type '{expected_type.value}', got '{w_type}'")
 
-        cls_instance = cls.__new__(cls)
-        cls_instance.root = element
-        return cls_instance
+        instance = instance_cls.__new__(instance_cls)
+        instance.root = element
+        return instance
 
     @property
     def version(self) -> str:
@@ -203,13 +217,68 @@ WidgetT = TypeVar('WidgetT', bound=Widget)
 PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 
-class WidgetContainer(PhoebusElement):
-    """Base class for widgets or screen elements that can contain other widgets, such as Tabs or Groups."""
+class HasWidgets(PhoebusElement, PropertyBase):
 
-    container_root: Element
+    widgets: ObservableList[Widget]
 
-    def __init__(self, container_root: Element) -> None:
-        self.container_root = container_root
+    def __init__(self, widgets_tag_name: Optional[str] = None) -> None:
+        """Interface for widgets that contain other widgets.
+
+        :param widgets_tag_name: Optional tag name for the XML element that contains the child widgets. If not provided, defaults to 'widgets'.
+        """
+
+        self._override_property_tag_name('widgets', widgets_tag_name)
+
+
+    def get_widgets_by_type(self, widget_type: Type[WidgetT]) -> List[WidgetT]:
+        """Get a list of widgets contained within the container that are of type widget_type.
+
+        :param widget_type: Widget type to filter by
+        :return: List of Widget instances of type widget_type contained within the container
+        :rtype: List[Widget]
+        """
+
+        return [w for w in self.widgets if isinstance(w, widget_type)]
+
+
+    def get_widgets_by_property_class(self, prop_type: Type[PropertyT]) -> List[PropertyT]:
+        """Get a list of widgets contained within the container that have a property of type prop_type.
+
+        :param prop_type: Property type to filter by
+        :return: List of Widget instances that have a property of type prop_type
+        :rtype: List[Widget]
+        """
+        return [w for w in self.widgets if isinstance(w, prop_type)]
+
+
+    def get_widgets_by_property(self, property_name: str) -> List[Widget]:
+        """Get a list of widgets contained within the container that have a property named property_name.
+
+        :param property_name: Name of property to filter by
+        :return: List of Widget instances that have a property named property_name
+        :rtype: List[Widget]
+        """
+
+        widgets_with_property = []
+        for widget in self.widgets:
+            if hasattr(widget, property_name):
+                widgets_with_property.append(widget)
+        return widgets_with_property
+    
+
+    # For BC, we keep the two below methods
+
+    def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
+        """Add widget or list of widgets to screen.
+
+        :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
+        """
+
+        if isinstance(elem, Sequence):
+            for e in elem:
+                self.widgets.append(e)
+        else:
+            self.widgets.append(elem)
 
     def get_widgets(self) -> List[Widget]:
         """Get a list of all widgets contained within the container.
@@ -222,70 +291,4 @@ class WidgetContainer(PhoebusElement):
          :rtype: List[Widget]
          """
 
-        widget_elems = self.container_root.findall('widget')
-        widgets = []
-        for elem in widget_elems:
-            elem_type = elem.attrib.get('type', None)
-            if elem_type is None:
-                raise ValueError(f'Unknown widget type for element: {prettify_xml(elem)}')
-            widget_cls = None
-            for cls in Widget.__subclasses__():
-                cls_widget_type = _widget_type_from_class_name(cls.__name__)
-                if cls_widget_type.value == elem_type:
-                    widget_cls = cls
-                    break
-            if widget_cls is None:
-                raise ValueError(f"Unsupported widget type '{elem_type}' for element: {prettify_xml(elem)}")
-            widgets.append(widget_cls.from_element(elem))
-        return widgets
-
-
-    def get_widgets_by_type(self, widget_type: Type[WidgetT]) -> List[WidgetT]:
-        """Get a list of widgets contained within the container that are of type widget_type.
-
-        :param widget_type: Widget type to filter by
-        :return: List of Widget instances of type widget_type contained within the container
-        :rtype: List[Widget]
-        """
-
-        return [w for w in self.get_widgets() if isinstance(w, widget_type)]
-
-
-    def get_widgets_by_property_class(self, prop_type: Type[PropertyT]) -> List[PropertyT]:
-        """Get a list of widgets contained within the container that have a property of type prop_type.
-
-        :param prop_type: Property type to filter by
-        :return: List of Widget instances that have a property of type prop_type
-        :rtype: List[Widget]
-        """
-        return [w for w in self.get_widgets() if isinstance(w, prop_type)]
-
-
-    def get_widgets_by_property(self, property_name: str) -> List[Widget]:
-        """Get a list of widgets contained within the container that have a property named property_name.
-
-        :param property_name: Name of property to filter by
-        :return: List of Widget instances that have a property named property_name
-        :rtype: List[Widget]
-        """
-
-        widgets_with_property = []
-        for widget in self.get_widgets():
-            if hasattr(widget, property_name):
-                widgets_with_property.append(widget)
-        return widgets_with_property
-
-
-    def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
-        """Add widget or list of widgets to screen.
-
-        :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
-        """
-
-        if isinstance(elem, Sequence):
-            for e in elem:
-                self.container_root.append(e.root)
-        else:
-            self.container_root.append(elem.root)
-
-
+        return self.widgets

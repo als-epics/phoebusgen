@@ -1,7 +1,7 @@
 from xml.etree.ElementTree import Element, fromstring
 
 from phoebusgen.v4.properties.types import ObservableList
-from phoebusgen.v4.widgets.widget import WidgetContainer
+from phoebusgen.v4.widgets.widget import HasWidgets
 import pytest
 
 from phoebusgen.v4.screen import Screen
@@ -18,7 +18,7 @@ def test_create_single_tab():
 
     assert tab.name == 'Test Tab'
     assert isinstance(tab, HasName)
-    assert isinstance(tab, WidgetContainer)
+    assert isinstance(tab, HasWidgets)
     assert len(tab.get_widgets()) == 0
     assert tab.root.tag == 'tab'
     label = Label(name='Test Label', text='Hello World', x=10, y=10, width=100, height=30)
@@ -66,18 +66,18 @@ def test_create_tabs_widget():
     # Now add widgets to the first tab
     label = Label(name='Test Label', text = 'Hello World', x=10, y=10, width=100, height=30)
     button = BooleanButton(name='Test Button', pv_name='Test:PV', x=10, y=50, width=100, height=30)
-    tabs.tabs[0].get_widgets() == []
-    tabs.tabs[0].add_widget(label)
-    tabs.tabs[0].add_widget(button)
-    assert len(tabs.tabs[0].get_widgets()) == 2
-    assert tabs.tabs[0].get_widgets()[0].name == 'Test Label'
-    assert tabs.tabs[0].get_widgets()[1].name == 'Test Button'
+    tabs.tabs[0].widgets == []
+    tabs.tabs[0].widgets.append(label)
+    tabs.tabs[0].widgets.append(button)
+    assert len(tabs.tabs[0].widgets) == 2
+    assert tabs.tabs[0].widgets[0].name == 'Test Label'
+    assert tabs.tabs[0].widgets[1].name == 'Test Button'
 
     # Add a widget to the second tab
     label2 = Label(name='Second Tab Label', text='Goodbye World', x=10, y=10, width=100, height=30)
-    tabs.tabs[1].add_widget(label2)
-    assert len(tabs.tabs[1].get_widgets()) == 1
-    assert tabs.tabs[1].get_widgets()[0].name == 'Second Tab Label'
+    tabs.tabs[1].widgets.append(label2)
+    assert len(tabs.tabs[1].widgets) == 1
+    assert tabs.tabs[1].widgets[0].name == 'Second Tab Label'
 
     # Check created xml
     assert str(tabs) == """<?xml version="1.0" ?>
@@ -128,11 +128,11 @@ def test_create_tabs_widget():
 
     # Now try removing a tab and a widget from one of the tabs
     del tabs.tabs[1]
-    del tabs.tabs[0].get_widgets()[1]
+    del tabs.tabs[0].widgets[1]
     assert len(tabs.tabs) == 1
     assert tabs.tabs[0].name == 'Tab 1'
     print(tabs)
-    assert len(tabs.tabs[0].get_widgets()) == 1
+    assert len(tabs.tabs[0].widgets) == 1
 
     assert str(tabs) == """<?xml version="1.0" ?>
 <widget type="tabs" version="2.0.0">
@@ -152,6 +152,7 @@ def test_create_tabs_widget():
           <height>30</height>
           <text>Hello World</text>
         </widget>
+      </children>
       <name>Tab 1</name>
     </tab>
   </tabs>

@@ -11,7 +11,7 @@ from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
 
 from phoebusgen.v4.properties.widget import HasName
-from phoebusgen.v4.widgets import XYPlot, WidgetContainer, Label, Tab
+from phoebusgen.v4.widgets import XYPlot, Label, Tab
 from phoebusgen.v4.properties.types import Axis, ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
 from enum import Enum
@@ -51,7 +51,7 @@ def test_create_element():
     (Action, PropertyBase._get_action_property, PropertyBase._set_action_property),
     (RuleExpression, PropertyBase._get_rule_expression_property, PropertyBase._set_rule_expression_property),
     (Rule, PropertyBase._get_rule_property, PropertyBase._set_rule_property),
-    (WidgetContainer, PropertyBase._get_element_property, PropertyBase._set_element_property)
+    (Tab, PropertyBase._get_element_property, PropertyBase._set_element_property)
 ])
 def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter):
     getter = PropertyBase._find_getter_by_type(prop_type)
@@ -284,19 +284,19 @@ def test_get_list_property_primitive():
     for i in range(3):
         item_elem = SubElement(elem, 'item')
         item_elem.text = str(i + 1)
-    values = PropertyBase._get_list_property(elem, int)
+    values = PropertyBase._get_list_property('items', elem, int)
     assert values == [1, 2, 3]
 
 
 def test_set_list_property_primitive():
     values = [1, 2, 3]
-    elem = PropertyBase._set_list_property('items', values)
+    elem = PropertyBase._set_list_property('items', 'items', values)
     assert elem.tag == 'items'
     items = elem.findall('item')
     assert len(items) == 3
     for i, item_elem in enumerate(items):
         assert item_elem.text == str(values[i])
-    retrieved_values = PropertyBase._get_list_property(elem, int)
+    retrieved_values = PropertyBase._get_list_property('items', elem, int)
     assert retrieved_values == values
 
 
@@ -308,7 +308,7 @@ def test_get_list_property_dataclass():
         SubElement(state_elem, 'value').text = str(i)
         color_elem = SubElement(state_elem, 'color')
         SubElement(color_elem, 'color').attrib = {'red': str(i * 100), 'green': '0', 'blue': '255', 'alpha': '255'}
-    values = PropertyBase._get_list_property(elem, State)
+    values = PropertyBase._get_list_property('states', elem, State)
     assert len(values) == 2
     assert values[0] == State(label='State 1', value=0, color=Color((0, 0, 255)))
     assert values[1] == State(label='State 2', value=1, color=Color((100, 0, 255)))
@@ -319,7 +319,7 @@ def test_set_list_property_dataclass():
         State(label='State 1', value=0, color=Color((0, 0, 255))),
         State(label='State 2', value=1, color=Color((100, 0, 255)))
     ]
-    elem = PropertyBase._set_list_property('states', states)
+    elem = PropertyBase._set_list_property('states', 'states', states)
     assert elem.tag == 'states'
     state_elems = elem.findall('state')
     assert len(state_elems) == 2
@@ -333,7 +333,7 @@ def test_set_list_property_dataclass():
         assert inner_color_elem.attrib['green'] == str(expected_color[1])
         assert inner_color_elem.attrib['blue'] == str(expected_color[2])
         assert inner_color_elem.attrib['alpha'] == '255'
-    retrieved_states = PropertyBase._get_list_property(elem, State)
+    retrieved_states = PropertyBase._get_list_property('states', elem, State)
     assert retrieved_states == states
 
 
@@ -445,23 +445,20 @@ def test_get_element_property():
     children = SubElement(root, 'children')
     label = Label(name='Test Label', text='Hello World', x=10, y=10, width=100, height=30)
     children.append(label.root)
-    print(prettify_xml(root))
 
     tab = PropertyBase._get_element_property(root, Tab)
-    print(f"{tab = }")
     assert isinstance(tab, Tab)
     assert tab.name == 'Test Tab'
-    assert len(tab.get_widgets()) == 1
-    print(f"{type(tab.get_widgets()[0]) = }")
-    assert isinstance(tab.get_widgets()[0], Label)
-    assert tab.get_widgets()[0].name == 'Test Label'
-    assert tab.get_widgets()[0].text == 'Hello World'
+    assert len(tab.widgets) == 1
+    assert isinstance(tab.widgets[0], Label)
+    assert tab.widgets[0].name == 'Test Label'
+    assert tab.widgets[0].text == 'Hello World'
 
 
 def test_set_element_property():
     label = Label(name='Test Label', text='Hello World', x=10, y=10, width=100, height=30)
     tab = Tab(name='Test Tab')
-    tab.add_widget(label)
+    tab.widgets.append(label)
 
     elem = PropertyBase._set_element_property('tab', tab)
     assert elem.tag == 'tab'

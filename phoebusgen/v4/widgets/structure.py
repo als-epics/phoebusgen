@@ -3,7 +3,7 @@ from xml.etree.ElementTree import Element, SubElement
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import ObservableList
 
-from .widget import Widget, WidgetContainer
+from .widget import Widget, HasWidgets
 from phoebusgen.v4.properties.display import (
     HasPVName,
     HasBackgroundColor,
@@ -59,7 +59,7 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
         Widget.__init__(self, name, x, y, width, height)
         self.file = file
 
-class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
+class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
     """ Group Phoebus Widget """
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
@@ -73,7 +73,7 @@ class Group(Widget, WidgetContainer, HasMacros, HasGroupStyle, HasFont, HasForeg
         :param height: Widget height
         """
         Widget.__init__(self, name, x, y, width, height)
-        WidgetContainer.__init__(self, self.root)
+        self._override_property_tag_name('widgets', None)
 
 class NavigationTabs(Widget, HasNavTabs, HasTabActiveHeightDirection, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
@@ -91,7 +91,7 @@ class NavigationTabs(Widget, HasNavTabs, HasTabActiveHeightDirection, HasSelecte
         Widget.__init__(self, name, x, y, width, height)
 
 
-class Tab(WidgetContainer, HasName):
+class Tab(HasWidgets, HasName):
     """Tab object for tabs widget"""
     def __init__(self, name: str, root: Element | None = None) -> None:
         """
@@ -109,7 +109,8 @@ class Tab(WidgetContainer, HasName):
         if children_elem is None:
             children_elem = SubElement(self.root, 'children')
 
-        WidgetContainer.__init__(self, children_elem)
+        HasTabs.__init__(self)
+        HasWidgets.__init__(self, widgets_tag_name='children')
 
     @classmethod
     def from_element(cls, element: Element) -> 'Tab':
@@ -156,7 +157,7 @@ class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, Has
         Widget.__init__(self, name, x, y, width, height)
 
 
-class TemplateInstance(Widget, WidgetContainer, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
+class TemplateInstance(Widget, HasWidgets, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
     """ TemplateInstance Phoebus Widget """
 
     def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:

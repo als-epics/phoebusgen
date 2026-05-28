@@ -45,13 +45,13 @@ from phoebusgen.v4.properties.misc import HasGrid
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
-from phoebusgen.v4.widgets import Widget, WidgetContainer
+from phoebusgen.v4.widgets import Widget, HasWidgets
 from phoebusgen.v4.utils import PhoebusElement
 from pathlib import Path
 
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
 
-class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
+class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
     def __init__(self, name: Optional[str] = None, f_name: Optional[str] = None) -> None:
         """
@@ -70,6 +70,7 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
             root = ET.Element('display', attrib={'version': '2.0.0'})
 
         PhoebusElement.__init__(self, root)
+        HasWidgets.__init__(self, None)
 
         if f_name is None or not os.path.exists(f_name):
             # Default screen size for new screens
@@ -81,7 +82,6 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
             self.name = 'Display' if not name else name
         else:
             self.name = name_elem.text if not name else name
-        WidgetContainer.__init__(self, root)
 
     def write_screen(self, file_name: Optional[str] = None) -> bool:
         """
@@ -94,7 +94,7 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
         reparse_xml = minidom.parseString(rough_string)
         if file_name is None:
             if self.bob_file is None:
-                raise ValueError('Outptut file name not specified. Set bob_file member or provide file_name parameter')
+                raise ValueError('Output file name not specified. Set bob_file member or provide file_name parameter')
 
             file_name = self.bob_file
         with open(file_name, 'w') as f:
@@ -122,7 +122,7 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
                         if isinstance(widget, HasMacros):
                             linked_screens[Path(action.file)].update(widget.macros)
 
-        for widget_container in [self, *self.get_widgets_by_type(WidgetContainer)]:
+        for widget_container in [self, *self.get_widgets_by_property_class(HasWidgets)]:
             _get_actions_from_widgets(widget_container)
 
         # Add any embedded displays from the widgets
@@ -133,12 +133,12 @@ class Screen(WidgetContainer, HasPosition, HasBackgroundColor, HasMacros, HasNam
 
         return linked_screens
 
-    # def predefined_background_color(self, name: object) -> None:
-    #     """
-    #     Add named background color to screen
+    def predefined_background_color(self, name: object) -> None:
+        """
+        Add named background color to screen
 
-    #     :param name: <Phoebusgen.colors> Predefined color name
-    #     """
-    #     e = self._shared.create_element(self.root, 'background_color')
-    #     self._shared.create_color_element(e, name, None, None, None, None)
+        :param name: <Phoebusgen.colors> Predefined color name
+        """
+        e = self._shared.create_element(self.root, 'background_color')
+        self._shared.create_color_element(e, name, None, None, None, None)
 

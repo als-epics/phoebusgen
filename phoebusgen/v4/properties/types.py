@@ -213,7 +213,7 @@ class Direction(int, Enum):
     HORIZONTAL = 0
     VERTICAL = 1
 
-class ObservableDict(MutableMapping):
+class ObservableDict(MutableMapping[str, str]):
 
     _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
 

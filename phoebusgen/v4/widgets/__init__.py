@@ -28,7 +28,7 @@ Example:
     </widget>
 """
 
-from .widget import widget_versions, WidgetType, Widget, WidgetContainer
+from .widget import widget_versions, WidgetType, Widget, HasWidgets
 from .graphics import (
     Arc,
     Ellipse,
