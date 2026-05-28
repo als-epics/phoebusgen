@@ -2,26 +2,26 @@ from pathlib import Path
 from typing import Optional
 
 from .property_helpers import PropertyBase
-
 from .types import (
+    ArrowTypes,
+    Color,
     ColorBar,
     ColorMap,
-    Font,
-    ArrowTypes,
-    Format,
-    HorizontalAlignment,
-    LineStyle,
-    Color,
     Column,
-    ObservableList,
-    ResizeBehavior,
+    Font,
+    Format,
     GroupStyle,
-    RotationStep,
-    Point,
+    HorizontalAlignment,
     LinearMeterColors,
+    LineStyle,
+    ObservableList,
+    Point,
+    ResizeBehavior,
+    RotationStep,
     TabDirection,
-    VerticalAlignment
+    VerticalAlignment,
 )
+
 
 class HasVisible(PropertyBase):
     visible: bool = True

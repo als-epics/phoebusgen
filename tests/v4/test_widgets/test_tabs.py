@@ -2,12 +2,10 @@ from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.properties.types import NavTab, ObservableList, TabDirection
-from phoebusgen.v4.widgets.widget import HasWidgets
-
-from phoebusgen.v4.widgets.structure import NavigationTabs, Tabs, Tab
 from phoebusgen.v4.properties.widget import HasName
-
-from phoebusgen.v4.widgets import Label, BooleanButton
+from phoebusgen.v4.widgets import BooleanButton, Label
+from phoebusgen.v4.widgets.structure import NavigationTabs, Tab, Tabs
+from phoebusgen.v4.widgets.widget import HasWidgets
 
 
 def test_create_single_tab():

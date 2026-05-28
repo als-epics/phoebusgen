@@ -1,9 +1,11 @@
 from pathlib import Path
 from typing import Union
 
-from .widget import Widget
 from phoebusgen.v4.properties.display import HasShowToolbar
 from phoebusgen.v4.properties.widget import HasFile, HasUrl
+
+from .widget import Widget
+
 
 class ThreeDViewer(Widget, HasFile):
     """ ThreeDViewer Phoebus Widget """

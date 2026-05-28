@@ -1,40 +1,42 @@
 from pathlib import Path
 from typing import Union
 
-from .widget import Widget
+from phoebusgen.v4.properties.behavior import (
+    HasAlarmBorder,
+    HasAutoScale,
+    HasColorMode,
+    HasDataWidthAndHeight,
+    HasInterpolation,
+    HasLimitsFromPV,
+    HasLogScale,
+    HasMinMax,
+    HasTraces,
+    HasUnisignedData,
+    HasXAxis,
+    HasYAxes,
+    HasYAxis,
+)
 from phoebusgen.v4.properties.display import (
-    HasShowToolbar,
     HasBackgroundColor,
-    HasForegroundColor,
-    HasSelectionValuePV,
-    HasColorMap,
     HasColorBar,
-    HasTitle,
+    HasColorMap,
+    HasForegroundColor,
     HasLabelFont,
+    HasPVName,
     HasScaleFont,
+    HasSelectionValuePV,
     HasShowGrid,
     HasShowLegend,
+    HasShowToolbar,
     HasTimeRange,
+    HasTitle,
     HasTitleFont,
-    HasPVName,
 )
-from phoebusgen.v4.properties.behavior import (
-    HasXAxis,
-    HasDataWidthAndHeight,
-    HasYAxis,
-    HasAlarmBorder,
-    HasInterpolation,
-    HasColorMode,
-    HasUnisignedData,
-    HasAutoScale,
-    HasYAxes,
-    HasLogScale,
-    HasTraces,
-    HasMinMax,
-    HasLimitsFromPV,
-)
-from phoebusgen.v4.properties.widget import HasMacros, HasFile
-from phoebusgen.v4.properties.misc import HasCursor, HasROIs, HasMarkers
+from phoebusgen.v4.properties.misc import HasCursor, HasMarkers, HasROIs
+from phoebusgen.v4.properties.widget import HasFile, HasMacros
+
+from .widget import Widget
+
 
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """

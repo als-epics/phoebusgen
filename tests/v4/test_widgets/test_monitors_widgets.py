@@ -1,8 +1,13 @@
 from xml.etree.ElementTree import fromstring
 
+from phoebusgen.v4.properties.types import (
+    Color,
+    Format,
+    State,
+)
 from phoebusgen.v4.widgets import (
-    ByteMonitor,
     LED,
+    ByteMonitor,
     LEDMultiState,
     LinearMeter,
     Meter,
@@ -13,11 +18,6 @@ from phoebusgen.v4.widgets import (
     TextSymbol,
     TextUpdate,
     Thermometer,
-)
-from phoebusgen.v4.properties.types import (
-    Color,
-    Format,
-    State,
 )
 
 

@@ -1,24 +1,23 @@
-import pytest
 from typing import List, Tuple, Type
-from phoebusgen.v4.widgets import (
-    Widget,
-    TextUpdate
-)
-from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
+
+import pytest
+
+from phoebusgen.v4.properties.display import HasVisible
+from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.types import (
+    Axis,
+    Color,
     Font,
     FontStyle,
     ObservableDict,
     ObservableList,
+    PointType,
     Trace,
     TraceType,
-    PointType,
-    Color,
-    Axis,
 )
 from phoebusgen.v4.properties.widget import HasName
-from phoebusgen.v4.properties.position import HasPosition
-from phoebusgen.v4.properties.display import HasVisible
+from phoebusgen.v4.widgets import TextUpdate, Widget
+from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
 
 WIDGET_CLASSES = Widget.__subclasses__()
 

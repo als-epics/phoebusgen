@@ -1,9 +1,11 @@
+import inspect
+from typing import Callable, List, Tuple, Type
+from xml.etree.ElementTree import Element, SubElement
+
 import pytest
+
 from phoebusgen.v4.widgets import Widget
 from phoebusgen.v4.widgets.widget import _widget_type_from_class_name
-from typing import Callable, List, Tuple, Type
-import inspect
-from xml.etree.ElementTree import Element, SubElement
 
 
 @pytest.fixture

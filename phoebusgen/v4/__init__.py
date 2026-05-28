@@ -17,15 +17,14 @@ to reflect your site's custom definitions.
 # Copyright (c) 2022 Lawrence Berkeley National Laboratory,
 # Advanced Light Source, Engineering Division
 
-from .screen import Screen
-from . import widgets, properties
-from .widgets import widget_versions
-
-from os import path as _path
-from sys import platform as _platform
 import re as _re
 from enum import Enum as _enum
+from os import path as _path
+from sys import platform as _platform
 
+from . import properties, widgets
+from .screen import Screen
+from .widgets import widget_versions
 
 _curr_path = _path.dirname(__file__)
 _color_def = _curr_path + '/../config/color.def'

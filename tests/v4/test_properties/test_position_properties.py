@@ -2,6 +2,7 @@
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.utils import prettify_xml
 
+
 def test_has_position(property_factory):
     pos = property_factory(HasPosition)
     pos.x = 10

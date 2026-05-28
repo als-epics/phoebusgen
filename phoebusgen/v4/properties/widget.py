@@ -4,7 +4,15 @@ from typing import Optional
 from phoebusgen.v4.properties.display import HasTabActiveHeightDirection
 
 from .property_helpers import PropertyBase
-from .types import FileComponent, NavTab, ObservableDict, ObservableList, Instance, TabDirection
+from .types import (
+    FileComponent,
+    Instance,
+    NavTab,
+    ObservableDict,
+    ObservableList,
+    TabDirection,
+)
+
 
 class HasMacros(PropertyBase):
     macros: ObservableDict

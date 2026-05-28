@@ -1,20 +1,18 @@
 import copy
-from pathlib import Path
-from xml.etree.ElementTree import Element
-import sys
-from enum import Enum
-
 import inspect
+import sys
 from collections.abc import Mapping
 from dataclasses import dataclass, is_dataclass
+from enum import Enum
+from pathlib import Path
+from typing import Callable, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
+from xml.etree.ElementTree import Element
+
 from phoebusgen.v4.utils import PhoebusElement
-
-from typing import Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
-
 
 # get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7
 try:
-    from typing import get_origin, get_args  # novermin
+    from typing import get_args, get_origin  # novermin
 except ImportError:
     def get_origin(tp):
         return getattr(tp, '__origin__', None)
@@ -23,15 +21,15 @@ except ImportError:
         return getattr(tp, '__args__', ())
 
 from .types import (
+    Action,
     Color,
     Font,
-    Action,
-    Rule,
-    RuleExpression,
+    ObservableDataclass,
     ObservableDict,
     ObservableList,
+    Rule,
+    RuleExpression,
     ValidListTypeT,
-    ObservableDataclass
 )
 
 Primitive = Union[int, float, str, bool]

@@ -1,7 +1,7 @@
-from xml.etree.ElementTree import tostring, Element
+from typing import Type, TypeVar
 from xml.dom import minidom
-from typing import TypeVar, Type
-from xml.etree.ElementTree import Element
+from xml.etree.ElementTree import Element, tostring
+
 
 def prettify_xml(elem):
     """Return a pretty-printed XML string for the Element.

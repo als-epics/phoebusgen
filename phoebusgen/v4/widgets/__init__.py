@@ -28,21 +28,36 @@ Example:
     </widget>
 """
 
-from .widget import widget_versions, WidgetType, Widget, HasWidgets
+from .controls import (
+    ActionButton,
+    BooleanButton,
+    CheckBox,
+    ChoiceButton,
+    ComboBox,
+    FileSelector,
+    RadioButton,
+    ScaledSlider,
+    Scrollbar,
+    SlideButton,
+    Spinner,
+    TextEntry,
+    Thumbwheel,
+)
 from .graphics import (
     Arc,
     Ellipse,
+    Label,
+    Picture,
     Polygon,
     Polyline,
     Rectangle,
-    Label,
-    Picture,
 )
-from .misc import WebBrowser, ThreeDViewer
+from .misc import ThreeDViewer, WebBrowser
 from .monitors import (
-    ByteMonitor,
     LED,
+    ByteMonitor,
     LEDMultiState,
+    LinearMeter,
     Meter,
     ProgressBar,
     Symbol,
@@ -51,40 +66,23 @@ from .monitors import (
     TextSymbol,
     TextUpdate,
     Thermometer,
-    LinearMeter
 )
-from .controls import (
-    ActionButton,
-    CheckBox,
-    ComboBox,
-    RadioButton,
-    ScaledSlider,
-    TextEntry,
-    ChoiceButton,
-    BooleanButton,
-    FileSelector,
-    Spinner,
-    Scrollbar,
-    SlideButton,
-    Thumbwheel
-)
-from .structure import (
-    Tab,
-    Tabs,
-    Group,
-    NavigationTabs,
-    Array,
-    EmbeddedDisplay,
-    TemplateInstance
-)
-
 from .plots import (
-    XYPlot,
+    DataBrowser,
     Image,
     StripChart,
-    DataBrowser,
+    XYPlot,
 )
-
+from .structure import (
+    Array,
+    EmbeddedDisplay,
+    Group,
+    NavigationTabs,
+    Tab,
+    Tabs,
+    TemplateInstance,
+)
+from .widget import HasWidgets, Widget, WidgetType, widget_versions
 
 # from .plots import (
 #     XYPlot,

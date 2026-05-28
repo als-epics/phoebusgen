@@ -1,5 +1,6 @@
 from .property_helpers import PropertyBase
-from .types import Color, ROI, ObservableList, Marker
+from .types import ROI, Color, Marker, ObservableList
+
 
 class HasBorder(PropertyBase):
     border_width: int = 0

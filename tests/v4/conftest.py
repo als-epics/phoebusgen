@@ -1,9 +1,9 @@
-from xml.etree.ElementTree import Element
-import pytest
 from typing import Any, Callable
+from xml.etree.ElementTree import Element
+
+import pytest
+
 from phoebusgen.v4.properties.types import Color
-
-
 
 
 @pytest.fixture

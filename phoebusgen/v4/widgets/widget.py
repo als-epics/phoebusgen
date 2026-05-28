@@ -1,15 +1,15 @@
 import re
+from enum import Enum
 from typing import List, Optional, Sequence, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
-from phoebusgen.v4.properties.types import ObservableList
-from phoebusgen.v4.properties.widget import HasName
+
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
 from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
-from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
 from phoebusgen.v4.properties.property_helpers import PropertyBase
+from phoebusgen.v4.properties.types import ObservableList
+from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.utils import PhoebusElement, prettify_xml
-
-from enum import Enum
 
 # Populated at runtime on import of phoebusgen.v4
 widget_versions = {}

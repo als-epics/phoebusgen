@@ -1,6 +1,12 @@
 from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
+from phoebusgen.v4.properties.types import (
+    ArrowTypes,
+    Color,
+    LineStyle,
+    Point,
+)
 from phoebusgen.v4.widgets import (
     Arc,
     Ellipse,
@@ -9,12 +15,6 @@ from phoebusgen.v4.widgets import (
     Polygon,
     Polyline,
     Rectangle,
-)
-from phoebusgen.v4.properties.types import (
-    Color,
-    LineStyle,
-    ArrowTypes,
-    Point,
 )
 
 

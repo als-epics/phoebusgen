@@ -1,6 +1,11 @@
 from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
+from phoebusgen.v4.properties.types import (
+    Instance,
+    NavTab,
+    ObservableDict,
+)
 from phoebusgen.v4.widgets import Label, Rectangle, TextUpdate
 from phoebusgen.v4.widgets.structure import (
     Array,
@@ -8,11 +13,6 @@ from phoebusgen.v4.widgets.structure import (
     Group,
     NavigationTabs,
     TemplateInstance,
-)
-from phoebusgen.v4.properties.types import (
-    Instance,
-    NavTab,
-    ObservableDict,
 )
 
 

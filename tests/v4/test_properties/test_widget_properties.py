@@ -1,10 +1,19 @@
+import re
 from pathlib import Path
 
-from phoebusgen.v4.properties.widget import HasMacros, HasName, HasFile, HasNavTabs, HasUrl, HasBit, HasLabel, HasFileComponent
-from phoebusgen.v4.properties.types import FileComponent, NavTab
 import pytest
-import re
 
+from phoebusgen.v4.properties.types import FileComponent, NavTab
+from phoebusgen.v4.properties.widget import (
+    HasBit,
+    HasFile,
+    HasFileComponent,
+    HasLabel,
+    HasMacros,
+    HasName,
+    HasNavTabs,
+    HasUrl,
+)
 
 
 @pytest.mark.parametrize('property_cls, initial_value, new_value', [

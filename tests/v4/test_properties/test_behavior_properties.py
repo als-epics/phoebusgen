@@ -1,15 +1,45 @@
-from phoebusgen.v4.properties.behavior import HasDataWidthAndHeight
-import pytest
 from pathlib import Path
+
+import pytest
+
 from phoebusgen.v4.properties.behavior import (
-    HasActionsRulesAndScripts, HasStates, HasSymbols,
-    HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale,
-    HasInterpolation, HasColorMode, HasItems,
+    HasActionsRulesAndScripts,
+    HasArrayIndex,
+    HasBarLength,
+    HasButtonMode,
+    HasColorMode,
+    HasConfirmation,
+    HasDataWidthAndHeight,
+    HasEditable,
+    HasEnabled,
+    HasFallback,
+    HasFallbackSymbol,
+    HasIncrement,
+    HasInterpolation,
+    HasItems,
+    HasLevelsAndShow,
+    HasLimitsFromPV,
+    HasLogScale,
+    HasMinMax,
+    HasPreserveRatio,
+    HasRunActionsOnMouseClick,
+    HasShowLimits,
+    HasStates,
+    HasSymbols,
+    HasToolTip,
+    HasWrapWords,
 )
-from phoebusgen.v4.properties.display import HasSelectionValuePV, HasColorMap
+from phoebusgen.v4.properties.display import HasColorMap, HasSelectionValuePV
 from phoebusgen.v4.properties.types import (
-    OpenDisplayAction, OpenFileAction, CommandAction, OpenWebpageAction,
-    ButtonMode, InterpolationType, ColorMode, ColorMap, State,
+    ButtonMode,
+    ColorMap,
+    ColorMode,
+    CommandAction,
+    InterpolationType,
+    OpenDisplayAction,
+    OpenFileAction,
+    OpenWebpageAction,
+    State,
 )
 
 

@@ -2,30 +2,37 @@ from pathlib import Path
 from typing import Optional, Union
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.properties.types import ObservableList
-
-from .widget import Widget, HasWidgets
+from phoebusgen.v4.properties.behavior import HasAlarmBorder
 from phoebusgen.v4.properties.display import (
-    HasPVName,
     HasBackgroundColor,
+    HasDeselectedColor,
+    HasFont,
     HasForegroundColor,
-    HasResizeBehavior,
+    HasGap,
     HasGroupName,
     HasGroupStyle,
+    HasHorizontal,
+    HasLineColor,
+    HasPVName,
+    HasResizeBehavior,
     HasSelectedColor,
-    HasDeselectedColor,
     HasTabActiveHeightDirection,
     HasTransparent,
-    HasFont,
-    HasLineColor,
-    HasHorizontal,
     HasWrapCount,
-    HasGap,
 )
-from phoebusgen.v4.properties.behavior import HasAlarmBorder
-from phoebusgen.v4.properties.widget import HasMacros, HasFile, HasName, HasNavTabs, HasInstances
 from phoebusgen.v4.properties.misc import HasBorder
+from phoebusgen.v4.properties.property_helpers import PropertyBase
+from phoebusgen.v4.properties.types import ObservableList
+from phoebusgen.v4.properties.widget import (
+    HasFile,
+    HasInstances,
+    HasMacros,
+    HasName,
+    HasNavTabs,
+)
+
+from .widget import HasWidgets, Widget
+
 
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """ Array Phoebus Widget """

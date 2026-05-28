@@ -1,7 +1,7 @@
 from pathlib import Path
+from xml.etree.ElementTree import SubElement
 
 from phoebusgen.v4.widgets import ThreeDViewer, WebBrowser
-from xml.etree.ElementTree import SubElement
 
 
 def test_threedviewer_file_property() -> None:

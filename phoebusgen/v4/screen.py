@@ -34,22 +34,23 @@ Example:
 
 
 import copy
-import xml.etree.ElementTree as ET
-from xml.dom import minidom
 import os
+import xml.etree.ElementTree as ET
+from pathlib import Path
 from typing import Dict, Optional, Sequence
-from phoebusgen.v4.properties.position import HasPosition
-from phoebusgen.v4.properties.display import HasBackgroundColor
-from phoebusgen.v4.properties.widget import HasMacros, HasName
-from phoebusgen.v4.properties.misc import HasGrid
+from xml.dom import minidom
+
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
+from phoebusgen.v4.properties.display import HasBackgroundColor
+from phoebusgen.v4.properties.misc import HasGrid
+from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
-from phoebusgen.v4.widgets import Widget, HasWidgets
+from phoebusgen.v4.properties.widget import HasMacros, HasName
 from phoebusgen.v4.utils import PhoebusElement
-from pathlib import Path
-
+from phoebusgen.v4.widgets import HasWidgets, Widget
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
+
 
 class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """

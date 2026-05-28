@@ -1,31 +1,33 @@
 from pathlib import Path
 from typing import Union
 
-from .widget import Widget
+from phoebusgen.v4.properties.behavior import HasWrapWords
 from phoebusgen.v4.properties.display import (
     HasAngle,
-    HasLineWidth,
-    HasLineColor,
+    HasArrows,
+    HasAutoSize,
     HasBackgroundColor,
-    HasTransparent,
-    HasText,
+    HasCorners,
     HasFont,
     HasForegroundColor,
     HasHorizontalAlignment,
-    HasVerticalAlignment,
-    HasRotationStep,
-    HasAutoSize,
-    HasStretchToFit,
-    HasRotation,
+    HasLineColor,
     HasLineStyle,
-    HasArrows,
-    HasCorners,
+    HasLineWidth,
     HasOpacity,
     HasPoints,
+    HasRotation,
+    HasRotationStep,
+    HasStretchToFit,
+    HasText,
+    HasTransparent,
+    HasVerticalAlignment,
 )
-from phoebusgen.v4.properties.widget import HasMacros, HasFile
-from phoebusgen.v4.properties.behavior import HasWrapWords
 from phoebusgen.v4.properties.misc import HasBorder
+from phoebusgen.v4.properties.widget import HasFile, HasMacros
+
+from .widget import Widget
+
 
 # Graphics
 class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):

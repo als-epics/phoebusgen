@@ -1,12 +1,6 @@
 from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
-from phoebusgen.v4.widgets.plots import (
-    DataBrowser,
-    Image,
-    StripChart,
-    XYPlot,
-)
 from phoebusgen.v4.properties.types import (
     Axis,
     Color,
@@ -15,6 +9,12 @@ from phoebusgen.v4.properties.types import (
     Marker,
     Trace,
     TraceType,
+)
+from phoebusgen.v4.widgets.plots import (
+    DataBrowser,
+    Image,
+    StripChart,
+    XYPlot,
 )
 
 

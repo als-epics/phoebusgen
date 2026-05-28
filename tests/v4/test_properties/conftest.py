@@ -1,9 +1,12 @@
-import pytest
+from enum import Enum
+from typing import Any, Callable, Type
 from xml.etree.ElementTree import Element
+
+import pytest
+
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import Color
-from typing import Any, Callable, Type
-from enum import Enum
+
 
 @pytest.fixture
 def property_factory() -> Callable[[Type[PropertyBase]], PropertyBase]:

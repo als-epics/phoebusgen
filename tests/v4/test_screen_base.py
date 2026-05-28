@@ -1,11 +1,12 @@
-from phoebusgen.v4.properties.display import HasPVName
-from phoebusgen.v4.widgets import Widget, WidgetType, EmbeddedDisplay
-import pytest
+from pathlib import Path
 from xml.etree.ElementTree import Element
 
-from phoebusgen.v4.screen import Screen
+import pytest
+
+from phoebusgen.v4.properties.display import HasPVName
 from phoebusgen.v4.properties.types import Color
-from pathlib import Path
+from phoebusgen.v4.screen import Screen
+from phoebusgen.v4.widgets import EmbeddedDisplay, Widget, WidgetType
 
 
 @pytest.fixture

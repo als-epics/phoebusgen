@@ -1,20 +1,50 @@
-import pytest
-
+from enum import Enum
 from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes
-from phoebusgen.v4.properties.display import HasBackgroundColor, HasForegroundColor, HasShowLegend, HasShowLegend, HasShowToolbar, HasShowToolbar, HasTitle, HasTitleFont, HasVisible
-from phoebusgen.v4.properties.display import HasTitleFont
+import pytest
+
+from phoebusgen.v4.properties.behavior import (
+    HasActionsRulesAndScripts,
+    HasToolTip,
+    HasTraces,
+    HasXAxis,
+    HasYAxes,
+)
+from phoebusgen.v4.properties.display import (
+    HasBackgroundColor,
+    HasForegroundColor,
+    HasShowLegend,
+    HasShowToolbar,
+    HasTitle,
+    HasTitleFont,
+    HasVisible,
+)
 from phoebusgen.v4.properties.misc import HasMarkers
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
-
+from phoebusgen.v4.properties.types import (
+    Action,
+    ArrowTypes,
+    Axis,
+    Color,
+    FileComponent,
+    Font,
+    FontStyle,
+    ObservableDict,
+    ObservableList,
+    OpenDisplayAction,
+    OpenDisplayTarget,
+    Rule,
+    RuleExpression,
+    State,
+    Trace,
+    TraceType,
+)
 from phoebusgen.v4.properties.widget import HasName
-from phoebusgen.v4.widgets import XYPlot, Label, Tab
-from phoebusgen.v4.properties.types import Axis, ObservableDict, FileComponent, Action, ObservableList, Color, Font, Rule, RuleExpression, State, Trace, FontStyle, ArrowTypes, OpenDisplayTarget, TraceType, OpenDisplayAction
 from phoebusgen.v4.utils import prettify_xml
-from enum import Enum
+from phoebusgen.v4.widgets import Label, Tab, XYPlot
+
 
 def _get_elem(root_elem: Element, tag_name: str) -> Element:
     elem = root_elem.find(tag_name)

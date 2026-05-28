@@ -1,6 +1,17 @@
 from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
+from phoebusgen.v4.properties.types import (
+    ButtonMode,
+    Color,
+    CommandAction,
+    Format,
+    OpenDisplayAction,
+    OpenDisplayTarget,
+    OpenFileAction,
+    OpenWebpageAction,
+    WritePvAction,
+)
 from phoebusgen.v4.widgets import (
     ActionButton,
     BooleanButton,
@@ -15,17 +26,6 @@ from phoebusgen.v4.widgets import (
     Spinner,
     TextEntry,
     Thumbwheel,
-)
-from phoebusgen.v4.properties.types import (
-    Color,
-    ButtonMode,
-    Format,
-    OpenDisplayAction,
-    OpenDisplayTarget,
-    WritePvAction,
-    CommandAction,
-    OpenFileAction,
-    OpenWebpageAction,
 )
 
 

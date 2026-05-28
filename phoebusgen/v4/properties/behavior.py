@@ -2,18 +2,19 @@ from pathlib import Path
 
 from .property_helpers import PropertyBase
 from .types import (
+    Action,
     Axis,
     ButtonMode,
     Color,
-    State,
-    InterpolationType,
     ColorMode,
-    Script,
-    Action,
-    Rule,
+    InterpolationType,
     ObservableList,
-    Trace
+    Rule,
+    Script,
+    State,
+    Trace,
 )
+
 
 class HasActionsRulesAndScripts(PropertyBase):
     actions: ObservableList[Action]
