@@ -191,6 +191,10 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if tag_name is None and get_origin(property_type) not in (ObservableList, ObservableDict):
             raise ValueError(f"Only list or dict properties can have tag_name set to None, but property '{property_name}' is of type '{property_type}'!")
 
+        # Ensure we have a per-class dict rather than mutating a parent class's dict
+        if '_property_tag_names' not in cls.__dict__:
+            cls._property_tag_names = dict(cls._property_tag_names)
+
         cls._property_tag_names[property_name] = tag_name
 
     @classmethod
