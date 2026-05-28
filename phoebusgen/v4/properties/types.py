@@ -381,7 +381,7 @@ class ROI(ObservableDataclass):
     name: str = ''
     color: Color = field(default_factory=lambda: Color((0, 255, 0)))
     visible: bool = True
-    interactive: bool = False
+    interactive: bool = True
     x_pv: str = ''
     y_pv: str = ''
     width_pv: str = ''

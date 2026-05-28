@@ -77,16 +77,16 @@ def test_roi_property(property_factory, check_xml_element, check_color_xml):
     prop = property_factory(HasROIs)
     assert hasattr(prop, 'rois')
     assert prop.rois == []
-    prop.rois = [ROI(name='ROI1'), ROI(name='ROI2', color=Color((200, 100, 50)), interactive=True, visible=False, x_pv='X:PV', y_pv='Y:PV', width_pv='W:PV', height_pv='H:PV')]
+    prop.rois = [ROI(name='ROI1'), ROI(name='ROI2', color=Color((200, 100, 50)), interactive=False, visible=False, x_pv='X:PV', y_pv='Y:PV', width_pv='W:PV', height_pv='H:PV')]
     assert len(prop.rois) == 2
     assert prop.rois[0].name == 'ROI1'
     assert prop.rois[0].color == (0,255,0)
-    assert prop.rois[0].interactive is False
+    assert prop.rois[0].interactive is True
     del prop.rois[0]
     assert len(prop.rois) == 1
     assert prop.rois[0].name == 'ROI2'
     assert prop.rois[0].color == (200, 100, 50)
-    assert prop.rois[0].interactive is True
+    assert prop.rois[0].interactive is False
     assert prop.rois[0].visible is False
     assert prop.rois[0].x_pv == 'X:PV'
     assert prop.rois[0].y_pv == 'Y:PV'
