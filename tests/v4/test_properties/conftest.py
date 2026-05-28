@@ -18,7 +18,6 @@ def property_factory() -> Callable[[Type[PropertyBase]], PropertyBase]:
 def validate_primitive_property(property_factory) -> Callable[[Type[PropertyBase], str, Any], None]:
     def _validator(property_cls: Type[PropertyBase], property_name: str, value: Any) -> None:
         prop = property_factory(property_cls)
-        print(prop.__dict__)
         assert hasattr(prop, property_name)
         setattr(prop, property_name, value)
         assert getattr(prop, property_name) == value

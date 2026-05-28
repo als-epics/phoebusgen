@@ -66,8 +66,6 @@ def test_marker_property(property_factory, check_xml_element, check_color_xml):
     assert markers_elem is not None
     marker_elems = markers_elem.findall('marker')
     assert len(marker_elems) == 2
-    print(prettify_xml(prop.root))
-    # assert False
     check_xml_element(marker_elems[0], 'pv_name', 'PV2')
     check_xml_element(marker_elems[1], 'pv_name', 'PV3')
     color_elem_0 = marker_elems[0].find('color').find('color')

@@ -40,8 +40,6 @@ def test_create_fresh_screen(screen_name):
     ('macros', {}, {'TestA': 'ValueA', 'TestB': 'ValueB'}),
 ])
 def test_screen_properties(sample_screen, property_name, initial_value, new_value):
-    print(sample_screen)
-    print(sample_screen.actions)
     assert hasattr(sample_screen, property_name)
     assert getattr(sample_screen, property_name) == initial_value
     setattr(sample_screen, property_name, new_value)

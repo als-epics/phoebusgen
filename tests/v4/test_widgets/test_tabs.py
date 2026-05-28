@@ -131,9 +131,7 @@ def test_create_tabs_widget():
     del tabs.tabs[0].widgets[1]
     assert len(tabs.tabs) == 1
     assert tabs.tabs[0].name == 'Tab 1'
-    print(tabs)
     assert len(tabs.tabs[0].widgets) == 1
-
     assert str(tabs) == """<?xml version="1.0" ?>
 <widget type="tabs" version="2.0.0">
   <name>Test Tabs</name>

@@ -177,8 +177,6 @@ def test_widget_font_properties(widget_class, widget_factory, prop_name, check_f
 def test_widget_dict_properties(widget_class, widget_factory, prop_name):
     widget = widget_factory(widget_class)
 
-    print(widget)
-
     # Make sure the property attribute is set with correct type and default value
     assert hasattr(widget, prop_name)
     dict_prop = getattr(widget, prop_name)

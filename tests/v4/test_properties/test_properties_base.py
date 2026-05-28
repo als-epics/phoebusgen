@@ -268,7 +268,6 @@ def test_get_action_property():
 def test_set_action_property():
     action = OpenDisplayAction('test', 'test.bob', OpenDisplayTarget.NEW_WINDOW, ObservableDict({'test': 'value'}))
     elem = PropertyBase._set_action_property('action', action)
-    print(prettify_xml(elem))
     assert elem.tag == 'action'
     assert elem.attrib['type'] == 'open_display'
     _check_elem_val(elem, 'target', 'window')

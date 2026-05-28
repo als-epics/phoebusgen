@@ -101,9 +101,7 @@ def test_can_del_action(property_factory):
     prop = property_factory(HasActionsRulesAndScripts)
     assert prop.actions == []
     prop.actions = [OpenDisplayAction(file='display.bob'), CommandAction(command='script.py')]
-    print(prettify_xml(prop.root))
     assert len(prop.actions) == 2
-    print(prop.actions)
     assert isinstance(prop.actions[0], OpenDisplayAction)
     del prop.actions[0]
     assert len(prop.actions) == 1
