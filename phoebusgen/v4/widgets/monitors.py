@@ -9,7 +9,6 @@ from phoebusgen.v4.properties.display import (
     HasForegroundColor,
     HasFont,
     HasLabels,
-    HasAlarmBorder,
     HasOnOffLabels,
     HasLineColor,
     HasBackgroundColor,
@@ -40,6 +39,8 @@ from phoebusgen.v4.properties.behavior import (
     HasShowLimits,
     HasLimitsFromPV,
     HasMinMax,
+    HasAlarmBorder,
+    HasInteractive,
     HasSymbols,
     HasArrayIndex,
     HasEnabled,
@@ -245,7 +246,7 @@ class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
 
 class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
                  HasFormat, HasPrecision, HasShowUnits, HasHorizontalAlignment, HasVerticalAlignment, HasWrapWords,
-                 HasRotationStep, HasBorder, HasAlarmBorder):
+                 HasRotationStep, HasBorder, HasAlarmBorder, HasInteractive):
     """ TextUpdate Phoebus Widget """
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:

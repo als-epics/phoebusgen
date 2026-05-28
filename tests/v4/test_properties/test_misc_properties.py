@@ -49,16 +49,16 @@ def test_marker_property(property_factory, check_xml_element, check_color_xml):
     prop = property_factory(HasMarkers)
     assert hasattr(prop, 'markers')
     assert prop.markers == []
-    prop.markers = [Marker(pv_name='PV1', color=Color((0, 0, 255))), Marker(pv_name='PV2', color=Color((255, 0, 0)), interactive=True)]
+    prop.markers = [Marker(pv_name='PV1', color=Color((0, 0, 255))), Marker(pv_name='PV2', color=Color((255, 0, 0)), interactive=False)]
     assert len(prop.markers) == 2
     assert prop.markers[0].pv_name == 'PV1'
     assert prop.markers[0].color == (0, 0, 255)
-    assert prop.markers[0].interactive is False
+    assert prop.markers[0].interactive is True
     del prop.markers[0]
     assert len(prop.markers) == 1
     assert prop.markers[0].pv_name == 'PV2'
     assert prop.markers[0].color == (255, 0, 0)
-    assert prop.markers[0].interactive is True
+    assert prop.markers[0].interactive is False
     prop.markers.append(Marker(pv_name='PV3', color=Color((0, 255, 0))))
     assert len(prop.markers) == 2
     assert prop.markers[1].pv_name == 'PV3'

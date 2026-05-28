@@ -17,6 +17,7 @@ from phoebusgen.v4.widgets import (
 from phoebusgen.v4.properties.types import (
     Color,
     Column,
+    Format,
     ObservableList,
     State,
 )
@@ -46,13 +47,13 @@ def test_create_text_update_widget():
 
 def test_text_update_with_properties():
     tu = TextUpdate(name='Formatted TU', pv_name='SIG:VALUE', x=0, y=0, width=150, height=25)
-    tu.format = 'Decimal'
+    tu.format = Format.DECIMAL
     tu.precision = 3
     tu.show_units = True
     tu.foreground_color = Color((0, 0, 0))
     tu.background_color = Color((240, 240, 240))
 
-    assert tu.format == 'Decimal'
+    assert tu.format == Format.DECIMAL
     assert tu.precision == 3
     assert tu.show_units == True
     assert tu.foreground_color == Color((0, 0, 0))
@@ -66,7 +67,7 @@ def test_text_update_with_properties():
   <width>150</width>
   <height>25</height>
   <pv_name>SIG:VALUE</pv_name>
-  <format>Decimal</format>
+  <format>1</format>
   <precision>3</precision>
   <show_units>true</show_units>
   <foreground_color>
@@ -101,6 +102,7 @@ def test_text_update_from_xml():
     assert tu.pv_name == 'MY:PV'
     assert tu.precision == 2
     assert tu.show_units == True
+    assert tu.format == Format.DECIMAL  # Default format
 
 
 def test_create_led_widget():

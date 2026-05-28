@@ -97,17 +97,14 @@ class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
 
 class HasDataWidthAndHeight(PropertyBase):
-    data_width: int
-    data_height: int
+    data_width: int = 100
+    data_height: int = 100
 
 class HasInterpolation(PropertyBase):
-    interpolation: InterpolationType
+    interpolation: InterpolationType = InterpolationType.AUTOMATIC
 
 class HasColorMode(PropertyBase):
-    color_mode: ColorMode
-
-class HasColorMap(PropertyBase):
-    color_map: ColorMap
+    color_mode: ColorMode = ColorMode.TYPE_MONO
 
 class HasItems(PropertyBase):
     items: ObservableList[str]
@@ -125,7 +122,13 @@ class HasYAxes(PropertyBase):
     y_axes: ObservableList[Axis]
 
 class HasAutoScale(PropertyBase):
-    auto_scale: bool
+    auto_scale: bool = True
 
 class HasUnisignedData(PropertyBase):
-    unsigned_data: bool
+    unsigned_data: bool = False
+
+class HasAlarmBorder(PropertyBase):
+    border_alarm_sensitive: bool = False
+
+class HasInteractive(PropertyBase):
+    interactive: bool =  True

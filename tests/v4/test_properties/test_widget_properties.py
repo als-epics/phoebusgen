@@ -10,7 +10,7 @@ from phoebusgen.v4.widgets.structure import HasTabs, Tab
 
 @pytest.mark.parametrize('property_cls, initial_value, new_value', [
     (HasName, '', 'NewName'),
-    (HasFile, Path(), Path('new/file/path.bob')),
+    (HasFile, None, Path('new/file/path.bob')),
     (HasUrl, '', 'http://new.url'),
     (HasBit, 0, 1),
     (HasLabel, '', 'New Label'),

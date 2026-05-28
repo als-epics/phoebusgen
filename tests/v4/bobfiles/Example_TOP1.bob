@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-05 13:27:55 by jwlodek-->
+<!--Saved on 2026-05-28 14:58:11 by jwlodek-->
 <display version="2.0.0">
   <name>Example_TOP1</name>
   <widget type="embedded" version="2.0.0">
@@ -11,5 +11,90 @@
     <file>Nested/Nested1.bob</file>
     <x>30</x>
     <y>40</y>
+  </widget>
+  <widget type="arc" version="2.0.0">
+    <name>Arc</name>
+    <x>890</x>
+    <y>140</y>
+  </widget>
+  <widget type="ellipse" version="2.0.0">
+    <name>Ellipse</name>
+    <x>790</x>
+    <y>440</y>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>890</x>
+    <y>690</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <x>460</x>
+    <y>630</y>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <interactive>true</interactive>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>560</x>
+    <y>250</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <x>870</x>
+    <y>330</y>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline_2</name>
+    <x>1000</x>
+    <y>400</y>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle</name>
+    <x>320</x>
+    <y>190</y>
+  </widget>
+  <widget type="byte_monitor" version="2.0.0">
+    <name>Byte Monitor</name>
+    <x>590</x>
+    <y>950</y>
+  </widget>
+  <widget type="multi_state_led" version="2.0.0">
+    <name>LED (Multi State)</name>
+    <x>1040</x>
+    <y>520</y>
+    <states>
+      <state>
+        <value>0</value>
+        <label>State 1</label>
+        <color>
+          <color name="Off" red="60" green="100" blue="60">
+          </color>
+        </color>
+      </state>
+      <state>
+        <value>1</value>
+        <label>State 2</label>
+        <color>
+          <color name="On" red="0" green="255" blue="0">
+          </color>
+        </color>
+      </state>
+    </states>
+  </widget>
+  <widget type="text-symbol" version="2.0.0">
+    <name>Text Symbol</name>
+    <x>940</x>
+    <y>960</y>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <x>1050</x>
+    <y>350</y>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>Spinner</name>
+    <x>580</x>
+    <y>800</y>
   </widget>
 </display>

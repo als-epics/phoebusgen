@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Optional
 
 from phoebusgen.v4.properties.display import HasTabActiveHeightDirection
 
@@ -9,22 +10,22 @@ class HasMacros(PropertyBase):
     macros: ObservableDict
 
 class HasName(PropertyBase):
-    name: str
+    name: str = ''
 
 class HasFile(PropertyBase):
-    file: Path
+    file: Optional[Path] = None
 
 class HasUrl(PropertyBase):
-    url: str
+    url: str = ''
 
 class HasBit(PropertyBase):
-    bit: int
+    bit: int = 0
 
 class HasFileComponent(PropertyBase):
-    file_component: FileComponent
+    file_component: FileComponent = FileComponent.FULL_PATH
 
 class HasLabel(PropertyBase):
-    label: str
+    label: str = ''
 
 class HasNavTabs(HasTabActiveHeightDirection):
     tabs: ObservableList[NavTab]

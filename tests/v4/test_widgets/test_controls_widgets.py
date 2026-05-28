@@ -19,6 +19,7 @@ from phoebusgen.v4.widgets import (
 from phoebusgen.v4.properties.types import (
     Color,
     ButtonMode,
+    Format,
     OpenDisplayAction,
     OpenDisplayTarget,
     WritePvAction,
@@ -218,8 +219,8 @@ def test_create_boolean_button_widget():
 
     assert btn.mode == ButtonMode.PUSH
     assert btn.show_led == True
-    assert btn.on_image == 'on_icon.png'
-    assert btn.off_image == 'off_icon.png'
+    assert btn.on_image == Path('on_icon.png')
+    assert btn.off_image == Path('off_icon.png')
 
     assert str(btn) == """<?xml version="1.0" ?>
 <widget type="bool_button" version="2.0.0">
@@ -255,8 +256,8 @@ def test_boolean_button_from_xml():
     assert btn.name == 'Bool 1'
     assert btn.pv_name == 'MOTOR:ON'
     assert btn.mode == ButtonMode.TOGGLE
-    assert btn.on_image == 'motor_on.png'
-    assert btn.off_image == 'motor_off.png'
+    assert btn.on_image == Path('motor_on.png')
+    assert btn.off_image == Path('motor_off.png')
 
 
 def test_create_checkbox_widget():
@@ -737,13 +738,13 @@ def test_create_text_entry_widget():
 
     te.multi_line = True
     te.wrap_words = True
-    te.format = 'Decimal'
+    te.format = Format.DECIMAL
     te.precision = 3
     te.show_units = True
 
     assert te.multi_line == True
     assert te.wrap_words == True
-    assert te.format == 'Decimal'
+    assert te.format == Format.DECIMAL
     assert te.precision == 3
     assert te.show_units == True
 
@@ -757,7 +758,7 @@ def test_create_text_entry_widget():
   <pv_name>TEST:INPUT</pv_name>
   <multi_line>true</multi_line>
   <wrap_words>true</wrap_words>
-  <format>Decimal</format>
+  <format>1</format>
   <precision>3</precision>
   <show_units>true</show_units>
 </widget>

@@ -60,7 +60,6 @@ def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
         element.text = str(value)
     return element
 
-
 class PropertyMetaclass(type):
     def __new__(mcs, name, bases, attrs):
 
@@ -131,10 +130,18 @@ class PropertyMetaclass(type):
             all_properties[cls] = {}
             for prop_name, annotation in cls.__annotations__.items():
                 base_prop_type = annotation
-                if hasattr(annotation, '__origin__'):
-                    property_type = annotation.__origin__
+
+                # Unwrap Optional[X] (Union[X, None]) to X for property type resolution
+                unwrapped = annotation
+                if get_origin(annotation) is Union:
+                    args = get_args(annotation)
+                    non_none_args = [a for a in args if a is not type(None)]
+                    unwrapped = non_none_args[0]
+
+                if hasattr(unwrapped, '__origin__'):
+                    property_type = unwrapped.__origin__
                 else:
-                    property_type = annotation
+                    property_type = unwrapped
                 default_value = attrs.get(prop_name, property_type() if not issubclass(property_type, Enum) else list(property_type)[0])
 
                 def prop_getter(self, prop_name=prop_name, prop_type=annotation):
@@ -204,6 +211,24 @@ class PropertyBase(metaclass=PropertyMetaclass):
             cls._property_tag_names = dict(cls._property_tag_names)
 
         cls._property_tag_names[property_name] = tag_name
+
+    @classmethod
+    def _set_default_value(cls, property_name: str, default_value: PropertyType) -> None:
+        """Set the default value for a property, which is used when the property is accessed but not found in the XML.
+
+        :param property_name: The name of the property to set the default value for
+        :param default_value: The default value to use for the property when it is not found in the XML
+        """
+
+        if property_name not in cls.get_property_names():
+            raise ValueError(f"Property '{property_name}' is not a valid property of class '{cls.__name__}'!")
+
+        # Ensure we have a per-class dict rather than mutating a parent class's dict
+        if cls not in cls._all_properties:
+            cls._all_properties[cls] = dict(cls._all_properties.get(cls, {}))
+        if property_name not in cls._all_properties[cls]:
+            raise ValueError(f"Property '{property_name}' is not defined for class '{cls.__name__}'!")
+        cls._all_properties[cls][property_name].default_value = default_value
 
     @classmethod
     def get_property_classes(cls) -> List[Type['PropertyBase']]:
@@ -861,6 +886,18 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :param expected_type: The expected type of the property
         :return: True if the value is valid for the expected type, False otherwise
         """
+
+        # Unwrap Optional[X] and allow None
+        is_optional = False
+        if get_origin(expected_type) is Union:
+            args = get_args(expected_type)
+            non_none_args = [a for a in args if a is not type(None)]
+            if len(non_none_args) < len(args):
+                is_optional = True
+            expected_type = non_none_args[0]
+
+        if is_optional and value is None:
+            return True
 
         def _validate_element(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
             if expected_type is Color:

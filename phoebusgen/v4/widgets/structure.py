@@ -9,7 +9,6 @@ from .widget import Widget, HasWidgets
 from phoebusgen.v4.properties.display import (
     HasPVName,
     HasBackgroundColor,
-    HasAlarmBorder,
     HasForegroundColor,
     HasResizeBehavior,
     HasGroupName,
@@ -24,6 +23,7 @@ from phoebusgen.v4.properties.display import (
     HasWrapCount,
     HasGap,
 )
+from phoebusgen.v4.properties.behavior import HasAlarmBorder
 from phoebusgen.v4.properties.widget import HasMacros, HasFile, HasName, HasNavTabs, HasInstances
 from phoebusgen.v4.properties.misc import HasBorder
 

@@ -16,7 +16,6 @@ from phoebusgen.v4.properties.types import (
     Marker,
     Trace,
     TraceType,
-    ObservableList,
 )
 
 
@@ -354,16 +353,16 @@ def test_xyplot_with_y_axes_and_markers():
     assert plot.y_axes[1].on_right == True
 
     # Add markers
-    plot.markers.append(Marker(pv_name='MARK:THRESHOLD', color=Color((255, 0, 0)), interactive=True))
+    plot.markers.append(Marker(pv_name='MARK:THRESHOLD', color=Color((255, 0, 0)), interactive=False))
     plot.markers.append(Marker(pv_name='MARK:LIMIT', color=Color((0, 255, 0))))
 
     assert len(plot.markers) == 2
     assert plot.markers[0].pv_name == 'MARK:THRESHOLD'
     assert plot.markers[0].color == Color((255, 0, 0))
-    assert plot.markers[0].interactive == True
+    assert  plot.markers[0].interactive is False
     assert plot.markers[1].pv_name == 'MARK:LIMIT'
     assert plot.markers[1].color == Color((0, 255, 0))
-    assert plot.markers[1].interactive == False
+    assert plot.markers[1].interactive is True
 
     # Add traces referencing different y axes
     plot.traces.append(Trace(name='Temp Data', y_pv='TEMP:PV', y_axis=0))
@@ -417,14 +416,14 @@ def test_xyplot_with_y_axes_and_markers():
       <color>
         <color red="255" green="0" blue="0" alpha="255"/>
       </color>
-      <interactive>true</interactive>
+      <interactive>false</interactive>
     </marker>
     <marker>
       <pv_name>MARK:LIMIT</pv_name>
       <color>
         <color red="0" green="255" blue="0" alpha="255"/>
       </color>
-      <interactive>false</interactive>
+      <interactive>true</interactive>
     </marker>
   </markers>
   <traces>

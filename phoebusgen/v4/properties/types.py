@@ -213,6 +213,19 @@ class EmbeddedScriptType(str, Enum):
     PYTHON = 'EmbeddedPy'
     JAVASCRIPT = 'EmbeddedJS'
 
+class Format(int, Enum):
+    DEFAULT = 0
+    DECIMAL = 1
+    ENGINEERING = 2
+    HEXADECIMAL = 3
+    COMPACT = 4
+    STRING = 5
+    SEXAGESIMAL_HH_MM_SS = 6
+    SEXAGESIMAL_HMS_24H_RAD = 7
+    SEXAGESIMAL_DMS_360D_RAD = 8
+    BINARY = 9
+
+
 class ObservableDict(MutableMapping[str, str]):
 
     _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
@@ -347,7 +360,7 @@ class Font(ObservableDataclass):
 class Marker(ObservableDataclass):
     pv_name: str = ''
     color: Color = field(default_factory=lambda: Color((255, 0, 0)))
-    interactive: bool = False
+    interactive: bool = True
 
 @dataclass
 class Column(ObservableDataclass):

@@ -1,9 +1,15 @@
+from pathlib import Path
+from typing import Optional
+
 from .property_helpers import PropertyBase
 
 from .types import (
     ColorBar,
+    ColorMap,
     Font,
     ArrowTypes,
+    Format,
+    HorizontalAlignment,
     LineStyle,
     Color,
     Column,
@@ -13,7 +19,8 @@ from .types import (
     RotationStep,
     Point,
     LinearMeterColors,
-    TabDirection
+    TabDirection,
+    VerticalAlignment
 )
 
 class HasVisible(PropertyBase):
@@ -23,31 +30,31 @@ class HasFont(PropertyBase):
     font: Font
 
 class HasArrows(PropertyBase):
-    arrows: ArrowTypes
-    arrow_length: int
+    arrows: ArrowTypes = ArrowTypes.NONE
+    arrow_length: int = 20
 
 class HasLineStyle(PropertyBase):
-    line_style: LineStyle
+    line_style: LineStyle = LineStyle.SOLID
 
 class HasWrapWords(PropertyBase):
-    wrap_words: bool
+    wrap_words: bool = True
 
 class HasAutoSize(PropertyBase):
-    auto_size: bool
+    auto_size: bool = False
 
 class HasPointSize(PropertyBase):
     point_size: int
 
 class HasOnOffImages(PropertyBase):
-    off_image: str
-    on_image: str
+    off_image: Optional[Path] = None
+    on_image: Optional[Path] = None
 
 class HasOnOffLabels(PropertyBase):
-    on_label: str
-    off_label: str
+    on_label: str = ''
+    off_label: str = ''
 
 class HasSquare(PropertyBase):
-    square: bool
+    square: bool = False
 
 class HasCorners(PropertyBase):
     corner_width: int
@@ -61,13 +68,13 @@ class HasAngle(PropertyBase):
     total_angle: float = 90.0
 
 class HasHorizontalAlignment(PropertyBase):
-    horizontal_alignment: str
+    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.CENTER
 
 class HasVerticalAlignment(PropertyBase):
-    vertical_alignment: str
+    vertical_alignment: VerticalAlignment = VerticalAlignment.MIDDLE
 
 class HasRotation(PropertyBase):
-    rotation: float
+    rotation: float = 0.0
 
 class HasRotationStep(PropertyBase):
     rotation_step: RotationStep
@@ -86,31 +93,28 @@ class HasOnOffColors(PropertyBase):
     on_color: Color
 
 class HasText(PropertyBase):
-    text: str
+    text: str = ''
 
 class HasTransparent(PropertyBase):
-    transparent: bool
+    transparent: bool = False
 
 class HasFormat(PropertyBase):
-    format: str
+    format: Format = Format.DECIMAL
 
 class HasPrecision(PropertyBase):
-    precision: int
+    precision: int = -1
 
 class HasShowUnits(PropertyBase):
-    show_units: bool
+    show_units: bool = True
 
 class HasPVName(PropertyBase):
-    pv_name: str
+    pv_name: str = ''
 
 class HasLabelsFromPV(PropertyBase):
-    labels_from_pv: bool
+    labels_from_pv: bool = False
 
 class HasLabels(PropertyBase):
     labels: ObservableList[str]
-
-class HasAlarmBorder(PropertyBase):
-    border_alarm_sensitive: bool
 
 class HasErrPV(PropertyBase):
     err_pv: str
@@ -208,6 +212,9 @@ class HasGroupStyle(PropertyBase):
 class HasColorBar(PropertyBase):
     color_bar: ColorBar
 
+class HasColorMap(PropertyBase):
+    color_map: ColorMap = ColorMap.VIRIDIS
+
 class HasScaleFont(PropertyBase):
     scale_font: Font
 
@@ -237,7 +244,7 @@ class HasWrapCount(PropertyBase):
     wrap_count: int
 
 class HasOpacity(PropertyBase):
-    opacity: float
+    opacity: float = 1.0
 
 class HasPoints(PropertyBase):
     points: ObservableList[Point]

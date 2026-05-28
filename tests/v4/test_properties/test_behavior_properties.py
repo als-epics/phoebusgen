@@ -4,9 +4,9 @@ from pathlib import Path
 from phoebusgen.v4.properties.behavior import (
     HasActionsRulesAndScripts, HasStates, HasSymbols,
     HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale,
-    HasInterpolation, HasColorMode, HasColorMap, HasItems,
+    HasInterpolation, HasColorMode, HasItems,
 )
-from phoebusgen.v4.properties.display import HasSelectionValuePV
+from phoebusgen.v4.properties.display import HasSelectionValuePV, HasColorMap
 from phoebusgen.v4.properties.types import (
     OpenDisplayAction, OpenFileAction, CommandAction, OpenWebpageAction,
     ButtonMode, InterpolationType, ColorMode, ColorMap, State,
