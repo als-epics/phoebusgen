@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.v4.properties.property_helpers import PropertyBase
@@ -95,7 +95,7 @@ class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, H
 
 class Tab(HasWidgets, HasName):
     """Tab object for tabs widget"""
-    def __init__(self, name: str, root: Element | None = None) -> None:
+    def __init__(self, name: str, root: Optional[Element] = None) -> None:
         """
         Create Tab object for tabs widget
 
