@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement
 
-from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes, HasYAxis
+from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes
 from phoebusgen.v4.properties.display import HasBackgroundColor, HasForegroundColor, HasShowLegend, HasShowLegend, HasShowToolbar, HasShowToolbar, HasTitle, HasTitleFont, HasVisible
 from phoebusgen.v4.properties.display import HasTitleFont
 from phoebusgen.v4.properties.misc import HasMarkers

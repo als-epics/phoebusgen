@@ -2,7 +2,7 @@ from enum import Enum
 from dataclasses import dataclass, field
 from collections.abc import MutableMapping, MutableSequence
 from pathlib import Path
-from typing import Any, Callable, Generic, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Callable, Generic, List, Optional, TypeVar, Union
 
 Primitive = Union[int, float, str, bool]
 

@@ -16,9 +16,7 @@ from phoebusgen.v4.widgets import (
 )
 from phoebusgen.v4.properties.types import (
     Color,
-    Column,
     Format,
-    ObservableList,
     State,
 )
 

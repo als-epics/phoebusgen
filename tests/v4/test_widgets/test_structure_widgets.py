@@ -13,7 +13,6 @@ from phoebusgen.v4.properties.types import (
     Instance,
     NavTab,
     ObservableDict,
-    ObservableList,
 )
 
 

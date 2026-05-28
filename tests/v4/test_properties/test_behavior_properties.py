@@ -11,7 +11,6 @@ from phoebusgen.v4.properties.types import (
     OpenDisplayAction, OpenFileAction, CommandAction, OpenWebpageAction,
     ButtonMode, InterpolationType, ColorMode, ColorMap, State,
 )
-from phoebusgen.v4.utils import prettify_xml
 
 
 @pytest.mark.parametrize('property_cls, property_name, value', [

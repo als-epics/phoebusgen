@@ -26,7 +26,6 @@ from phoebusgen.v4.properties.types import (
     CommandAction,
     OpenFileAction,
     OpenWebpageAction,
-    ObservableDict,
 )
 
 

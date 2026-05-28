@@ -7,7 +7,6 @@ from .types import (
     Color,
     State,
     InterpolationType,
-    ColorMap,
     ColorMode,
     Script,
     Action,

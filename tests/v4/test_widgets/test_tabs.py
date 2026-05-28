@@ -3,7 +3,6 @@ from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.properties.types import NavTab, ObservableList, TabDirection
 from phoebusgen.v4.widgets.widget import HasWidgets
-import pytest
 
 from phoebusgen.v4.widgets.structure import NavigationTabs, Tabs, Tab
 from phoebusgen.v4.properties.widget import HasName

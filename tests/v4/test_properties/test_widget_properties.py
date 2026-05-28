@@ -5,7 +5,6 @@ from phoebusgen.v4.properties.types import FileComponent, NavTab
 import pytest
 import re
 
-from phoebusgen.v4.widgets.structure import HasTabs, Tab
 
 
 @pytest.mark.parametrize('property_cls, initial_value, new_value', [

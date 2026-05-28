@@ -1,7 +1,6 @@
 from xml.etree.ElementTree import Element
 import pytest
 from typing import Any, Callable
-from phoebusgen.v4.utils import prettify_xml
 from phoebusgen.v4.properties.types import Color
 
 

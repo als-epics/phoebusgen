@@ -1,7 +1,6 @@
 from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
-from phoebusgen.v4.widgets import Widget
 from phoebusgen.v4.widgets.plots import (
     DataBrowser,
     Image,

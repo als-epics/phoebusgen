@@ -2,7 +2,6 @@ import pytest
 
 from phoebusgen.v4.properties.misc import HasBorder, HasMarkers, HasGrid, HasKnobAndNeedleColor, HasROIs, HasSelectionPV, HasSelectRows, HasCursor
 from phoebusgen.v4.properties.types import Color, Marker, ROI
-from phoebusgen.v4.utils import prettify_xml
 
 @pytest.mark.parametrize('property_cls, property_name, value', [
     (HasBorder, 'border_width', 5),

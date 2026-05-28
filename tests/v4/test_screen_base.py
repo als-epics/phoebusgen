@@ -1,6 +1,5 @@
 from phoebusgen.v4.properties.display import HasPVName
-from phoebusgen.v4.widgets import Widget, WidgetType, EmbeddedDisplay, ActionButton, NavigationTabs
-from phoebusgen.v4.properties import OpenDisplayAction
+from phoebusgen.v4.widgets import Widget, WidgetType, EmbeddedDisplay
 import pytest
 from xml.etree.ElementTree import Element
 

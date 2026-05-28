@@ -9,7 +9,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, is_dataclass
 from phoebusgen.v4.utils import PhoebusElement
 
-from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
+from typing import Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
 
 
 # get_origin / get_args were added in Python 3.8; provide a shim for 3.6/3.7

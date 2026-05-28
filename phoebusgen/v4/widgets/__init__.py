@@ -97,7 +97,8 @@ __all__ = [
     # Widget Base Classes
     'WidgetType',
     'Widget',
-    'WidgetContainer',
+
+    'HasWidgets',
     'widget_versions',
     # Graphics widgets
     'Arc',

@@ -1,6 +1,5 @@
-from pathlib import Path
 import re
-from typing import Dict, List, Optional, Sequence, Type, TypeVar, Union
+from typing import List, Optional, Sequence, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
 from phoebusgen.v4.properties.types import ObservableList
 from phoebusgen.v4.properties.widget import HasName
