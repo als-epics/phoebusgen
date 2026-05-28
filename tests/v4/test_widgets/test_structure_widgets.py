@@ -26,7 +26,7 @@ def test_create_array_widget():
     assert arr.width == 400
     assert arr.height == 300
 
-    assert str(arr) == """<?xml version="1.0" ?>
+    assert arr == """<?xml version="1.0" ?>
 <widget type="array" version="2.0.0">
   <name>Test Array</name>
   <x>10</x>
@@ -45,7 +45,7 @@ def test_array_with_macros():
 
     assert dict(arr.macros) == {'P': 'IOC1', 'R': 'Det1'}
 
-    assert str(arr) == """<?xml version="1.0" ?>
+    assert arr == """<?xml version="1.0" ?>
 <widget type="array" version="2.0.0">
   <name>Arr</name>
   <x>0</x>
@@ -91,7 +91,7 @@ def test_create_embedded_display_widget():
     assert ed.x == 10
     assert ed.y == 20
 
-    assert str(ed) == """<?xml version="1.0" ?>
+    assert ed == """<?xml version="1.0" ?>
 <widget type="embedded" version="2.0.0">
   <name>Test Embed</name>
   <x>10</x>
@@ -111,7 +111,7 @@ def test_embedded_display_with_macros():
 
     assert dict(ed.macros) == {'SYS': 'IOC1', 'DEV': 'Motor1', 'DESC': 'X Stage'}
 
-    assert str(ed) == """<?xml version="1.0" ?>
+    assert ed == """<?xml version="1.0" ?>
 <widget type="embedded" version="2.0.0">
   <name>Embed</name>
   <x>0</x>
@@ -160,7 +160,7 @@ def test_create_group_widget():
     assert grp.width == 400
     assert grp.height == 300
 
-    assert str(grp) == """<?xml version="1.0" ?>
+    assert grp == """<?xml version="1.0" ?>
 <widget type="group" version="3.0.0">
   <name>Test Group</name>
   <x>10</x>
@@ -179,7 +179,7 @@ def test_group_add_widget():
     assert len(grp.widgets) == 1
     assert grp.widgets[0].name == 'L1'
 
-    assert str(grp) == """<?xml version="1.0" ?>
+    assert grp == """<?xml version="1.0" ?>
 <widget type="group" version="3.0.0">
   <name>G</name>
   <x>0</x>
@@ -251,7 +251,7 @@ def test_create_navigation_tabs_widget():
     assert nav.tabs[2].name == 'Tab C'
     assert dict(nav.tabs[2].macros) == {'SYS': 'IOC2', 'DEV': 'Motor'}
 
-    assert str(nav) == """<?xml version="1.0" ?>
+    assert nav == """<?xml version="1.0" ?>
 <widget type="navtabs" version="2.0.0">
   <name>Test Nav</name>
   <x>10</x>
@@ -335,7 +335,7 @@ def test_create_template_instance_widget():
     assert tmpl.width == 300
     assert tmpl.height == 200
 
-    assert str(tmpl) == """<?xml version="1.0" ?>
+    assert tmpl == """<?xml version="1.0" ?>
 <widget type="template" version="2.0.0">
   <name>Test Template</name>
   <x>10</x>
@@ -358,7 +358,7 @@ def test_template_instance_with_instances_and_macros():
     assert dict(tmpl.instances[1].macros) == {'P': 'IOC2', 'R': 'Motor2'}
     assert dict(tmpl.instances[2].macros) == {'P': 'IOC3', 'R': 'Motor3'}
 
-    assert str(tmpl) == """<?xml version="1.0" ?>
+    assert tmpl == """<?xml version="1.0" ?>
 <widget type="template" version="2.0.0">
   <name>T</name>
   <x>0</x>
@@ -418,7 +418,7 @@ def test_template_instance_add_and_remove_widgets():
     assert tmpl.widgets[0].name == 'R1'
     assert tmpl.widgets[1].name == 'TU1'
 
-    assert str(tmpl) == """<?xml version="1.0" ?>
+    assert tmpl == """<?xml version="1.0" ?>
 <widget type="template" version="2.0.0">
   <name>T</name>
   <x>0</x>

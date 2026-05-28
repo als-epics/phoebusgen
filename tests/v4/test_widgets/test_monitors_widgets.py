@@ -31,7 +31,7 @@ def test_create_text_update_widget():
     assert tu.width == 200
     assert tu.height == 30
 
-    assert str(tu) == """<?xml version="1.0" ?>
+    assert tu == """<?xml version="1.0" ?>
 <widget type="textupdate" version="2.0.0">
   <name>Test TU</name>
   <x>10</x>
@@ -57,7 +57,7 @@ def test_text_update_with_properties():
     assert tu.foreground_color == Color((0, 0, 0))
     assert tu.background_color == Color((240, 240, 240))
 
-    assert str(tu) == """<?xml version="1.0" ?>
+    assert tu == """<?xml version="1.0" ?>
 <widget type="textupdate" version="2.0.0">
   <name>Formatted TU</name>
   <x>0</x>
@@ -121,7 +121,7 @@ def test_create_led_widget():
     assert led.off_color == Color((255, 0, 0))
     assert led.square
 
-    assert str(led) == """<?xml version="1.0" ?>
+    assert led == """<?xml version="1.0" ?>
 <widget type="led" version="2.0.0">
   <name>Test LED</name>
   <x>10</x>
@@ -177,7 +177,7 @@ def test_create_led_multistate_widget():
     assert led.states[1].value == 1
     assert led.states[1].label == 'On'
 
-    assert str(led) == """<?xml version="1.0" ?>
+    assert led == """<?xml version="1.0" ?>
 <widget type="multi_state_led" version="2.0.0">
   <name>Multi LED</name>
   <x>5</x>
@@ -249,7 +249,7 @@ def test_create_byte_monitor_widget():
     assert bm.num_bits == 8
     assert bm.horizontal
 
-    assert str(bm) == """<?xml version="1.0" ?>
+    assert bm == """<?xml version="1.0" ?>
 <widget type="byte_monitor" version="2.0.0">
   <name>Test BM</name>
   <x>10</x>
@@ -300,7 +300,7 @@ def test_create_meter_widget():
     assert meter.show_limits
     assert meter.limits_from_pv
 
-    assert str(meter) == """<?xml version="1.0" ?>
+    assert meter == """<?xml version="1.0" ?>
 <widget type="meter" version="3.0.0">
   <name>Test Meter</name>
   <x>10</x>
@@ -350,7 +350,7 @@ def test_create_progress_bar_widget():
     assert pb.fill_color == Color((0, 128, 255))
     assert pb.limits_from_pv
 
-    assert str(pb) == """<?xml version="1.0" ?>
+    assert pb == """<?xml version="1.0" ?>
 <widget type="progressbar" version="2.0.0">
   <name>Test PB</name>
   <x>10</x>
@@ -403,7 +403,7 @@ def test_create_tank_widget():
     assert tank.scale_visible
     assert tank.limits_from_pv
 
-    assert str(tank) == """<?xml version="1.0" ?>
+    assert tank == """<?xml version="1.0" ?>
 <widget type="tank" version="2.0.0">
   <name>Test Tank</name>
   <x>10</x>
@@ -453,7 +453,7 @@ def test_create_thermometer_widget():
     assert thermo.fill_color == Color((255, 0, 0))
     assert thermo.limits_from_pv
 
-    assert str(thermo) == """<?xml version="1.0" ?>
+    assert thermo == """<?xml version="1.0" ?>
 <widget type="thermometer" version="2.0.0">
   <name>Test Thermo</name>
   <x>10</x>
@@ -502,7 +502,7 @@ def test_create_symbol_widget():
     assert sym.show_index
     assert len(sym.symbols) == 2
 
-    assert str(sym) == """<?xml version="1.0" ?>
+    assert sym == """<?xml version="1.0" ?>
 <widget type="symbol" version="2.0.0">
   <name>Test Symbol</name>
   <x>10</x>
@@ -557,7 +557,7 @@ def test_create_table_widget():
     assert table.editable
     assert table.show_toolbar
 
-    assert str(table) == """<?xml version="1.0" ?>
+    assert table == """<?xml version="1.0" ?>
 <widget type="table" version="2.0.0">
   <name>Test Table</name>
   <x>10</x>
@@ -604,7 +604,7 @@ def test_create_text_symbol_widget():
     assert ts.symbols[1] == 'Running'
     assert ts.symbols[2] == 'Error'
 
-    assert str(ts) == """<?xml version="1.0" ?>
+    assert ts == """<?xml version="1.0" ?>
 <widget type="text-symbol" version="2.0.0">
   <name>Test TS</name>
   <x>10</x>
@@ -660,7 +660,7 @@ def test_create_linear_meter_widget():
     assert lm.limits_from_pv
     assert lm.horizontal
 
-    assert str(lm) == """<?xml version="1.0" ?>
+    assert lm == """<?xml version="1.0" ?>
 <widget type="linearmeter" version="2.0.0">
   <name>Test LM</name>
   <x>10</x>

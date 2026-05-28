@@ -22,7 +22,7 @@ def test_create_single_tab():
     assert len(tab.get_widgets()) == 1
     assert tab.get_widgets()[0].name == 'Test Label'
     assert tab.get_widgets()[0].text == 'Hello World'
-    assert str(tab) == """<?xml version="1.0" ?>
+    assert tab == """<?xml version="1.0" ?>
 <tab>
   <name>Test Tab</name>
   <children>
@@ -81,7 +81,7 @@ def test_create_tabs_widget():
     assert tabs.tabs[1].widgets[0].name == 'Second Tab Label'
 
     # Check created xml
-    assert str(tabs) == """<?xml version="1.0" ?>
+    assert tabs == """<?xml version="1.0" ?>
 <widget type="tabs" version="2.0.0">
   <name>Test Tabs</name>
   <x>10</x>
@@ -137,7 +137,7 @@ def test_create_tabs_widget():
     assert len(tabs.tabs) == 1
     assert tabs.tabs[0].name == 'Tab 1'
     assert len(tabs.tabs[0].widgets) == 1
-    assert str(tabs) == """<?xml version="1.0" ?>
+    assert tabs == """<?xml version="1.0" ?>
 <widget type="tabs" version="2.0.0">
   <name>Test Tabs</name>
   <x>10</x>
@@ -232,7 +232,7 @@ def test_create_navtabs_widget():
     assert nav_tabs.tabs[1].macros == {'Macro1': 'Value1'}
     assert nav_tabs.tabs[1].group_name == 'Group1'
 
-    assert (str(nav_tabs)) == """<?xml version="1.0" ?>
+    assert nav_tabs == """<?xml version="1.0" ?>
 <widget type="navtabs" version="2.0.0">
   <name>Test Nav Tabs</name>
   <x>10</x>
@@ -270,7 +270,7 @@ def test_create_navtabs_widget():
     assert nav_tabs.tab_height == 40
     assert nav_tabs.tab_spacing == 5
     assert nav_tabs.tab_width == 120
-    assert (str(nav_tabs)) == """<?xml version="1.0" ?>
+    assert nav_tabs == """<?xml version="1.0" ?>
 <widget type="navtabs" version="2.0.0">
   <name>Test Nav Tabs</name>
   <x>10</x>

@@ -28,7 +28,7 @@ def test_create_label_widget():
     assert label.width == 200
     assert label.height == 30
 
-    assert str(label) == """<?xml version="1.0" ?>
+    assert label == """<?xml version="1.0" ?>
 <widget type="label" version="2.0.0">
   <name>Test Label</name>
   <x>10</x>
@@ -82,7 +82,7 @@ def test_create_arc_widget():
     assert arc.line_color == Color((255, 0, 0))
     assert arc.line_style == LineStyle.DASHED
 
-    assert str(arc) == """<?xml version="1.0" ?>
+    assert arc == """<?xml version="1.0" ?>
 <widget type="arc" version="2.0.0">
   <name>Test Arc</name>
   <x>0</x>
@@ -141,7 +141,7 @@ def test_create_ellipse_widget():
     assert ellipse.line_color == Color((0, 128, 255))
     assert ellipse.background_color == Color((200, 200, 200))
 
-    assert str(ellipse) == """<?xml version="1.0" ?>
+    assert ellipse == """<?xml version="1.0" ?>
 <widget type="ellipse" version="2.0.0">
   <name>Test Ellipse</name>
   <x>5</x>
@@ -199,7 +199,7 @@ def test_create_rectangle_widget():
     assert rect.corner_width == 10
     assert rect.corner_height == 10
 
-    assert str(rect) == """<?xml version="1.0" ?>
+    assert rect == """<?xml version="1.0" ?>
 <widget type="rectangle" version="2.0.0">
   <name>Test Rect</name>
   <x>10</x>
@@ -259,7 +259,7 @@ def test_create_polygon_widget():
     assert polygon.points[1] == Point(x=50.0, y=100.0)
     assert polygon.points[2] == Point(x=100.0, y=0.0)
 
-    assert str(polygon) == """<?xml version="1.0" ?>
+    assert polygon == """<?xml version="1.0" ?>
 <widget type="polygon" version="2.0.0">
   <name>Test Polygon</name>
   <x>0</x>
@@ -321,7 +321,7 @@ def test_create_polyline_widget():
     assert polyline.arrows == ArrowTypes.TO
     assert len(polyline.points) == 3
 
-    assert str(polyline) == """<?xml version="1.0" ?>
+    assert polyline == """<?xml version="1.0" ?>
 <widget type="polyline" version="2.0.0">
   <name>Test Polyline</name>
   <x>0</x>
@@ -383,7 +383,7 @@ def test_create_picture_widget():
     assert picture.rotation == 90.0
     assert picture.stretch_to_fit
 
-    assert str(picture) == """<?xml version="1.0" ?>
+    assert picture == """<?xml version="1.0" ?>
 <widget type="picture" version="2.0.0">
   <name>Test Picture</name>
   <x>10</x>

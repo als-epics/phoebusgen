@@ -40,7 +40,7 @@ def test_create_action_button_widget():
     assert btn.width == 100
     assert btn.height == 30
 
-    assert str(btn) == """<?xml version="1.0" ?>
+    assert btn == """<?xml version="1.0" ?>
 <widget type="action_button" version="3.0.0">
   <name>Test Button</name>
   <x>10</x>
@@ -81,7 +81,7 @@ def test_action_button_with_actions():
     assert isinstance(btn.actions[4], OpenFileAction)
     assert btn.actions[4].file == Path('/tmp/test.txt')
 
-    assert str(btn) == """<?xml version="1.0" ?>
+    assert btn == """<?xml version="1.0" ?>
 <widget type="action_button" version="3.0.0">
   <name>Multi Action</name>
   <x>0</x>
@@ -131,7 +131,7 @@ def test_action_button_with_actions():
     assert len(btn.actions) == 1
     assert btn.actions[0].description == 'Write Value'
 
-    assert str(btn) == """<?xml version="1.0" ?>
+    assert btn == """<?xml version="1.0" ?>
 <widget type="action_button" version="3.0.0">
   <name>Multi Action</name>
   <x>0</x>
@@ -159,7 +159,7 @@ def test_action_button_with_confirmation():
     assert btn.show_confirm_dialog
     assert btn.confirm_message == 'Are you sure?'
 
-    assert str(btn) == """<?xml version="1.0" ?>
+    assert btn == """<?xml version="1.0" ?>
 <widget type="action_button" version="3.0.0">
   <name>Danger Btn</name>
   <x>0</x>
@@ -221,7 +221,7 @@ def test_create_boolean_button_widget():
     assert btn.on_image == Path('on_icon.png')
     assert btn.off_image == Path('off_icon.png')
 
-    assert str(btn) == """<?xml version="1.0" ?>
+    assert btn == """<?xml version="1.0" ?>
 <widget type="bool_button" version="2.0.0">
   <name>Test Bool</name>
   <x>10</x>
@@ -272,7 +272,7 @@ def test_create_checkbox_widget():
     assert cb.auto_size
     assert cb.foreground_color == Color((50, 50, 50))
 
-    assert str(cb) == """<?xml version="1.0" ?>
+    assert cb == """<?xml version="1.0" ?>
 <widget type="checkbox" version="2.0.0">
   <name>Test CB</name>
   <x>10</x>
@@ -323,7 +323,7 @@ def test_create_choice_button_widget():
     assert not choice.items_from_pv
     assert choice.selected_color == Color((0, 100, 200))
 
-    assert str(choice) == """<?xml version="1.0" ?>
+    assert choice == """<?xml version="1.0" ?>
 <widget type="choice" version="2.0.0">
   <name>Test Choice</name>
   <x>10</x>
@@ -380,7 +380,7 @@ def test_create_combo_box_widget():
     assert len(combo.items) == 2
     assert combo.editable
 
-    assert str(combo) == """<?xml version="1.0" ?>
+    assert combo == """<?xml version="1.0" ?>
 <widget type="combo" version="2.0.0">
   <name>Test Combo</name>
   <x>10</x>
@@ -421,7 +421,7 @@ def test_create_file_selector_widget():
     assert fs.name == 'Test FS'
     assert fs.pv_name == 'TEST:FILE'
 
-    assert str(fs) == """<?xml version="1.0" ?>
+    assert fs == """<?xml version="1.0" ?>
 <widget type="fileselector" version="2.0.0">
   <name>Test FS</name>
   <x>10</x>
@@ -463,7 +463,7 @@ def test_create_radio_button_widget():
     assert len(radio.items) == 3
     assert not radio.items_from_pv
 
-    assert str(radio) == """<?xml version="1.0" ?>
+    assert radio == """<?xml version="1.0" ?>
 <widget type="radio" version="2.0.0">
   <name>Test Radio</name>
   <x>10</x>
@@ -530,7 +530,7 @@ def test_create_scaled_slider_widget():
     assert slider.level_low == 20.0
     assert slider.level_lolo == 10.0
 
-    assert str(slider) == """<?xml version="1.0" ?>
+    assert slider == """<?xml version="1.0" ?>
 <widget type="scaledslider" version="2.0.0">
   <name>Test Slider</name>
   <x>10</x>
@@ -587,7 +587,7 @@ def test_create_scrollbar_widget():
     assert sb.maximum == 100.0
     assert sb.bar_length == 10.0
 
-    assert str(sb) == """<?xml version="1.0" ?>
+    assert sb == """<?xml version="1.0" ?>
 <widget type="scrollbar" version="2.0.0">
   <name>Test SB</name>
   <x>10</x>
@@ -635,7 +635,7 @@ def test_create_slide_button_widget():
     assert slide.on_color == Color((0, 255, 0))
     assert slide.off_color == Color((255, 0, 0))
 
-    assert str(slide) == """<?xml version="1.0" ?>
+    assert slide == """<?xml version="1.0" ?>
 <widget type="slide_button" version="2.0.0">
   <name>Test Slide</name>
   <x>10</x>
@@ -690,7 +690,7 @@ def test_create_spinner_widget():
     assert spinner.limits_from_pv
     assert spinner.buttons_on_left
 
-    assert str(spinner) == """<?xml version="1.0" ?>
+    assert spinner == """<?xml version="1.0" ?>
 <widget type="spinner" version="2.0.0">
   <name>Test Spinner</name>
   <x>10</x>
@@ -747,7 +747,7 @@ def test_create_text_entry_widget():
     assert te.precision == 3
     assert te.show_units
 
-    assert str(te) == """<?xml version="1.0" ?>
+    assert te == """<?xml version="1.0" ?>
 <widget type="textentry" version="2.0.0">
   <name>Test TE</name>
   <x>10</x>
@@ -788,7 +788,7 @@ def test_create_thumbwheel_widget():
     assert tw.name == 'Test TW'
     assert tw.pv_name == 'TEST:SET'
 
-    assert str(tw) == """<?xml version="1.0" ?>
+    assert tw == """<?xml version="1.0" ?>
 <widget type="thumbwheel" version="2.0.0">
   <name>Test TW</name>
   <x>10</x>

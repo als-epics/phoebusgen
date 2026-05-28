@@ -28,7 +28,7 @@ def test_create_data_browser_widget():
     assert db.width == 600
     assert db.height == 400
 
-    assert str(db) == """<?xml version="1.0" ?>
+    assert db == """<?xml version="1.0" ?>
 <widget type="databrowser" version="2.0.0">
   <name>Test DB</name>
   <x>10</x>
@@ -86,7 +86,7 @@ def test_create_image_widget():
     assert img.minimum == 0.0
     assert img.maximum == 4095.0
 
-    assert str(img) == """<?xml version="1.0" ?>
+    assert img == """<?xml version="1.0" ?>
 <widget type="image" version="2.0.0">
   <name>Test Image</name>
   <x>10</x>
@@ -168,7 +168,7 @@ def test_create_strip_chart_widget():
     assert sc.traces[1].name == 'Trace 2'
     assert sc.traces[1].y_pv == 'TEMP:PV2'
 
-    assert str(sc) == """<?xml version="1.0" ?>
+    assert sc == """<?xml version="1.0" ?>
 <widget type="stripchart" version="2.1.0">
   <name>Test SC</name>
   <x>10</x>
@@ -262,7 +262,7 @@ def test_create_xyplot_widget():
     assert plot.traces[0].x_pv == 'X:PV'
     assert plot.traces[0].y_pv == 'Y:PV'
 
-    assert str(plot) == """<?xml version="1.0" ?>
+    assert plot == """<?xml version="1.0" ?>
 <widget type="xyplot" version="3.0.0">
   <name>Test Plot</name>
   <x>10</x>
@@ -367,7 +367,7 @@ def test_xyplot_with_y_axes_and_markers():
     plot.traces.append(Trace(name='Temp Data', y_pv='TEMP:PV', y_axis=0))
     plot.traces.append(Trace(name='Press Data', y_pv='PRESS:PV', y_axis=1, color=Color((255, 0, 0))))
 
-    assert str(plot) == """<?xml version="1.0" ?>
+    assert plot == """<?xml version="1.0" ?>
 <widget type="xyplot" version="3.0.0">
   <name>Full Plot</name>
   <x>0</x>
