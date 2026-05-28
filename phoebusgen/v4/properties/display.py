@@ -244,4 +244,3 @@ class HasTabActiveHeightDirection(PropertyBase):
     tab_height: int = 30
     direction: TabDirection = TabDirection.HORIZONTAL
     active_tab: int = 1
-
