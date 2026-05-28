@@ -1,4 +1,5 @@
 import copy
+from pathlib import Path
 from xml.etree.ElementTree import Element
 import sys
 from enum import Enum
@@ -6,7 +7,7 @@ from enum import Enum
 import inspect
 from collections.abc import Mapping
 from collections import namedtuple
-from dataclasses import is_dataclass
+from dataclasses import dataclass, is_dataclass
 from phoebusgen.v4.utils import PhoebusElement
 
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, Callable
@@ -49,7 +50,10 @@ PropertyType = Union[
 ]
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
-PropertyInfo = namedtuple('PropertyInfo', ['type', 'default_value'])
+@dataclass
+class PropertyInfo:
+    type: Type[PropertyTypeT]
+    default_value: PropertyTypeT
 
 def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
     element = Element(prop_name)
@@ -135,7 +139,7 @@ class PropertyMetaclass(type):
                     return setter(self, prop_name, prop_type, value)
 
                 setattr(cls, prop_name, property(prop_getter, prop_setter))
-                all_properties[cls][prop_name] = PropertyInfo(base_prop_type, default_value)
+                all_properties[cls][prop_name] = PropertyInfo(type=base_prop_type, default_value=default_value)
 
 
         # Collect property names and types from base classes to keep a running dictionary
@@ -343,6 +347,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
             return getattr(cls, f'_{prefix}_enum_property')
         elif is_dataclass(property_type):
             return getattr(cls, f'_{prefix}_dataclass_property')
+        elif property_type is Path:
+            return getattr(cls, f'_{prefix}_path_property')
         elif property_type in (int, float, str, bool):
             return getattr(cls, f'_{prefix}_primitive_property')
 
@@ -378,6 +384,28 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if isinstance(value, bool):
             return _create_element(prop_name, str(value).lower())
         return _create_element(prop_name, str(value))
+
+
+    @classmethod
+    def _get_path_property(cls, element: Element) -> Path:
+        """Given an XML element representing a file path property, parse the value and return a Path object.
+
+        :param element: The XML element to parse the file path from
+        :return: A Path object representing the file path
+        """
+
+        return Path(cls._get_primitive_property(element, str))
+
+    @classmethod
+    def _set_path_property(cls, prop_name: str, value: Path) -> Element:
+        """Given a Path object, create an XML element representing the file path property.
+
+        :param prop_name: The name of the property
+        :param value: The Path object to set
+        :return: The XML element representing the file path property
+        """
+
+        return cls._set_primitive_property(prop_name, str(value))
 
 
     @classmethod

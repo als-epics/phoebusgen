@@ -92,6 +92,7 @@ def _widget_type_from_class_name(class_name: str) -> WidgetType:
 
 
 WidgetT = TypeVar('WidgetT', bound='Widget')
+PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 
 class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
@@ -200,7 +201,6 @@ class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAn
         """
         return hasattr(self, prop_name)
 
-
     def has_property_class(self, prop_class: type) -> bool:
         """Check if widget has a property of type prop_class.
 
@@ -214,10 +214,6 @@ class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAn
 
     def __repr__(self):
         return prettify_xml(self.root)
-
-
-WidgetT = TypeVar('WidgetT', bound=Widget)
-PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 
 class HasWidgets(PhoebusElement, PropertyBase):
@@ -270,7 +266,6 @@ class HasWidgets(PhoebusElement, PropertyBase):
 
 
     # For BC, we keep the two below methods
-
     def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
         """Add widget or list of widgets to screen.
 
