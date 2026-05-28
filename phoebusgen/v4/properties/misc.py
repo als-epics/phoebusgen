@@ -14,7 +14,6 @@ class HasGrid(PropertyBase):
     grid_step_x: int = 10
     grid_step_y: int = 10
 
-
 class HasKnobAndNeedleColor(PropertyBase):
     needle_color: Color
     knob_color: Color

@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import tostring, Element
 from xml.dom import minidom
-
+from typing import TypeVar, Type
 from xml.etree.ElementTree import Element
 
 def prettify_xml(elem):
@@ -12,7 +12,17 @@ def prettify_xml(elem):
     return reparse_xml.toprettyxml(indent='  ', newl='\n')
 
 
+PhoebusElementT = TypeVar('PhoebusElementT', bound='PhoebusElement')
+
 class PhoebusElement:
+    """Base class for all Phoebus elements, including screens, widgets, and properties.
+
+    Attributes
+    ----------
+    root : Element
+        The XML element that represents this PhoebusElement object.
+    """
+
     root: Element
 
     def __init__(self, root: Element) -> None:
@@ -30,7 +40,7 @@ class PhoebusElement:
         return prettify_xml(self.root) == prettify_xml(other.root)
 
     @classmethod
-    def from_element(cls, element: Element) -> 'PhoebusElement':
+    def from_element(cls: Type[PhoebusElementT], element: Element) -> PhoebusElementT:
         """Create a PhoebusElement from an XML Element.
 
         :param element: XML Element to create from

@@ -1,7 +1,7 @@
 from .property_helpers import PropertyBase
 
 class HasPosition(PropertyBase):
-    x: int
-    y: int
+    x: int = 0
+    y: int = 0
     width: int
     height: int

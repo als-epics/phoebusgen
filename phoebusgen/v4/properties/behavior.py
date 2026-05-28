@@ -1,6 +1,18 @@
 from .property_helpers import PropertyBase
-from .types import Axis, ButtonMode, Color, State, InterpolationType, ColorMap, ColorMode, Script, Action, Rule, ObservableList, Trace
-
+from .types import (
+    Axis,
+    ButtonMode,
+    Color,
+    State,
+    InterpolationType,
+    ColorMap,
+    ColorMode,
+    Script,
+    Action,
+    Rule,
+    ObservableList,
+    Trace
+)
 
 class HasActionsRulesAndScripts(PropertyBase):
     actions: ObservableList[Action]
@@ -9,7 +21,6 @@ class HasActionsRulesAndScripts(PropertyBase):
 
 class HasToolTip(PropertyBase):
     tooltip: str
-
 
 class HasShowLimits(PropertyBase):
     show_limits: bool

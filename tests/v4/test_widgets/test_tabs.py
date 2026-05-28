@@ -1,13 +1,11 @@
-from xml.etree.ElementTree import Element, fromstring
+from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.properties.types import NavTab, ObservableList, TabDirection
 from phoebusgen.v4.widgets.widget import HasWidgets
 import pytest
 
-from phoebusgen.v4.screen import Screen
 from phoebusgen.v4.widgets.structure import NavigationTabs, Tabs, Tab
-from phoebusgen.v4.properties.display import HasTabActiveHeightDirection
-from phoebusgen.v4.properties.widget import HasName, HasNavTabs
+from phoebusgen.v4.properties.widget import HasName
 
 from phoebusgen.v4.widgets import Label, BooleanButton
 

@@ -1,6 +1,20 @@
 from .property_helpers import PropertyBase
 
-from .types import ColorBar, Font, ArrowTypes, LineStyle, Color, Column,  ObservableList, ResizeBehavior, GroupStyle, RotationStep, Point, LinearMeterColors, TabDirection
+from .types import (
+    ColorBar,
+    Font,
+    ArrowTypes,
+    LineStyle,
+    Color,
+    Column,
+    ObservableList,
+    ResizeBehavior,
+    GroupStyle,
+    RotationStep,
+    Point,
+    LinearMeterColors,
+    TabDirection
+)
 
 class HasVisible(PropertyBase):
     visible: bool = True
@@ -43,8 +57,8 @@ class HasMultiLine(PropertyBase):
     multi_line: bool
 
 class HasAngle(PropertyBase):
-    start_angle: float
-    total_angle: float
+    start_angle: float = 0.0
+    total_angle: float = 90.0
 
 class HasHorizontalAlignment(PropertyBase):
     horizontal_alignment: str
@@ -71,17 +85,14 @@ class HasOnOffColors(PropertyBase):
     off_color: Color
     on_color: Color
 
-
 class HasText(PropertyBase):
     text: str
 
 class HasTransparent(PropertyBase):
     transparent: bool
 
-
 class HasFormat(PropertyBase):
     format: str
-
 
 class HasPrecision(PropertyBase):
     precision: int
@@ -91,7 +102,6 @@ class HasShowUnits(PropertyBase):
 
 class HasPVName(PropertyBase):
     pv_name: str
-
 
 class HasLabelsFromPV(PropertyBase):
     labels_from_pv: bool
@@ -113,7 +123,6 @@ class HasItemsFromPV(PropertyBase):
 
 class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
-
 
 class HasShowToolbar(PropertyBase):
     show_toolbar: bool

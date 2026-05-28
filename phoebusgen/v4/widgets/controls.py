@@ -45,7 +45,8 @@ from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel
 from phoebusgen.v4.properties.misc import HasBorder
 
 class ActionButton(Widget, HasPVName, HasText, HasFont, HasForegroundColor, HasBackgroundColor,
-                   HasTransparent, HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep, HasEnabled, HasAlarmBorder, HasConfirmation):
+                   HasTransparent, HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep,
+                   HasEnabled, HasAlarmBorder, HasConfirmation):
     """ ActionButton Phoebus Widget """
 
     def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
