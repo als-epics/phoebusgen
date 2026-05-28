@@ -76,13 +76,13 @@ def test_create_image_widget():
     img.maximum = 4095.0
 
     assert img.color_map == ColorMap.VIRIDIS
-    assert img.show_toolbar == True
+    assert img.show_toolbar
     assert img.data_width == 640
     assert img.data_height == 480
     assert img.interpolation == InterpolationType.INTERPOLATE
-    assert img.log_scale == True
-    assert img.unsigned_data == True
-    assert img.auto_scale == True
+    assert img.log_scale
+    assert img.unsigned_data
+    assert img.auto_scale
     assert img.minimum == 0.0
     assert img.maximum == 4095.0
 
@@ -134,8 +134,8 @@ def test_image_from_xml():
     assert img.data_height == 768
     assert img.color_map == ColorMap.JET
     assert img.interpolation == InterpolationType.AUTOMATIC
-    assert img.unsigned_data == True
-    assert img.auto_scale == True
+    assert img.unsigned_data
+    assert img.auto_scale
     assert img.minimum == 10.0
     assert img.maximum == 1000.0
 
@@ -155,9 +155,9 @@ def test_create_strip_chart_widget():
     sc.show_grid = True
 
     assert sc.title == 'Temperature History'
-    assert sc.show_toolbar == True
-    assert sc.show_legend == True
-    assert sc.show_grid == True
+    assert sc.show_toolbar
+    assert sc.show_legend
+    assert sc.show_grid
 
     sc.traces.append(Trace(name='Trace 1', y_pv='TEMP:PV1'))
     sc.traces.append(Trace(name='Trace 2', y_pv='TEMP:PV2', color=Color((255, 0, 0))))
@@ -235,8 +235,8 @@ def test_strip_chart_from_xml():
     assert sc.width == 600
     assert sc.height == 350
     assert sc.title == 'Signal Monitor'
-    assert sc.show_toolbar == True
-    assert sc.show_legend == True
+    assert sc.show_toolbar
+    assert sc.show_legend
 
 
 def test_create_xyplot_widget():
@@ -255,8 +255,8 @@ def test_create_xyplot_widget():
     plot.traces.append(Trace(name='Data', x_pv='X:PV', y_pv='Y:PV', trace_type=TraceType.LINE))
 
     assert plot.title == 'X vs Y'
-    assert plot.show_toolbar == True
-    assert plot.show_legend == True
+    assert plot.show_toolbar
+    assert plot.show_legend
     assert len(plot.traces) == 1
     assert plot.traces[0].name == 'Data'
     assert plot.traces[0].x_pv == 'X:PV'
@@ -311,7 +311,7 @@ def test_xyplot_from_xml():
     assert plot.width == 800
     assert plot.height == 400
     assert plot.title == 'Waveform'
-    assert plot.show_toolbar == True
+    assert plot.show_toolbar
 
 
 def test_xyplot_with_multiple_traces():
@@ -345,11 +345,11 @@ def test_xyplot_with_y_axes_and_markers():
     assert plot.y_axes[0].title == 'Temperature'
     assert plot.y_axes[0].minimum == 0.0
     assert plot.y_axes[0].maximum == 100.0
-    assert plot.y_axes[0].on_right == False
+    assert not plot.y_axes[0].on_right
     assert plot.y_axes[1].title == 'Pressure'
     assert plot.y_axes[1].minimum == -10.0
     assert plot.y_axes[1].maximum == 10.0
-    assert plot.y_axes[1].on_right == True
+    assert plot.y_axes[1].on_right
 
     # Add markers
     plot.markers.append(Marker(pv_name='MARK:THRESHOLD', color=Color((255, 0, 0)), interactive=False))
@@ -545,33 +545,33 @@ def test_xyplot_y_axes_and_markers_from_xml():
     assert isinstance(plot, XYPlot)
     assert plot.name == 'Parsed Plot'
     assert plot.title == 'Parsed Title'
-    assert plot.show_toolbar == True
-    assert plot.show_legend == True
+    assert plot.show_toolbar
+    assert plot.show_legend
 
     # Verify y_axes
     assert len(plot.y_axes) == 2
     assert plot.y_axes[0].title == 'Axis 1'
     assert plot.y_axes[0].minimum == 0.0
     assert plot.y_axes[0].maximum == 50.0
-    assert plot.y_axes[0].on_right == False
-    assert plot.y_axes[0].autoscale == True
-    assert plot.y_axes[0].log_scale == False
+    assert not plot.y_axes[0].on_right
+    assert plot.y_axes[0].autoscale
+    assert not plot.y_axes[0].log_scale
     assert plot.y_axes[1].title == 'Axis 2'
     assert plot.y_axes[1].minimum == -5.0
     assert plot.y_axes[1].maximum == 5.0
-    assert plot.y_axes[1].on_right == True
-    assert plot.y_axes[1].autoscale == False
-    assert plot.y_axes[1].log_scale == True
-    assert plot.y_axes[1].show_grid == False
+    assert plot.y_axes[1].on_right
+    assert not plot.y_axes[1].autoscale
+    assert plot.y_axes[1].log_scale
+    assert not plot.y_axes[1].show_grid
 
     # Verify markers
     assert len(plot.markers) == 2
     assert plot.markers[0].pv_name == 'MARK:PV1'
     assert plot.markers[0].color == Color((255, 128, 0))
-    assert plot.markers[0].interactive == True
+    assert plot.markers[0].interactive
     assert plot.markers[1].pv_name == 'MARK:PV2'
     assert plot.markers[1].color == Color((0, 0, 255))
-    assert plot.markers[1].interactive == False
+    assert not plot.markers[1].interactive
 
     # Verify traces
     assert len(plot.traces) == 1

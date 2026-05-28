@@ -156,7 +156,7 @@ def test_action_button_with_confirmation():
     btn.show_confirm_dialog = True
     btn.confirm_message = 'Are you sure?'
 
-    assert btn.show_confirm_dialog == True
+    assert btn.show_confirm_dialog
     assert btn.confirm_message == 'Are you sure?'
 
     assert str(btn) == """<?xml version="1.0" ?>
@@ -217,7 +217,7 @@ def test_create_boolean_button_widget():
     btn.off_image = 'off_icon.png'
 
     assert btn.mode == ButtonMode.PUSH
-    assert btn.show_led == True
+    assert btn.show_led
     assert btn.on_image == Path('on_icon.png')
     assert btn.off_image == Path('off_icon.png')
 
@@ -269,7 +269,7 @@ def test_create_checkbox_widget():
     cb.auto_size = True
     cb.foreground_color = Color((50, 50, 50))
 
-    assert cb.auto_size == True
+    assert cb.auto_size
     assert cb.foreground_color == Color((50, 50, 50))
 
     assert str(cb) == """<?xml version="1.0" ?>
@@ -320,7 +320,7 @@ def test_create_choice_button_widget():
     choice.selected_color = Color((0, 100, 200))
 
     assert len(choice.items) == 3
-    assert choice.items_from_pv == False
+    assert not choice.items_from_pv
     assert choice.selected_color == Color((0, 100, 200))
 
     assert str(choice) == """<?xml version="1.0" ?>
@@ -378,7 +378,7 @@ def test_create_combo_box_widget():
     combo.editable = True
 
     assert len(combo.items) == 2
-    assert combo.editable == True
+    assert combo.editable
 
     assert str(combo) == """<?xml version="1.0" ?>
 <widget type="combo" version="2.0.0">
@@ -412,7 +412,7 @@ def test_combo_box_from_xml():
     assert isinstance(combo, ComboBox)
     assert combo.name == 'Combo 1'
     assert combo.pv_name == 'SEL:PV'
-    assert combo.items_from_pv == True
+    assert combo.items_from_pv
 
 
 def test_create_file_selector_widget():
@@ -461,7 +461,7 @@ def test_create_radio_button_widget():
     radio.items_from_pv = False
 
     assert len(radio.items) == 3
-    assert radio.items_from_pv == False
+    assert not radio.items_from_pv
 
     assert str(radio) == """<?xml version="1.0" ?>
 <widget type="radio" version="2.0.0">
@@ -522,8 +522,8 @@ def test_create_scaled_slider_widget():
     slider.show_low = True
     slider.show_lolo = True
 
-    assert slider.show_scale == True
-    assert slider.limits_from_pv == True
+    assert slider.show_scale
+    assert slider.limits_from_pv
     assert slider.increment == 0.1
     assert slider.level_high == 80.0
     assert slider.level_hihi == 90.0
@@ -569,8 +569,8 @@ def test_scaled_slider_from_xml():
     assert isinstance(slider, ScaledSlider)
     assert slider.name == 'Slider 1'
     assert slider.pv_name == 'MOTOR:SP'
-    assert slider.limits_from_pv == True
-    assert slider.show_scale == True
+    assert slider.limits_from_pv
+    assert slider.show_scale
 
 
 def test_create_scrollbar_widget():
@@ -687,8 +687,8 @@ def test_create_spinner_widget():
     assert spinner.minimum == 0.0
     assert spinner.maximum == 100.0
     assert spinner.increment == 1.0
-    assert spinner.limits_from_pv == True
-    assert spinner.buttons_on_left == True
+    assert spinner.limits_from_pv
+    assert spinner.buttons_on_left
 
     assert str(spinner) == """<?xml version="1.0" ?>
 <widget type="spinner" version="2.0.0">
@@ -741,11 +741,11 @@ def test_create_text_entry_widget():
     te.precision = 3
     te.show_units = True
 
-    assert te.multi_line == True
-    assert te.wrap_words == True
+    assert te.multi_line
+    assert te.wrap_words
     assert te.format == Format.DECIMAL
     assert te.precision == 3
-    assert te.show_units == True
+    assert te.show_units
 
     assert str(te) == """<?xml version="1.0" ?>
 <widget type="textentry" version="2.0.0">
@@ -779,7 +779,7 @@ def test_text_entry_from_xml():
     assert isinstance(te, TextEntry)
     assert te.name == 'TE 1'
     assert te.pv_name == 'ENTRY:PV'
-    assert te.multi_line == True
+    assert te.multi_line
 
 
 def test_create_thumbwheel_widget():

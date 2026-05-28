@@ -381,7 +381,7 @@ def test_create_picture_widget():
     picture.stretch_to_fit = True
 
     assert picture.rotation == 90.0
-    assert picture.stretch_to_fit == True
+    assert picture.stretch_to_fit
 
     assert str(picture) == """<?xml version="1.0" ?>
 <widget type="picture" version="2.0.0">

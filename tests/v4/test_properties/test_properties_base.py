@@ -460,9 +460,9 @@ def test_get_rule_property():
     assert isinstance(rule, Rule)
     assert rule.name == 'Test Rule'
     assert len(rule.expressions) == 1
-    assert type(rule.expressions[0]) == RuleExpression
+    assert isinstance(rule.expressions[0], RuleExpression)
     assert rule.expressions[0].bool_exp == 'pv0 == 0'
-    assert rule.out_exp == True
+    assert rule.out_exp
     assert not rule.expressions[0].value_as_expression
     assert rule.expressions[0].value == Color((255, 0, 0, 255))
     assert rule.pv_names == {'test_pv1': True, 'test_pv2': False}
@@ -532,7 +532,7 @@ def test_set_prop_with_incorrect_type_raises_typerror():
 
 
 def test_get_property_classes():
-    prop_classes = XYPlot.get_property_classes()
+    XYPlot.get_property_classes()
     assert XYPlot.get_property_classes() == [
         HasVisible,
         HasName,
@@ -584,10 +584,10 @@ def test_get_property_names():
 
 def test_get_property_type_by_name():
     xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
-    assert xy_plot.get_property_type_by_name('x') == int
-    assert xy_plot.get_property_type_by_name('background_color') == Color
-    assert xy_plot.get_property_type_by_name('y_axes') == ObservableList[Axis]
-    assert xy_plot.get_property_type_by_name('x_axis') == Axis
+    assert xy_plot.get_property_type_by_name('x') is int
+    assert xy_plot.get_property_type_by_name('background_color') is Color
+    assert xy_plot.get_property_type_by_name('y_axes') is ObservableList[Axis]
+    assert xy_plot.get_property_type_by_name('x_axis') is Axis
 
     with pytest.raises(ValueError, match="Widget 'XYPlot' has no property 'nonexistent'!"):
         xy_plot.get_property_type_by_name('nonexistent')

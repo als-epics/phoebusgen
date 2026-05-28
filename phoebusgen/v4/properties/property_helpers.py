@@ -467,7 +467,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The corresponding Enum member
         """
         if element.text is None:
-            raise ValueError(f"Enum property element has no text value!")
+            raise ValueError("Enum property element has no text value!")
 
         actual_value = element.text
         if issubclass(property_type, int):
@@ -497,7 +497,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         color_elem = element.find('color')
         if color_elem is None:
-            raise ValueError(f"Color property element has no color child element!")
+            raise ValueError("Color property element has no color child element!")
 
         red = color_elem.attrib.get('red', 0)
         green = color_elem.attrib.get('green', 0)
@@ -657,7 +657,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         # bool_exp attribute is required
         bool_exp = element.attrib.get('bool_exp', None)
         if bool_exp is None:
-            raise ValueError(f"Rule expression element is missing required 'bool_exp' attribute!")
+            raise ValueError("Rule expression element is missing required 'bool_exp' attribute!")
 
         # There are two ways to structure a RuleExpression, with value as an expression or as a literal.
         # With value_as_expression=True, the value is stored as text in an <expression> child element,

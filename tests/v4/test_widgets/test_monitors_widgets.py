@@ -53,7 +53,7 @@ def test_text_update_with_properties():
 
     assert tu.format == Format.DECIMAL
     assert tu.precision == 3
-    assert tu.show_units == True
+    assert tu.show_units
     assert tu.foreground_color == Color((0, 0, 0))
     assert tu.background_color == Color((240, 240, 240))
 
@@ -99,7 +99,7 @@ def test_text_update_from_xml():
     assert tu.height == 20
     assert tu.pv_name == 'MY:PV'
     assert tu.precision == 2
-    assert tu.show_units == True
+    assert tu.show_units
     assert tu.format == Format.DECIMAL  # Default format
 
 
@@ -119,7 +119,7 @@ def test_create_led_widget():
 
     assert led.on_color == Color((0, 255, 0))
     assert led.off_color == Color((255, 0, 0))
-    assert led.square == True
+    assert led.square
 
     assert str(led) == """<?xml version="1.0" ?>
 <widget type="led" version="2.0.0">
@@ -159,7 +159,7 @@ def test_led_from_xml():
     assert led.width == 25
     assert led.height == 25
     assert led.pv_name == 'SIG:STATUS'
-    assert led.square == True
+    assert led.square
 
 
 def test_create_led_multistate_widget():
@@ -247,7 +247,7 @@ def test_create_byte_monitor_widget():
 
     assert bm.start_bit == 0
     assert bm.num_bits == 8
-    assert bm.horizontal == True
+    assert bm.horizontal
 
     assert str(bm) == """<?xml version="1.0" ?>
 <widget type="byte_monitor" version="2.0.0">
@@ -295,10 +295,10 @@ def test_create_meter_widget():
     meter.show_limits = True
     meter.limits_from_pv = True
 
-    assert meter.show_value == True
-    assert meter.show_units == True
-    assert meter.show_limits == True
-    assert meter.limits_from_pv == True
+    assert meter.show_value
+    assert meter.show_units
+    assert meter.show_limits
+    assert meter.limits_from_pv
 
     assert str(meter) == """<?xml version="1.0" ?>
 <widget type="meter" version="3.0.0">
@@ -332,8 +332,8 @@ def test_meter_from_xml():
     assert isinstance(meter, Meter)
     assert meter.name == 'Meter 1'
     assert meter.pv_name == 'MOTOR:POS'
-    assert meter.show_value == True
-    assert meter.limits_from_pv == True
+    assert meter.show_value
+    assert meter.limits_from_pv
 
 
 def test_create_progress_bar_widget():
@@ -346,9 +346,9 @@ def test_create_progress_bar_widget():
     pb.fill_color = Color((0, 128, 255))
     pb.limits_from_pv = True
 
-    assert pb.horizontal == True
+    assert pb.horizontal
     assert pb.fill_color == Color((0, 128, 255))
-    assert pb.limits_from_pv == True
+    assert pb.limits_from_pv
 
     assert str(pb) == """<?xml version="1.0" ?>
 <widget type="progressbar" version="2.0.0">
@@ -383,8 +383,8 @@ def test_progress_bar_from_xml():
     assert isinstance(pb, ProgressBar)
     assert pb.name == 'PB 1'
     assert pb.pv_name == 'FILL:LEVEL'
-    assert pb.horizontal == True
-    assert pb.limits_from_pv == True
+    assert pb.horizontal
+    assert pb.limits_from_pv
 
 
 def test_create_tank_widget():
@@ -400,8 +400,8 @@ def test_create_tank_widget():
 
     assert tank.fill_color == Color((0, 0, 255))
     assert tank.empty_color == Color((200, 200, 200))
-    assert tank.scale_visible == True
-    assert tank.limits_from_pv == True
+    assert tank.scale_visible
+    assert tank.limits_from_pv
 
     assert str(tank) == """<?xml version="1.0" ?>
 <widget type="tank" version="2.0.0">
@@ -438,7 +438,7 @@ def test_tank_from_xml():
     assert isinstance(tank, Tank)
     assert tank.name == 'Tank 1'
     assert tank.pv_name == 'WATER:LEVEL'
-    assert tank.scale_visible == True
+    assert tank.scale_visible
 
 
 def test_create_thermometer_widget():
@@ -451,7 +451,7 @@ def test_create_thermometer_widget():
     thermo.limits_from_pv = True
 
     assert thermo.fill_color == Color((255, 0, 0))
-    assert thermo.limits_from_pv == True
+    assert thermo.limits_from_pv
 
     assert str(thermo) == """<?xml version="1.0" ?>
 <widget type="thermometer" version="2.0.0">
@@ -484,7 +484,7 @@ def test_thermometer_from_xml():
     assert isinstance(thermo, Thermometer)
     assert thermo.name == 'Thermo 1'
     assert thermo.pv_name == 'CRYO:TEMP'
-    assert thermo.limits_from_pv == True
+    assert thermo.limits_from_pv
 
 
 def test_create_symbol_widget():
@@ -499,7 +499,7 @@ def test_create_symbol_widget():
     sym.symbols.append('icon_on.png')
 
     assert sym.initial_index == 0
-    assert sym.show_index == True
+    assert sym.show_index
     assert len(sym.symbols) == 2
 
     assert str(sym) == """<?xml version="1.0" ?>
@@ -554,8 +554,8 @@ def test_create_table_widget():
     table.editable = True
     table.show_toolbar = True
 
-    assert table.editable == True
-    assert table.show_toolbar == True
+    assert table.editable
+    assert table.show_toolbar
 
     assert str(table) == """<?xml version="1.0" ?>
 <widget type="table" version="2.0.0">
@@ -586,7 +586,7 @@ def test_table_from_xml():
     assert isinstance(table, Table)
     assert table.name == 'Table 1'
     assert table.pv_name == 'DATA:TABLE'
-    assert table.editable == True
+    assert table.editable
 
 
 def test_create_text_symbol_widget():
@@ -655,10 +655,10 @@ def test_create_linear_meter_widget():
     lm.limits_from_pv = True
     lm.horizontal = True
 
-    assert lm.show_value == True
-    assert lm.show_units == True
-    assert lm.limits_from_pv == True
-    assert lm.horizontal == True
+    assert lm.show_value
+    assert lm.show_units
+    assert lm.limits_from_pv
+    assert lm.horizontal
 
     assert str(lm) == """<?xml version="1.0" ?>
 <widget type="linearmeter" version="2.0.0">
@@ -692,5 +692,5 @@ def test_linear_meter_from_xml():
     assert isinstance(lm, LinearMeter)
     assert lm.name == 'LM 1'
     assert lm.pv_name == 'BEAM:CURRENT'
-    assert lm.horizontal == True
-    assert lm.limits_from_pv == True
+    assert lm.horizontal
+    assert lm.limits_from_pv
