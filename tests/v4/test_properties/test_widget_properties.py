@@ -1,7 +1,9 @@
-from phoebusgen.v4.properties.widget import HasMacros, HasName, HasFile, HasUrl, HasBit, HasLabel, HasFileComponent
-from phoebusgen.v4.properties.types import FileComponent
+from phoebusgen.v4.properties.widget import HasMacros, HasName, HasFile, HasNavTabs, HasUrl, HasBit, HasLabel, HasFileComponent
+from phoebusgen.v4.properties.types import FileComponent, NavTab
 import pytest
 import re
+
+from phoebusgen.v4.widgets.structure import HasTabs, Tab
 
 
 @pytest.mark.parametrize('property_cls, initial_value, new_value', [
@@ -42,17 +44,17 @@ def test_macros_property(property_factory):
     assert prop.root.find('macros') is not None
 
 
-# def test_tabs_property(property_factory):
-#     prop = property_factory(HasTabs)
-#     assert prop.tabs == []
+def test_tabs_property(property_factory):
+    prop = property_factory(HasNavTabs)
+    assert prop.tabs == []
 
-#     prop.tabs.append(Tab(name='Tab1', file='tab1.bob'))
-#     assert len(prop.tabs) == 1
-#     assert prop.root.find('tabs') is not None
-#     assert len(prop.root.find('tabs').findall('tab')) == 1
-#     tab_elem = prop.root.find('tabs').findall('tab')[0]
-#     assert tab_elem.find('name').text == 'Tab1'
-#     assert tab_elem.find('file').text == 'tab1.bob'
-#     prop.tabs = [Tab(name='Tab2'), Tab(name='Tab3', file='tab3.bob')]
-#     assert len(prop.tabs) == 2
-#     assert len(prop.root.find('tabs').findall('tab')) == 2
+    prop.tabs.append(NavTab(name='Tab1', file='tab1.bob'))
+    assert len(prop.tabs) == 1
+    assert prop.root.find('tabs') is not None
+    assert len(prop.root.find('tabs').findall('tab')) == 1
+    tab_elem = prop.root.find('tabs').findall('tab')[0]
+    assert tab_elem.find('name').text == 'Tab1'
+    assert tab_elem.find('file').text == 'tab1.bob'
+    prop.tabs = [NavTab(name='Tab2'), NavTab(name='Tab3', file='tab3.bob')]
+    assert len(prop.tabs) == 2
+    assert len(prop.root.find('tabs').findall('tab')) == 2

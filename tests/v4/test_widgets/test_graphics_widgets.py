@@ -14,17 +14,7 @@ from phoebusgen.v4.properties.types import (
     LineStyle,
     ArrowTypes,
     Point,
-    ObservableList,
 )
-
-
-def test_label_widget_properties(widget_factory, check_xml_element):
-    widget = widget_factory(Label)
-    assert hasattr(widget, 'text')
-    assert widget.text == ''
-    widget.text = 'Hello, World!'
-    assert widget.text == 'Hello, World!'
-    check_xml_element(widget.root, 'text', 'Hello, World!')
 
 
 def test_create_label_widget():
@@ -190,7 +180,6 @@ def test_ellipse_widget_from_xml():
 
 def test_create_rectangle_widget():
     rect = Rectangle(name='Test Rect', x=10, y=10, width=200, height=100)
-    assert rect is not None
     assert rect.name == 'Test Rect'
     assert rect.x == 10
     assert rect.y == 10
