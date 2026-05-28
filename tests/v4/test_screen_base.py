@@ -87,4 +87,3 @@ def test_get_linked_screens_embedded_display(sample_screen, macros):
     assert len(linked_screens) == 1
     assert Path('tests/v4/bobfiles/simple_embedded_display.bob') in linked_screens
     assert linked_screens[Path('tests/v4/bobfiles/simple_embedded_display.bob')] == macros
-

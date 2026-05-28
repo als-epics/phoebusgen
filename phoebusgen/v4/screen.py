@@ -141,4 +141,3 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         """
         e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
-

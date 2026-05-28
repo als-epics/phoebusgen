@@ -149,7 +149,7 @@ class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAn
 
         if w_type not in [t.value for t in WidgetType]:
             raise ValueError(f"Widget type '{w_type}' is not a valid widget type!")
-        
+
 
         # If using the Widget class directly, try to find the correct subclass based on the type attribute
         instance_cls = cls
@@ -264,7 +264,7 @@ class HasWidgets(PhoebusElement, PropertyBase):
             if hasattr(widget, property_name):
                 widgets_with_property.append(widget)
         return widgets_with_property
-    
+
 
     # For BC, we keep the two below methods
 

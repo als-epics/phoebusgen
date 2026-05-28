@@ -374,7 +374,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if isinstance(value, bool):
             return _create_element(prop_name, str(value).lower())
         return _create_element(prop_name, str(value))
-    
+
 
     @classmethod
     def _get_element_property(cls, element: Element, property_type: Type[PhoebusElement]) -> PhoebusElement:
@@ -574,7 +574,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
             raise ValueError(f"Rule expression element is missing required 'bool_exp' attribute!")
 
         # There are two ways to structure a RuleExpression, with value as an expression or as a literal.
-        # With value_as_expression=True, the value is stored as text in an <expression> child element, 
+        # With value_as_expression=True, the value is stored as text in an <expression> child element,
         # and the expression is evaluated at runtime to get the value, so we just return it as a string.
         expression_elem = element.find('expression')
         if expression_elem is not None:
