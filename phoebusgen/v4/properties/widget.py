@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from phoebusgen.v4.properties.display import HasTabActiveHeightDirection
 
 from .property_helpers import PropertyBase
@@ -10,7 +12,7 @@ class HasName(PropertyBase):
     name: str
 
 class HasFile(PropertyBase):
-    file: str
+    file: Path
 
 class HasUrl(PropertyBase):
     url: str

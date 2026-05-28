@@ -1,5 +1,6 @@
 from phoebusgen.v4.properties.behavior import HasDataWidthAndHeight
 import pytest
+from pathlib import Path
 from phoebusgen.v4.properties.behavior import (
     HasActionsRulesAndScripts, HasStates, HasSymbols,
     HasToolTip, HasShowLimits, HasLevelsAndShow, HasEnabled, HasConfirmation, HasButtonMode, HasBarLength, HasIncrement, HasMinMax, HasWrapWords, HasLimitsFromPV, HasEditable, HasFallbackSymbol, HasPreserveRatio, HasRunActionsOnMouseClick, HasArrayIndex, HasFallback, HasLogScale,
@@ -36,7 +37,7 @@ from phoebusgen.v4.utils import prettify_xml
     (HasWrapWords, 'wrap_words', True),
     (HasLimitsFromPV, 'limits_from_pv', False),
     (HasEditable, 'editable', True),
-    (HasFallbackSymbol, 'fallback_symbol', 'N/A'),
+    (HasFallbackSymbol, 'fallback_symbol', Path('N/A')),
     (HasPreserveRatio, 'preserve_ratio', True),
     (HasRunActionsOnMouseClick, 'run_actions_on_mouse_click', False),
     (HasArrayIndex, 'array_index', 2),

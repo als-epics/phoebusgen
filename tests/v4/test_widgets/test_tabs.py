@@ -1,3 +1,4 @@
+from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.properties.types import NavTab, ObservableList, TabDirection
@@ -226,11 +227,11 @@ def test_create_navtabs_widget():
     nav_tabs.tabs.append(NavTab(name='Nav Tab 2', file='sample.bob', macros={'Macro1': 'Value1'}, group_name='Group1'))
     assert len(nav_tabs.tabs) == 2
     assert nav_tabs.tabs[0].name == 'Nav Tab 1'
-    assert nav_tabs.tabs[0].file == ''
+    assert nav_tabs.tabs[0].file is None
     assert nav_tabs.tabs[0].macros == {}
     assert nav_tabs.tabs[0].group_name == ''
     assert nav_tabs.tabs[1].name == 'Nav Tab 2'
-    assert nav_tabs.tabs[1].file == 'sample.bob'
+    assert nav_tabs.tabs[1].file == Path('sample.bob')
     assert nav_tabs.tabs[1].macros == {'Macro1': 'Value1'}
     assert nav_tabs.tabs[1].group_name == 'Group1'
 
@@ -333,11 +334,11 @@ def test_navtabs_widget_from_xml():
     assert nav_tabs.height == 210
     assert len(nav_tabs.tabs) == 2
     assert nav_tabs.tabs[0].name == 'Tab 1'
-    assert nav_tabs.tabs[0].file == ''
+    assert nav_tabs.tabs[0].file is None
     assert nav_tabs.tabs[0].macros == {}
     assert nav_tabs.tabs[0].group_name == ''
     assert nav_tabs.tabs[1].name == 'Tab 2'
-    assert nav_tabs.tabs[1].file == 'sample.bob'
+    assert nav_tabs.tabs[1].file == Path('sample.bob')
     assert nav_tabs.tabs[1].macros == {'Macro1': 'Value1'}
     assert nav_tabs.tabs[1].group_name == 'Group1'
     assert nav_tabs.direction == TabDirection.HORIZONTAL

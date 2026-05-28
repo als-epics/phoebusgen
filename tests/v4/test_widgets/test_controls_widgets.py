@@ -1,3 +1,4 @@
+from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.widgets import (
@@ -68,7 +69,7 @@ def test_action_button_with_actions():
 
     assert len(btn.actions) == 5
     assert isinstance(btn.actions[0], OpenDisplayAction)
-    assert btn.actions[0].file == 'screen.bob'
+    assert btn.actions[0].file == Path('screen.bob')
     assert btn.actions[0].target == OpenDisplayTarget.NEW_TAB
     assert isinstance(btn.actions[1], WritePvAction)
     assert btn.actions[1].pv_name == 'MY:PV'
@@ -78,7 +79,7 @@ def test_action_button_with_actions():
     assert isinstance(btn.actions[3], OpenWebpageAction)
     assert btn.actions[3].url == 'https://example.com'
     assert isinstance(btn.actions[4], OpenFileAction)
-    assert btn.actions[4].file == '/tmp/test.txt'
+    assert btn.actions[4].file == Path('/tmp/test.txt')
 
     assert str(btn) == """<?xml version="1.0" ?>
 <widget type="action_button" version="3.0.0">

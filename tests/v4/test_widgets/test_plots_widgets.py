@@ -1,3 +1,4 @@
+from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.widgets import Widget
@@ -23,7 +24,7 @@ def test_create_data_browser_widget():
     db = DataBrowser(name='Test DB', file='data.plt', x=10, y=10, width=600, height=400)
     assert db is not None
     assert db.name == 'Test DB'
-    assert db.file == 'data.plt'
+    assert db.file == Path('data.plt')
     assert db.x == 10
     assert db.y == 10
     assert db.width == 600
@@ -54,7 +55,7 @@ def test_data_browser_from_xml():
     assert db is not None
     assert isinstance(db, DataBrowser)
     assert db.name == 'DB 1'
-    assert db.file == 'history.plt'
+    assert db.file == Path('history.plt')
     assert db.width == 800
     assert db.height == 500
 

@@ -1,3 +1,5 @@
+from pathlib import Path
+from typing import Union
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.v4.properties.property_helpers import PropertyBase
@@ -45,7 +47,7 @@ class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
     """ EmbeddedDisplay Phoebus Widget """
 
-    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create EmbeddedDisplay Widget
 
@@ -160,7 +162,7 @@ class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, Has
 class TemplateInstance(Widget, HasWidgets, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
     """ TemplateInstance Phoebus Widget """
 
-    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create TemplateInstance Widget
 

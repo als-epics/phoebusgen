@@ -6,7 +6,6 @@ from enum import Enum
 
 import inspect
 from collections.abc import Mapping
-from collections import namedtuple
 from dataclasses import dataclass, is_dataclass
 from phoebusgen.v4.utils import PhoebusElement
 
@@ -65,7 +64,12 @@ def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
 class PropertyMetaclass(type):
     def __new__(mcs, name, bases, attrs):
 
-        all_properties = {}
+        # Keep a running dictionary of all properties defined by all property mixin classes,
+        # so that we can look up property types and default values by name at runtime for any
+        # class that inherits from those mixins, even indirectly.
+        all_properties: Dict[Type, Dict[str, PropertyInfo]] = {}
+
+        # Create the new class
         cls = super().__new__(mcs, name, bases, attrs)
 
         def getter(self: 'PropertyBase', prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
@@ -122,7 +126,7 @@ class PropertyMetaclass(type):
             self.root.extend(new_elem if isinstance(new_elem, Sequence) else [new_elem])
 
         # Only create dynamic properties for classes that directly inherit from PropertyBase, not for subclasses of those classes.
-        # This way we can have property classes that inherit from other property classes without overwriting the properties defined in the parent class.
+        # This way we can have property classes that inherit from other property classes without overwriting the propertiesdefined in the parent class.
         if name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases):
             all_properties[cls] = {}
             for prop_name, annotation in cls.__annotations__.items():
@@ -321,6 +325,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :param prefix: 'get' to find a getter, 'set' to find a setter
         :return: The getter or setter function for the property type
         """
+        # Unwrap Optional[X] (Union[X, None]) to X
+        if get_origin(property_type) is Union:
+            args = get_args(property_type)
+            non_none_args = [a for a in args if a is not type(None)]
+            if len(non_none_args) == 1:
+                property_type = non_none_args[0]
+
         if hasattr(property_type, '__origin__'):
             property_type = property_type.__origin__
 
@@ -397,14 +408,16 @@ class PropertyBase(metaclass=PropertyMetaclass):
         return Path(cls._get_primitive_property(element, str))
 
     @classmethod
-    def _set_path_property(cls, prop_name: str, value: Path) -> Element:
-        """Given a Path object, create an XML element representing the file path property.
+    def _set_path_property(cls, prop_name: str, value: Union[Path, str, None]) -> Element:
+        """Given a Path, string, or None, create an XML element representing the file path property.
 
         :param prop_name: The name of the property
-        :param value: The Path object to set
+        :param value: The Path object, string, or None to set
         :return: The XML element representing the file path property
         """
 
+        if value is None:
+            return _create_element(prop_name)
         return cls._set_primitive_property(prop_name, str(value))
 
 
@@ -513,13 +526,22 @@ class PropertyBase(metaclass=PropertyMetaclass):
         for field in property_type.fields():
             field_elem = element.find(field)
             field_type = property_type.fields()[field].type
+
+            # Unwrap Optional[X] to get the inner type for parsing
+            inner_type = field_type
+            if get_origin(field_type) is Union:
+                args = get_args(field_type)
+                non_none_args = [a for a in args if a is not type(None)]
+                if len(non_none_args) == 1:
+                    inner_type = non_none_args[0]
+
             if field_elem is None and field in element.attrib:
-                field_values[field] = field_type(element.attrib[field])
-            elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool)):
-                typed_getter = cls._find_getter_by_type(field_type)
+                field_values[field] = inner_type(element.attrib[field])
+            elif field_elem is not None and (field_elem.text is not None or inner_type not in (int, float, str, bool, Path)):
+                typed_getter = cls._find_getter_by_type(inner_type)
                 getter_args = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
-                    getter_args.append(field_type)
+                    getter_args.append(inner_type)
                 field_values[field] = typed_getter(*getter_args)
 
         return property_type(**field_values)
@@ -541,7 +563,16 @@ class PropertyBase(metaclass=PropertyMetaclass):
         for field in value.fields():
             field_value = getattr(value, field)
             field_type = property_cls.fields()[field].type
-            if field_value is not None:
+
+            # Determine if this is an Optional[Path] field that should be written even when None
+            is_optional_path = False
+            if get_origin(field_type) is Union:
+                args = get_args(field_type)
+                non_none_args = [a for a in args if a is not type(None)]
+                if len(non_none_args) == 1 and non_none_args[0] is Path:
+                    is_optional_path = True
+
+            if field_value is not None or is_optional_path:
                 if field in value._attrib_fields:
                     if field_type in (int, float, str, bool):
                         element.attrib[field] = str(field_value)
@@ -838,6 +869,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 return isinstance(value, Mapping)
             elif expected_type is float:
                 return isinstance(value, (float, int))
+            elif expected_type is Path:
+                return isinstance(value, (Path, str))
             else:
                 return isinstance(value, expected_type)
 

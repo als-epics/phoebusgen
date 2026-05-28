@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from .property_helpers import PropertyBase
 from .types import (
     Axis,
@@ -66,7 +68,7 @@ class HasEditable(PropertyBase):
     editable: bool
 
 class HasFallbackSymbol(PropertyBase):
-    fallback_symbol: str
+    fallback_symbol: Path
 
 class HasPreserveRatio(PropertyBase):
     preserve_ratio: bool

@@ -1,3 +1,6 @@
+from pathlib import Path
+from typing import Union
+
 from .widget import Widget
 from phoebusgen.v4.properties.display import HasShowToolbar
 from phoebusgen.v4.properties.widget import HasFile, HasUrl
@@ -5,7 +8,7 @@ from phoebusgen.v4.properties.widget import HasFile, HasUrl
 class ThreeDViewer(Widget, HasFile):
     """ ThreeDViewer Phoebus Widget """
 
-    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create ThreeDViewer Widget
 

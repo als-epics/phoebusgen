@@ -1,3 +1,6 @@
+from pathlib import Path
+from typing import Union
+
 from .widget import Widget
 from phoebusgen.v4.properties.display import (
     HasShowToolbar,
@@ -36,7 +39,7 @@ from phoebusgen.v4.properties.misc import HasCursor, HasROIs, HasMarkers
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """ DataBrowser Phoebus Widget """
 
-    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
 

@@ -1,6 +1,7 @@
 from enum import Enum
 from dataclasses import dataclass, field
 from collections.abc import MutableMapping, MutableSequence
+from pathlib import Path
 from typing import Any, Callable, Generic, List, Optional, Tuple, TypeVar, Union
 
 Primitive = Union[int, float, str, bool]
@@ -208,6 +209,10 @@ class TabDirection(int, Enum):
     HORIZONTAL = 0
     VERTICAL = 1
 
+class EmbeddedScriptType(str, Enum):
+    PYTHON = 'EmbeddedPy'
+    JAVASCRIPT = 'EmbeddedJS'
+
 class ObservableDict(MutableMapping[str, str]):
 
     _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
@@ -368,7 +373,7 @@ class ROI(ObservableDataclass):
     y_pv: str = ''
     width_pv: str = ''
     height_pv: str = ''
-    file: str = ''
+    file: Optional[Path] = None
 
 @dataclass
 class ColorBar(ObservableDataclass):
@@ -408,27 +413,19 @@ class Trace(ObservableDataclass):
 @dataclass
 class NavTab(ObservableDataclass):
     name: str = ''
-    file: str = ''
+    file: Optional[Path] = None
     macros: ObservableDict = field(default_factory=ObservableDict)
     group_name: str = ''
 
 @dataclass
 class Script(ObservableDataclass):
-    file: str = ''
+    file: Optional[Path] = None
     pv_names: ObservableList[str] = field(default_factory=ObservableList[str])
 
 @dataclass
 class EmbeddedScript(Script):
     text: str = ''
-
-@dataclass
-class EmbeddedPythonScript(EmbeddedScript):
-    file: str = field(init=False, default='EmbeddedPy')
-
-@dataclass
-class EmbeddedJavaScript(EmbeddedScript):
-    file: str = field(init=False, default='EmbeddedJS')
-
+    file: EmbeddedScriptType
 
 @dataclass
 class Action(ObservableDataclass):
@@ -436,7 +433,7 @@ class Action(ObservableDataclass):
 
 @dataclass
 class OpenDisplayAction(Action):
-    file: str = ''
+    file: Optional[Path] = None
     target: OpenDisplayTarget = OpenDisplayTarget.REPLACE
     macros: ObservableDict = field(default_factory=ObservableDict)
 
@@ -455,7 +452,7 @@ class CommandAction(Action):
 
 @dataclass
 class OpenFileAction(Action):
-    file: str = ''
+    file: Optional[Path] = None
 
 @dataclass
 class OpenWebpageAction(Action):

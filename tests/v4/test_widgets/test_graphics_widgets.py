@@ -1,3 +1,4 @@
+from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.widgets import (
@@ -370,7 +371,7 @@ def test_create_picture_widget():
     picture = Picture(name='Test Picture', file='/path/to/image.png', x=10, y=10, width=300, height=200)
     assert picture is not None
     assert picture.name == 'Test Picture'
-    assert picture.file == '/path/to/image.png'
+    assert picture.file == Path('/path/to/image.png')
     assert picture.x == 10
     assert picture.y == 10
     assert picture.width == 300
@@ -414,5 +415,5 @@ def test_picture_widget_from_xml():
     assert picture.y == 0
     assert picture.width == 400
     assert picture.height == 300
-    assert picture.file == 'my_image.png'
+    assert picture.file == Path('my_image.png')
     assert picture.rotation == 45.0

@@ -1,6 +1,6 @@
 import pytest
 
-
+from pathlib import Path
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip, HasTraces, HasTraces, HasXAxis, HasYAxes, HasYAxis
@@ -260,7 +260,7 @@ def test_get_action_property():
     action = PropertyBase._get_action_property(elem)
     assert isinstance(action, OpenDisplayAction)
     assert action.description == 'test'
-    assert action.file == 'test.bob'
+    assert action.file == Path('test.bob')
     assert action.target == OpenDisplayTarget.NEW_WINDOW
     assert action.macros['test'] == 'value'
 

@@ -1,3 +1,6 @@
+from pathlib import Path
+from typing import Union
+
 from .widget import Widget
 from phoebusgen.v4.properties.display import (
     HasAngle,
@@ -76,7 +79,7 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
 class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpacity):
     """ Picture Phoebus Widget """
 
-    def __init__(self, name: str, file: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create Picture Widget
 

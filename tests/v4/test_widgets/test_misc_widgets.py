@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from phoebusgen.v4.widgets import ThreeDViewer, WebBrowser
 from xml.etree.ElementTree import SubElement
 
@@ -5,10 +7,10 @@ from xml.etree.ElementTree import SubElement
 def test_threedviewer_file_property() -> None:
     w = ThreeDViewer('3DViewer1', file='/path/to/model.obj', x=5, y=5, width=400, height=300)
     assert hasattr(w, 'file')
-    assert isinstance(w.file, str)
-    assert w.file == '/path/to/model.obj'
+    assert isinstance(w.file, Path)
+    assert w.file == Path('/path/to/model.obj')
     w.file = '/new/path/to/model.obj'
-    assert w.file == '/new/path/to/model.obj'
+    assert w.file == Path('/new/path/to/model.obj')
     assert w.root.find('file').text == '/new/path/to/model.obj'
 
 def test_webbrowser_url_property() -> None:
@@ -25,7 +27,7 @@ def test_threedviewer_from_xml(widget_xml_factory) -> None:
     SubElement(root, 'file').text = '/path/to/model.obj'
     w = ThreeDViewer.from_element(root)
     assert isinstance(w, ThreeDViewer)
-    assert w.file == '/path/to/model.obj'
+    assert w.file == Path('/path/to/model.obj')
 
 def test_webbrowser_from_xml(widget_xml_factory) -> None:
     root = widget_xml_factory(WebBrowser)

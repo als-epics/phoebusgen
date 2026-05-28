@@ -1,3 +1,4 @@
+from pathlib import Path
 from xml.etree.ElementTree import fromstring
 
 from phoebusgen.v4.widgets import Label, Rectangle, TextUpdate
@@ -87,7 +88,7 @@ def test_create_embedded_display_widget():
     ed = EmbeddedDisplay(name='Test Embed', file='panel.bob', x=10, y=20, width=300, height=200)
     assert ed is not None
     assert ed.name == 'Test Embed'
-    assert ed.file == 'panel.bob'
+    assert ed.file == Path('panel.bob')
     assert ed.x == 10
     assert ed.y == 20
 
@@ -145,7 +146,7 @@ def test_embedded_display_from_xml():
     assert ed is not None
     assert isinstance(ed, EmbeddedDisplay)
     assert ed.name == 'Embed 1'
-    assert ed.file == 'panel.bob'
+    assert ed.file == Path('panel.bob')
     assert ed.x == 10
     assert ed.y == 20
     assert dict(ed.macros) == {'SYS': 'IOC1', 'DEV': 'Motor1'}
@@ -244,9 +245,9 @@ def test_create_navigation_tabs_widget():
 
     assert len(nav.tabs) == 3
     assert nav.tabs[0].name == 'Tab A'
-    assert nav.tabs[0].file == 'tab_a.bob'
+    assert nav.tabs[0].file == Path('tab_a.bob')
     assert nav.tabs[1].name == 'Tab B'
-    assert nav.tabs[1].file == 'tab_b.bob'
+    assert nav.tabs[1].file == Path('tab_b.bob')
     assert dict(nav.tabs[1].macros) == {'SYS': 'IOC1'}
     assert nav.tabs[2].name == 'Tab C'
     assert dict(nav.tabs[2].macros) == {'SYS': 'IOC2', 'DEV': 'Motor'}
@@ -319,9 +320,9 @@ def test_navigation_tabs_from_xml():
     assert nav.height == 400
     assert len(nav.tabs) == 2
     assert nav.tabs[0].name == 'Tab A'
-    assert nav.tabs[0].file == 'a.bob'
+    assert nav.tabs[0].file == Path('a.bob')
     assert nav.tabs[1].name == 'Tab B'
-    assert nav.tabs[1].file == 'b.bob'
+    assert nav.tabs[1].file == Path('b.bob')
     assert dict(nav.tabs[1].macros) == {'SYS': 'IOC1'}
 
 
@@ -329,7 +330,7 @@ def test_create_template_instance_widget():
     tmpl = TemplateInstance(name='Test Template', file='template.bob', x=10, y=10, width=300, height=200)
     assert tmpl is not None
     assert tmpl.name == 'Test Template'
-    assert tmpl.file == 'template.bob'
+    assert tmpl.file == Path('template.bob')
     assert tmpl.x == 10
     assert tmpl.y == 10
     assert tmpl.width == 300
@@ -491,7 +492,7 @@ def test_template_instance_from_xml():
     assert tmpl is not None
     assert isinstance(tmpl, TemplateInstance)
     assert tmpl.name == 'T1'
-    assert tmpl.file == 'template.bob'
+    assert tmpl.file == Path('template.bob')
 
     # Verify instances with macros
     assert len(tmpl.instances) == 2
