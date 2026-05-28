@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element, fromstring
 
-from phoebusgen.v4.properties.types import ObservableList, TabDirection
+from phoebusgen.v4.properties.types import NavTab, ObservableList, TabDirection
 from phoebusgen.v4.widgets.widget import HasWidgets
 import pytest
 
@@ -205,3 +205,144 @@ def test_tabs_widget_from_xml():
     assert len(tabs.tabs[0].get_widgets()) == 1
     assert tabs.tabs[0].get_widgets()[0].name == 'Label'
     assert len(tabs.tabs[1].get_widgets()) == 0
+
+
+def test_create_navtabs_widget():
+    nav_tabs = NavigationTabs(name='Test Nav Tabs', x=10, y=10, width=300, height=200)
+    assert nav_tabs is not None
+    assert nav_tabs.name == 'Test Nav Tabs'
+    assert nav_tabs.x == 10
+    assert nav_tabs.y == 10
+    assert nav_tabs.width == 300
+    assert nav_tabs.height == 200
+
+    # Check for defaults
+    assert nav_tabs.direction == TabDirection.VERTICAL
+    assert nav_tabs.tab_height == 30
+    assert nav_tabs.active_tab == 0
+    assert nav_tabs.tab_width == 100
+    assert nav_tabs.tab_spacing == 2
+    assert len(nav_tabs.tabs) == 0
+
+    nav_tabs.tabs.append(NavTab(name='Nav Tab 1'))
+    nav_tabs.tabs.append(NavTab(name='Nav Tab 2', file='sample.bob', macros={'Macro1': 'Value1'}, group_name='Group1'))
+    assert len(nav_tabs.tabs) == 2
+    assert nav_tabs.tabs[0].name == 'Nav Tab 1'
+    assert nav_tabs.tabs[0].file == ''
+    assert nav_tabs.tabs[0].macros == {}
+    assert nav_tabs.tabs[0].group_name == ''
+    assert nav_tabs.tabs[1].name == 'Nav Tab 2'
+    assert nav_tabs.tabs[1].file == 'sample.bob'
+    assert nav_tabs.tabs[1].macros == {'Macro1': 'Value1'}
+    assert nav_tabs.tabs[1].group_name == 'Group1'
+
+    assert (str(nav_tabs)) == """<?xml version="1.0" ?>
+<widget type="navtabs" version="2.0.0">
+  <name>Test Nav Tabs</name>
+  <x>10</x>
+  <y>10</y>
+  <width>300</width>
+  <height>200</height>
+  <tabs>
+    <tab>
+      <name>Nav Tab 1</name>
+      <file/>
+      <macros/>
+      <group_name/>
+    </tab>
+    <tab>
+      <name>Nav Tab 2</name>
+      <file>sample.bob</file>
+      <macros>
+        <Macro1>Value1</Macro1>
+      </macros>
+      <group_name>Group1</group_name>
+    </tab>
+  </tabs>
+</widget>
+"""
+
+    # Now let's remove the first tab and change some properties
+    del nav_tabs.tabs[0]
+    nav_tabs.direction = TabDirection.HORIZONTAL
+    nav_tabs.tab_height = 40
+    nav_tabs.tab_spacing = 5
+    nav_tabs.tab_width = 120
+    assert len(nav_tabs.tabs) == 1
+    assert nav_tabs.tabs[0].name == 'Nav Tab 2'
+    assert nav_tabs.direction == TabDirection.HORIZONTAL
+    assert nav_tabs.tab_height == 40
+    assert nav_tabs.tab_spacing == 5
+    assert nav_tabs.tab_width == 120
+    assert (str(nav_tabs)) == """<?xml version="1.0" ?>
+<widget type="navtabs" version="2.0.0">
+  <name>Test Nav Tabs</name>
+  <x>10</x>
+  <y>10</y>
+  <width>300</width>
+  <height>200</height>
+  <tabs>
+    <tab>
+      <name>Nav Tab 2</name>
+      <file>sample.bob</file>
+      <macros>
+        <Macro1>Value1</Macro1>
+      </macros>
+      <group_name>Group1</group_name>
+    </tab>
+  </tabs>
+  <direction>0</direction>
+  <tab_height>40</tab_height>
+  <tab_spacing>5</tab_spacing>
+  <tab_width>120</tab_width>
+</widget>
+"""
+
+def test_navtabs_widget_from_xml():
+    nav_tabs_xml = """<widget type="navtabs" version="2.0.0">
+      <name>Navigation Tabs</name>
+      <tabs>
+        <tab>
+          <name>Tab 1</name>
+          <file></file>
+          <macros>
+          </macros>
+          <group_name></group_name>
+        </tab>
+        <tab>
+          <name>Tab 2</name>
+          <file>sample.bob</file>
+          <macros>
+            <Macro1>Value1</Macro1>
+          </macros>
+          <group_name>Group1</group_name>
+        </tab>
+      </tabs>
+      <x>1450</x>
+      <y>590</y>
+      <width>350</width>
+      <height>210</height>
+      <direction>0</direction>
+    </widget>
+    """
+
+    nav_tabs = NavigationTabs.from_element(fromstring(nav_tabs_xml))
+    assert nav_tabs is not None
+    assert nav_tabs.name == 'Navigation Tabs'
+    assert nav_tabs.x == 1450
+    assert nav_tabs.y == 590
+    assert nav_tabs.width == 350
+    assert nav_tabs.height == 210
+    assert len(nav_tabs.tabs) == 2
+    assert nav_tabs.tabs[0].name == 'Tab 1'
+    assert nav_tabs.tabs[0].file == ''
+    assert nav_tabs.tabs[0].macros == {}
+    assert nav_tabs.tabs[0].group_name == ''
+    assert nav_tabs.tabs[1].name == 'Tab 2'
+    assert nav_tabs.tabs[1].file == 'sample.bob'
+    assert nav_tabs.tabs[1].macros == {'Macro1': 'Value1'}
+    assert nav_tabs.tabs[1].group_name == 'Group1'
+    assert nav_tabs.direction == TabDirection.HORIZONTAL
+    assert nav_tabs.tab_height == 30
+    assert nav_tabs.tab_spacing == 2
+    assert nav_tabs.tab_width == 100

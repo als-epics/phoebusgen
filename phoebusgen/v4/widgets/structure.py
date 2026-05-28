@@ -75,7 +75,7 @@ class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForeground
         Widget.__init__(self, name, x, y, width, height)
         self._override_property_tag_name('widgets', None)
 
-class NavigationTabs(Widget, HasNavTabs, HasTabActiveHeightDirection, HasSelectedColor, HasDeselectedColor, HasFont):
+class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """ NavigationTabs Phoebus Widget """
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:

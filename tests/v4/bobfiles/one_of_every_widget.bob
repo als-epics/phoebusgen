@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Saved on 2026-05-28 10:25:49 by jwlodek-->
+<!--Saved on 2026-05-28 10:48:00 by jwlodek-->
 <display version="2.0.0">
   <name>OneOfEveryWidget</name>
   <macros>
@@ -332,10 +332,11 @@ $(actions)</tooltip>
       </tab>
       <tab>
         <name>Tab 2</name>
-        <file></file>
+        <file>sample.bob</file>
         <macros>
+          <Macro1>Value1</Macro1>
         </macros>
-        <group_name></group_name>
+        <group_name>Group1</group_name>
       </tab>
     </tabs>
     <x>1450</x>

@@ -91,6 +91,9 @@ def _widget_type_from_class_name(class_name: str) -> WidgetType:
     return WidgetType[enum_key]
 
 
+WidgetT = TypeVar('WidgetT', bound='Widget')
+
+
 class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
 
@@ -128,7 +131,7 @@ class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAn
         self.height = height
 
     @classmethod
-    def from_element(cls, element: Element) -> 'Widget':
+    def from_element(cls: Type[WidgetT], element: Element) -> WidgetT:
         """Convert an XML element into a Widget instance.
 
         Chooses the appropriate subclass based on the 'type' attribute of the element.
