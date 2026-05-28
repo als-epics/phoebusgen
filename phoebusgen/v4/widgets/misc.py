@@ -8,7 +8,7 @@ from .widget import Widget
 
 
 class ThreeDViewer(Widget, HasFile):
-    """ ThreeDViewer Phoebus Widget """
+    """ThreeDViewer Phoebus Widget"""
 
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
@@ -25,7 +25,7 @@ class ThreeDViewer(Widget, HasFile):
         self.file = file
 
 class WebBrowser(Widget, HasUrl, HasShowToolbar):
-    """ WebBrowser Phoebus Widget """
+    """WebBrowser Phoebus Widget"""
 
     def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
         """

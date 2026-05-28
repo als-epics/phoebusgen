@@ -39,7 +39,7 @@ from .widget import Widget
 
 
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
-    """ DataBrowser Phoebus Widget """
+    """DataBrowser Phoebus Widget"""
 
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
@@ -58,7 +58,7 @@ class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValueP
 class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowToolbar, HasColorMap, HasColorBar, HasXAxis, HasYAxis,
             HasAlarmBorder, HasLimitsFromPV, HasDataWidthAndHeight, HasInterpolation, HasColorMode, HasUnisignedData, HasAutoScale, HasLogScale,
             HasMinMax, HasCursor, HasROIs):
-    """ Image Phoebus Widget """
+    """Image Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -77,7 +77,7 @@ class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowTo
 class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, HasTitle,
                  HasTitleFont, HasLabelFont, HasScaleFont, HasShowToolbar, HasShowLegend, HasTimeRange,
                  HasYAxes, HasTraces):
-    """ StripChart Phoebus Widget """
+    """StripChart Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -93,7 +93,7 @@ class StripChart(Widget, HasForegroundColor, HasBackgroundColor, HasShowGrid, Ha
 
 class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasTitle,
              HasTitleFont, HasShowToolbar, HasShowLegend, HasXAxis, HasYAxes, HasTraces, HasMarkers):
-    """ XYPlot Phoebus Widget """
+    """XYPlot Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """

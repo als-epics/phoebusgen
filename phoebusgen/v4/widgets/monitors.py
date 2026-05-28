@@ -63,7 +63,7 @@ from .widget import Widget
 
 class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, HasHorizontal, HasSquare,
                   HasOnOffColors, HasForegroundColor, HasFont, HasLabels, HasAlarmBorder):
-    """ ByteMonitor Phoebus Widget """
+    """ByteMonitor Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -81,7 +81,7 @@ class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, Has
 
 class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, HasForegroundColor, HasLineColor,
           HasSquare, HasLabelsFromPV, HasAlarmBorder):
-    """ LED Phoebus Widget """
+    """LED Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -99,7 +99,7 @@ class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, Ha
 
 class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor, HasSquare,
                     HasAlarmBorder, HasStates, HasFallback):
-    """ LEDMultiState Phoebus Widget """
+    """LEDMultiState Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -118,7 +118,7 @@ class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor
 class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, HasFormat,
             HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder, HasScaleVisible, HasHorizontal,
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor, HasKnobAndNeedleSize, HasLinearMeterColors, HasLevelsAndShow):
-    """ LinearMeter Phoebus Widget """
+    """LinearMeter Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -137,7 +137,7 @@ class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, Has
 class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, HasFormat,
             HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder,
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor):
-    """ Meter Phoebus Widget """
+    """Meter Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -249,7 +249,7 @@ class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
 class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
                  HasFormat, HasPrecision, HasShowUnits, HasHorizontalAlignment, HasVerticalAlignment, HasWrapWords,
                  HasRotationStep, HasBorder, HasAlarmBorder, HasInteractive):
-    """ TextUpdate Phoebus Widget """
+    """TextUpdate Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -266,7 +266,7 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
         self.pv_name = pv_name
 
 class Thermometer(Widget, HasPVName, HasFillColor, HasAlarmBorder, HasLimitsFromPV, HasMinMax):
-    """ Thermometer Phoebus Widget """
+    """Thermometer Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

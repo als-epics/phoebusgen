@@ -6,16 +6,16 @@ added to the Python screen object. At the end, the screen object can write the X
 to a .bob file which can be opened immeditaely into Phoebus
 
 Example:
-    >>> import phoebusgen.screen
-    >>> import phoebusgen.widget
-    >>> my_screen = phoebusgen.screen.Screen("my screen")
+    >>> import phoebusgen.v4.screen
+    >>> import phoebusgen.v4.widgets
+    >>> my_screen = phoebusgen.v4.screen.Screen("my screen")
     >>> print(my_screen)
     <?xml version="1.0" ?>
     <display version="2.0.0">
       <name>my screen</name>
     </display>
 
-    >>> my_widget = phoebusgen.widget.TextUpdate("test", "test:PV", 10, 10 ,10 ,10)
+    >>> my_widget = phoebusgen.v4.widgets.TextUpdate("test", "test:PV", 10, 10 ,10 ,10)
     >>> my_screen.add_widget(my_widget)
     >>> print(my_screen)
     <?xml version="1.0" ?>
@@ -30,6 +30,7 @@ Example:
         <pv_name>test:PV</pv_name>
       </widget>
     </display>
+
 """
 
 
@@ -47,7 +48,6 @@ from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase
 from phoebusgen.v4.properties.types import OpenDisplayAction
 from phoebusgen.v4.properties.widget import HasMacros, HasName
-from phoebusgen.v4.utils import PhoebusElement
 from phoebusgen.v4.widgets import HasWidgets, Widget
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay
 
@@ -70,7 +70,7 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         else:
             root = ET.Element('display', attrib={'version': '2.0.0'})
 
-        PhoebusElement.__init__(self, root)
+        self.root = root
         HasWidgets.__init__(self, None)
 
         if f_name is None or not os.path.exists(f_name):

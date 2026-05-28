@@ -35,7 +35,7 @@ from .widget import HasWidgets, Widget
 
 
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
-    """ Array Phoebus Widget """
+    """Array Phoebus Widget"""
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -52,7 +52,7 @@ class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor
         self.pv_name = pv_name
 
 class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupName, HasTransparent, HasBorder):
-    """ EmbeddedDisplay Phoebus Widget """
+    """EmbeddedDisplay Phoebus Widget"""
 
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
@@ -69,7 +69,7 @@ class EmbeddedDisplay(Widget, HasMacros, HasFile, HasResizeBehavior, HasGroupNam
         self.file = file
 
 class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasLineColor):
-    """ Group Phoebus Widget """
+    """Group Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -85,7 +85,7 @@ class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForeground
         self._override_property_tag_name('widgets', None)
 
 class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, HasFont):
-    """ NavigationTabs Phoebus Widget """
+    """NavigationTabs Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -151,7 +151,7 @@ class HasTabs(PropertyBase):
 
 
 class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, HasBackgroundColor):
-    """ Tabs Phoebus Widget """
+    """Tabs Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -167,7 +167,7 @@ class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, Has
 
 
 class TemplateInstance(Widget, HasWidgets, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
-    """ TemplateInstance Phoebus Widget """
+    """TemplateInstance Phoebus Widget"""
 
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """

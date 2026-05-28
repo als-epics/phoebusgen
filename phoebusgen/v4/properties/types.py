@@ -263,9 +263,8 @@ class ObservableDict(MutableMapping):
         self._notify_change()
         return result
 
-    def update(self, *args, **kwargs):
-        # A simple update notification; a more detailed one would iterate
-        self._dict.update(*args, **kwargs)
+    def update(self, other=(), **kwargs):
+        self._dict.update(other, **kwargs)
         self._notify_change()
 
     def __repr__(self):
@@ -457,7 +456,7 @@ class WritePvAction(Action):
 
 @dataclass
 class ExecuteAction(Action):
-    script: Script = field(default_factory=lambda: Script())
+    script: Script = field(default_factory=Script)
 
 @dataclass
 class CommandAction(Action):

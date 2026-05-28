@@ -31,7 +31,7 @@ from .widget import Widget
 
 # Graphics
 class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
-    """ Arc Phoebus Widget """
+    """Arc Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -46,7 +46,7 @@ class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle,
         Widget.__init__(self, name, x, y, width, height)
 
 class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
-    """ Ellipse Phoebus Widget """
+    """Ellipse Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -62,7 +62,7 @@ class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBa
 
 class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasHorizontalAlignment,
             HasVerticalAlignment, HasRotationStep, HasWrapWords, HasAutoSize, HasBorder):
-    """ Label Phoebus Widget """
+    """Label Phoebus Widget"""
 
     def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -79,7 +79,7 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
         self.text = text
 
 class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpacity):
-    """ Picture Phoebus Widget """
+    """Picture Phoebus Widget"""
 
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
@@ -96,7 +96,7 @@ class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpaci
         self.file = file
 
 class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTransparent, HasPoints, HasBackgroundColor):
-    """ Polygon Phoebus Widget """
+    """Polygon Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -111,7 +111,7 @@ class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTr
         Widget.__init__(self, name, x, y, width, height)
 
 class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasArrows, HasPoints):
-    """ Polyline Phoebus Widget """
+    """Polyline Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
@@ -126,7 +126,7 @@ class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasA
         Widget.__init__(self, name, x, y, width, height)
 
 class Rectangle(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent, HasCorners):
-    """ Rectangle Phoebus Widget """
+    """Rectangle Phoebus Widget"""
 
     def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
         """
