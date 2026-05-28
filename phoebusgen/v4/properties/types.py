@@ -226,7 +226,7 @@ class Format(int, Enum):
     BINARY = 9
 
 
-class ObservableDict(MutableMapping[str, str]):
+class ObservableDict(MutableMapping):
 
     _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
 
