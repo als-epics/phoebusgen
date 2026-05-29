@@ -227,12 +227,26 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if property_name not in cls.get_property_names():
             raise ValueError(f"Property '{property_name}' is not a valid property of class '{cls.__name__}'!")
 
-        # Ensure we have a per-class dict rather than mutating a parent class's dict
-        if cls not in cls._all_properties:
-            cls._all_properties[cls] = dict(cls._all_properties.get(cls, {}))
-        if property_name not in cls._all_properties[cls]:
-            raise ValueError(f"Property '{property_name}' is not defined for class '{cls.__name__}'!")
-        cls._all_properties[cls][property_name].default_value = default_value
+        # Find which class in _all_properties defines this property
+        owner_cls = None
+        for prop_cls, props in cls._all_properties.items():
+            if property_name in props:
+                owner_cls = prop_cls
+                break
+
+        if owner_cls is None:
+            raise ValueError(f"Property '{property_name}' is not defined in any property class for '{cls.__name__}'!")
+
+        # Ensure we have a per-class copy so we don't mutate the shared parent dict.
+        # Track which inner dicts have been copied via a set on the class.
+        if not hasattr(cls, '_copied_property_classes'):
+            cls._copied_property_classes = set()
+        if owner_cls not in cls._copied_property_classes:
+            cls._all_properties = dict(cls._all_properties)
+            cls._all_properties[owner_cls] = copy.deepcopy(cls._all_properties[owner_cls])
+            cls._copied_property_classes.add(owner_cls)
+
+        cls._all_properties[owner_cls][property_name].default_value = default_value
 
     @classmethod
     def get_property_classes(cls) -> List[Type['PropertyBase']]:

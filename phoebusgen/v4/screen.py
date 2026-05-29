@@ -255,6 +255,11 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         return graph
 
 
+# Default screen size for screens loaded from XML without explicit <width>/<height> tags.
+Screen._set_default_value('width', 800)
+Screen._set_default_value('height', 600)
+
+
 @dataclass
 class ScreenTransition:
     """A transition from one screen to another, with the macros that are passed."""
