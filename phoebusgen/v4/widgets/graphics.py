@@ -24,6 +24,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
+from phoebusgen.v4.properties.types import Color, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasFile, HasMacros
 
 from .widget import Widget
@@ -63,6 +64,12 @@ class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBa
 class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent, HasHorizontalAlignment,
             HasVerticalAlignment, HasRotationStep, HasWrapWords, HasAutoSize, HasBorder):
     """Label Phoebus Widget"""
+
+    background_color: Color = Color((255, 255, 255))
+    width: int = 100
+    height: int = 20
+    text: str = "Label text"
+    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
 
     def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
         """

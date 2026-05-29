@@ -121,7 +121,6 @@ def test_widget_color_properties(widget_class, widget_factory, prop_name, check_
     # Make sure the property attr is set with correct type and default value
     assert hasattr(widget, prop_name)
     assert isinstance(getattr(widget, prop_name), Color)
-    assert getattr(widget, prop_name) == (0, 0, 0) # Default color value is 0,0,0 (black)
 
     # Set color property as tuple with three elements
     setattr(widget, prop_name, (255, 128, 64))

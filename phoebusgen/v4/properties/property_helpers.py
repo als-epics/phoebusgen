@@ -165,6 +165,29 @@ class PropertyMetaclass(type):
 
         if '_all_properties' in attrs:
             all_properties.update(attrs['_all_properties'])
+
+        # Allow subclasses (e.g. Screen, Widget) to override default values for inherited
+        # properties by declaring class-level annotations with a value. For example:
+        #   class Screen(...):
+        #       width: int = 800
+        # This keeps type checker support while customizing defaults per class.
+        # Only applies to classes that don't define their own properties (i.e. Widget/Screen and their subclasses).
+        is_property_mixin = name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases)
+        if not is_property_mixin:
+            for prop_name, default_val in attrs.items():
+                if prop_name.startswith('_') or callable(default_val) or isinstance(default_val, (classmethod, staticmethod, property)):
+                    continue
+                # Check if this attribute matches a property defined in a parent mixin
+                for prop_cls, props in all_properties.items():
+                    if prop_name in props:
+                        # Make a per-class copy of the mixin's property dict so we don't mutate the shared one
+                        all_properties[prop_cls] = copy.deepcopy(all_properties[prop_cls])
+                        all_properties[prop_cls][prop_name].default_value = default_val
+                        # Remove the class attribute so the property descriptor from the mixin is used
+                        if prop_name in cls.__dict__:
+                            delattr(cls, prop_name)
+                        break
+
         setattr(cls, '_all_properties', all_properties)
 
         return cls

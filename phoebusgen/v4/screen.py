@@ -54,6 +54,10 @@ from phoebusgen.v4.widgets.structure import EmbeddedDisplay, TemplateInstance
 
 class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
     """ Phoebus Screen object that holds widgets and can be written to .bob file """
+
+    width: int = 800
+    height: int = 600
+
     def __init__(self, name: Optional[str] = None, f_name: Optional[str] = None) -> None:
         """
         Create Phoebus screen object. File name is optional and can be specified later
@@ -254,10 +258,6 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         _visit(start_path, self, Path(self.bob_file).resolve().parent if self.bob_file else base_dir)
         return graph
 
-
-# Default screen size for screens loaded from XML without explicit <width>/<height> tags.
-Screen._set_default_value('width', 800)
-Screen._set_default_value('height', 600)
 
 
 @dataclass
