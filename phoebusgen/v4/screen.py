@@ -130,9 +130,7 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         _collect_actions(self)
 
         # Collect from all widgets (including nested ones in groups/tabs)
-        all_widgets = list(self.widgets)
-        for container in self.get_widgets_by_property_class(HasWidgets):
-            all_widgets.extend(container.widgets)
+        all_widgets = self.get_all_widgets()
 
         for widget in all_widgets:
             _collect_actions(widget)

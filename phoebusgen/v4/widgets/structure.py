@@ -82,7 +82,12 @@ class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForeground
         :param height: Widget height
         """
         Widget.__init__(self, name, x, y, width, height)
-        self._override_property_tag_name('widgets', None)
+
+# Group widgets store child <widget> elements directly under the group root,
+# not inside a <widgets> wrapper. Set this at class level so it works even
+# when instances are created via from_element (which bypasses __init__).
+Group._override_property_tag_name('widgets', None)
+
 
 class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, HasFont):
     """NavigationTabs Phoebus Widget"""

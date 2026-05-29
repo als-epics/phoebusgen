@@ -233,7 +233,7 @@ class HasWidgets(PhoebusElement, PropertyBase):
 
         :param widget_type: Widget type to filter by
         :return: List of Widget instances of type widget_type contained within the container
-        :rtype: List[Widget]
+        :rtype: List[WidgetT]
         """
 
         return [w for w in self.widgets if isinstance(w, widget_type)]
@@ -244,7 +244,7 @@ class HasWidgets(PhoebusElement, PropertyBase):
 
         :param prop_type: Property type to filter by
         :return: List of Widget instances that have a property of type prop_type
-        :rtype: List[Widget]
+        :rtype: List[PropertyT]
         """
         return [w for w in self.widgets if isinstance(w, prop_type)]
 
@@ -289,3 +289,24 @@ class HasWidgets(PhoebusElement, PropertyBase):
          """
 
         return self.widgets
+
+
+    def get_all_widgets(self) -> List[Widget]:
+        """Get a list of all widgets contained within the container, including nested widgets.
+
+        :return: List of all Widget instances contained within the container
+        :rtype: List[Widget]
+        """
+
+        # Nest import to avoid circular import
+        from .structure import Tabs
+
+        all_widgets = []
+        for widget in self.widgets:
+            all_widgets.append(widget)
+            if isinstance(widget, HasWidgets):
+                all_widgets.extend(widget.get_all_widgets())
+            elif isinstance(widget, Tabs):
+                for tab in widget.tabs:
+                    all_widgets.extend(tab.get_all_widgets())
+        return all_widgets
