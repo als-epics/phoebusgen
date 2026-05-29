@@ -94,7 +94,10 @@ WidgetT = TypeVar('WidgetT', bound='Widget')
 PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 
 
-class Widget(PhoebusElement, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
+class HasParent:
+    parent: Optional['HasWidgets'] = None
+
+class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
 
     def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
@@ -273,8 +276,10 @@ class HasWidgets(PhoebusElement, PropertyBase):
 
         if isinstance(elem, Sequence):
             for e in elem:
+                e.parent = self
                 self.widgets.append(e)
         else:
+            elem.parent = self
             self.widgets.append(elem)
 
     def get_widgets(self) -> List[Widget]:
@@ -310,3 +315,12 @@ class HasWidgets(PhoebusElement, PropertyBase):
                 for tab in widget.tabs:
                     all_widgets.extend(tab.get_all_widgets())
         return all_widgets
+
+
+    def remove_widget_by_name(self, name: str) -> None:
+        """Remove a widget contained within the container by its name.
+
+        :param name: Name of the widget to remove
+        """
+
+        self.widgets = [w for w in self.widgets if getattr(w, 'name', None) != name]
