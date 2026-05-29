@@ -576,3 +576,55 @@ def test_group_remove_widget_from_xml():
     assert len(group.widgets) == 1
     assert group.widgets[0].name == 'L2'
     assert len(group.root.findall('widget')) == 1
+
+
+def test_parent_set_on_add_widget():
+    """Parent is set when a widget is added via add_widget."""
+    group = Group(name='G1', x=0, y=0, width=400, height=300)
+    lbl = Label(name='L1', text='Hello', x=0, y=0, width=100, height=20)
+
+    assert lbl.parent is None
+    group.add_widget(lbl)
+    assert lbl.parent is group
+
+
+def test_parent_set_on_widgets_from_xml():
+    """Parent is set when reading widgets from a group loaded from XML."""
+    group_xml = """<widget type="group" version="3.0.0">
+  <name>G1</name>
+  <x>0</x>
+  <y>0</y>
+  <width>400</width>
+  <height>300</height>
+  <widget type="label" version="2.0.0">
+    <name>L1</name>
+    <text>First</text>
+    <x>0</x>
+    <y>0</y>
+    <width>100</width>
+    <height>20</height>
+  </widget>
+</widget>"""
+    group = Group.from_element(fromstring(group_xml))
+    child = group.widgets[0]
+    assert child.parent is group
+
+
+def test_parent_set_on_nested_groups():
+    """Parent points to the immediate container, not the top-level screen."""
+    from phoebusgen.v4.screen import Screen
+
+    screen = Screen('test')
+    group = Group(name='G1', x=0, y=0, width=400, height=300)
+    lbl = Label(name='L1', text='Nested', x=0, y=0, width=100, height=20)
+    group.add_widget(lbl)
+    screen.add_widget(group)
+
+    assert group.parent is screen
+    assert lbl.parent is group
+
+
+def test_parent_none_for_unattached_widget():
+    """A widget not added to any container has parent=None."""
+    lbl = Label(name='L1', text='Solo', x=0, y=0, width=100, height=20)
+    assert lbl.parent is None

@@ -324,3 +324,20 @@ class HasWidgets(PhoebusElement, PropertyBase):
         """
 
         self.widgets = [w for w in self.widgets if w.root is not widget.root]
+
+
+# Wrap the metaclass-generated widgets property to set parent on each widget
+# when the list is read (e.g. from XML via from_element).
+_widgets_prop = HasWidgets.widgets
+_widgets_fget = _widgets_prop.fget
+_widgets_fset = _widgets_prop.fset
+
+
+def _widgets_getter_with_parent(self):
+    widgets = _widgets_fget(self)
+    for w in widgets:
+        w.parent = self
+    return widgets
+
+
+HasWidgets.widgets = property(_widgets_getter_with_parent, _widgets_fset)
