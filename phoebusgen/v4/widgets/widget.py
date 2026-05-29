@@ -317,10 +317,10 @@ class HasWidgets(PhoebusElement, PropertyBase):
         return all_widgets
 
 
-    def remove_widget_by_name(self, name: str) -> None:
-        """Remove a widget contained within the container by its name.
+    def remove_widget(self, widget: Widget) -> None:
+        """Remove a widget from the container by reference.
 
-        :param name: Name of the widget to remove
+        :param widget: The widget instance to remove
         """
 
-        self.widgets = [w for w in self.widgets if getattr(w, 'name', None) != name]
+        self.widgets = [w for w in self.widgets if w.root is not widget.root]

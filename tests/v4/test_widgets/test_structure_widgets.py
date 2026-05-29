@@ -504,3 +504,75 @@ def test_template_instance_from_xml():
     assert isinstance(tmpl.widgets[0], Label)
     assert tmpl.widgets[1].name == 'R1'
     assert isinstance(tmpl.widgets[1], Rectangle)
+
+
+def test_group_remove_widget():
+    group = Group(name='G1', x=0, y=0, width=400, height=300)
+    lbl1 = Label(name='Label1', text='A', x=0, y=0, width=100, height=20)
+    lbl2 = Label(name='Label2', text='B', x=0, y=30, width=100, height=20)
+    lbl3 = Label(name='Label3', text='C', x=0, y=60, width=100, height=20)
+    group.add_widget(lbl1)
+    group.add_widget(lbl2)
+    group.add_widget(lbl3)
+
+    assert len(group.widgets) == 3
+
+    group.remove_widget(lbl2)
+
+    assert len(group.widgets) == 2
+    assert group.widgets[0].name == 'Label1'
+    assert group.widgets[1].name == 'Label3'
+    # Confirm XML is also updated
+    assert len(group.root.findall('widget')) == 2
+
+
+def test_group_remove_widget_with_duplicate_names():
+    """Removing by reference should only remove the exact instance, not other widgets with the same name."""
+    group = Group(name='G1', x=0, y=0, width=400, height=300)
+    lbl1 = Label(name='Duplicate', text='A', x=0, y=0, width=100, height=20)
+    lbl2 = Label(name='Duplicate', text='B', x=0, y=30, width=100, height=20)
+    group.add_widget(lbl1)
+    group.add_widget(lbl2)
+
+    assert len(group.widgets) == 2
+
+    group.remove_widget(lbl1)
+
+    assert len(group.widgets) == 1
+    assert group.widgets[0].text == 'B'
+
+
+def test_group_remove_widget_from_xml():
+    """Removing a widget from a group loaded from XML should work correctly."""
+    group_xml = """<widget type="group" version="3.0.0">
+  <name>G1</name>
+  <x>0</x>
+  <y>0</y>
+  <width>400</width>
+  <height>300</height>
+  <widget type="label" version="2.0.0">
+    <name>L1</name>
+    <text>First</text>
+    <x>0</x>
+    <y>0</y>
+    <width>100</width>
+    <height>20</height>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>L2</name>
+    <text>Second</text>
+    <x>0</x>
+    <y>30</y>
+    <width>100</width>
+    <height>20</height>
+  </widget>
+</widget>"""
+    group = Group.from_element(fromstring(group_xml))
+    assert len(group.widgets) == 2
+
+    target = group.widgets[0]
+    group.remove_widget(target)
+
+    assert len(group.widgets) == 1
+    assert group.widgets[0].name == 'L2'
+    assert len(group.root.findall('widget')) == 1
