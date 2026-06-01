@@ -1,6 +1,6 @@
 import re
 from enum import Enum
-from typing import List, Optional, Sequence, Type, TypeVar, Union
+from typing import List, Optional, Sequence, Set, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
@@ -266,6 +266,24 @@ class HasWidgets(PhoebusElement, PropertyBase):
                 widgets_with_property.append(widget)
         return widgets_with_property
 
+    def get_widget_names(self) -> Set[str]:
+        """Get a set of widget names contained within the container.
+
+        :return: Set of widget names contained within the container
+        :rtype: Set[str]
+        """
+
+        return {w.name for w in self.widgets}
+
+
+    def _make_valid_widget_name(self, widget_names: Set[str], widget_name: str) -> str:
+        widget_name_counter = 0
+        original_name = widget_name
+        while widget_name in widget_names:
+            widget_name_counter += 1
+            widget_name = f"{original_name}_{widget_name_counter}"
+        return widget_name
+
 
     # For BC, we keep the two below methods
     def add_widget(self, elem: Union[Widget, Sequence[Widget]]) -> None:
@@ -274,13 +292,19 @@ class HasWidgets(PhoebusElement, PropertyBase):
         :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
         """
 
+        def _insert_widget(self, widget: Widget):
+            widget.parent = self
+            valid_name = self._make_valid_widget_name(self.get_widget_names(), widget.name)
+            if valid_name != widget.name:
+                widget.name = valid_name
+            self.widgets.append(widget)
+
         if isinstance(elem, Sequence):
             for e in elem:
-                e.parent = self
-                self.widgets.append(e)
+                _insert_widget(self, e)
         else:
-            elem.parent = self
-            self.widgets.append(elem)
+            _insert_widget(self, elem)
+
 
     def get_widgets(self) -> List[Widget]:
         """Get a list of all widgets contained within the container.
@@ -289,9 +313,9 @@ class HasWidgets(PhoebusElement, PropertyBase):
         which is the order they are rendered in Phoebus (i.e. widgets later
         in the XML will be rendered on top of widgets earlier in the XML).
 
-         :return: List of Widget instances for each widget element contained within the container
-         :rtype: List[Widget]
-         """
+        :return: List of Widget instances for each widget element contained within the container
+        :rtype: List[Widget]
+        """
 
         return self.widgets
 
@@ -323,8 +347,55 @@ class HasWidgets(PhoebusElement, PropertyBase):
         :param widget: The widget instance to remove
         """
 
-        self.widgets = [w for w in self.widgets if w.root is not widget.root]
+        self.widgets = [w for w in self.widgets if w != widget]
 
+
+    def index_of(self, widget: Widget) -> int:
+        for i, w in enumerate(self.widgets):
+            if w.root is widget.root:
+                return i
+        raise ValueError(f"Widget '{widget}' is not contained within the container!")
+
+
+    def bring_to_front(self, widget: Widget) -> None:
+        """Bring a widget to the front of the container.
+
+        :param widget: The widget instance to bring to the front
+        """
+
+        self.widgets = [w for w in self.widgets if w != widget] + [widget]
+
+    def bring_forward(self, widget: Widget) -> None:
+        """Bring a widget one step forward in the container.
+
+        :param widget: The widget instance to bring forward
+        """
+
+        index = self.index_of(widget)
+        widgets = list(self.widgets)
+        if index < len(widgets) - 1:
+            widgets[index], widgets[index + 1] = widgets[index + 1], widgets[index]
+            self.widgets = widgets
+
+    def send_backward(self, widget: Widget) -> None:
+        """Send a widget one step backward in the container.
+
+        :param widget: The widget instance to send backward
+        """
+
+        index = self.index_of(widget)
+        widgets = list(self.widgets)
+        if index > 0:
+            widgets[index], widgets[index - 1] = widgets[index - 1], widgets[index]
+            self.widgets = widgets
+
+    def send_to_back(self, widget: Widget) -> None:
+        """Send a widget to the back of the container.
+
+        :param widget: The widget instance to send to the back
+        """
+
+        self.widgets = [widget] + [w for w in self.widgets if w != widget]
 
 # Wrap the metaclass-generated widgets property to set parent on each widget
 # when the list is read (e.g. from XML via from_element).
@@ -333,11 +404,28 @@ _widgets_fget = _widgets_prop.fget
 _widgets_fset = _widgets_prop.fset
 
 
-def _widgets_getter_with_parent(self):
+def _widgets_getter_with_parent(self: HasWidgets) -> list[Widget]:
+    """Get the list of widgets and set their parent to the container."""
+
     widgets = _widgets_fget(self)
     for w in widgets:
         w.parent = self
     return widgets
 
 
-HasWidgets.widgets = property(_widgets_getter_with_parent, _widgets_fset)
+def _widgets_setter_with_rename_on_conflict(self: HasWidgets, widgets: list[Widget]) -> None:
+    """Set the list of widgets, renaming on conflict.
+
+    :param widgets: List of Widget instances to set
+    """
+
+    widget_name_set = set()
+    for widget in widgets:
+        widget_name = self._make_valid_widget_name(widget_name_set, widget.name)
+        if widget_name != widget.name:
+            widget.name = widget_name
+        widget_name_set.add(widget_name)
+    _widgets_fset(self, widgets)
+
+
+HasWidgets.widgets = property(_widgets_getter_with_parent, _widgets_setter_with_rename_on_conflict)

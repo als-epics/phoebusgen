@@ -16,7 +16,8 @@ from phoebusgen.v4.properties.types import (
     TraceType,
 )
 from phoebusgen.v4.properties.widget import HasName
-from phoebusgen.v4.widgets import TextUpdate, Widget
+from phoebusgen.v4.widgets import Label, Rectangle, TextUpdate, Widget
+from phoebusgen.v4.widgets.structure import Group
 from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
 
 WIDGET_CLASSES = Widget.__subclasses__()
@@ -342,3 +343,157 @@ def test_widget_from_element_error_conditions(widget_xml_factory):
 
     with pytest.raises(ValueError, match="Expected widget type 'textupdate', got 'label'"):
         TextUpdate.from_element(xml_element)
+
+
+# --- Ordering tests (bring_to_front, bring_forward, send_backward, send_to_back) ---
+
+def test_bring_to_front():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='L3', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2, l3])
+
+    # Bring L1 (index 0) to front (last position)
+    grp.bring_to_front(l1)
+    assert grp.widgets[0].name == 'L2'
+    assert grp.widgets[1].name == 'L3'
+    assert grp.widgets[2].name == 'L1'
+
+
+def test_bring_to_front_already_at_front():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2])
+
+    grp.bring_to_front(l2)
+    assert grp.widgets[0].name == 'L1'
+    assert grp.widgets[1].name == 'L2'
+
+
+def test_send_to_back():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='L3', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2, l3])
+
+    # Send L3 (index 2) to back (first position)
+    grp.send_to_back(l3)
+    assert grp.widgets[0].name == 'L3'
+    assert grp.widgets[1].name == 'L1'
+    assert grp.widgets[2].name == 'L2'
+
+
+def test_send_to_back_already_at_back():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2])
+
+    grp.send_to_back(l1)
+    assert grp.widgets[0].name == 'L1'
+    assert grp.widgets[1].name == 'L2'
+
+
+def test_bring_forward():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='L3', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2, l3])
+
+    # Bring L1 (index 0) forward one step -> index 1
+    grp.bring_forward(l1)
+    assert grp.widgets[0].name == 'L2'
+    assert grp.widgets[1].name == 'L1'
+    assert grp.widgets[2].name == 'L3'
+
+
+def test_bring_forward_already_at_front():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2])
+
+    # L2 is already at the front (last index), should be no-op
+    grp.bring_forward(l2)
+    assert grp.widgets[0].name == 'L1'
+    assert grp.widgets[1].name == 'L2'
+
+
+def test_send_backward():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='L3', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2, l3])
+
+    # Send L3 (index 2) backward one step -> index 1
+    grp.send_backward(l3)
+    assert grp.widgets[0].name == 'L1'
+    assert grp.widgets[1].name == 'L3'
+    assert grp.widgets[2].name == 'L2'
+
+
+def test_send_backward_already_at_back():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='L1', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='L2', text='B', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2])
+
+    # L1 is already at the back (index 0), should be no-op
+    grp.send_backward(l1)
+    assert grp.widgets[0].name == 'L1'
+    assert grp.widgets[1].name == 'L2'
+
+
+# --- Duplicate name suffix tests ---
+
+def test_add_widget_duplicate_name_gets_suffix():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='MyLabel', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='MyLabel', text='B', x=0, y=0, width=50, height=20)
+    grp.add_widget(l1)
+    grp.add_widget(l2)
+
+    assert grp.widgets[0].name == 'MyLabel'
+    assert grp.widgets[1].name == 'MyLabel_1'
+
+
+def test_add_widget_three_duplicates_suffix():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='MyLabel', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='MyLabel', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='MyLabel', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget(l1)
+    grp.add_widget(l2)
+    grp.add_widget(l3)
+
+    assert grp.widgets[0].name == 'MyLabel'
+    assert grp.widgets[1].name == 'MyLabel_1'
+    assert grp.widgets[2].name == 'MyLabel_2'
+
+
+def test_add_widget_batch_duplicates_suffix():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    labels = [Label(name='W', text=str(i), x=0, y=0, width=50, height=20) for i in range(4)]
+    grp.add_widget(labels)
+
+    assert grp.widgets[0].name == 'W'
+    assert grp.widgets[1].name == 'W_1'
+    assert grp.widgets[2].name == 'W_2'
+    assert grp.widgets[3].name == 'W_3'
+
+
+def test_add_widget_no_rename_when_unique():
+    grp = Group(name='G', x=0, y=0, width=300, height=300)
+    l1 = Label(name='A', text='A', x=0, y=0, width=50, height=20)
+    l2 = Label(name='B', text='B', x=0, y=0, width=50, height=20)
+    l3 = Label(name='C', text='C', x=0, y=0, width=50, height=20)
+    grp.add_widget([l1, l2, l3])
+
+    assert grp.widgets[0].name == 'A'
+    assert grp.widgets[1].name == 'B'
+    assert grp.widgets[2].name == 'C'
