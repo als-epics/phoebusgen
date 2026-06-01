@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from xml.etree.ElementTree import Element, SubElement
+from xml.etree.ElementTree import Element, SubElement, fromstring
 
 import pytest
 
@@ -591,3 +591,34 @@ def test_get_property_type_by_name():
 
     with pytest.raises(ValueError, match="Widget 'XYPlot' has no property 'nonexistent'!"):
         xy_plot.get_property_type_by_name('nonexistent')
+
+
+def test_primitive_property_with_no_value_in_xml():
+    xml_string = """  <widget type="label" version="2.0.0">
+  <name>EDM Label</name>
+  <text/>
+  <x>4</x>
+  <y>105</y>
+  <width>1356</width>
+  <height>26</height>
+  <font>
+    <font family="helvetica" style="BOLD" size="9.900990099009901"/>
+  </font>
+  <foreground_color>
+    <color name="black-14" red="0" green="0" blue="0"/>
+  </foreground_color>
+  <background_color>
+    <color name="GlobalBG" red="240" green="240" blue="240"/>
+  </background_color>
+  <transparent>false</transparent>
+  <horizontal_alignment>1</horizontal_alignment>
+  <vertical_alignment>1</vertical_alignment>
+  <wrap_words>false</wrap_words>
+  <actions/>
+  <border_color>
+    <color name="black-14" red="0" green="0" blue="0"/>
+  </border_color>
+</widget>
+"""
+    label = Label.from_element(fromstring(xml_string))
+    assert label.text == ''

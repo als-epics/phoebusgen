@@ -441,11 +441,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The parsed primitive value
         """
 
-        if element.text is None:
+        if element.text is None and property_type is not str:
             raise ValueError(f"XML element for primitive property '{element.tag}' has no text value!")
 
         if property_type is bool:
             return element.text.lower() == 'true'
+        elif property_type is str and element.text is None:
+            return ''
         else:
             return property_type(element.text)
 
