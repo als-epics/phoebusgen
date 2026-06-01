@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Optional
 
+from phoebusgen.v4.properties.behavior import HasToolTip
 from phoebusgen.v4.properties.display import HasTabActiveHeightDirection
 
 from .property_helpers import PropertyBase
@@ -13,6 +14,9 @@ from .types import (
     TabDirection,
 )
 
+class HasPVName(HasToolTip):
+    pv_name: str = ''
+    tool_tip: str = '$(pv_name)\n$(pv_value)'
 
 class HasMacros(PropertyBase):
     macros: ObservableDict
@@ -44,3 +48,6 @@ class HasNavTabs(HasTabActiveHeightDirection):
 
 class HasInstances(PropertyBase):
     instances: ObservableList[Instance]
+
+class HasSymbols(PropertyBase):
+    symbols: ObservableList[str]

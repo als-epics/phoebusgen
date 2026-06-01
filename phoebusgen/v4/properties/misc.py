@@ -16,7 +16,7 @@ class HasGrid(PropertyBase):
     grid_step_y: int = 10
 
 class HasKnobAndNeedleColor(PropertyBase):
-    needle_color: Color = Color((0, 0, 0))
+    needle_color: Color = Color((255, 5, 7))
     knob_color: Color = Color((0, 0, 0))
 
 class HasSelectionPV(PropertyBase):

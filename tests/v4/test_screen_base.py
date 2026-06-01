@@ -3,7 +3,7 @@ from xml.etree.ElementTree import Element
 
 import pytest
 
-from phoebusgen.v4.properties.display import HasPVName
+from phoebusgen.v4.properties.widget import HasPVName
 from phoebusgen.v4.properties.types import Color, OpenDisplayAction, OpenDisplayTarget, ObservableDict
 from phoebusgen.v4.screen import Screen, ScreenTransition, NavigationGraph, NavigationEdge
 from phoebusgen.v4.widgets import ActionButton, EmbeddedDisplay, NavigationTabs, TextUpdate, Widget, WidgetType
@@ -36,7 +36,7 @@ def test_create_fresh_screen(screen_name):
     ('height', 600, 720),
     ('grid_visible', True, False),
     ('grid_color', Color((128, 128, 128)), Color((100, 100, 100))),
-    ('background_color', '#000000', '#FF0000'),
+    ('background_color', '#FFFFFF', '#FF0000'),
     ('macros', {}, {'TestA': 'ValueA', 'TestB': 'ValueB'}),
 ])
 def test_screen_properties(sample_screen, property_name, initial_value, new_value):

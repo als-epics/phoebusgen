@@ -57,8 +57,8 @@ class HasSquare(PropertyBase):
     square: bool = False
 
 class HasCorners(PropertyBase):
-    corner_width: int
-    corner_height: int
+    corner_width: int = 0
+    corner_height: int = 0
 
 class HasMultiLine(PropertyBase):
     multi_line: bool
@@ -83,14 +83,14 @@ class HasLineColor(PropertyBase):
     line_color: Color
 
 class HasBackgroundColor(PropertyBase):
-    background_color: Color
+    background_color: Color = Color((255, 255, 255))
 
 class HasForegroundColor(PropertyBase):
-    foreground_color: Color
+    foreground_color: Color = Color((0, 0, 0))
 
 class HasOnOffColors(PropertyBase):
-    off_color: Color
-    on_color: Color
+    off_color: Color = Color((60, 100, 60))
+    on_color: Color = Color((60, 255, 60))
 
 class HasText(PropertyBase):
     text: str = ''
@@ -106,9 +106,6 @@ class HasPrecision(PropertyBase):
 
 class HasShowUnits(PropertyBase):
     show_units: bool = True
-
-class HasPVName(PropertyBase):
-    pv_name: str = ''
 
 class HasLabelsFromPV(PropertyBase):
     labels_from_pv: bool = False
@@ -129,16 +126,16 @@ class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
 
 class HasShowToolbar(PropertyBase):
-    show_toolbar: bool
+    show_toolbar: bool = False
 
 class HasLineWidth(PropertyBase):
-    line_width: int
+    line_width: int = 3
 
 class HasStretchToFit(PropertyBase):
-    stretch_to_fit: bool
+    stretch_to_fit: bool = False
 
 class HasHorizontal(PropertyBase):
-    horizontal: bool
+    horizontal: bool = True
 
 class HasShowLED(PropertyBase):
     show_led: bool
@@ -156,31 +153,31 @@ class HasButtonsOnLeft(PropertyBase):
     buttons_on_left: bool
 
 class HasShowScale(PropertyBase):
-    show_scale: bool
+    show_scale: bool = True
 
 class HasShowMinorTicks(PropertyBase):
-    show_minor_ticks: bool
+    show_minor_ticks: bool = True
 
 class HasMajorTicksPixelDist(PropertyBase):
-    major_ticks_pixel_dist: int
+    major_ticks_pixel_dist: int = 40
 
 class HasScaleFormat(PropertyBase):
-    scale_format: str
+    scale_format: str = '#.##'
 
 class HasReverseBits(PropertyBase):
-    reverse_bits: bool
+    reverse_bits: bool = False
 
 class HasStartBit(PropertyBase):
-    start_bit: int
+    start_bit: int = 0
 
 class HasNumBits(PropertyBase):
-    num_bits: int
+    num_bits: int = 8
 
 class HasFillColor(PropertyBase):
-    fill_color: Color
+    fill_color: Color = Color((60, 255, 60))
 
 class HasShowValue(PropertyBase):
-    show_value: bool
+    show_value: bool = True
 
 class HasInitialIndex(PropertyBase):
     initial_index: int
@@ -192,7 +189,7 @@ class HasDisconnectOverlayColor(PropertyBase):
     disconnect_overlay_color: Color
 
 class HasColumns(PropertyBase):
-    columns: ObservableList[Column]
+    columns: ObservableList[Column] = ObservableList([Column()])
 
 class HasScaleVisible(PropertyBase):
     scale_visible: bool
@@ -253,10 +250,24 @@ class HasLinearMeterColors(PropertyBase):
     colors: LinearMeterColors
 
 class HasKnobAndNeedleSize(PropertyBase):
-    knob_size: float
-    needle_width: float
+    knob_size: float = 8
+    needle_width: float = 1
 
 class HasTabActiveHeightDirection(PropertyBase):
     tab_height: int = 30
     direction: TabDirection = TabDirection.HORIZONTAL
     active_tab: int = 1
+
+class HasShowLimits(PropertyBase):
+    show_limits: bool = True
+
+class HasHighlightActiveRegion(PropertyBase):
+    is_highlighting_of_active_regions_enabled: bool = True
+
+class HasEnableGradient(PropertyBase):
+    is_gradient_enabled: bool = False
+
+class HasStatusColors(PropertyBase):
+    normal_status_color: Color = Color((194, 198, 195))
+    minor_warning_color: Color = Color((242, 148, 141))
+    major_warning_color: Color = Color((240, 60, 46))

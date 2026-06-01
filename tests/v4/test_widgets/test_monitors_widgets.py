@@ -167,6 +167,7 @@ def test_create_led_multistate_widget():
     assert led is not None
     assert led.name == 'Multi LED'
     assert led.pv_name == 'TEST:STATE'
+    led.states.clear()
 
     led.states.append(State(value=0, label='Off', color=Color((128, 128, 128))))
     led.states.append(State(value=1, label='On', color=Color((0, 255, 0))))

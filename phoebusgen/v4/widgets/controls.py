@@ -7,7 +7,8 @@ from phoebusgen.v4.properties.behavior import (
     HasEnabled,
     HasIncrement,
     HasItems,
-    HasLevelsAndShow,
+    HasWarningLevels,
+    HasWarningLevelsVisibility,
     HasLimitsFromPV,
     HasMinMax,
     HasWrapWords,
@@ -27,7 +28,6 @@ from phoebusgen.v4.properties.display import (
     HasOnOffColors,
     HasOnOffImages,
     HasPrecision,
-    HasPVName,
     HasRotationStep,
     HasScaleFormat,
     HasSelectedColor,
@@ -41,7 +41,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
-from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel
+from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel, HasPVName
 
 from .widget import Widget
 
@@ -178,7 +178,7 @@ class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalA
         self.pv_name = pv_name
 
 class ScaledSlider(Widget, HasPVName, HasHorizontalAlignment, HasForegroundColor, HasBackgroundColor, HasTransparent, HasFont,
-                   HasShowScale, HasShowMinorTicks, HasMajorTicksPixelDist, HasScaleFormat, HasLevelsAndShow, HasAlarmBorder,
+                   HasShowScale, HasShowMinorTicks, HasMajorTicksPixelDist, HasScaleFormat, HasWarningLevels, HasWarningLevelsVisibility, HasAlarmBorder,
                    HasIncrement, HasMinMax, HasLimitsFromPV, HasEnabled):
     """ScaledSlider Phoebus Widget"""
 

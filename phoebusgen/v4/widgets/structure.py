@@ -13,7 +13,6 @@ from phoebusgen.v4.properties.display import (
     HasGroupStyle,
     HasHorizontal,
     HasLineColor,
-    HasPVName,
     HasResizeBehavior,
     HasSelectedColor,
     HasTabActiveHeightDirection,
@@ -22,13 +21,14 @@ from phoebusgen.v4.properties.display import (
 )
 from phoebusgen.v4.properties.misc import HasBorder
 from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.properties.types import ObservableList
+from phoebusgen.v4.properties.types import Color, ObservableList
 from phoebusgen.v4.properties.widget import (
     HasFile,
     HasInstances,
     HasMacros,
     HasName,
     HasNavTabs,
+    HasPVName
 )
 
 from .widget import HasWidgets, Widget
@@ -36,6 +36,8 @@ from .widget import HasWidgets, Widget
 
 class Array(Widget, HasPVName, HasMacros, HasForegroundColor, HasBackgroundColor, HasAlarmBorder):
     """Array Phoebus Widget"""
+
+    height: int = 300
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

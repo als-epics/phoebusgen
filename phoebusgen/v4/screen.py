@@ -259,7 +259,6 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         return graph
 
 
-
 @dataclass
 class ScreenTransition:
     """A transition from one screen to another, with the macros that are passed."""

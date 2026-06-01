@@ -17,7 +17,8 @@ from phoebusgen.v4.properties.behavior import (
     HasIncrement,
     HasInterpolation,
     HasItems,
-    HasLevelsAndShow,
+    HasWarningLevels,
+    HasWarningLevelsVisibility,
     HasLimitsFromPV,
     HasLogScale,
     HasMinMax,
@@ -25,13 +26,13 @@ from phoebusgen.v4.properties.behavior import (
     HasRunActionsOnMouseClick,
     HasShowLimits,
     HasStates,
-    HasSymbols,
     HasToolTip,
     HasWrapWords,
 )
 from phoebusgen.v4.properties.display import HasColorMap, HasSelectionValuePV
 from phoebusgen.v4.properties.types import (
     ButtonMode,
+    Color,
     ColorMap,
     ColorMode,
     CommandAction,
@@ -41,19 +42,19 @@ from phoebusgen.v4.properties.types import (
     OpenWebpageAction,
     State,
 )
-
+from phoebusgen.v4.properties.widget import HasSymbols
 
 @pytest.mark.parametrize('property_cls, property_name, value', [
     (HasToolTip, 'tooltip', 'This is a tooltip'),
     (HasShowLimits, 'show_limits', True),
-    (HasLevelsAndShow, 'level_hihi', 90.0),
-    (HasLevelsAndShow, 'level_high', 80.0),
-    (HasLevelsAndShow, 'level_low', 20.0),
-    (HasLevelsAndShow, 'level_lolo', 10.0),
-    (HasLevelsAndShow, 'show_hihi', True),
-    (HasLevelsAndShow, 'show_high', True),
-    (HasLevelsAndShow, 'show_low', True),
-    (HasLevelsAndShow, 'show_lolo', True),
+    (HasWarningLevels, 'level_hihi', 90.0),
+    (HasWarningLevels, 'level_high', 80.0),
+    (HasWarningLevels, 'level_low', 20.0),
+    (HasWarningLevels, 'level_lolo', 10.0),
+    (HasWarningLevelsVisibility, 'show_hihi', True),
+    (HasWarningLevelsVisibility, 'show_high', True),
+    (HasWarningLevelsVisibility, 'show_low', True),
+    (HasWarningLevelsVisibility, 'show_lolo', True),
     (HasEnabled, 'enabled', False),
     (HasConfirmation, 'show_confirm_dialog', True),
     (HasConfirmation, 'confirm_message', 'Are you sure?'),
@@ -151,7 +152,7 @@ def test_can_append_action(property_factory):
 def test_states_property(property_factory):
     prop = property_factory(HasStates)
     assert hasattr(prop, 'states')
-    assert prop.states == []
+    assert prop.states == [State(label='State 1', color=Color((60, 100, 60))), State(value=1, label='State 2', color=Color((60, 255, 60)))]
     prop.states = [State(value=4, label='State1'), State(value=7, label='State2')]
     assert len(prop.states) == 2
     assert prop.states[0].value == 4

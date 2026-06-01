@@ -10,6 +10,9 @@ from .widget import Widget
 class ThreeDViewer(Widget, HasFile):
     """ThreeDViewer Phoebus Widget"""
 
+    width: int = 600
+    height: int = 600
+
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create ThreeDViewer Widget
@@ -26,6 +29,10 @@ class ThreeDViewer(Widget, HasFile):
 
 class WebBrowser(Widget, HasUrl, HasShowToolbar):
     """WebBrowser Phoebus Widget"""
+
+    width: int = 800
+    height: int = 600
+    show_toolbar: bool = True
 
     def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
         """

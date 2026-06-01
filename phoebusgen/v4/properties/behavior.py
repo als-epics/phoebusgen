@@ -27,15 +27,17 @@ class HasToolTip(PropertyBase):
 class HasShowLimits(PropertyBase):
     show_limits: bool
 
-class HasLevelsAndShow(PropertyBase):
-    level_hihi: float
-    level_high: float
-    level_low: float
-    level_lolo: float
-    show_hihi: bool
-    show_high: bool
-    show_low: bool
-    show_lolo: bool
+class HasWarningLevels(PropertyBase):
+    level_hihi: float = 20.0
+    level_high: float = 80.0
+    level_low: float = 10.0
+    level_lolo: float = 90.0
+
+class HasWarningLevelsVisibility(PropertyBase):
+    show_hihi: bool = True
+    show_high: bool = True
+    show_low: bool = True
+    show_lolo: bool = True
 
 class HasEnabled(PropertyBase):
     enabled: bool
@@ -56,13 +58,13 @@ class HasBarLength(PropertyBase):
     bar_length: float
 
 class HasIncrement(PropertyBase):
-    increment: float
+    increment: float = 1.0
 
 class HasWrapWords(PropertyBase):
-    wrap_words: bool
+    wrap_words: bool = True
 
 class HasLimitsFromPV(PropertyBase):
-    limits_from_pv: bool
+    limits_from_pv: bool = True
 
 class HasEditable(PropertyBase):
     editable: bool
@@ -71,7 +73,7 @@ class HasFallbackSymbol(PropertyBase):
     fallback_symbol: Path
 
 class HasPreserveRatio(PropertyBase):
-    preserve_ratio: bool
+    preserve_ratio: bool = True
 
 class HasRunActionsOnMouseClick(PropertyBase):
     run_actions_on_mouse_click: bool
@@ -79,16 +81,13 @@ class HasRunActionsOnMouseClick(PropertyBase):
 class HasArrayIndex(PropertyBase):
     array_index: int
 
-class HasSymbols(PropertyBase):
-    symbols: ObservableList[str]
-
 
 class HasFallback(PropertyBase):
-    fallback_label: str
-    fallback_color: Color
+    fallback_label: str = 'Err'
+    fallback_color: Color = Color((255, 0, 255))
 
 class HasStates(PropertyBase):
-    states: ObservableList[State]
+    states: ObservableList[State] = ObservableList([State(label='State 1', color=Color((60, 100, 60))), State(value=1, label='State 2', color=Color((60, 255, 60)))])
 
 class HasLogScale(PropertyBase):
     log_scale: bool

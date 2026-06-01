@@ -22,7 +22,6 @@ from phoebusgen.v4.properties.display import (
     HasColorMap,
     HasForegroundColor,
     HasLabelFont,
-    HasPVName,
     HasScaleFont,
     HasSelectionValuePV,
     HasShowGrid,
@@ -33,7 +32,8 @@ from phoebusgen.v4.properties.display import (
     HasTitleFont,
 )
 from phoebusgen.v4.properties.misc import HasCursor, HasMarkers, HasROIs
-from phoebusgen.v4.properties.widget import HasFile, HasMacros
+from phoebusgen.v4.properties.types import Color
+from phoebusgen.v4.properties.widget import HasFile, HasMacros, HasPVName
 
 from .widget import Widget
 
@@ -41,12 +41,16 @@ from .widget import Widget
 class DataBrowser(Widget, HasMacros, HasFile, HasShowToolbar, HasSelectionValuePV):
     """DataBrowser Phoebus Widget"""
 
+    show_toolbar: bool = False
+    width: int = 400
+    height: int = 300
+
     def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
         """
         Create DataBrowser Widget
 
         :param name: Widget name
-        :param pv_name: Widget PV
+        :param file: File path
         :param x: X position
         :param y: Y position
         :param width: Widget width
@@ -59,6 +63,9 @@ class Image(Widget, HasPVName, HasBackgroundColor, HasForegroundColor, HasShowTo
             HasAlarmBorder, HasLimitsFromPV, HasDataWidthAndHeight, HasInterpolation, HasColorMode, HasUnisignedData, HasAutoScale, HasLogScale,
             HasMinMax, HasCursor, HasROIs):
     """Image Phoebus Widget"""
+
+    width: int = 400
+    height: int = 300
 
     def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
         """

@@ -364,7 +364,7 @@ class Marker(ObservableDataclass):
 @dataclass
 class Column(ObservableDataclass):
     name: str = ''
-    width: int = 10
+    width: int = 100
     editable: bool = True
     options: ObservableList[str] = field(default_factory=ObservableList[str])
 
