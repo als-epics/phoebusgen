@@ -6,7 +6,7 @@ import pytest
 from phoebusgen.v4.properties.widget import HasPVName
 from phoebusgen.v4.properties.types import Color, OpenDisplayAction, OpenDisplayTarget, ObservableDict
 from phoebusgen.v4.screen import Screen, ScreenTransition, NavigationGraph, NavigationEdge
-from phoebusgen.v4.widgets import ActionButton, EmbeddedDisplay, NavigationTabs, TextUpdate, Widget, WidgetType
+from phoebusgen.v4.widgets import ActionButton, EmbeddedDisplay, Label, NavigationTabs, TextUpdate, Widget, WidgetType
 
 
 @pytest.fixture
@@ -257,23 +257,26 @@ def test_build_navigation_graph_back_link():
 # --- get_used_macros tests ---
 
 def test_get_used_macros_empty_screen(sample_screen):
-    """A fresh screen with no macro references returns an empty set."""
-    assert sample_screen.get_used_macros() == set()
+    """A fresh screen with no macro references returns empty sets."""
+    macros, defaults = sample_screen.get_used_macros()
+    assert macros == set()
+    assert defaults == set()
 
 
 def test_get_used_macros_pv_name(sample_screen):
     """Macros in PV names are detected."""
     widget = TextUpdate(name='test', pv_name='$(PREFIX):sensor:$(CHANNEL)', x=0, y=0, width=100, height=20)
     sample_screen.add_widget(widget)
-    macros = sample_screen.get_used_macros()
+    macros, defaults = sample_screen.get_used_macros()
     assert macros == {'PREFIX', 'CHANNEL'}
+    assert defaults == set()
 
 
 def test_get_used_macros_in_text(sample_screen):
     """Macros in widget text/labels are detected."""
     btn = ActionButton(name='btn', text='$(LABEL) Control', pv_name='', x=0, y=0, width=50, height=20)
     sample_screen.add_widget(btn)
-    macros = sample_screen.get_used_macros()
+    macros, _ = sample_screen.get_used_macros()
     assert 'LABEL' in macros
 
 
@@ -284,7 +287,7 @@ def test_get_used_macros_in_actions(sample_screen):
         OpenDisplayAction(description='Open', file='$(TOP)/screens/detail.bob', target=OpenDisplayTarget.REPLACE)
     ]
     sample_screen.add_widget(btn)
-    macros = sample_screen.get_used_macros()
+    macros, _ = sample_screen.get_used_macros()
     assert 'TOP' in macros
 
 
@@ -294,13 +297,98 @@ def test_get_used_macros_multiple_widgets(sample_screen):
     w2 = TextUpdate(name='w2', pv_name='$(DEV):pressure', x=0, y=30, width=100, height=20)
     sample_screen.add_widget(w1)
     sample_screen.add_widget(w2)
-    macros = sample_screen.get_used_macros()
+    macros, defaults = sample_screen.get_used_macros()
     assert macros == {'SYS', 'DEV'}
+    assert defaults == set()
 
 
 def test_get_used_macros_from_file():
     """Macros are detected when loading a screen from a file."""
     screen = Screen(f_name='tests/v4/bobfiles/Example_TOP1.bob')
-    macros = screen.get_used_macros()
+    macros, defaults = screen.get_used_macros()
     # Example_TOP1 has macros defined in embedded display macro assignments
     assert isinstance(macros, set)
+    assert isinstance(defaults, set)
+
+
+def test_get_used_macros_excludes_widget_properties_in_tooltip(sample_screen):
+    """Widget property names used as macros (e.g. in tooltip) are excluded."""
+    widget = TextUpdate(name='sensor', pv_name='$(PREFIX):temp', x=0, y=0, width=100, height=20)
+    widget.tooltip = '$(pv_name) = $(pv_value)'
+    sample_screen.add_widget(widget)
+    macros, _ = sample_screen.get_used_macros()
+    # pv_name is a property of TextUpdate, pv_value is a runtime macro for PV widgets
+    assert 'pv_name' not in macros
+    assert 'pv_value' not in macros
+    # PREFIX is a real user macro
+    assert 'PREFIX' in macros
+
+
+def test_get_used_macros_excludes_name_property_in_tooltip(sample_screen):
+    """The 'name' property used as $(name) in a tooltip is excluded."""
+    widget = TextUpdate(name='MySensor', pv_name='TEST:PV', x=0, y=0, width=100, height=20)
+    widget.tooltip = 'Widget: $(name)'
+    sample_screen.add_widget(widget)
+    macros, _ = sample_screen.get_used_macros()
+    assert 'name' not in macros
+
+
+def test_get_used_macros_excludes_builtin_macros(sample_screen):
+    """Phoebus built-in macros DID and DNAME are excluded."""
+    widget = Label(name='info', text='Display $(DNAME) id=$(DID)', x=0, y=0, width=200, height=20)
+    sample_screen.add_widget(widget)
+    macros, _ = sample_screen.get_used_macros()
+    assert 'DID' not in macros
+    assert 'DNAME' not in macros
+
+
+def test_get_used_macros_pv_value_not_excluded_for_non_pv_widget(sample_screen):
+    """$(pv_value) is only excluded for widgets that have a pv_name property."""
+    widget = Label(name='lbl', text='$(pv_value)', x=0, y=0, width=100, height=20)
+    sample_screen.add_widget(widget)
+    macros, _ = sample_screen.get_used_macros()
+    # Label has no pv_name, so pv_value is treated as a user macro
+    assert 'pv_value' in macros
+
+
+def test_get_used_macros_mixed_properties_and_user_macros(sample_screen):
+    """Only real user macros are returned when properties and builtins are mixed."""
+    widget = TextUpdate(name='w', pv_name='$(SYS):$(DEV):reading', x=0, y=0, width=100, height=20)
+    widget.tooltip = 'PV: $(pv_name) Val: $(pv_value) Display: $(DNAME)'
+    sample_screen.add_widget(widget)
+    macros, defaults = sample_screen.get_used_macros()
+    assert macros == {'SYS', 'DEV'}
+    assert defaults == set()
+
+
+def test_get_used_macros_with_defaults(sample_screen):
+    """Macros that always have defaults are returned in the defaults set."""
+    widget = TextUpdate(name='w', pv_name='$(PREFIX=TEST):$(CHANNEL):reading', x=0, y=0, width=100, height=20)
+    sample_screen.add_widget(widget)
+    macros, defaults = sample_screen.get_used_macros()
+    assert 'CHANNEL' in macros
+    assert 'PREFIX' not in macros
+    assert defaults == {'PREFIX'}
+
+
+def test_get_used_macros_all_uses_have_defaults(sample_screen):
+    """A macro used multiple times always with defaults stays in the defaults set."""
+    w1 = TextUpdate(name='w1', pv_name='$(SYS=SysA):temp', x=0, y=0, width=100, height=20)
+    w2 = TextUpdate(name='w2', pv_name='$(SYS=SysB):pressure', x=0, y=30, width=100, height=20)
+    sample_screen.add_widget(w1)
+    sample_screen.add_widget(w2)
+    macros, defaults = sample_screen.get_used_macros()
+    assert 'SYS' not in macros
+    assert defaults == {'SYS'}
+
+
+def test_get_used_macros_mixed_default_and_no_default(sample_screen):
+    """A macro used both with and without a default is only in the required set."""
+    w1 = TextUpdate(name='w1', pv_name='$(PREFIX=DEF):temp', x=0, y=0, width=100, height=20)
+    w2 = TextUpdate(name='w2', pv_name='$(PREFIX):pressure', x=0, y=30, width=100, height=20)
+    sample_screen.add_widget(w1)
+    sample_screen.add_widget(w2)
+    macros, defaults = sample_screen.get_used_macros()
+    # Has a use without default, so it's required
+    assert 'PREFIX' in macros
+    assert 'PREFIX' not in defaults

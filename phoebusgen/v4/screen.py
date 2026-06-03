@@ -39,7 +39,7 @@ import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Dict, List, Optional, Set, Tuple
 from xml.dom import minidom
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
@@ -185,29 +185,81 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         e = self._shared.create_element(self.root, 'background_color')
         self._shared.create_color_element(e, name, None, None, None, None)
 
-    def get_used_macros(self) -> Set[str]:
+    # Phoebus built-in macros that are always available at runtime
+    # and should not be reported as user-defined macros.
+    # See: MacroOrPropertyProvider.java in Phoebus source
+    BUILTIN_MACROS = frozenset({'DID', 'DNAME'})
+
+    # Macros conditionally available for widgets that have a pv_name property.
+    # $(pv_value) resolves to the current PV value at runtime.
+    PV_WIDGET_MACROS = frozenset({'pv_value'})
+
+    def get_used_macros(self) -> Tuple[Set[str], Set[str]]:
         """Get all macro names referenced in this screen via the $(MACRO) pattern.
 
         Scans all text content and attribute values in the screen's XML tree
         for macro references like $(PV_PREFIX), $(DEVICE), etc.
 
-        :return: Set of macro names found in the screen
+        Macros that always specify a default via ``$(NAME=DEFAULT)`` are returned
+        in a separate set. If a macro appears both with and without a default,
+        it is included only in the required (no-default) set.
+
+        Excludes references that match property names of the widget they appear in,
+        since Phoebus resolves those from the widget's own properties rather than macros.
+        Also excludes Phoebus built-in macros (DID, DNAME) that are always available at runtime.
+
+        :return: Tuple of (set of macros without defaults, set of macros that always have defaults)
         """
         macro_pattern = re.compile(r'\$\(([^)]+)\)')
         macros = set()  # type: Set[str]
+        macros_with_defaults = set()  # type: Set[str]
 
-        def _scan_element(elem):
+        def _scan_element(elem, widget_property_names: Set[str]):
+            raw_matches = []  # type: list
             if elem.text:
-                macros.update(macro_pattern.findall(elem.text))
+                raw_matches.extend(macro_pattern.findall(elem.text))
             if elem.tail:
-                macros.update(macro_pattern.findall(elem.tail))
+                raw_matches.extend(macro_pattern.findall(elem.tail))
             for value in elem.attrib.values():
-                macros.update(macro_pattern.findall(value))
-            for child in elem:
-                _scan_element(child)
+                raw_matches.extend(macro_pattern.findall(value))
 
-        _scan_element(self.root)
-        return macros
+            for match in raw_matches:
+                if '=' in match:
+                    name = match.split('=', 1)[0]
+                    has_default = True
+                else:
+                    name = match
+                    has_default = False
+                # Exclude widget property references and built-in macros
+                if name in widget_property_names or name in self.BUILTIN_MACROS:
+                    continue
+                if has_default:
+                    macros_with_defaults.add(name)
+                else:
+                    macros.add(name)
+
+            for child in elem:
+                # When entering a widget element, resolve its property names
+                if child.tag == 'widget':
+                    child_prop_names = set()  # type: Set[str]
+                    try:
+                        w = Widget.from_element(child)
+                        child_prop_names = set(w.get_property_names())
+                        # Widgets with a pv_name also have pv_value available at runtime
+                        if 'pv_name' in child_prop_names:
+                            child_prop_names |= self.PV_WIDGET_MACROS
+                    except (ValueError, KeyError):
+                        pass
+                    _scan_element(child, child_prop_names)
+                else:
+                    _scan_element(child, widget_property_names)
+
+        # Screen-level properties
+        screen_prop_names = set(self.get_property_names())
+        _scan_element(self.root, screen_prop_names)
+        # If a macro appears both with and without a default, it's required
+        macros_with_defaults -= macros
+        return macros, macros_with_defaults
 
     def build_navigation_graph(self, base_dir: Optional[Path] = None) -> 'NavigationGraph':
         """Build a navigation graph starting from this screen, recursively following all linked screens.
