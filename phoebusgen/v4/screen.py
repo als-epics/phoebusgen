@@ -103,7 +103,7 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
 
             file_name = self.bob_file
         with open(file_name, 'w') as f:
-            reparse_xml.writexml(f, indent='  ', addindent='  ', newl='\n', encoding='UTF-8')
+            reparse_xml.writexml(f, indent='', addindent='  ', newl='\n', encoding='UTF-8')
         return True
 
     def get_linked_screens(self) -> List['ScreenTransition']:
