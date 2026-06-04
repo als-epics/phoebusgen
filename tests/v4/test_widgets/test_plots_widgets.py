@@ -387,8 +387,8 @@ def test_xyplot_with_y_axes_and_markers():
       <autoscale>true</autoscale>
       <log_scale>false</log_scale>
       <show_grid>true</show_grid>
-      <title_font family="Liberation Sans" size="14" style="REGULAR"/>
-      <scale_font family="Liberation Sans" size="14" style="REGULAR"/>
+      <title_font><font family="Liberation Sans" size="14" style="REGULAR"/></title_font>
+      <scale_font><font family="Liberation Sans" size="14" style="REGULAR"/></scale_font>
       <color>
         <color red="0" green="0" blue="0" alpha="255"/>
       </color>
@@ -402,8 +402,8 @@ def test_xyplot_with_y_axes_and_markers():
       <autoscale>true</autoscale>
       <log_scale>false</log_scale>
       <show_grid>true</show_grid>
-      <title_font family="Liberation Sans" size="14" style="REGULAR"/>
-      <scale_font family="Liberation Sans" size="14" style="REGULAR"/>
+      <title_font><font family="Liberation Sans" size="14" style="REGULAR"/></title_font>
+      <scale_font><font family="Liberation Sans" size="14" style="REGULAR"/></scale_font>
       <color>
         <color red="0" green="0" blue="0" alpha="255"/>
       </color>
@@ -483,8 +483,8 @@ def test_xyplot_y_axes_and_markers_from_xml():
       <autoscale>true</autoscale>
       <log_scale>false</log_scale>
       <show_grid>true</show_grid>
-      <title_font family="Liberation Sans" size="14" style="REGULAR"/>
-      <scale_font family="Liberation Sans" size="14" style="REGULAR"/>
+      <title_font><font family="Liberation Sans" size="14" style="REGULAR"/></title_font>
+      <scale_font><font family="Liberation Sans" size="14" style="REGULAR"/></scale_font>
       <color>
         <color red="0" green="0" blue="0" alpha="255"/>
       </color>
@@ -498,8 +498,8 @@ def test_xyplot_y_axes_and_markers_from_xml():
       <autoscale>false</autoscale>
       <log_scale>true</log_scale>
       <show_grid>false</show_grid>
-      <title_font family="Liberation Sans" size="14" style="REGULAR"/>
-      <scale_font family="Liberation Sans" size="14" style="REGULAR"/>
+      <title_font><font family="Liberation Sans" size="14" style="REGULAR"/></title_font>
+      <scale_font><font family="Liberation Sans" size="14" style="REGULAR"/></scale_font>
       <color>
         <color red="0" green="0" blue="0" alpha="255"/>
       </color>

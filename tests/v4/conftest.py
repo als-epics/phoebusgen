@@ -29,7 +29,9 @@ def check_color_xml() -> Callable[[Element, Color], None]:
 def check_font_xml() -> Callable[[Element, Any], None]:
     def _checker(font_elem: Element, expected_font: Any) -> None:
         assert font_elem is not None
-        assert font_elem.attrib.get('family', '') == expected_font.family
-        assert int(font_elem.attrib.get('size', -1)) == expected_font.size
-        assert font_elem.attrib.get('style', '') == expected_font.style.value
+        inner = font_elem.find('font')
+        assert inner is not None
+        assert inner.attrib.get('family', '') == expected_font.family
+        assert int(inner.attrib.get('size', -1)) == expected_font.size
+        assert inner.attrib.get('style', '') == expected_font.style.value
     return _checker

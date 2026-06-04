@@ -169,7 +169,7 @@ def test_widget_font_properties(widget_class, widget_factory, prop_name, check_f
     font_prop.size = 18
     assert getattr(widget, prop_name).size == 18
     prop_elem = widget.root.find(prop_name)
-    assert prop_elem is not None and prop_elem.attrib.get('size') == '18'
+    assert prop_elem is not None and prop_elem.find('font').attrib.get('size') == '18'
 
 
 @pytest.mark.parametrize('widget_class, prop_name', _filter_widget_classes_by_property_type(ObservableDict))

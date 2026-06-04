@@ -75,7 +75,7 @@ def test_create_element():
     (ObservableList[int], PropertyBase._get_list_property, PropertyBase._set_list_property),
     (FileComponent, PropertyBase._get_enum_property, PropertyBase._set_enum_property),
     (Color, PropertyBase._get_color_property, PropertyBase._set_color_property),
-    (Font, PropertyBase._get_dataclass_property, PropertyBase._set_dataclass_property),
+    (Font, PropertyBase._get_font_property, PropertyBase._set_font_property),
     (Enum, PropertyBase._get_enum_property, PropertyBase._set_enum_property),
     (Trace, PropertyBase._get_dataclass_property, PropertyBase._set_dataclass_property),
     (Action, PropertyBase._get_action_property, PropertyBase._set_action_property),

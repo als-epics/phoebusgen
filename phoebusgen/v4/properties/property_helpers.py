@@ -582,6 +582,38 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
+    def _get_font_property(cls, element: Element, property_type: Type[Font] = Font) -> Font:
+        """Given an XML element representing a font property, parse the inner <font> element and return a Font instance.
+
+        Phoebus uses a nested structure: <font><font family="..." size="..." style="..." /></font>
+
+        :param element: The outer XML element (e.g. <font>)
+        :param property_type: The Font type (default: Font)
+        :return: A Font instance with fields populated from the inner <font> element attributes
+        """
+        font_elem = element.find('font')
+        if font_elem is None:
+            raise ValueError('Font property element has no inner font child element!')
+        return cls._get_dataclass_property(font_elem, Font)
+
+
+    @classmethod
+    def _set_font_property(cls, prop_name: str, value: Font) -> Element:
+        """Given a Font instance, create an XML element with nested <font> structure.
+
+        Phoebus uses: <prop_name><font family="..." size="..." style="..." /></prop_name>
+
+        :param prop_name: The name of the property
+        :param value: The Font instance to set
+        :return: The XML element representing the font property
+        """
+        element = _create_element(prop_name)
+        inner = cls._set_dataclass_property('font', value)
+        element.append(inner)
+        return element
+
+
+    @classmethod
     def _get_dataclass_property(cls, element: Element, property_type: Type[ObservableDataclass]) -> ObservableDataclass:
         """Given an XML element representing a dataclass property, parse the value and return an instance of the dataclass.
 
