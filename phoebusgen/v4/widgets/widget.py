@@ -404,7 +404,7 @@ _widgets_fget = _widgets_prop.fget
 _widgets_fset = _widgets_prop.fset
 
 
-def _widgets_getter_with_parent(self: HasWidgets) -> list[Widget]:
+def _widgets_getter_with_parent(self: HasWidgets) -> List[Widget]:
     """Get the list of widgets and set their parent to the container."""
 
     widgets = _widgets_fget(self)
@@ -413,7 +413,7 @@ def _widgets_getter_with_parent(self: HasWidgets) -> list[Widget]:
     return widgets
 
 
-def _widgets_setter_with_rename_on_conflict(self: HasWidgets, widgets: list[Widget]) -> None:
+def _widgets_setter_with_rename_on_conflict(self: HasWidgets, widgets: List[Widget]) -> None:
     """Set the list of widgets, renaming on conflict.
 
     :param widgets: List of Widget instances to set
