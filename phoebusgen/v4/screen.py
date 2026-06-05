@@ -39,7 +39,7 @@ import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Union
 from xml.dom import minidom
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts
@@ -58,16 +58,17 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
     width: int = 800
     height: int = 600
 
-    def __init__(self, name: Optional[str] = None, f_name: Optional[str] = None) -> None:
+    def __init__(self, name: Optional[str] = None, f_name: Optional[Union[Path, str]] = None, overwrite: bool = False) -> None:
         """
         Create Phoebus screen object. File name is optional and can be specified later
 
         :param name: Screen Name
         :param f_name: File name for Phoebus screen
+        :param overwrite: Overwrite existing file if it exists, default False
         """
 
         self.bob_file = f_name
-        if f_name is not None and os.path.exists(f_name):
+        if f_name is not None and os.path.exists(f_name) and not overwrite:
             with open(f_name, 'r') as f:
                 rough_string = ''.join([line.strip() for line in f.readlines()])
             root = ET.fromstring(rough_string)
@@ -77,18 +78,13 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         self.root = root
         HasWidgets.__init__(self, None)
 
-        if f_name is None or not os.path.exists(f_name):
-            # Default screen size for new screens
-            self.width = 800
-            self.height = 600
-
         name_elem = root.find('name')
         if name_elem is None or name_elem.text is None:
             self.name = 'Display' if not name else name
         else:
             self.name = name_elem.text if not name else name
 
-    def write_screen(self, file_name: Optional[str] = None) -> bool:
+    def write_screen(self, file_name: Optional[Union[Path, str]] = None) -> bool:
         """
         Writes screen XML to file. File name parameter is optional, if not given Screen bob_file member will be used
 
@@ -176,14 +172,14 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
 
         return transitions
 
-    def predefined_background_color(self, name: object) -> None:
-        """
-        Add named background color to screen
+    # def predefined_background_color(self, name: object) -> None:
+    #     """
+    #     Add named background color to screen
 
-        :param name: <Phoebusgen.colors> Predefined color name
-        """
-        e = self._shared.create_element(self.root, 'background_color')
-        self._shared.create_color_element(e, name, None, None, None, None)
+    #     :param name: <Phoebusgen.colors> Predefined color name
+    #     """
+    #     e = self._shared.create_element(self.root, 'background_color')
+    #     self._shared.create_color_element(e, name, None, None, None, None)
 
     # Phoebus built-in macros that are always available at runtime
     # and should not be reported as user-defined macros.
