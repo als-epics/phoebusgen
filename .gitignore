@@ -25,3 +25,5 @@ local/
 docs
 
 phoebusgen/_version.py
+
+.coverage

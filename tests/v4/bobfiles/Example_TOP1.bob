@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-05-28 16:47:04 by jwlodek-->
+<display version="2.0.0">
+  <name>Example_TOP1</name>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display</name>
+    <macros>
+      <A>2</A>
+      <B>3</B>
+    </macros>
+    <file>Nested/Nested1.bob</file>
+    <x>30</x>
+    <y>40</y>
+  </widget>
+</display>

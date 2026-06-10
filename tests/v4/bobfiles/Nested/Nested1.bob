@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2026-05-05 13:29:16 by jwlodek-->
+<display version="2.0.0">
+  <name>Nested1</name>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>$(A)$(B)</text>
+    <x>100</x>
+    <y>50</y>
+  </widget>
+</display>
