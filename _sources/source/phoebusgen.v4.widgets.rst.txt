@@ -1,0 +1,69 @@
+phoebusgen.v4.widgets package
+=============================
+
+Submodules
+----------
+
+phoebusgen.v4.widgets.controls module
+-------------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.controls
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.graphics module
+-------------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.graphics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.misc module
+---------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.misc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.monitors module
+-------------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.monitors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.plots module
+----------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.plots
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.structure module
+--------------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.structure
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.widgets.widget module
+-----------------------------------
+
+.. automodule:: phoebusgen.v4.widgets.widget
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: phoebusgen.v4.widgets
+   :members:
+   :undoc-members:
+   :show-inheritance:

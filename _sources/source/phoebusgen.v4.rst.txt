@@ -1,0 +1,38 @@
+phoebusgen.v4 package
+=====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   phoebusgen.v4.properties
+   phoebusgen.v4.widgets
+
+Submodules
+----------
+
+phoebusgen.v4.screen module
+---------------------------
+
+.. automodule:: phoebusgen.v4.screen
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+phoebusgen.v4.utils module
+--------------------------
+
+.. automodule:: phoebusgen.v4.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: phoebusgen.v4
+   :members:
+   :undoc-members:
+   :show-inheritance:
