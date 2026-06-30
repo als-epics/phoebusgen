@@ -378,10 +378,10 @@ def test_create_picture_widget():
     assert picture.height == 200
 
     picture.rotation = 90.0
-    picture.stretch_to_fit = True
+    picture.stretch_image = True
 
     assert picture.rotation == 90.0
-    assert picture.stretch_to_fit
+    assert picture.stretch_image
 
     assert picture == """<?xml version="1.0" ?>
 <widget type="picture" version="2.0.0">
@@ -392,7 +392,7 @@ def test_create_picture_widget():
   <height>200</height>
   <file>/path/to/image.png</file>
   <rotation>90.0</rotation>
-  <stretch_to_fit>true</stretch_to_fit>
+  <stretch_image>true</stretch_image>
 </widget>
 """
 
