@@ -132,7 +132,7 @@ class HasLineWidth(PropertyBase):
     line_width: int = 3
 
 class HasStretchToFit(PropertyBase):
-    stretch_to_fit: bool = False
+    stretch_image: bool = False
 
 class HasHorizontal(PropertyBase):
     horizontal: bool = True
