@@ -596,7 +596,7 @@ def test_get_property_type_by_name():
     xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
     assert xy_plot.get_property_type_by_name('x') is int
     assert xy_plot.get_property_type_by_name('background_color') is Color
-    assert xy_plot.get_property_type_by_name('y_axes') == list[Axis]
+    assert xy_plot.get_property_type_by_name('y_axes') == List[Axis]
     assert xy_plot.get_property_type_by_name('x_axis') is Axis
 
     with pytest.raises(ValueError, match="Widget 'XYPlot' has no property 'nonexistent'!"):

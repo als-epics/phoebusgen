@@ -5,6 +5,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, is_dataclass
 from enum import Enum
 from pathlib import Path
+from types import NoneType
 from typing import Callable, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
 
@@ -49,12 +50,6 @@ PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
 @dataclass
 class PropertyInfo:
-    """Class to hold information about a property, including its type and default value.
-
-    :param type: The type of the property
-    :param default_value: The default value of the property
-    """
-
     type: Type[PropertyTypeT]
     default_value: PropertyTypeT
 
@@ -87,7 +82,7 @@ def _unpack_union_type(union_type: Type[PropertyType]) -> Type[PropertyType]:
         raise ValueError(f"Type {union_type} is not a Union type!")
 
     args = get_args(union_type)
-    non_none_args = [arg for arg in args if arg is not type(None)]
+    non_none_args = [arg for arg in args if arg is not NoneType]
     if len(non_none_args) == 0:
         raise ValueError(f"Union type {union_type} has no non-None types!")
     return non_none_args[0]
@@ -105,10 +100,14 @@ def _normalize_property_type(property_type: Type[PropertyType]) -> Type[Property
     args = get_args(property_type)
     if args:
         origin = get_origin(property_type)
+        # On Python < 3.9, builtin types (list, dict, tuple) don't support
+        # subscripting directly; use their typing module equivalents instead.
+        _builtin_to_typing = {list: List, dict: Dict, tuple: Tuple}
+        subscriptable = _builtin_to_typing.get(origin, origin)
         normalized_args = tuple(_normalize_property_type(arg) for arg in args)
         if len(normalized_args) == 1:
-            return origin[normalized_args[0]]
-        return origin[normalized_args]
+            return subscriptable[normalized_args[0]]
+        return subscriptable[normalized_args]
     return property_type
 
 
