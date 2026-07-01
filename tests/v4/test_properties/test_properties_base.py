@@ -656,7 +656,7 @@ def test_unpack_union_type(union_type, expected):
     ObservableList[Axis],
 ])
 def test_unpack_union_type_raises_on_non_union(non_union_type):
-    with pytest.raises(ValueError, match="is not a Union type"):
+    with pytest.raises(ValueError, match='is not a Union type'):
         _unpack_union_type(non_union_type)
 
 

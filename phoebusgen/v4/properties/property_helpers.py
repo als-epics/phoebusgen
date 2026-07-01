@@ -50,7 +50,7 @@ PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 @dataclass
 class PropertyInfo:
     """Class to hold information about a property, including its type and default value.
-    
+
     :param type: The type of the property
     :param default_value: The default value of the property
     """
@@ -95,7 +95,7 @@ def _unpack_union_type(union_type: Type[PropertyType]) -> Type[PropertyType]:
 
 def _normalize_property_type(property_type: Type[PropertyType]) -> Type[PropertyType]:
     """Given a property type, normalize it to a single type for use in the _all_properties dictionary.
-    
+
     :param property_type: The property type to normalize
     :return: The normalized property type
     """
@@ -113,7 +113,7 @@ def _normalize_property_type(property_type: Type[PropertyType]) -> Type[Property
 
 
 def _make_default_prop_val(property_type: Type[PropertyType]) -> PropertyType:
-    """Given a property type, return a default value for it. 
+    """Given a property type, return a default value for it.
 
     For example, for int return 0, for str return '', for ObservableList return an empty list, etc.
 
