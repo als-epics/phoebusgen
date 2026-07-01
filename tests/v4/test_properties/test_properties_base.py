@@ -689,8 +689,8 @@ def test_normalize_property_type(property_type, expected):
     (float, float, 0.0),
     (str, str, ''),
     (bool, bool, False),
-    (ObservableList[Axis], ObservableList, None),
-    (ObservableDict[str, bool], ObservableDict, None),
+    (List[Axis], ObservableList, None),
+    (Dict[str, bool], ObservableDict, None),
     (TraceType, TraceType, list(TraceType)[0]),
     (FontStyle, FontStyle, list(FontStyle)[0]),
 ])

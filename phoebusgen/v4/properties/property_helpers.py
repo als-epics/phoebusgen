@@ -79,6 +79,7 @@ def _unpack_union_type(union_type: Type[PropertyType]) -> Type[PropertyType]:
     :param union_type: The Union type to unpack
     :return: The first non-None type in the union, or None if there are no non-None types
     """
+
     if get_origin(union_type) is not Union:
         raise ValueError(f"Type {union_type} is not a Union type!")
 
