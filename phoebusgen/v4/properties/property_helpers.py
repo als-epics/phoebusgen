@@ -15,7 +15,14 @@ try:
     from typing import get_args, get_origin  # novermin
 except ImportError:
     def get_origin(tp):
-        return getattr(tp, '__origin__', None)
+        origin = getattr(tp, '__origin__', None)
+        if origin == List:
+            return list
+        elif origin == Dict:
+            return dict
+        elif origin == Tuple:
+            return tuple
+        return origin
 
     def get_args(tp):
         return getattr(tp, '__args__', ())
