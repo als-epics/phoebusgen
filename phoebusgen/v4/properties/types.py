@@ -2,7 +2,7 @@ from collections.abc import MutableMapping, MutableSequence
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Generic, List, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Generic, List, Optional, Tuple, TypeVar, Union
 
 Primitive = Union[int, float, str, bool]
 
@@ -74,6 +74,8 @@ class Color(tuple):
                 return False
         return tuple(self) == tuple(other)
 
+
+ColorType = Union[Color, Tuple[int, int, int, int], Tuple[int, int, int], str]
 
 class FontStyle(str, Enum):
     REGULAR = 'REGULAR'
@@ -366,19 +368,19 @@ class Column(ObservableDataclass):
     name: str = ''
     width: int = 100
     editable: bool = True
-    options: ObservableList[str] = field(default_factory=ObservableList[str])
+    options: List[str] = field(default_factory=ObservableList[str])
 
 @dataclass
 class State(ObservableDataclass):
     value: int = 0
     label: str = ''
-    color: Color = field(default_factory=Color)
+    color: ColorType = field(default_factory=Color)
 
 
 @dataclass
 class ROI(ObservableDataclass):
     name: str = ''
-    color: Color = field(default_factory=lambda: Color((0, 255, 0)))
+    color: ColorType = field(default_factory=lambda: Color((0, 255, 0)))
     visible: bool = True
     interactive: bool = True
     x_pv: str = ''
@@ -405,7 +407,7 @@ class Axis(ObservableDataclass):
     show_grid: bool = True
     title_font: Font = field(default_factory=Font)
     scale_font: Font = field(default_factory=Font)
-    color: Color = field(default_factory=Color)
+    color: ColorType = field(default_factory=Color)
 
 @dataclass
 class Trace(ObservableDataclass):
@@ -415,7 +417,7 @@ class Trace(ObservableDataclass):
     error_pv: str = ''
     y_axis: int = 0
     trace_type: TraceType = TraceType.LINE
-    color: Color = field(default_factory=lambda: Color((0, 0, 255)))
+    color: ColorType = field(default_factory=lambda: Color((0, 0, 255)))
     line_width: int = 1
     line_style: LineStyle = LineStyle.SOLID
     point_type: PointType = PointType.NONE
@@ -426,13 +428,13 @@ class Trace(ObservableDataclass):
 class NavTab(ObservableDataclass):
     name: str = ''
     file: Optional[Path] = None
-    macros: ObservableDict = field(default_factory=ObservableDict)
+    macros: Dict[str, str] = field(default_factory=ObservableDict)
     group_name: str = ''
 
 @dataclass
 class Script(ObservableDataclass):
     file: Optional[Path] = None
-    pv_names: ObservableList[str] = field(default_factory=ObservableList[str])
+    pv_names: List[str] = field(default_factory=ObservableList[str])
 
 @dataclass
 class EmbeddedScript(Script):
@@ -447,7 +449,7 @@ class Action(ObservableDataclass):
 class OpenDisplayAction(Action):
     file: Optional[Path] = None
     target: OpenDisplayTarget = OpenDisplayTarget.REPLACE
-    macros: ObservableDict = field(default_factory=ObservableDict)
+    macros: Dict[str, str] = field(default_factory=ObservableDict)
 
 @dataclass
 class WritePvAction(Action):
@@ -485,13 +487,13 @@ class RulePvName(ObservableDataclass):
 class Rule(ObservableDataclass):
     name: str = 'New Rule'
     prop_id: str = 'name'
-    expressions: ObservableList[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
-    pv_names: ObservableDict = field(default_factory=ObservableDict)
+    expressions: List[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
+    pv_names: Dict[str, RulePvName] = field(default_factory=ObservableDict)
     out_exp: bool = False
 
 @dataclass
 class Instance(ObservableDataclass):
-    macros: ObservableDict = field(default_factory=ObservableDict)
+    macros: Dict[str, str] = field(default_factory=ObservableDict)
 
 
 @dataclass
@@ -507,12 +509,12 @@ class LinearMeterColors(ObservableDataclass):
     """
 
     # Default colors taken from Phoebus LinearMeter widget
-    foreground_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
-    background_color: Color = field(default_factory=lambda: Color((0, 0, 0, 0)))
-    needle_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
-    knob_color: Color = field(default_factory=lambda: Color((0, 0, 0)))
-    normal_status_color: Color = field(default_factory=lambda: Color((194, 198, 195)))
-    minor_warning_color: Color = field(default_factory=lambda: Color((242, 148, 141)))
-    major_warning_color: Color = field(default_factory=lambda: Color((240, 60, 46)))
+    foreground_color: ColorType = field(default_factory=lambda: Color((0, 0, 0)))
+    background_color: ColorType = field(default_factory=lambda: Color((0, 0, 0, 0)))
+    needle_color: ColorType = field(default_factory=lambda: Color((0, 0, 0)))
+    knob_color: ColorType = field(default_factory=lambda: Color((0, 0, 0)))
+    normal_status_color: ColorType = field(default_factory=lambda: Color((194, 198, 195)))
+    minor_warning_color: ColorType = field(default_factory=lambda: Color((242, 148, 141)))
+    major_warning_color: ColorType = field(default_factory=lambda: Color((240, 60, 46)))
     is_gradient_enabled: bool = False
     is_highlighting_of_active_regions_enabled: bool = True

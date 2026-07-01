@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Union
+from typing import List, Optional, Union
 from xml.etree.ElementTree import Element, SubElement
 
 from phoebusgen.v4.properties.behavior import HasAlarmBorder
@@ -21,7 +21,6 @@ from phoebusgen.v4.properties.display import (
 )
 from phoebusgen.v4.properties.misc import HasBorder
 from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.properties.types import Color, ObservableList
 from phoebusgen.v4.properties.widget import (
     HasFile,
     HasInstances,
@@ -154,7 +153,7 @@ class Tab(HasWidgets, HasName):
 class HasTabs(PropertyBase):
     """Interface for widgets that contain tabs that contain other widgets"""
 
-    tabs: ObservableList[Tab]
+    tabs: List[Tab]
 
 
 class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, HasBackgroundColor):

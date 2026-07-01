@@ -511,9 +511,9 @@ def test_group_remove_widget():
     lbl1 = Label(name='Label1', text='A', x=0, y=0, width=100, height=20)
     lbl2 = Label(name='Label2', text='B', x=0, y=30, width=100, height=20)
     lbl3 = Label(name='Label3', text='C', x=0, y=60, width=100, height=20)
-    group.add_widget(lbl1)
-    group.add_widget(lbl2)
-    group.add_widget(lbl3)
+    group.widgets.append(lbl1)
+    group.widgets.append(lbl2)
+    group.widgets.append(lbl3)
 
     assert len(group.widgets) == 3
 

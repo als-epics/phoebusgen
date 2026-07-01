@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import List, Optional, Union
 
 from .property_helpers import PropertyBase
 from .types import (
@@ -7,6 +8,7 @@ from .types import (
     ButtonMode,
     Color,
     ColorMode,
+    ColorType,
     InterpolationType,
     ObservableList,
     Rule,
@@ -17,9 +19,9 @@ from .types import (
 
 
 class HasActionsRulesAndScripts(PropertyBase):
-    actions: ObservableList[Action]
-    rules: ObservableList[Rule]
-    scripts: ObservableList[Script]
+    actions: List[Action]
+    rules: List[Rule]
+    scripts: List[Script]
 
 class HasToolTip(PropertyBase):
     tooltip: str
@@ -70,7 +72,7 @@ class HasEditable(PropertyBase):
     editable: bool
 
 class HasFallbackSymbol(PropertyBase):
-    fallback_symbol: Path
+    fallback_symbol: Optional[Union[Path, str]] = None
 
 class HasPreserveRatio(PropertyBase):
     preserve_ratio: bool = True
@@ -84,10 +86,10 @@ class HasArrayIndex(PropertyBase):
 
 class HasFallback(PropertyBase):
     fallback_label: str = 'Err'
-    fallback_color: Color = Color((255, 0, 255))
+    fallback_color: ColorType = Color((255, 0, 255))
 
 class HasStates(PropertyBase):
-    states: ObservableList[State] = ObservableList([State(label='State 1', color=Color((60, 100, 60))), State(value=1, label='State 2', color=Color((60, 255, 60)))])
+    states: List[State] = ObservableList([State(label='State 1', color=Color((60, 100, 60))), State(value=1, label='State 2', color=Color((60, 255, 60)))])
 
 class HasLogScale(PropertyBase):
     log_scale: bool
@@ -106,10 +108,10 @@ class HasColorMode(PropertyBase):
     color_mode: ColorMode = ColorMode.TYPE_MONO
 
 class HasItems(PropertyBase):
-    items: ObservableList[str]
+    items: List[str]
 
 class HasTraces(PropertyBase):
-    traces: ObservableList[Trace]
+    traces: List[Trace]
 
 class HasXAxis(PropertyBase):
     x_axis: Axis
@@ -118,7 +120,7 @@ class HasYAxis(PropertyBase):
     y_axis: Axis
 
 class HasYAxes(PropertyBase):
-    y_axes: ObservableList[Axis]
+    y_axes: List[Axis]
 
 class HasAutoScale(PropertyBase):
     auto_scale: bool = True

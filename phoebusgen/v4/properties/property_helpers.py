@@ -15,7 +15,14 @@ try:
     from typing import get_args, get_origin  # novermin
 except ImportError:
     def get_origin(tp):
-        return getattr(tp, '__origin__', None)
+        origin = getattr(tp, '__origin__', None)
+        if origin == List:
+            return list
+        elif origin == Dict:
+            return dict
+        elif origin == Tuple:
+            return tuple
+        return origin
 
     def get_args(tp):
         return getattr(tp, '__args__', ())
@@ -47,19 +54,93 @@ PropertyType = Union[
 ]
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
 
+NoneType = type(None)  # Used for checking if a type is NoneType (e.g. for Optional[X] which is Union[X, NoneType])
+
 @dataclass
 class PropertyInfo:
     type: Type[PropertyTypeT]
     default_value: PropertyTypeT
 
+
 def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
+    """Create an XML element with the given property name and optional value.
+
+    :param prop_name: The name of the property
+    :param value: The optional value of the property
+    :return: An XML element with the given property name and value
+    """
+
     element = Element(prop_name)
     if value is not None:
         element.text = str(value)
     return element
 
+
+def _unpack_union_type(union_type: Type[PropertyType]) -> Type[PropertyType]:
+    """Given a Union type, return the first non-None type in the union.
+
+    For example, given Union[int, None], this function will return int.
+    If there are multiple non-None types, the first one is returned.
+    If there are no non-None types, None is returned.
+
+    :param union_type: The Union type to unpack
+    :return: The first non-None type in the union, or None if there are no non-None types
+    """
+
+    if get_origin(union_type) is not Union:
+        raise ValueError(f"Type {union_type} is not a Union type!")
+
+    args = get_args(union_type)
+    non_none_args = [arg for arg in args if arg is not NoneType]
+    if len(non_none_args) == 0:
+        raise ValueError(f"Union type {union_type} has no non-None types!")
+    return non_none_args[0]
+
+
+def _normalize_property_type(property_type: Type[PropertyType]) -> Type[PropertyType]:
+    """Given a property type, normalize it to a single type for use in the _all_properties dictionary.
+
+    :param property_type: The property type to normalize
+    :return: The normalized property type
+    """
+
+    if get_origin(property_type) is Union:
+        return _normalize_property_type(_unpack_union_type(property_type))
+    args = get_args(property_type)
+    if args:
+        origin = get_origin(property_type)
+        # On Python < 3.9, builtin types (list, dict, tuple) don't support
+        # subscripting directly; use their typing module equivalents instead.
+        _builtin_to_typing = {list: List, dict: Dict, tuple: Tuple}
+        subscriptable = _builtin_to_typing.get(origin, origin)
+        normalized_args = tuple(_normalize_property_type(arg) for arg in args)
+        if len(normalized_args) == 1:
+            return subscriptable[normalized_args[0]]
+        return subscriptable[normalized_args]
+    return property_type
+
+
+def _make_default_prop_val(property_type: Type[PropertyType]) -> PropertyType:
+    """Given a property type, return a default value for it.
+
+    For example, for int return 0, for str return '', for ObservableList return an empty list, etc.
+
+    :param property_type: The type of the property to create a default value for
+    :return: A default value for the property type
+    """
+
+    if get_origin(property_type) is list:
+        return ObservableList()
+    elif get_origin(property_type) is dict:
+        return ObservableDict()
+    elif isinstance(property_type, type) and issubclass(property_type, Enum):
+        return list(property_type)[0]
+    else:
+        return property_type()  # Call the type to get a default value (e.g. int() -> 0, str() -> '', etc.)
+
+
 class PropertyMetaclass(type):
-    def __new__(mcs, name, bases, attrs):
+    def __new__(mcs, name: str, bases: List[Type], attrs: Dict[str, object]) -> Type:
 
         # Keep a running dictionary of all properties defined by all property mixin classes,
         # so that we can look up property types and default values by name at runtime for any
@@ -72,13 +153,12 @@ class PropertyMetaclass(type):
         def getter(self: 'PropertyBase', prop_name: str, property_type: Type[PropertyType]) -> PropertyType:
             tag_name = self._get_property_tag_name(prop_name)
             element = self.root.find(tag_name) if tag_name is not None else self.root
-
             if element is not None:
                 # Get the appropriate getter function for the property type
                 typed_getter = self._find_getter_by_type(property_type)
 
                 # For lists, we pass the item type instead
-                if get_origin(property_type) is ObservableList:
+                if get_origin(property_type) is list:
                     property_type = get_args(property_type)[0]
 
                 # Based on the function signature, dynamically create a list of arguments
@@ -113,7 +193,7 @@ class PropertyMetaclass(type):
             # Remove existing property element if found
             if tag_name is not None and self.root.find(tag_name) is not None:
                 self.root.remove(self.root.find(tag_name))
-            elif tag_name is None and get_origin(property_type) is ObservableList:
+            elif tag_name is None and get_origin(property_type) is list:
                 # For list properties stored as direct children (tag_name=None),
                 # remove all existing child elements with the item tag name
                 item_tag = self._get_list_item_tag_name(prop_name)
@@ -133,28 +213,18 @@ class PropertyMetaclass(type):
         if name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases):
             all_properties[cls] = {}
             for prop_name, annotation in cls.__annotations__.items():
-                base_prop_type = annotation
 
                 # Unwrap Optional[X] (Union[X, None]) to X for property type resolution
-                unwrapped = annotation
-                if get_origin(annotation) is Union:
-                    args = get_args(annotation)
-                    non_none_args = [a for a in args if a is not type(None)]
-                    unwrapped = non_none_args[0]
+                property_type = _normalize_property_type(annotation)
+                default_value = attrs.get(prop_name, _make_default_prop_val(property_type))
 
-                if hasattr(unwrapped, '__origin__'):
-                    property_type = unwrapped.__origin__
-                else:
-                    property_type = unwrapped
-                default_value = attrs.get(prop_name, property_type() if not issubclass(property_type, Enum) else list(property_type)[0])
-
-                def prop_getter(self, prop_name=prop_name, prop_type=annotation):
+                def prop_getter(self, prop_name=prop_name, prop_type=property_type):
                     return getter(self, prop_name, prop_type)
-                def prop_setter(self, value, prop_name=prop_name, prop_type=annotation):
+                def prop_setter(self, value, prop_name=prop_name, prop_type=property_type):
                     return setter(self, prop_name, prop_type, value)
 
                 setattr(cls, prop_name, property(prop_getter, prop_setter))
-                all_properties[cls][prop_name] = PropertyInfo(type=base_prop_type, default_value=default_value)
+                all_properties[cls][prop_name] = PropertyInfo(type=property_type, default_value=default_value)
 
 
         # Collect property names and types from base classes to keep a running dictionary
@@ -230,7 +300,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         """
 
         property_type = cls.get_property_type_by_name(property_name)
-        if tag_name is None and get_origin(property_type) not in (ObservableList, ObservableDict):
+        if tag_name is None and get_origin(property_type) not in (list, dict):
             raise ValueError(f"Only list or dict properties can have tag_name set to None, but property '{property_name}' is of type '{property_type}'!")
 
         # Ensure we have a per-class dict rather than mutating a parent class's dict
@@ -338,18 +408,20 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if base_prop_type is None:
             raise ValueError(f"Property type for prop_id '{prop_id}' not found in all_properties dictionary!")
 
+        base_prop_type = _normalize_property_type(base_prop_type)
+
         def get_nested_property_type(prop_id: str, base_type: type):
-            if get_origin(base_type) is ObservableList:
+            if get_origin(base_type) is list:
                 return get_nested_property_type(prop_id.split(']', 1)[1], get_args(base_type)[0])
-            elif get_origin(base_type) is ObservableDict:
+            elif get_origin(base_type) is dict:
                 return get_nested_property_type(prop_id.split('.', 1)[1], get_args(base_type)[1])
-            elif issubclass(base_type, ObservableDataclass):
+            elif is_dataclass(base_type):
                 dataclass_field_name = prop_id.split('.')[1]
                 if '[' in dataclass_field_name:
                     dataclass_field_name = dataclass_field_name.split('[')[0]
                 dataclass_fields = base_type.fields()
                 if dataclass_field_name in dataclass_fields:
-                    field_type = dataclass_fields[dataclass_field_name].type
+                    field_type = _normalize_property_type(dataclass_fields[dataclass_field_name].type)
                     return get_nested_property_type(prop_id.split('.', 1)[1], field_type)
             else:
                 return base_type
@@ -391,41 +463,26 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :param prefix: 'get' to find a getter, 'set' to find a setter
         :return: The getter or setter function for the property type
         """
-        # Unwrap Optional[X] (Union[X, None]) to X
-        if get_origin(property_type) is Union:
-            args = get_args(property_type)
-            non_none_args = [a for a in args if a is not type(None)]
-            if len(non_none_args) == 1:
-                property_type = non_none_args[0]
 
+        base_property_type = property_type
         if hasattr(property_type, '__origin__'):
-            property_type = property_type.__origin__
+            base_property_type = property_type.__origin__
 
-        property_type_str = property_type.__name__.lower()
+        property_type_str = ''.join(['_' + c.lower() if c.isupper() and i != 0 else c.lower() for i, c in enumerate(base_property_type.__name__)]).lstrip('_')
 
         method_name = f'_{prefix}_{property_type_str}_property'
         if hasattr(cls, method_name):
             return getattr(cls, method_name)
-        elif issubclass(property_type, PhoebusElement):
-            return getattr(cls, f'_{prefix}_element_property')
-        elif property_type is tuple:
-            return getattr(cls, f'_{prefix}_color_property')
         elif issubclass(property_type, Action):
             return getattr(cls, f'_{prefix}_action_property')
-        elif property_type is Rule:
-            return getattr(cls, f'_{prefix}_rule_property')
         elif property_type is RuleExpression:
             return getattr(cls, f'_{prefix}_rule_expression_property')
-        elif property_type is ObservableList:
-            return getattr(cls, f'_{prefix}_list_property')
-        elif property_type is ObservableDict:
-            return getattr(cls, f'_{prefix}_dict_property')
-        elif issubclass(property_type, Enum):
+        elif issubclass(property_type, PhoebusElement):
+            return getattr(cls, f'_{prefix}_element_property')
+        elif isinstance(property_type, type) and issubclass(property_type, Enum):
             return getattr(cls, f'_{prefix}_enum_property')
         elif is_dataclass(property_type):
             return getattr(cls, f'_{prefix}_dataclass_property')
-        elif property_type is Path:
-            return getattr(cls, f'_{prefix}_path_property')
         elif property_type in (int, float, str, bool):
             return getattr(cls, f'_{prefix}_primitive_property')
 
@@ -625,23 +682,15 @@ class PropertyBase(metaclass=PropertyMetaclass):
         field_values = {}
         for field in property_type.fields():
             field_elem = element.find(field)
-            field_type = property_type.fields()[field].type
-
-            # Unwrap Optional[X] to get the inner type for parsing
-            inner_type = field_type
-            if get_origin(field_type) is Union:
-                args = get_args(field_type)
-                non_none_args = [a for a in args if a is not type(None)]
-                if len(non_none_args) == 1:
-                    inner_type = non_none_args[0]
+            field_type = _normalize_property_type(property_type.fields()[field].type)
 
             if field_elem is None and field in element.attrib:
-                field_values[field] = inner_type(element.attrib[field])
-            elif field_elem is not None and (field_elem.text is not None or inner_type not in (int, float, str, bool, Path)):
-                typed_getter = cls._find_getter_by_type(inner_type)
+                field_values[field] = field_type(element.attrib[field])
+            elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool, Path)):
+                typed_getter = cls._find_getter_by_type(field_type)
                 getter_args = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
-                    getter_args.append(inner_type)
+                    getter_args.append(field_type)
                 field_values[field] = typed_getter(*getter_args)
 
         return property_type(**field_values)
@@ -662,17 +711,10 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         for field in value.fields():
             field_value = getattr(value, field)
-            field_type = property_cls.fields()[field].type
+            field_type = _normalize_property_type(property_cls.fields()[field].type)
+            valid = cls._is_set_value_valid(field_value, field_type)
 
-            # Determine if this is an Optional[Path] field that should be written even when None
-            is_optional_path = False
-            if get_origin(field_type) is Union:
-                args = get_args(field_type)
-                non_none_args = [a for a in args if a is not type(None)]
-                if len(non_none_args) == 1 and non_none_args[0] is Path:
-                    is_optional_path = True
-
-            if field_value is not None or is_optional_path:
+            if valid:
                 if field in value._attrib_fields:
                     if field_type in (int, float, str, bool):
                         element.attrib[field] = str(field_value)
@@ -684,6 +726,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
                     typed_setter = cls._find_setter_by_type(field_type)
                     sub_elem = typed_setter(field, field_value)
                     element.append(sub_elem)
+            else:
+                raise TypeError(f"Value {field_value} is of invalid type for field '{field}' of dataclass '{property_cls.__name__}': must be of type {field_type}")
         return element
 
 
@@ -962,35 +1006,28 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: True if the value is valid for the expected type, False otherwise
         """
 
-        # Unwrap Optional[X] and allow None
-        is_optional = False
-        if get_origin(expected_type) is Union:
-            args = get_args(expected_type)
-            non_none_args = [a for a in args if a is not type(None)]
-            if len(non_none_args) < len(args):
-                is_optional = True
-            expected_type = non_none_args[0]
-
-        if is_optional and value is None:
-            return True
-
         def _validate_element(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
             if expected_type is Color:
                 return Color.is_color(value)
-            elif expected_type is ObservableDict:
-                return isinstance(value, Mapping)
             elif expected_type is float:
                 return isinstance(value, (float, int))
             elif expected_type is Path:
-                return isinstance(value, (Path, str))
+                return isinstance(value, (Path, str, type(None)))
             else:
                 return isinstance(value, expected_type)
 
-        if get_origin(expected_type) is ObservableList:
+        if get_origin(expected_type) is list:
             expected_type = get_args(expected_type)[0]
             if not isinstance(value, Sequence):
                 return False
             else:
                 return all(_validate_element(v, expected_type) for v in value)
+
+        if get_origin(expected_type) is dict:
+            key_type, val_type = get_args(expected_type)
+            if not isinstance(value, Mapping):
+                return False
+            else:
+                return all(isinstance(k, key_type) and _validate_element(v, val_type) for k, v in value.items())
 
         return _validate_element(value, expected_type)
