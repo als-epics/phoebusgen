@@ -2,7 +2,7 @@ from collections.abc import MutableMapping, MutableSequence
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, Generic, List, Optional, TypeVar, Union
+from typing import Any, Callable, Dict, Generic, List, Optional, Tuple, TypeVar, Union
 
 Primitive = Union[int, float, str, bool]
 
@@ -75,7 +75,7 @@ class Color(tuple):
         return tuple(self) == tuple(other)
 
 
-ColorType = Union[Color, tuple[int, int, int, int], tuple[int, int, int], str]
+ColorType = Union[Color, Tuple[int, int, int, int], Tuple[int, int, int], str]
 
 class FontStyle(str, Enum):
     REGULAR = 'REGULAR'
