@@ -1,5 +1,6 @@
 from enum import Enum
 from pathlib import Path
+from typing import Dict, List, Optional, Union
 from xml.etree.ElementTree import Element, SubElement, fromstring
 
 import pytest
@@ -22,12 +23,19 @@ from phoebusgen.v4.properties.display import (
 )
 from phoebusgen.v4.properties.misc import HasMarkers
 from phoebusgen.v4.properties.position import HasPosition
-from phoebusgen.v4.properties.property_helpers import PropertyBase, _create_element
+from phoebusgen.v4.properties.property_helpers import (
+    PropertyBase,
+    _create_element,
+    _make_default_prop_val,
+    _normalize_property_type,
+    _unpack_union_type,
+)
 from phoebusgen.v4.properties.types import (
     Action,
     ArrowTypes,
     Axis,
     Color,
+    ColorType,
     FileComponent,
     Font,
     FontStyle,
@@ -71,8 +79,8 @@ def test_create_element():
     (str, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
     (float, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
     (bool, PropertyBase._get_primitive_property, PropertyBase._set_primitive_property),
-    (ObservableDict, PropertyBase._get_dict_property, PropertyBase._set_dict_property),
-    (ObservableList[int], PropertyBase._get_list_property, PropertyBase._set_list_property),
+    (Dict[str, str], PropertyBase._get_dict_property, PropertyBase._set_dict_property),
+    (List[int], PropertyBase._get_list_property, PropertyBase._set_list_property),
     (FileComponent, PropertyBase._get_enum_property, PropertyBase._set_enum_property),
     (Color, PropertyBase._get_color_property, PropertyBase._set_color_property),
     (Font, PropertyBase._get_font_property, PropertyBase._set_font_property),
@@ -99,16 +107,18 @@ def test_find_getter_setter_by_type(prop_type, expected_getter, expected_setter)
     ((255, 255, 255), Color, True),
     ('#FFAABB', Color, True),
     (Font(), Font, True),
-    (ObservableDict(), ObservableDict, True),
-    ({}, ObservableDict, True),
-    (ObservableList[int](), ObservableList[int], True),
-    ([], ObservableList[str], True),
-    ([1, 'str'], ObservableList[int], False),
+    (ObservableDict(), Dict[str, str], True),
+    ({}, Dict[str, str], True),
+    ({'key': 'value'}, Dict[str, str], True),
+    ({'key': 123}, Dict[str, str], False),
+    (ObservableList(), List[int], True),
+    ([], List[str], True),
+    ([1, 'str'], List[int], False),
     (FileComponent.DIRECTORY, FileComponent, True),
     ('not-a-color', Color, False),
     (123, str, False),
-    ([], ObservableDict, False),
-    (['item1', 'item2', 'item3'], ObservableList[str], True),
+    ([], Dict[str, str], False),
+    (['item1', 'item2', 'item3'], List[str], True),
 ])
 def test_is_set_value_valid(value, expected_type, expected_valid):
     is_valid = PropertyBase._is_set_value_valid(value, expected_type)
@@ -586,7 +596,7 @@ def test_get_property_type_by_name():
     xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
     assert xy_plot.get_property_type_by_name('x') is int
     assert xy_plot.get_property_type_by_name('background_color') is Color
-    assert xy_plot.get_property_type_by_name('y_axes') == ObservableList[Axis]
+    assert xy_plot.get_property_type_by_name('y_axes') == list[Axis]
     assert xy_plot.get_property_type_by_name('x_axis') is Axis
 
     with pytest.raises(ValueError, match="Widget 'XYPlot' has no property 'nonexistent'!"):
@@ -622,3 +632,70 @@ def test_primitive_property_with_no_value_in_xml():
 """
     label = Label.from_element(fromstring(xml_string))
     assert label.text == ''
+
+
+# --- Tests for _unpack_union_type ---
+
+@pytest.mark.parametrize('union_type, expected', [
+    (Optional[int], int),
+    (Optional[str], str),
+    (Optional[Color], Color),
+    (Union[int, None], int),
+    (Union[str, None], str),
+    (Union[float, int, None], float),
+    (Union[ObservableList[Axis], None], ObservableList[Axis]),
+])
+def test_unpack_union_type(union_type, expected):
+    assert _unpack_union_type(union_type) == expected
+
+
+@pytest.mark.parametrize('non_union_type', [
+    int,
+    str,
+    Color,
+    ObservableList[Axis],
+])
+def test_unpack_union_type_raises_on_non_union(non_union_type):
+    with pytest.raises(ValueError, match="is not a Union type"):
+        _unpack_union_type(non_union_type)
+
+
+# --- Tests for _normalize_property_type ---
+
+@pytest.mark.parametrize('property_type, expected', [
+    (int, int),
+    (str, str),
+    (float, float),
+    (bool, bool),
+    (Color, Color),
+    (ColorType, Color),
+    (Optional[int], int),
+    (Optional[str], str),
+    (Optional[Color], Color),
+    (Union[ObservableList[Axis], None], ObservableList[Axis]),
+    (ObservableList[Axis], ObservableList[Axis]),
+    (Optional[ObservableList[Axis]], ObservableList[Axis]),
+    (Union[ObservableDict[str, bool], None], ObservableDict[str, bool]),
+    (Optional[Union[Path, str]], Path),
+])
+def test_normalize_property_type(property_type, expected):
+    assert _normalize_property_type(property_type) == expected
+
+
+# --- Tests for _make_default_prop_val ---
+
+@pytest.mark.parametrize('property_type, expected_type, expected_value', [
+    (int, int, 0),
+    (float, float, 0.0),
+    (str, str, ''),
+    (bool, bool, False),
+    (ObservableList[Axis], ObservableList, None),
+    (ObservableDict[str, bool], ObservableDict, None),
+    (TraceType, TraceType, list(TraceType)[0]),
+    (FontStyle, FontStyle, list(FontStyle)[0]),
+])
+def test_make_default_prop_val(property_type, expected_type, expected_value):
+    result = _make_default_prop_val(property_type)
+    assert isinstance(result, expected_type)
+    if expected_value is not None:
+        assert result == expected_value

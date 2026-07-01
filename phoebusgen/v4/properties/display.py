@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Union
 
 from .property_helpers import PropertyBase
 from .types import (
@@ -7,6 +7,7 @@ from .types import (
     Color,
     ColorBar,
     ColorMap,
+    ColorType,
     Column,
     Font,
     Format,
@@ -46,8 +47,8 @@ class HasPointSize(PropertyBase):
     point_size: int
 
 class HasOnOffImages(PropertyBase):
-    off_image: Optional[Path] = None
-    on_image: Optional[Path] = None
+    off_image: Optional[Union[Path, str]] = None
+    on_image: Optional[Union[Path, str]] = None
 
 class HasOnOffLabels(PropertyBase):
     on_label: str = ''
@@ -80,17 +81,17 @@ class HasRotationStep(PropertyBase):
     rotation_step: RotationStep
 
 class HasLineColor(PropertyBase):
-    line_color: Color
+    line_color: ColorType
 
 class HasBackgroundColor(PropertyBase):
-    background_color: Color = Color((255, 255, 255))
+    background_color: ColorType = Color((255, 255, 255))
 
 class HasForegroundColor(PropertyBase):
-    foreground_color: Color = Color((0, 0, 0))
+    foreground_color: ColorType = Color((0, 0, 0))
 
 class HasOnOffColors(PropertyBase):
-    off_color: Color = Color((60, 100, 60))
-    on_color: Color = Color((60, 255, 60))
+    off_color: ColorType = Color((60, 100, 60))
+    on_color: ColorType = Color((60, 255, 60))
 
 class HasText(PropertyBase):
     text: str = ''
@@ -111,7 +112,7 @@ class HasLabelsFromPV(PropertyBase):
     labels_from_pv: bool = False
 
 class HasLabels(PropertyBase):
-    labels: ObservableList[str]
+    labels: List[str]
 
 class HasErrPV(PropertyBase):
     err_pv: str
@@ -174,7 +175,7 @@ class HasNumBits(PropertyBase):
     num_bits: int = 8
 
 class HasFillColor(PropertyBase):
-    fill_color: Color = Color((60, 255, 60))
+    fill_color: ColorType = Color((60, 255, 60))
 
 class HasShowValue(PropertyBase):
     show_value: bool = True
@@ -186,16 +187,16 @@ class HasShowIndex(PropertyBase):
     show_index: bool
 
 class HasDisconnectOverlayColor(PropertyBase):
-    disconnect_overlay_color: Color
+    disconnect_overlay_color: ColorType
 
 class HasColumns(PropertyBase):
-    columns: ObservableList[Column] = ObservableList([Column()])
+    columns: List[Column] = ObservableList([Column()])
 
 class HasScaleVisible(PropertyBase):
     scale_visible: bool
 
 class HasEmptyColor(PropertyBase):
-    empty_color: Color
+    empty_color: ColorType
 
 class HasGroupName(PropertyBase):
     group_name: str
@@ -244,7 +245,7 @@ class HasOpacity(PropertyBase):
     opacity: float = 1.0
 
 class HasPoints(PropertyBase):
-    points: ObservableList[Point]
+    points: List[Point]
 
 class HasLinearMeterColors(PropertyBase):
     colors: LinearMeterColors
@@ -268,6 +269,6 @@ class HasEnableGradient(PropertyBase):
     is_gradient_enabled: bool = False
 
 class HasStatusColors(PropertyBase):
-    normal_status_color: Color = Color((194, 198, 195))
-    minor_warning_color: Color = Color((242, 148, 141))
-    major_warning_color: Color = Color((240, 60, 46))
+    normal_status_color: ColorType = Color((194, 198, 195))
+    minor_warning_color: ColorType = Color((242, 148, 141))
+    major_warning_color: ColorType = Color((240, 60, 46))

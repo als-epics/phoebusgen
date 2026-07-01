@@ -220,7 +220,7 @@ class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasAct
 
 class HasWidgets(PhoebusElement, PropertyBase):
 
-    widgets: ObservableList[Widget]
+    widgets: List[Widget]
 
     def __init__(self, widgets_tag_name: Optional[str] = None) -> None:
         """Interface for widgets that contain other widgets.
