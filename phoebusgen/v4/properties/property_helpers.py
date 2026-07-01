@@ -5,7 +5,6 @@ from collections.abc import Mapping
 from dataclasses import dataclass, is_dataclass
 from enum import Enum
 from pathlib import Path
-from types import NoneType
 from typing import Callable, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
 
@@ -47,6 +46,8 @@ PropertyType = Union[
     RuleExpression,
 ]
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
+
+NoneType = type(None)  # Used for checking if a type is NoneType (e.g. for Optional[X] which is Union[X, NoneType])
 
 @dataclass
 class PropertyInfo:
