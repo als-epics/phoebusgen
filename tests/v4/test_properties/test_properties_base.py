@@ -675,7 +675,7 @@ def test_unpack_union_type_raises_on_non_union(non_union_type):
     (Union[ObservableList[Axis], None], ObservableList[Axis]),
     (ObservableList[Axis], ObservableList[Axis]),
     (Optional[ObservableList[Axis]], ObservableList[Axis]),
-    (Union[Dict[str, bool], None], ObservableDict[str, bool]),
+    (Union[Dict[str, bool], None], Dict[str, bool]),
     (Optional[Union[Path, str]], Path),
 ])
 def test_normalize_property_type(property_type, expected):
