@@ -1539,6 +1539,7 @@
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.horizontal_alignment_center"><code class="docutils literal notranslate"><span class="pre">TextUpdate.horizontal_alignment_center()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.horizontal_alignment_left"><code class="docutils literal notranslate"><span class="pre">TextUpdate.horizontal_alignment_left()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.horizontal_alignment_right"><code class="docutils literal notranslate"><span class="pre">TextUpdate.horizontal_alignment_right()</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.interactive"><code class="docutils literal notranslate"><span class="pre">TextUpdate.interactive()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.name"><code class="docutils literal notranslate"><span class="pre">TextUpdate.name()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.precision"><code class="docutils literal notranslate"><span class="pre">TextUpdate.precision()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.widget.widgets.TextUpdate.predefined_background_color"><code class="docutils literal notranslate"><span class="pre">TextUpdate.predefined_background_color()</span></code></a></li>
@@ -21542,7 +21543,7 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="py class">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.TextUpdate">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">phoebusgen.widget.widgets.</span></span><span class="sig-name descname"><span class="pre">TextUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pv_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.TextUpdate" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Format</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Precision</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowUnits</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_HorizontalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_VerticalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_WrapWords</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RotationStep</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Border</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Widget</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_PVName</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Font</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ForegroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_BackgroundColor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Transparent</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Format</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Precision</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_ShowUnits</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_HorizontalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_VerticalAlignment</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_WrapWords</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_RotationStep</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Border</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_AlarmBorder</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">_Interactive</span></code></p>
 <p>TextUpdate Phoebus Widget</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="phoebusgen.widget.widgets.TextUpdate.alarm_border">
@@ -21849,6 +21850,20 @@ From: <a class="reference external" href="https://pymotw.com/3/xml.etree.Element
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="phoebusgen.widget.widgets.TextUpdate.interactive">
+<span class="sig-name descname"><span class="pre">interactive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#phoebusgen.widget.widgets.TextUpdate.interactive" title="Link to this definition">¶</a></dt>
+<dd><p>Set marker as interactive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Interactive?</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
