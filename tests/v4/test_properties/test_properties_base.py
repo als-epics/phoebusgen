@@ -128,6 +128,7 @@ def test_is_set_value_valid(value, expected_type, expected_valid):
 @pytest.mark.parametrize('text, prop_type, expected_value',
 [
     ('255', int, 255),
+    ('16.0', int, 16),
     ('3.14', float, 3.14),
     ('true', bool, True),
     ('false', bool, False),
@@ -139,6 +140,18 @@ def test_get_primitive_property(text, prop_type, expected_value):
     value = PropertyBase._get_primitive_property(elem, prop_type)
     assert value == expected_value
 
+@pytest.mark.parametrize('text, prop_type, expected_err, expected_msg', [
+    ('', int, ValueError, "could not convert '' to int"),
+    ('abc', int, ValueError, "could not convert 'abc' to int"),
+    ('3.14', int, ValueError, "could not convert '3.14' to int"),
+    (None, int, ValueError, "could not convert '' to int"),
+    ('test', bool, ValueError, "XML element for bool property has invalid text value 'test'"),
+])
+def test_get_primitive_property_error_conditions(text, prop_type, expected_err, expected_msg):
+    elem = Element('widget')
+    elem.text = text
+    with pytest.raises(expected_err, match=expected_msg):
+        PropertyBase._get_primitive_property(elem, prop_type)
 
 @pytest.mark.parametrize('value, prop_type, expected_text',
 [
@@ -227,18 +240,24 @@ def test_validate_color_value(color, expected_valid):
     assert Color.is_color(color) == expected_valid
 
 
-def test_get_font_property():
+@pytest.mark.parametrize('size_str, expected_size', [
+    ('12', 12),
+    ('16.0', 16),
+])
+def test_get_font_property(size_str, expected_size):
     elem = Element('widget')
     font_elem = SubElement(elem, 'font')
     font_elem.attrib['family'] = 'Arial'
-    font_elem.attrib['size'] = '12'
+    font_elem.attrib['size'] = size_str
     font_elem.attrib['style'] = 'BOLD'
 
     font = PropertyBase._get_dataclass_property(font_elem, Font)
     assert isinstance(font, Font)
     assert font.family == 'Arial'
-    assert font.size == 12
+    assert font.size == expected_size
+    assert isinstance(font.size, int)
     assert font.style == FontStyle.BOLD
+    assert isinstance(font.size, int)
 
 
 def test_set_font_property():

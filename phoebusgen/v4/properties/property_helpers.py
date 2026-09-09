@@ -40,6 +40,7 @@ from .types import (
 )
 
 Primitive = Union[int, float, str, bool]
+PrimitiveT = TypeVar('PrimitiveT', bound=Primitive)
 PropertyType = Union[
     int, float, str, bool,
     Tuple,
@@ -138,6 +139,22 @@ def _make_default_prop_val(property_type: Type[PropertyType]) -> PropertyType:
     else:
         return property_type()  # Call the type to get a default value (e.g. int() -> 0, str() -> '', etc.)
 
+
+def _str_to_primitive(value: str, property_type: Type[PrimitiveT]) -> PrimitiveT:
+    """Convert a string value to a primitive type (int, float, str, bool) based on the given property type."""
+
+    if property_type is bool:
+        if value not in ('true', 'false'):
+            raise ValueError(f"XML element for bool property has invalid text value '{value}'!")
+        return value.lower() == 'true'
+    try:
+        if property_type is int:
+            if float(value).is_integer():
+                return int(float(value))
+            raise ValueError(f"XML element for int property has non-integer text value '{value}'!")
+        return property_type(value)
+    except ValueError as e:
+        raise ValueError(f"could not convert '{value}' to {property_type.__name__}") from e
 
 class PropertyMetaclass(type):
     def __new__(mcs, name: str, bases: List[Type], attrs: Dict[str, object]) -> Type:
@@ -498,15 +515,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The parsed primitive value
         """
 
-        if element.text is None and property_type is not str:
-            raise ValueError(f"XML element for primitive property '{element.tag}' has no text value!")
-
-        if property_type is bool:
-            return element.text.lower() == 'true'
-        elif property_type is str and element.text is None:
-            return ''
-        else:
-            return property_type(element.text)
+        return _str_to_primitive(element.text or '', property_type)
 
 
     @classmethod
@@ -685,7 +694,9 @@ class PropertyBase(metaclass=PropertyMetaclass):
             field_type = _normalize_property_type(property_type.fields()[field].type)
 
             if field_elem is None and field in element.attrib:
-                field_values[field] = field_type(element.attrib[field])
+                if not (field_type in get_args(Primitive) or issubclass(field_type, Enum)):
+                    raise TypeError(f"Only primitive types and enums are supported as element attributes, got {field_type} for field '{property_type.__name__}.{field}'")
+                field_values[field] = _str_to_primitive(element.attrib[field] or '', field_type)
             elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool, Path)):
                 typed_getter = cls._find_getter_by_type(field_type)
                 getter_args = [field_elem]
@@ -716,12 +727,12 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
             if valid:
                 if field in value._attrib_fields:
-                    if field_type in (int, float, str, bool):
+                    if field_type in get_args(Primitive):
                         element.attrib[field] = str(field_value)
                     elif isinstance(field_value, Enum):
                         element.attrib[field] = field_value.value
                     else:
-                        raise TypeError('Only primitive types or enums can be set as attributes!')
+                        raise TypeError(f'Only primitive types or enums can be set as attributes, got {field_type}')
                 else:
                     typed_setter = cls._find_setter_by_type(field_type)
                     sub_elem = typed_setter(field, field_value)
