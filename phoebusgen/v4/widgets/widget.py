@@ -1,19 +1,20 @@
 import re
 from enum import Enum
-from typing import List, Optional, Sequence, Set, Type, TypeVar, Union
+from typing import cast, List, Optional, Sequence, Set, Type, TypeVar, Union
 from xml.etree.ElementTree import Element
+import inspect
 
 from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasToolTip
 from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.properties.types import ObservableList
 from phoebusgen.v4.properties.widget import HasName
 from phoebusgen.v4.utils import PhoebusElement, prettify_xml
 
 # Populated at runtime on import of phoebusgen.v4
 widget_versions = {}
 
+STANDARD_TOOLTIP = '$(pv_name)\n$(pv_value)'
 
 class WidgetType(str, Enum):
     """Enum of Phoebus Widget types."""
@@ -100,9 +101,9 @@ class HasParent:
 class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
 
-    def __init__(self, name: str, x_pos: int, y_pos: int, width: int, height: int) -> None:
-        """
-        Base Class for all Phoebus widgets
+    def __init__(self, name: str = '', x_pos: int = 0, y_pos: int = 0,
+                 width: int = 100, height: int = 20) -> None:
+        """Base Class for all Phoebus widgets
 
         :param w_type: Widget type to be written into XML
         :param name: Widget name
@@ -173,9 +174,17 @@ class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasAct
         if w_type != expected_type.value:
             raise ValueError(f"Expected widget type '{expected_type.value}', got '{w_type}'")
 
+        # Wrap the existing element directly, then fill in defaults only for the
+        # __init__ kwargs whose property is not already present in the XML.
         instance = instance_cls.__new__(instance_cls)
         instance.root = element
-        return instance
+        for param_name in inspect.signature(instance_cls.__init__).parameters:
+            if param_name == 'self':
+                continue
+            if instance.root.find(param_name) is None:
+                setattr(instance, param_name, getattr(instance, param_name))
+
+        return cast(WidgetT, instance)
 
     @property
     def version(self) -> str:
@@ -292,18 +301,15 @@ class HasWidgets(PhoebusElement, PropertyBase):
         :param elem: <list/Phoebusgen.widget> List of Phoebusgen.widget's or a single widget to add
         """
 
-        def _insert_widget(self, widget: Widget):
+        if isinstance(elem, Widget):
+            elem = [elem]  # Wrap single widget in a list for uniform processing
+
+        for widget in elem:
             widget.parent = self
             valid_name = self._make_valid_widget_name(self.get_widget_names(), widget.name)
             if valid_name != widget.name:
                 widget.name = valid_name
             self.widgets.append(widget)
-
-        if isinstance(elem, Sequence):
-            for e in elem:
-                _insert_widget(self, e)
-        else:
-            _insert_widget(self, elem)
 
 
     def get_widgets(self) -> List[Widget]:
@@ -399,15 +405,21 @@ class HasWidgets(PhoebusElement, PropertyBase):
 
 # Wrap the metaclass-generated widgets property to set parent on each widget
 # when the list is read (e.g. from XML via from_element).
-_widgets_prop = HasWidgets.widgets
+_widgets_prop: property = HasWidgets.widgets  # type: ignore
 _widgets_fget = _widgets_prop.fget
 _widgets_fset = _widgets_prop.fset
 
 
 def _widgets_getter_with_parent(self: HasWidgets) -> List[Widget]:
-    """Get the list of widgets and set their parent to the container."""
+    """Get the list of widgets and set their parent to the container.
+    
+    :return: List of Widget instances with their parent set to the container
+    """
 
-    widgets = _widgets_fget(self)
+    if _widgets_fget is None:
+        raise AttributeError('Cannot get widgets property; no getter defined.')
+
+    widgets: List[Widget] = _widgets_fget(self)
     for w in widgets:
         w.parent = self
     return widgets
@@ -425,7 +437,10 @@ def _widgets_setter_with_rename_on_conflict(self: HasWidgets, widgets: List[Widg
         if widget_name != widget.name:
             widget.name = widget_name
         widget_name_set.add(widget_name)
-    _widgets_fset(self, widgets)
+    if _widgets_fset is not None:
+        _widgets_fset(self, widgets)
+    else:
+        raise AttributeError('Cannot set widgets property; no setter defined.')
 
 
-HasWidgets.widgets = property(_widgets_getter_with_parent, _widgets_setter_with_rename_on_conflict)
+HasWidgets.widgets = property(_widgets_getter_with_parent, _widgets_setter_with_rename_on_conflict)  # type: ignore

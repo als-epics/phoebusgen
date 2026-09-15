@@ -539,7 +539,9 @@ def test_group_remove_widget_with_duplicate_names():
     group.remove_widget(lbl1)
 
     assert len(group.widgets) == 1
-    assert group.widgets[0].text == 'B'
+    widget_rb = group.widgets[0]
+    assert isinstance(widget_rb, Label)
+    assert widget_rb.text == 'B'
 
 
 def test_group_remove_widget_from_xml():

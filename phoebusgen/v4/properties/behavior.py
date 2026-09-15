@@ -30,10 +30,10 @@ class HasShowLimits(PropertyBase):
     show_limits: bool
 
 class HasWarningLevels(PropertyBase):
-    level_hihi: float = 20.0
+    level_hihi: float = 90.0
     level_high: float = 80.0
-    level_low: float = 10.0
-    level_lolo: float = 90.0
+    level_low: float = 20.0
+    level_lolo: float = 10.0
 
 class HasWarningLevelsVisibility(PropertyBase):
     show_hihi: bool = True
@@ -42,22 +42,22 @@ class HasWarningLevelsVisibility(PropertyBase):
     show_lolo: bool = True
 
 class HasEnabled(PropertyBase):
-    enabled: bool
+    enabled: bool = True
 
 class HasConfirmation(PropertyBase):
     show_confirm_dialog: bool
-    confirm_message: str
+    confirm_message: str = 'Are your sure you want to do this?'
     password: str
 
 class HasButtonMode(PropertyBase):
     mode: ButtonMode
 
 class HasMinMax(PropertyBase):
-    minimum: float
-    maximum: float
+    minimum: float = 0.0
+    maximum: float = 100.0
 
 class HasBarLength(PropertyBase):
-    bar_length: float
+    bar_length: float = 10.0
 
 class HasIncrement(PropertyBase):
     increment: float = 1.0
@@ -129,7 +129,7 @@ class HasUnisignedData(PropertyBase):
     unsigned_data: bool = False
 
 class HasAlarmBorder(PropertyBase):
-    border_alarm_sensitive: bool = False
+    border_alarm_sensitive: bool = True
 
 class HasInteractive(PropertyBase):
-    interactive: bool =  True
+    interactive: bool = False

@@ -128,6 +128,7 @@ def test_is_set_value_valid(value, expected_type, expected_valid):
 @pytest.mark.parametrize('text, prop_type, expected_value',
 [
     ('255', int, 255),
+    ('16.0', int, 16),
     ('3.14', float, 3.14),
     ('true', bool, True),
     ('false', bool, False),
@@ -139,6 +140,18 @@ def test_get_primitive_property(text, prop_type, expected_value):
     value = PropertyBase._get_primitive_property(elem, prop_type)
     assert value == expected_value
 
+@pytest.mark.parametrize('text, prop_type, expected_err, expected_msg', [
+    ('', int, ValueError, "could not convert '' to int"),
+    ('abc', int, ValueError, "could not convert 'abc' to int"),
+    ('3.14', int, ValueError, "could not convert '3.14' to int"),
+    (None, int, ValueError, "could not convert '' to int"),
+    ('test', bool, ValueError, "XML element for bool property has invalid text value 'test'"),
+])
+def test_get_primitive_property_error_conditions(text, prop_type, expected_err, expected_msg):
+    elem = Element('widget')
+    elem.text = text
+    with pytest.raises(expected_err, match=expected_msg):
+        PropertyBase._get_primitive_property(elem, prop_type)
 
 @pytest.mark.parametrize('value, prop_type, expected_text',
 [
@@ -227,18 +240,24 @@ def test_validate_color_value(color, expected_valid):
     assert Color.is_color(color) == expected_valid
 
 
-def test_get_font_property():
+@pytest.mark.parametrize('size_str, expected_size', [
+    ('12', 12),
+    ('16.0', 16),
+])
+def test_get_font_property(size_str, expected_size):
     elem = Element('widget')
     font_elem = SubElement(elem, 'font')
     font_elem.attrib['family'] = 'Arial'
-    font_elem.attrib['size'] = '12'
+    font_elem.attrib['size'] = size_str
     font_elem.attrib['style'] = 'BOLD'
 
     font = PropertyBase._get_dataclass_property(font_elem, Font)
     assert isinstance(font, Font)
     assert font.family == 'Arial'
-    assert font.size == 12
+    assert font.size == expected_size
+    assert isinstance(font.size, int)
     assert font.style == FontStyle.BOLD
+    assert isinstance(font.size, int)
 
 
 def test_set_font_property():
@@ -330,6 +349,7 @@ def test_get_list_property_primitive():
 def test_set_list_property_primitive():
     values = [1, 2, 3]
     elem = PropertyBase._set_list_property('items', 'items', values)
+    assert isinstance(elem, Element)
     assert elem.tag == 'items'
     items = elem.findall('item')
     assert len(items) == 3
@@ -359,6 +379,7 @@ def test_set_list_property_dataclass():
         State(label='State 2', value=1, color=Color((100, 0, 255)))
     ]
     elem = PropertyBase._set_list_property('states', 'states', states)
+    assert isinstance(elem, Element)
     assert elem.tag == 'states'
     state_elems = elem.findall('state')
     assert len(state_elems) == 2
@@ -388,6 +409,7 @@ def test_get_dict_property():
 def test_set_dict_property():
     data = {'key1': 'value1', 'key2': 'value2'}
     elem = PropertyBase._set_dict_property('macros', ObservableDict(data))
+    assert isinstance(elem, Element)
     assert elem.tag == 'macros'
     for key, value in data.items():
         item_elem = _get_elem(elem, key)
@@ -415,7 +437,7 @@ def test_get_rule_expression_property():
     assert isinstance(rule_expr, RuleExpression)
     assert rule_expr.bool_exp == 'pv0 == 0'
     assert not rule_expr.value_as_expression
-    assert rule_expr.value == Color((255, 0, 0, 255))
+    assert rule_expr.value == (255, 0, 0, 255)
 
 
 # TODO: Currently this doesn't raise an error, but it should.
@@ -538,7 +560,7 @@ def test_get_property_type_from_prop_id(prop_id, expected_type):
 def test_set_prop_with_incorrect_type_raises_typerror():
     xy_plot = XYPlot(name='Test Plot', x=10, y=20, width=400, height=300)
     with pytest.raises(TypeError, match="invalid type for property 'x': must be of type <class 'int'>"):
-        xy_plot.x = 'Hello Phoebusgen'
+        xy_plot.x = 'Hello Phoebusgen'  # type: ignore (This test is intentionally passing an incorrect type to test error handling)
 
 
 def test_get_property_classes():
@@ -589,7 +611,7 @@ def test_get_property_names():
     assert xy_plot.get_property_names(property_cls = HasVisible) == ['visible']
 
     with pytest.raises(ValueError, match="Class 'str' is not a property mixin class that 'XYPlot' inherits from!"):
-        xy_plot.get_property_names(property_cls=str)
+        xy_plot.get_property_names(property_cls=str)  # type: ignore (This test is intentionally passing an incorrect type to test error handling)
 
 
 def test_get_property_type_by_name():

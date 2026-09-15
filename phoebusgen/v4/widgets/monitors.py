@@ -54,10 +54,10 @@ from phoebusgen.v4.properties.misc import (
     HasSelectionPV,
     HasSelectRows,
 )
-from phoebusgen.v4.properties.types import Color, HorizontalAlignment, VerticalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasBit, HasPVName, HasSymbols
 
-from .widget import Widget
+from .widget import Widget, STANDARD_TOOLTIP
 
 OFF_COLOR = Color((60, 100, 60))
 ON_COLOR = Color((60, 255, 60))
@@ -66,9 +66,10 @@ class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, Has
                   HasOnOffColors, HasForegroundColor, HasFont, HasLabels, HasAlarmBorder):
     """ByteMonitor Phoebus Widget"""
 
+    tooltip: str = STANDARD_TOOLTIP
     width: int = 160
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 160, height: int = 20) -> None:
         """
         Create ByteMonitor Widget
 
@@ -82,14 +83,22 @@ class ByteMonitor(Widget, HasPVName,HasStartBit, HasNumBits, HasReverseBits, Has
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
+# Phoebus uses camelCase tag names for these ByteMonitor bit properties.
+ByteMonitor._override_property_tag_name('start_bit', 'startBit')
+ByteMonitor._override_property_tag_name('num_bits', 'numBits')
+ByteMonitor._override_property_tag_name('reverse_bits', 'bitReverse')
+
 class LED(Widget, HasPVName, HasBit, HasOnOffColors, HasOnOffLabels, HasFont, HasForegroundColor, HasLineColor,
           HasSquare, HasLabelsFromPV, HasAlarmBorder):
     """LED Phoebus Widget"""
 
+    line_color: ColorType = Color((50, 50, 50, 178))
+    bit: int = -1
+    on_color: ColorType = Color((0, 255, 0))
+    tooltip: str = STANDARD_TOOLTIP
     width: int = 20
-    line_color: Color = Color((50, 50, 50, 178))
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 20, height: int = 20) -> None:
         """
         Create LED Widget
 
@@ -107,11 +116,11 @@ class LEDMultiState(Widget, HasPVName, HasFont, HasForegroundColor, HasLineColor
                     HasAlarmBorder, HasStates, HasFallback):
     """LEDMultiState Phoebus Widget"""
 
+    line_color: ColorType = Color((50, 50, 50, 178))
+    tooltip: str = STANDARD_TOOLTIP
     width: int = 20
-    height: int = 20
-    line_color: Color = Color((50, 50, 50, 178))
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 20, height: int = 20) -> None:
         """
         Create LEDMultiState Widget
 
@@ -133,7 +142,7 @@ class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, Has
     width: int = 240
     height: int = 120
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 240, height: int = 120) -> None:
         """
         Create LinearMeter Widget
 
@@ -152,12 +161,15 @@ class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, 
             HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor):
     """Meter Phoebus Widget"""
 
+    needle_color: ColorType = Color((255, 5, 7))
+    knob_color: ColorType = Color((177, 166, 155))
+    format: Format = Format.DEFAULT
+    show_limits: bool = True
+    tooltip: str = STANDARD_TOOLTIP
     width: int = 240
     height: int = 120
-    needle_color: Color = Color((255, 5, 7))
-    knob_color: Color = Color((177, 166, 155))
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 240, height: int = 120) -> None:
         """
         Create Meter Widget
 
@@ -175,7 +187,10 @@ class ProgressBar(Widget, HasPVName, HasFillColor, HasBackgroundColor, HasHorizo
                   HasAlarmBorder, HasLimitsFromPV, HasMinMax):
     """ ProgressBar Phoebus Widget """
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((250, 250, 250))
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create ProgressBar Widget
 
@@ -194,7 +209,11 @@ class Symbol(Widget, HasPVName, HasSymbols, HasBackgroundColor, HasInitialIndex,
              HasAutoSize, HasEnabled, HasPreserveRatio):
     """ Symbol Phoebus Widget """
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    transparent: bool = True
+    tooltip: str = '$(pv_name)\n$(pv_value)\n$(actions)'
+    height: int = 100
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 100) -> None:
         """
         Create Symbol Widget
 
@@ -212,10 +231,11 @@ class Table(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, 
             HasAlarmBorder, HasEditable, HasSelectRows, HasSelectionPV, HasColumns):
     """ Table Phoebus Widget """
 
+    editable: bool = True
     width: int = 500
     height: int = 300
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 500, height: int = 300) -> None:
         """
         Create Table Widget
 
@@ -234,7 +254,15 @@ class Tank(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor,
            HasMinMax, HasLogScale, HasHorizontal):
     """ Tank Phoebus Widget """
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((240, 240, 240))
+    fill_color: ColorType = Color((0, 0, 255))
+    empty_color: ColorType = Color((192, 192, 192))
+    horizontal: bool = False
+    tooltip: str = STANDARD_TOOLTIP
+    width: int = 150
+    height: int = 200
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 150, height: int = 200) -> None:
         """
         Create Tank Widget
 
@@ -253,13 +281,14 @@ class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
                  HasAlarmBorder, HasEnabled, HasArrayIndex, HasSymbols):
     """ TextSymbol Phoebus Widget """
 
-    width: int = 32
-    height: int = 32
     horizontal_alignment: HorizontalAlignment = HorizontalAlignment.CENTER
     vertical_alignment: VerticalAlignment = VerticalAlignment.MIDDLE
-    tool_tip: str = '$(pv_name)\n$(pv_value)\n$(symbol_value)'
+    transparent: bool = True
+    tooltip: str = '$(pv_name)\n$(pv_value)\n$(symbol_value)'
+    width: int = 32
+    height: int = 32
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 32, height: int = 32) -> None:
         """
         Create TextSymbol Widget
 
@@ -278,7 +307,13 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
                  HasRotationStep, HasBorder, HasAlarmBorder, HasInteractive):
     """TextUpdate Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((240, 240, 240))
+    format: Format = Format.DEFAULT
+    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
+    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create TextUpdate Widget
 
@@ -295,10 +330,11 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
 class Thermometer(Widget, HasPVName, HasFillColor, HasAlarmBorder, HasLimitsFromPV, HasMinMax):
     """Thermometer Phoebus Widget"""
 
+    tooltip: str = STANDARD_TOOLTIP
     width: int = 40
     height: int = 160
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 40, height: int = 160) -> None:
         """
         Create Thermometer Widget
 

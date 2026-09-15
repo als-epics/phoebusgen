@@ -1,3 +1,6 @@
+from pathlib import Path
+from typing import Optional, Union
+
 from phoebusgen.v4.properties.behavior import (
     HasAlarmBorder,
     HasBarLength,
@@ -41,17 +44,22 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
+from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment
 from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel, HasPVName
 
-from .widget import Widget
-
+from .widget import Widget, STANDARD_TOOLTIP
 
 class ActionButton(Widget, HasPVName, HasText, HasFont, HasForegroundColor, HasBackgroundColor,
                    HasTransparent, HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep,
                    HasEnabled, HasAlarmBorder, HasConfirmation):
     """ActionButton Phoebus Widget"""
 
-    def __init__(self, name: str, text: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((210, 210, 210))
+    tooltip: str = '$(pv_name)\n$(actions)'
+    text: str = '$(actions)'
+    height: int = 30
+
+    def __init__(self, name: str = '', text: str = '$(actions)', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 30) -> None:
         """
         Create ActionButton Widget
 
@@ -71,7 +79,13 @@ class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasShowLED, HasFo
                     HasLabelsFromPV, HasAlarmBorder, HasEnabled, HasButtonMode, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """BooleanButton Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((210, 210, 210))
+    tooltip: str = STANDARD_TOOLTIP
+    off_image: Optional[Union[Path, str]] = Path('.')
+    on_image: Optional[Union[Path, str]] = Path('.')
+    height: int = 30
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 30) -> None:
         """
         Create BooleanButton Widget
 
@@ -89,7 +103,9 @@ class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor,
                HasAlarmBorder, HasConfirmation):
     """CheckBox Phoebus Widget"""
 
-    def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', label: str = 'Label', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create CheckBox Widget
 
@@ -109,7 +125,12 @@ class ChoiceButton(Widget, HasPVName, HasFont, HasForegroundColor, HasBackground
                    HasAlarmBorder, HasItems, HasItemsFromPV, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ChoiceButton Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((210, 210, 210))
+    selected_color: Color = Color((200, 200, 200))
+    tooltip: str = STANDARD_TOOLTIP
+    height: int = 43
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 43) -> None:
         """
         Create ChoiceButton Widget
 
@@ -127,7 +148,11 @@ class ComboBox(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColo
                HasItemsFromPV, HasEditable, HasEnabled, HasConfirmation):
     """ComboBox Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((210, 210, 210))
+    tooltip: str = STANDARD_TOOLTIP
+    height: int = 30
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 30) -> None:
         """
         Create ComboBox Widget
 
@@ -145,7 +170,11 @@ class ComboBox(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColo
 class FileSelector(Widget, HasPVName, HasFileComponent, HasAlarmBorder, HasEnabled):
     """FileSelector Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    tooltip: str = STANDARD_TOOLTIP
+    width: int = 40
+    height: int = 25
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 40, height: int = 25) -> None:
         """
         Create FileSelector Widget
 
@@ -163,7 +192,10 @@ class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalA
                   HasItems, HasItemsFromPV, HasEnabled, HasConfirmation):
     """RadioButton Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    tooltip: str = STANDARD_TOOLTIP
+    height: int = 60
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 60) -> None:
         """
         Create RadioButton Widget
 
@@ -182,7 +214,12 @@ class ScaledSlider(Widget, HasPVName, HasHorizontalAlignment, HasForegroundColor
                    HasIncrement, HasMinMax, HasLimitsFromPV, HasEnabled):
     """ScaledSlider Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    transparent: bool = True
+    tooltip: str = STANDARD_TOOLTIP
+    width: int = 400
+    height: int = 55
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 400, height: int = 55) -> None:
         """
         Create ScaledSlider Widget
 
@@ -200,7 +237,9 @@ class Scrollbar(Widget, HasPVName, HasHorizontalAlignment, HasShowValueTip, HasA
                 HasLimitsFromPV, HasBarLength, HasIncrement, HasEnabled):
     """Scrollbar Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Scrollbar Widget
 
@@ -218,7 +257,12 @@ class SlideButton(Widget, HasPVName, HasBit, HasLabel, HasOnOffColors, HasFont, 
                   HasAutoSize, HasAlarmBorder, HasEnabled, HasConfirmation):
     """SlideButton Phoebus Widget"""
 
-    def __init__(self, name: str, label: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    off_color: ColorType = Color((210, 210, 210))
+    on_color: ColorType = Color((0, 255, 0))
+    tooltip: str = STANDARD_TOOLTIP
+    height: int = 30
+
+    def __init__(self, name: str = '', label: str = 'Label', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 30) -> None:
         """
         Create SlideButton Widget
 
@@ -238,7 +282,11 @@ class Spinner(Widget, HasPVName, HasFormat, HasPrecision, HasShowUnits, HasForeg
               HasButtonsOnLeft, HasAlarmBorder, HasMinMax, HasLimitsFromPV, HasIncrement, HasEnabled):
     """Spinner Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    show_units: bool = False
+    background_color: ColorType = Color((128, 255, 255))
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Spinner Widget
 
@@ -257,7 +305,13 @@ class TextEntry(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCol
                 HasBorder, HasHorizontalAlignment, HasVerticalAlignment):
     """TextEntry Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    background_color: ColorType = Color((128, 255, 255))
+    format: Format = Format.DEFAULT
+    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
+    wrap_words: bool = False
+    tooltip: str = STANDARD_TOOLTIP
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create TextEntry Widget
 
@@ -275,7 +329,9 @@ class TextEntry(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCol
 class Thumbwheel(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor):
     """Thumbwheel Phoebus Widget"""
 
-    def __init__(self, name: str, pv_name: str, x: int, y: int, width: int, height: int) -> None:
+    height: int = 50
+
+    def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 50) -> None:
         """
         Create Thumbwheel Widget
 

@@ -121,7 +121,7 @@ class HasHeightPV(PropertyBase):
     height_pv: str
 
 class HasItemsFromPV(PropertyBase):
-    items_from_pv: bool
+    items_from_pv: bool = True
 
 class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
@@ -139,7 +139,7 @@ class HasHorizontal(PropertyBase):
     horizontal: bool = True
 
 class HasShowLED(PropertyBase):
-    show_led: bool
+    show_led: bool = True
 
 class HasSelectedColor(PropertyBase):
     selected_color: Color
@@ -148,7 +148,7 @@ class HasDeselectedColor(PropertyBase):
     deselected_color: Color
 
 class HasShowValueTip(PropertyBase):
-    show_value_tip: bool
+    show_value_tip: bool = True
 
 class HasButtonsOnLeft(PropertyBase):
     buttons_on_left: bool
@@ -193,7 +193,7 @@ class HasColumns(PropertyBase):
     columns: List[Column] = ObservableList([Column()])
 
 class HasScaleVisible(PropertyBase):
-    scale_visible: bool
+    scale_visible: bool = True
 
 class HasEmptyColor(PropertyBase):
     empty_color: ColorType
@@ -220,7 +220,7 @@ class HasLabelFont(PropertyBase):
     label_font: Font
 
 class HasTimeRange(PropertyBase):
-    start: str
+    start: str = '1 minute'
     end: str
 
 class HasTitle(PropertyBase):
@@ -236,7 +236,7 @@ class HasShowLegend(PropertyBase):
     show_legend: bool
 
 class HasGap(PropertyBase):
-    gap: int
+    gap: int = 10
 
 class HasWrapCount(PropertyBase):
     wrap_count: int
@@ -257,7 +257,7 @@ class HasKnobAndNeedleSize(PropertyBase):
 class HasTabActiveHeightDirection(PropertyBase):
     tab_height: int = 30
     direction: TabDirection = TabDirection.HORIZONTAL
-    active_tab: int = 1
+    active_tab: int = 0
 
 class HasShowLimits(PropertyBase):
     show_limits: bool = True

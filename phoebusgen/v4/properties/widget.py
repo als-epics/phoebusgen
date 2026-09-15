@@ -35,7 +35,7 @@ class HasFileComponent(PropertyBase):
     file_component: FileComponent = FileComponent.FULL_PATH
 
 class HasLabel(PropertyBase):
-    label: str = ''
+    label: str = 'Label'
 
 class HasNavTabs(HasTabActiveHeightDirection):
     tabs: List[NavTab]

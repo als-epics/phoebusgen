@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass, is_dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Type, TypeVar, Union, cast
 from xml.etree.ElementTree import Element
 
 from phoebusgen.v4.utils import PhoebusElement
@@ -36,30 +36,26 @@ from .types import (
     ObservableList,
     Rule,
     RuleExpression,
+    PropertyType,
     ValidListTypeT,
 )
 
 Primitive = Union[int, float, str, bool]
-PropertyType = Union[
-    int, float, str, bool,
-    Tuple,
-    Enum,
-    Color,
-    Font,
-    ObservableDict,
-    ObservableList,
-    ObservableDataclass,
-    Rule,
-    RuleExpression,
-]
+PrimitiveT = TypeVar('PrimitiveT', bound=Primitive)
 PropertyTypeT = TypeVar('PropertyTypeT', bound=PropertyType)
+ObservableDataclassT = TypeVar('ObservableDataclassT', bound=ObservableDataclass)
 
 NoneType = type(None)  # Used for checking if a type is NoneType (e.g. for Optional[X] which is Union[X, NoneType])
 
+# Concrete runtime classes behind the PropertyType union, for isinstance checks.
+# PropertyType itself can't be used with isinstance because it contains subscripted
+# generics (e.g. Tuple, Dict, List), which raise TypeError on Python 3.8/3.9.
+_PROPERTY_TYPE_CLASSES = (int, float, str, bool, tuple, Enum, Color, dict, list, Path, ObservableDataclass)
+
 @dataclass
 class PropertyInfo:
-    type: Type[PropertyTypeT]
-    default_value: PropertyTypeT
+    type: Type[PropertyType]
+    default_value: PropertyType
 
 
 def _create_element(prop_name: str, value: Optional[str] = None) -> Element:
@@ -139,8 +135,24 @@ def _make_default_prop_val(property_type: Type[PropertyType]) -> PropertyType:
         return property_type()  # Call the type to get a default value (e.g. int() -> 0, str() -> '', etc.)
 
 
+def _str_to_primitive(value: str, property_type: Type[PrimitiveT]) -> PrimitiveT:
+    """Convert a string value to a primitive type (int, float, str, bool) based on the given property type."""
+
+    if property_type is bool:
+        if value not in ('true', 'false'):
+            raise ValueError(f"XML element for bool property has invalid text value '{value}'!")
+        return cast(PrimitiveT, value.lower() == 'true')
+    try:
+        if property_type is int:
+            if float(value).is_integer():
+                return cast(PrimitiveT, int(float(value)))
+            raise ValueError(f"XML element for int property has non-integer text value '{value}'!")
+        return property_type(value)
+    except ValueError as e:
+        raise ValueError(f"could not convert '{value}' to {property_type.__name__}") from e
+
 class PropertyMetaclass(type):
-    def __new__(mcs, name: str, bases: List[Type], attrs: Dict[str, object]) -> Type:
+    def __new__(mcs, name: str, bases: Tuple[Type['PropertyBase'], ...], attrs: Dict[str, object]) -> Type:
 
         # Keep a running dictionary of all properties defined by all property mixin classes,
         # so that we can look up property types and default values by name at runtime for any
@@ -171,7 +183,7 @@ class PropertyMetaclass(type):
             else:
                 # If element for property was not found, use the default value. Make it a
                 # deep copy so that mutable types don't share references.
-                new_val = copy.deepcopy(self._all_properties[cls][prop_name].default_value)
+                new_val = copy.deepcopy(self._all_properties[cls][prop_name].default_value)  # type: ignore
 
             # For compound types, set up a change callback to update the XML when compoents are modified
             # i.e. a list element is added/removed, a dict item is changed, or a dataclass field is updated
@@ -190,9 +202,10 @@ class PropertyMetaclass(type):
             if not self._is_set_value_valid(value, property_type):
                 raise TypeError(f"Value {value} is of invalid type for property '{prop_name}': must be of type {property_type}")
 
+            tag = self.root.find(tag_name) if tag_name is not None else None
             # Remove existing property element if found
-            if tag_name is not None and self.root.find(tag_name) is not None:
-                self.root.remove(self.root.find(tag_name))
+            if tag is not None:
+                self.root.remove(tag)
             elif tag_name is None and get_origin(property_type) is list:
                 # For list properties stored as direct children (tag_name=None),
                 # remove all existing child elements with the item tag name
@@ -216,7 +229,7 @@ class PropertyMetaclass(type):
 
                 # Unwrap Optional[X] (Union[X, None]) to X for property type resolution
                 property_type = _normalize_property_type(annotation)
-                default_value = attrs.get(prop_name, _make_default_prop_val(property_type))
+                default_value: PropertyType = cast(PropertyType, attrs.get(prop_name, _make_default_prop_val(property_type)))
 
                 def prop_getter(self, prop_name=prop_name, prop_type=property_type):
                     return getter(self, prop_name, prop_type)
@@ -230,11 +243,13 @@ class PropertyMetaclass(type):
         # Collect property names and types from base classes to keep a running dictionary
         # of all property classes and the individual properties they define
         for base in bases:
-            if hasattr(base, '_all_properties'):
-                all_properties.update(base._all_properties)
+            base_all_properties = getattr(base, '_all_properties', None)
+            if base_all_properties is None:
+                continue
+            all_properties.update(base_all_properties)
 
         if '_all_properties' in attrs:
-            all_properties.update(attrs['_all_properties'])
+            all_properties.update(attrs['_all_properties'])  # type: ignore
 
         # Allow subclasses (e.g. Screen, Widget) to override default values for inherited
         # properties by declaring class-level annotations with a value. For example:
@@ -245,14 +260,14 @@ class PropertyMetaclass(type):
         is_property_mixin = name not in ['PropertyBase', 'Widget', 'Screen'] and not any(base.__name__ in ['Widget', 'Screen'] for base in bases)
         if not is_property_mixin:
             for prop_name, default_val in attrs.items():
-                if prop_name.startswith('_') or callable(default_val) or isinstance(default_val, (classmethod, staticmethod, property)):
+                if prop_name.startswith('_') or callable(default_val) or not isinstance(default_val, _PROPERTY_TYPE_CLASSES):
                     continue
                 # Check if this attribute matches a property defined in a parent mixin
                 for prop_cls, props in all_properties.items():
                     if prop_name in props:
                         # Make a per-class copy of the mixin's property dict so we don't mutate the shared one
                         all_properties[prop_cls] = copy.deepcopy(all_properties[prop_cls])
-                        all_properties[prop_cls][prop_name].default_value = default_val
+                        all_properties[prop_cls][prop_name].default_value = cast(PropertyType, default_val)
                         # Remove the class attribute so the property descriptor from the mixin is used
                         if prop_name in cls.__dict__:
                             delattr(cls, prop_name)
@@ -386,7 +401,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_property_type_from_prop_id(cls, prop_id: str) -> Type:
+    def _get_property_type_from_prop_id(cls, prop_id: str) -> Type[PropertyType]:
         """Given a property ID string, get the type of the innermost property.
 
         For example, given the prop_id 'y_axes[0].title_font.style', this function will return FontStyle,
@@ -410,19 +425,21 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         base_prop_type = _normalize_property_type(base_prop_type)
 
-        def get_nested_property_type(prop_id: str, base_type: type):
+        def get_nested_property_type(prop_id: str, base_type: Type[PropertyType]) -> Type[PropertyType]:
             if get_origin(base_type) is list:
                 return get_nested_property_type(prop_id.split(']', 1)[1], get_args(base_type)[0])
             elif get_origin(base_type) is dict:
                 return get_nested_property_type(prop_id.split('.', 1)[1], get_args(base_type)[1])
-            elif is_dataclass(base_type):
+            elif is_dataclass(base_type) and issubclass(base_type, ObservableDataclass):
                 dataclass_field_name = prop_id.split('.')[1]
                 if '[' in dataclass_field_name:
                     dataclass_field_name = dataclass_field_name.split('[')[0]
                 dataclass_fields = base_type.fields()
                 if dataclass_field_name in dataclass_fields:
-                    field_type = _normalize_property_type(dataclass_fields[dataclass_field_name].type)
+                    field_type = _normalize_property_type(dataclass_fields[dataclass_field_name].type)  # type: ignore
                     return get_nested_property_type(prop_id.split('.', 1)[1], field_type)
+                else:
+                    raise ValueError(f"Dataclass '{base_type.__name__}' has no field '{dataclass_field_name}' for prop_id '{prop_id}'!")
             else:
                 return base_type
 
@@ -430,7 +447,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _find_getter_by_type(cls, property_type: Type[PropertyType]) -> Callable:
+    def _find_getter_by_type(cls, property_type: Type[PropertyTypeT]) -> Callable[..., PropertyTypeT]:
         """Given a property type, find the appropriate low-level getter function for it.
 
         For example, if the property type is Color, this function will return the _get_color_property function,
@@ -443,7 +460,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _find_setter_by_type(cls, property_type: Type[PropertyType]) -> Callable:
+    def _find_setter_by_type(cls, property_type: Type[PropertyTypeT]) -> Callable[..., Element]:
         """Given a property type, find the appropriate low-level setter function for it.
 
         For example, if the property type is Color, this function will return the _set_color_property function,
@@ -464,9 +481,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The getter or setter function for the property type
         """
 
-        base_property_type = property_type
-        if hasattr(property_type, '__origin__'):
-            base_property_type = property_type.__origin__
+        base_property_type = get_origin(property_type) or property_type
 
         property_type_str = ''.join(['_' + c.lower() if c.isupper() and i != 0 else c.lower() for i, c in enumerate(base_property_type.__name__)]).lstrip('_')
 
@@ -498,28 +513,20 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: The parsed primitive value
         """
 
-        if element.text is None and property_type is not str:
-            raise ValueError(f"XML element for primitive property '{element.tag}' has no text value!")
-
-        if property_type is bool:
-            return element.text.lower() == 'true'
-        elif property_type is str and element.text is None:
-            return ''
-        else:
-            return property_type(element.text)
+        return _str_to_primitive(element.text or '', property_type)
 
 
     @classmethod
-    def _set_primitive_property(cls, prop_name: str, value: Primitive) -> Element:
+    def _set_primitive_property(cls, tag_name: str, value: Primitive) -> Element:
         """Given a primitive value (int, float, str, bool), create an XML element with the value as text.
 
-        :param prop_name: The name of the property
+        :param tag_name: The XML tag name to use for the element
         :param value: The primitive value to set
         :return: The XML element representing the primitive property
         """
         if isinstance(value, bool):
-            return _create_element(prop_name, str(value).lower())
-        return _create_element(prop_name, str(value))
+            return _create_element(tag_name, str(value).lower())
+        return _create_element(tag_name, str(value))
 
 
     @classmethod
@@ -530,7 +537,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: A Path object representing the file path
         """
 
-        return Path(cls._get_primitive_property(element, str))
+        return Path(str(cls._get_primitive_property(element, str)))
 
     @classmethod
     def _set_path_property(cls, prop_name: str, value: Union[Path, str, None]) -> Element:
@@ -671,7 +678,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_dataclass_property(cls, element: Element, property_type: Type[ObservableDataclass]) -> ObservableDataclass:
+    def _get_dataclass_property(cls, element: Element, property_type: Type[ObservableDataclassT]) -> ObservableDataclassT:
         """Given an XML element representing a dataclass property, parse the value and return an instance of the dataclass.
 
         :param element: The XML element to parse the dataclass value from
@@ -680,18 +687,20 @@ class PropertyBase(metaclass=PropertyMetaclass):
         """
 
         field_values = {}
-        for field in property_type.fields():
-            field_elem = element.find(field)
-            field_type = _normalize_property_type(property_type.fields()[field].type)
+        for field_name, field in property_type.fields().items():
+            field_elem = element.find(field_name)
+            field_type = _normalize_property_type(field.type)  # type: ignore
 
-            if field_elem is None and field in element.attrib:
-                field_values[field] = field_type(element.attrib[field])
+            if field_elem is None and field_name in element.attrib:
+                if not (field_type in get_args(Primitive) or issubclass(field_type, Enum)):
+                    raise TypeError(f"Only primitive types and enums are supported as element attributes, got {field_type} for field '{property_type.__name__}.{field_name}'")
+                field_values[field_name] = _str_to_primitive(element.attrib[field_name] or '', cast(Type[Primitive], field_type))
             elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool, Path)):
                 typed_getter = cls._find_getter_by_type(field_type)
                 getter_args = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
                     getter_args.append(field_type)
-                field_values[field] = typed_getter(*getter_args)
+                field_values[field_name] = typed_getter(*getter_args)
 
         return property_type(**field_values)
 
@@ -709,25 +718,25 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
         property_cls = type(value)
 
-        for field in value.fields():
-            field_value = getattr(value, field)
-            field_type = _normalize_property_type(property_cls.fields()[field].type)
+        for field_name, field in value.fields().items():
+            field_value = getattr(value, field_name)
+            field_type = _normalize_property_type(field.type)  # type: ignore
             valid = cls._is_set_value_valid(field_value, field_type)
 
             if valid:
-                if field in value._attrib_fields:
-                    if field_type in (int, float, str, bool):
-                        element.attrib[field] = str(field_value)
+                if field_name in value._attrib_fields:
+                    if field_type in get_args(Primitive):
+                        element.attrib[field_name] = str(field_value)
                     elif isinstance(field_value, Enum):
-                        element.attrib[field] = field_value.value
+                        element.attrib[field_name] = str(field_value.value)
                     else:
-                        raise TypeError('Only primitive types or enums can be set as attributes!')
+                        raise TypeError(f'Only primitive types or enums can be set as attributes, got {field_type}')
                 else:
                     typed_setter = cls._find_setter_by_type(field_type)
-                    sub_elem = typed_setter(field, field_value)
+                    sub_elem = typed_setter(field_name, field_value)
                     element.append(sub_elem)
             else:
-                raise TypeError(f"Value {field_value} is of invalid type for field '{field}' of dataclass '{property_cls.__name__}': must be of type {field_type}")
+                raise TypeError(f"Value {field_value} is of invalid type for field '{field_name}' of dataclass '{property_cls.__name__}': must be of type {field_type}")
         return element
 
 
@@ -767,7 +776,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _get_rule_expression_property(cls, element: Element, property_type: ValidListTypeT) -> RuleExpression:
+    def _get_rule_expression_property(cls, element: Element, property_type: Type[PropertyType]) -> RuleExpression:
         """Given an XML element representing a rule expression property, parse the value and return an instance of RuleExpression.
 
         :param element: The XML element to parse the rule expression value from
@@ -796,7 +805,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
             value = value_get_func(*getter_args) if element.find('value') is not None else None
 
         expression = RuleExpression(bool_exp=bool_exp, value=value, value_as_expression=value_as_expression)
-        expression._on_change_callback = lambda new_value: cls._set_rule_expression_property(element.tag, new_value)
+        expression._on_change_callback = lambda new_value: cls._set_rule_expression_property(element.tag, new_value)  # type: ignore
         return expression
 
 
@@ -815,15 +824,16 @@ class PropertyBase(metaclass=PropertyMetaclass):
             expression_elem = _create_element('expression', str(value.value))
             element.append(expression_elem)
         else:
-            value_set_func = cls._find_setter_by_type(type(value.value))
-            value_elem = value_set_func('value', value.value)
-            element.append(value_elem)
+            if value.value is not None:
+                value_set_func = cls._find_setter_by_type(type(value.value))
+                value_elem = value_set_func('value', value.value)
+                element.append(value_elem)
 
         return element
 
 
     @classmethod
-    def _get_rule_property(cls, element: Element, property_type: ValidListTypeT) -> Rule:
+    def _get_rule_property(cls, element: Element, property_type: Type[PropertyType]) -> Rule:
         """Given an XML element representing a rule property, parse the value and return an instance of Rule.
 
         :param prop_name: The name of the property
@@ -832,9 +842,11 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: An instance of Rule with fields populated from the XML
         """
 
-        name = element.attrib.get('name', 'None')
+        name = element.attrib.get('name', '')
         out_exp = element.attrib.get('out_exp', 'false') == 'true'
         prop_id = element.attrib.get('prop_id', None)
+        if prop_id is None:
+            raise ValueError("Rule element is missing required 'prop_id' attribute!")
 
         expressions: ObservableList[RuleExpression] = ObservableList()
         pv_names: ObservableDict[str, bool] = ObservableDict()
@@ -842,11 +854,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
         for expr_elem in element.findall('exp'):
             expressions.append(cls._get_rule_expression_property(expr_elem, property_type))
         for pv_elem in element.findall('pv_name'):
+            if pv_elem.text is None:
+                raise ValueError('Rule pv_name element is missing text value!')
             pv_names[pv_elem.text] = pv_elem.attrib.get('trigger', 'true') == 'true'
 
         # Add on change callbacks to children to update the XML when they are modified.
-        expressions._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))
-        pv_names._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))
+        expressions._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))  # type: ignore
+        pv_names._on_change_callback = lambda _: cls._set_rule_property(element.tag, Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id))  # type: ignore
 
         return Rule(name=name, expressions=expressions, pv_names=pv_names, out_exp=out_exp, prop_id=prop_id)
 
@@ -910,7 +924,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _set_dict_property(cls, tag_name: str, value: Mapping) -> Union[Element, Sequence[Element]]:
+    def _set_dict_property(cls, tag_name: Optional[str], value: Mapping) -> Union[Element, Sequence[Element]]:
         """Given a dictionary, create an XML element representing the dictionary property, with child elements for each key-value pair.
 
         :param tag_name: The XML tag name to use for the dictionary property
@@ -958,7 +972,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         if element is not None:
             for item_elem in element.findall(cls._get_list_item_tag_name(prop_name)):
                 typed_getter = cls._find_getter_by_type(property_type)
-                getter_args = [item_elem]  # type: List[Any]
+                getter_args: List[Any] = [item_elem]  # type: List[Any]
                 if len(inspect.signature(typed_getter).parameters) > 1:
                     if property_type is Rule:
                         rule_prop_id = item_elem.attrib.get('prop_id', None)
@@ -998,7 +1012,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
 
 
     @classmethod
-    def _is_set_value_valid(cls, value: PropertyType, expected_type: Type[PropertyType]) -> bool:
+    def _is_set_value_valid(cls, value: Optional[PropertyType], expected_type: Type[PropertyType]) -> bool:
         """Given a value being set for a property and the expected type of that property, validate that the value is of the correct type.
 
         :param value: The value being set for the property
@@ -1006,7 +1020,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
         :return: True if the value is valid for the expected type, False otherwise
         """
 
-        def _validate_element(value: PropertyType, expected_type: Type[PropertyType]) -> bool:
+        def _validate_element(value: Any, expected_type: Type[PropertyType]) -> bool:
             if expected_type is Color:
                 return Color.is_color(value)
             elif expected_type is float:
