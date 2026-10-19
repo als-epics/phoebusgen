@@ -412,7 +412,7 @@ _widgets_fset = _widgets_prop.fset
 
 def _widgets_getter_with_parent(self: HasWidgets) -> List[Widget]:
     """Get the list of widgets and set their parent to the container.
-    
+
     :return: List of Widget instances with their parent set to the container
     """
 
