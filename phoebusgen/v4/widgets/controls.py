@@ -23,6 +23,7 @@ from phoebusgen.v4.properties.display import (
     HasFont,
     HasForegroundColor,
     HasFormat,
+    HasHorizontal,
     HasHorizontalAlignment,
     HasItemsFromPV,
     HasLabelsFromPV,
@@ -30,6 +31,7 @@ from phoebusgen.v4.properties.display import (
     HasMultiLine,
     HasOnOffColors,
     HasOnOffImages,
+    HasOnOffLabels,
     HasPrecision,
     HasRotationStep,
     HasScaleFormat,
@@ -44,7 +46,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
-from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel, HasPVName
 
 from .widget import Widget, STANDARD_TOOLTIP
@@ -75,11 +77,13 @@ class ActionButton(Widget, HasPVName, HasText, HasFont, HasForegroundColor, HasB
         self.pv_name = pv_name
         self.text = text
 
-class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasShowLED, HasFont, HasForegroundColor, HasBackgroundColor,
+class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasOnOffColors, HasOnOffLabels, HasShowLED, HasFont, HasForegroundColor, HasBackgroundColor,
                     HasLabelsFromPV, HasAlarmBorder, HasEnabled, HasButtonMode, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """BooleanButton Phoebus Widget"""
 
     background_color: ColorType = Color((210, 210, 210))
+    on_label: str = 'On'
+    off_label: str = 'Off'
     tooltip: str = STANDARD_TOOLTIP
     off_image: Optional[Union[Path, str]] = Path('.')
     on_image: Optional[Union[Path, str]] = Path('.')
@@ -100,7 +104,7 @@ class BooleanButton(Widget, HasPVName, HasBit, HasOnOffImages, HasShowLED, HasFo
         self.pv_name = pv_name
 
 class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor, HasAutoSize,
-               HasAlarmBorder, HasConfirmation):
+               HasAlarmBorder, HasEnabled, HasConfirmation):
     """CheckBox Phoebus Widget"""
 
     tooltip: str = STANDARD_TOOLTIP
@@ -122,7 +126,7 @@ class CheckBox(Widget, HasPVName, HasBit, HasLabel, HasFont, HasForegroundColor,
         self.label = label
 
 class ChoiceButton(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasSelectedColor,
-                   HasAlarmBorder, HasItems, HasItemsFromPV, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
+                   HasAlarmBorder, HasEnabled, HasHorizontal, HasItems, HasItemsFromPV, HasConfirmation, HasHorizontalAlignment, HasVerticalAlignment):
     """ChoiceButton Phoebus Widget"""
 
     background_color: ColorType = Color((210, 210, 210))
@@ -188,7 +192,7 @@ class FileSelector(Widget, HasPVName, HasFileComponent, HasAlarmBorder, HasEnabl
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalAlignment, HasAlarmBorder,
+class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontal, HasAlarmBorder,
                   HasItems, HasItemsFromPV, HasEnabled, HasConfirmation):
     """RadioButton Phoebus Widget"""
 
@@ -209,7 +213,7 @@ class RadioButton(Widget, HasPVName, HasFont, HasForegroundColor, HasHorizontalA
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class ScaledSlider(Widget, HasPVName, HasHorizontalAlignment, HasForegroundColor, HasBackgroundColor, HasTransparent, HasFont,
+class ScaledSlider(Widget, HasPVName, HasHorizontal, HasForegroundColor, HasBackgroundColor, HasTransparent, HasFont,
                    HasShowScale, HasShowMinorTicks, HasMajorTicksPixelDist, HasScaleFormat, HasWarningLevels, HasWarningLevelsVisibility, HasAlarmBorder,
                    HasIncrement, HasMinMax, HasLimitsFromPV, HasEnabled):
     """ScaledSlider Phoebus Widget"""
@@ -233,7 +237,7 @@ class ScaledSlider(Widget, HasPVName, HasHorizontalAlignment, HasForegroundColor
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
 
-class Scrollbar(Widget, HasPVName, HasHorizontalAlignment, HasShowValueTip, HasAlarmBorder, HasMinMax,
+class Scrollbar(Widget, HasPVName, HasHorizontal, HasShowValueTip, HasAlarmBorder, HasMinMax,
                 HasLimitsFromPV, HasBarLength, HasIncrement, HasEnabled):
     """Scrollbar Phoebus Widget"""
 
@@ -278,11 +282,13 @@ class SlideButton(Widget, HasPVName, HasBit, HasLabel, HasOnOffColors, HasFont, 
         self.pv_name = pv_name
         self.label = label
 
-class Spinner(Widget, HasPVName, HasFormat, HasPrecision, HasShowUnits, HasForegroundColor, HasBackgroundColor,
-              HasButtonsOnLeft, HasAlarmBorder, HasMinMax, HasLimitsFromPV, HasIncrement, HasEnabled):
+class Spinner(Widget, HasPVName, HasFont, HasFormat, HasPrecision, HasShowUnits, HasForegroundColor, HasBackgroundColor,
+              HasButtonsOnLeft, HasHorizontalAlignment, HasVerticalAlignment, HasAlarmBorder, HasMinMax, HasLimitsFromPV, HasIncrement, HasEnabled):
     """Spinner Phoebus Widget"""
 
     show_units: bool = False
+    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
+    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
     background_color: ColorType = Color((128, 255, 255))
     tooltip: str = STANDARD_TOOLTIP
 
@@ -344,3 +350,8 @@ class Thumbwheel(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
         """
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
+
+# Phoebus uses 'component' for the file selector's path component setting.
+FileSelector._override_property_tag_name('file_component', 'component')
+# Phoebus uses 'major_tick_step_hint' for the slider's major tick spacing.
+ScaledSlider._override_property_tag_name('major_ticks_pixel_dist', 'major_tick_step_hint')

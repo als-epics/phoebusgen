@@ -132,3 +132,9 @@ class XYPlot(Widget, HasForegroundColor, HasBackgroundColor, HasTitle,
         :param height: Widget height
         """
         Widget.__init__(self, name, x, y, width, height)
+
+# Phoebus uses 'autoscale' and 'unsigned' tag names on the Image widget.
+Image._override_property_tag_name('auto_scale', 'autoscale')
+Image._override_property_tag_name('unsigned_data', 'unsigned')
+# Phoebus uses a singular 'marker' container tag on the XYPlot widget.
+XYPlot._override_property_tag_name('markers', 'marker')

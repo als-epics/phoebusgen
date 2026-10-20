@@ -197,7 +197,6 @@ class HasScaleVisible(PropertyBase):
 
 class HasEmptyColor(PropertyBase):
     empty_color: ColorType
-
 class HasGroupName(PropertyBase):
     group_name: str
 
@@ -272,3 +271,15 @@ class HasStatusColors(PropertyBase):
     normal_status_color: ColorType = Color((194, 198, 195))
     minor_warning_color: ColorType = Color((242, 148, 141))
     major_warning_color: ColorType = Color((240, 60, 46))
+
+class HasEnablePerTabColors(PropertyBase):
+    enable_per_tab_colors: bool = False
+
+class HasTankScale(PropertyBase):
+    show_alarm_limits: bool = False
+    alarm_limits_from_pv: bool = True
+    minor_alarm_color: ColorType = Color((255, 128, 0))
+    major_alarm_color: ColorType = Color((255, 0, 0))
+    opposite_scale_visible: bool = False
+    perpendicular_tick_labels: bool = False
+    tank_border_width: int = 0

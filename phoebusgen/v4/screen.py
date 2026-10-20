@@ -163,13 +163,15 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         # Collect from TemplateInstance widgets
         for widget in all_widgets:
             if isinstance(widget, TemplateInstance) and widget.file is not None:
-                macros = {}
-                macros.update(screen_macros)
-                macros.update(widget.macros)
-                transitions.append(ScreenTransition(
-                    target=Path(widget.file),
-                    macros=macros,
-                ))
+                # A template references a single file; each instance supplies its own macros.
+                for instance in widget.instances:
+                    macros = {}
+                    macros.update(screen_macros)
+                    macros.update(instance.macros)
+                    transitions.append(ScreenTransition(
+                        target=Path(widget.file),
+                        macros=macros,
+                    ))
 
         # Collect from NavigationTabs widgets
         for widget in all_widgets:

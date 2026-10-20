@@ -49,7 +49,7 @@ from phoebusgen.v4.properties.types import (
     Trace,
     TraceType,
 )
-from phoebusgen.v4.properties.widget import HasName
+from phoebusgen.v4.properties.widget import HasName, HasWidgetClass
 from phoebusgen.v4.utils import prettify_xml
 from phoebusgen.v4.widgets import Label, Tab, XYPlot
 
@@ -568,6 +568,7 @@ def test_get_property_classes():
     assert XYPlot.get_property_classes() == [
         HasVisible,
         HasName,
+        HasWidgetClass,
         HasPosition,
         HasActionsRulesAndScripts,
         HasToolTip,
@@ -588,6 +589,7 @@ def test_get_property_names():
     assert xy_plot.get_property_names() == [
         'visible',
         'name',
+        'widget_class',
         'x',
         'y',
         'width',

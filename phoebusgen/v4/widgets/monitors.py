@@ -4,7 +4,9 @@ from phoebusgen.v4.properties.behavior import (
     HasEditable,
     HasEnabled,
     HasFallback,
+    HasFallbackSymbol,
     HasInteractive,
+    HasRunActionsOnMouseClick,
     HasWarningLevels,
     HasLimitsFromPV,
     HasLogScale,
@@ -18,6 +20,7 @@ from phoebusgen.v4.properties.display import (
     HasAutoSize,
     HasBackgroundColor,
     HasColumns,
+    HasDisconnectOverlayColor,
     HasEmptyColor,
     HasFillColor,
     HasFont,
@@ -40,11 +43,13 @@ from phoebusgen.v4.properties.display import (
     HasRotationStep,
     HasScaleVisible,
     HasShowIndex,
+    HasShowMinorTicks,
     HasShowToolbar,
     HasShowUnits,
     HasShowValue,
     HasSquare,
     HasStartBit,
+    HasTankScale,
     HasTransparent,
     HasVerticalAlignment,
 )
@@ -158,7 +163,7 @@ class LinearMeter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, Has
 
 class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, HasFormat,
             HasPrecision, HasShowValue, HasShowUnits, HasShowLimits, HasAlarmBorder,
-            HasLimitsFromPV, HasMinMax, HasKnobAndNeedleColor):
+            HasLimitsFromPV, HasMinMax, HasLogScale, HasKnobAndNeedleColor):
     """Meter Phoebus Widget"""
 
     needle_color: ColorType = Color((255, 5, 7))
@@ -184,7 +189,7 @@ class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, 
         self.pv_name = pv_name
 
 class ProgressBar(Widget, HasPVName, HasFillColor, HasBackgroundColor, HasHorizontal,
-                  HasAlarmBorder, HasLimitsFromPV, HasMinMax):
+                  HasAlarmBorder, HasLimitsFromPV, HasLogScale, HasMinMax):
     """ ProgressBar Phoebus Widget """
 
     background_color: ColorType = Color((250, 250, 250))
@@ -205,11 +210,13 @@ class ProgressBar(Widget, HasPVName, HasFillColor, HasBackgroundColor, HasHorizo
         self.pv_name = pv_name
 
 class Symbol(Widget, HasPVName, HasSymbols, HasBackgroundColor, HasInitialIndex,
-             HasRotation, HasShowIndex, HasTransparent, HasAlarmBorder, HasArrayIndex,
+             HasRotation, HasShowIndex, HasTransparent, HasDisconnectOverlayColor,
+             HasRunActionsOnMouseClick, HasFallbackSymbol, HasAlarmBorder, HasArrayIndex,
              HasAutoSize, HasEnabled, HasPreserveRatio):
     """ Symbol Phoebus Widget """
 
     transparent: bool = True
+    disconnect_overlay_color: ColorType = Color((255, 0, 255, 128))
     tooltip: str = '$(pv_name)\n$(pv_value)\n$(actions)'
     height: int = 100
 
@@ -250,13 +257,20 @@ class Table(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, 
         self.pv_name = pv_name
 
 class Tank(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor,
-           HasFillColor, HasEmptyColor, HasScaleVisible, HasAlarmBorder, HasLimitsFromPV,
+           HasFillColor, HasEmptyColor, HasFormat, HasPrecision, HasScaleVisible,
+           HasShowMinorTicks, HasTankScale, HasWarningLevels, HasAlarmBorder, HasLimitsFromPV,
            HasMinMax, HasLogScale, HasHorizontal):
     """ Tank Phoebus Widget """
 
     background_color: ColorType = Color((240, 240, 240))
     fill_color: ColorType = Color((0, 0, 255))
     empty_color: ColorType = Color((192, 192, 192))
+    format: Format = Format.DEFAULT
+    precision: int = 2
+    level_lolo: float = float('nan')
+    level_low: float = float('nan')
+    level_high: float = float('nan')
+    level_hihi: float = float('nan')
     horizontal: bool = False
     tooltip: str = STANDARD_TOOLTIP
     width: int = 150
@@ -277,7 +291,7 @@ class Tank(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor,
         self.pv_name = pv_name
 
 class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor, HasTransparent,
-                 HasHorizontalAlignment, HasVerticalAlignment, HasRotation, HasWrapWords,
+                 HasHorizontalAlignment, HasVerticalAlignment, HasRotationStep, HasWrapWords,
                  HasAlarmBorder, HasEnabled, HasArrayIndex, HasSymbols):
     """ TextSymbol Phoebus Widget """
 
@@ -347,3 +361,6 @@ class Thermometer(Widget, HasPVName, HasFillColor, HasAlarmBorder, HasLimitsFrom
         """
         Widget.__init__(self, name, x, y, width, height)
         self.pv_name = pv_name
+
+# Phoebus names the table row-selection property 'row_selection_mode'.
+Table._override_property_tag_name('select_rows', 'row_selection_mode')

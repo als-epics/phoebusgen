@@ -32,7 +32,16 @@ SKIP_PROPERTIES = {'name'}
 # value intentionally does not match a default-constructed phoebusgen widget.
 KNOWN_ACCEPTABLE_DIFFS = {
     ('symbol', 'tooltip'),  # Phoebus writes literal backslash-n instead of real newlines for the symbol tooltip
+    ('symbol', 'fallback_symbol'),  # reference points at a sample image file, we intentionally leave it blank.
     ('picture', 'file'),  # reference points at a sample image file, we intentionally leave it blank.
+
+    # The tank alarm level defaults are NaN in the reference, and NaN never
+    # compares equal to itself, so these can never match via ==. phoebusgen
+    # uses the same float('nan') default, which is the intended behavior.
+    ('tank', 'level_lolo'),
+    ('tank', 'level_low'),
+    ('tank', 'level_high'),
+    ('tank', 'level_hihi'),
 
     # For a lot of the widgets with a property that is a list of sub-elements
     # phoebus defaults to including one or more sample sub-elements. Making the
@@ -137,4 +146,53 @@ def test_default_widget_values_match_reference(tmp_path: Path) -> None:
     assert not mismatches, (
         'Default widget values differ from the Phoebus reference screen:\n'
         + '\n'.join(mismatches)
+    )
+
+
+# XML tags the reference screen writes that are structural content rather than
+# widget properties (e.g. child widgets nested inside a container widget).
+STRUCTURAL_REFERENCE_TAGS = {'widget'}
+
+
+def test_widget_property_tag_names_match_reference() -> None:
+    """Every property of every matched widget must map to the exact XML tag name Phoebus uses, in both directions.
+
+    Direction 1 (no extra tags): every XML tag phoebusgen would emit for a
+    default-constructed widget must exist in the reference widget.
+    Direction 2 (no missing tags): every XML tag the reference widget contains
+    must be emitted by phoebusgen.
+    """
+    reference_root = _fetch_reference_root()
+    type_to_class = _widget_type_to_class()
+
+    # First reference element for each supported widget type.
+    reference_tags_by_type: Dict[str, set] = {}
+    for element in reference_root.findall('widget'):
+        widget_type = element.get('type')
+        if widget_type not in type_to_class or widget_type in reference_tags_by_type:
+            continue
+        reference_tags_by_type[widget_type] = {
+            child.tag for child in list(element)
+        } - STRUCTURAL_REFERENCE_TAGS
+
+    assert reference_tags_by_type, 'Reference screen contained no supported widgets'
+
+    extra_tags = []
+    missing_tags = []
+    for widget_type, reference_tags in sorted(reference_tags_by_type.items()):
+        our_widget = type_to_class[widget_type]()
+        our_tags = set()
+        for prop_name in our_widget.get_property_names():
+            tag_name = our_widget._get_property_tag_name(prop_name)
+            if tag_name is not None:
+                our_tags.add(tag_name)
+
+        for tag in sorted(our_tags - reference_tags):
+            extra_tags.append(f'{widget_type}: phoebusgen emits <{tag}> not present in reference')
+        for tag in sorted(reference_tags - our_tags):
+            missing_tags.append(f'{widget_type}: reference has <{tag}> not emitted by phoebusgen')
+
+    assert not (extra_tags or missing_tags), (
+        'Widget property XML tag names differ from the Phoebus reference screen:\n'
+        + '\n'.join(extra_tags + missing_tags)
     )

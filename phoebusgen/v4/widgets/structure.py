@@ -6,6 +6,7 @@ from phoebusgen.v4.properties.behavior import HasAlarmBorder
 from phoebusgen.v4.properties.display import (
     HasBackgroundColor,
     HasDeselectedColor,
+    HasEnablePerTabColors,
     HasFont,
     HasForegroundColor,
     HasGap,
@@ -98,7 +99,7 @@ class Group(Widget, HasWidgets, HasMacros, HasGroupStyle, HasFont, HasForeground
 Group._override_property_tag_name('widgets', None)
 
 
-class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, HasFont):
+class NavigationTabs(Widget, HasNavTabs, HasSelectedColor, HasDeselectedColor, HasEnablePerTabColors, HasFont):
     """NavigationTabs Phoebus Widget"""
 
     selected_color: Color = Color((236, 236, 236))
@@ -189,7 +190,7 @@ class Tabs(Widget, HasTabs, HasMacros, HasTabActiveHeightDirection, HasFont, Has
         Widget.__init__(self, name, x, y, width, height)
 
 
-class TemplateInstance(Widget, HasWidgets, HasMacros, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
+class TemplateInstance(Widget, HasFile, HasInstances, HasTransparent, HasHorizontal, HasWrapCount, HasGap):
     """TemplateInstance Phoebus Widget"""
 
     horizontal: bool = False
@@ -209,3 +210,6 @@ class TemplateInstance(Widget, HasWidgets, HasMacros, HasFile, HasInstances, Has
         """
         Widget.__init__(self, name, x, y, width, height)
         self.file = file
+
+# Phoebus uses the 'resize' tag name for the embedded display resize behavior.
+EmbeddedDisplay._override_property_tag_name('resize_behavior', 'resize')
