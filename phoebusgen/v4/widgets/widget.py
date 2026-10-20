@@ -99,7 +99,6 @@ class HasParent:
 
 class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasWidgetClass, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
-
     def __init__(self, name: str = '', x_pos: int = 0, y_pos: int = 0,
                  width: int = 100, height: int = 20) -> None:
         """Base Class for all Phoebus widgets
