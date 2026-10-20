@@ -417,7 +417,6 @@ def _widgets_getter_with_parent(self: HasWidgets) -> List[Widget]:
 
     :return: List of Widget instances with their parent set to the container
     """
-
     if _widgets_fget is None:
         raise AttributeError('Cannot get widgets property; no getter defined.')
 
