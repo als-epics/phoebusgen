@@ -139,13 +139,14 @@ def test_default_widget_values_match_reference(tmp_path: Path) -> None:
             try:
                 reference_value = getattr(reference_widget, prop_name)
                 our_value = getattr(our_widget, prop_name)
+                if reference_value != our_value:
+                    mismatches.append(
+                        f'{widget_type}.{prop_name}: '
+                        f'reference={reference_value!r} phoebusgen={our_value!r}'
+                    )
             except Exception:
-                continue
-            if reference_value != our_value:
-                mismatches.append(
-                    f'{widget_type}.{prop_name}: '
-                    f'reference={reference_value!r} phoebusgen={our_value!r}'
-                )
+                pass
+
 
     assert not mismatches, (
         'Default widget values differ from the Phoebus reference screen:\n'
