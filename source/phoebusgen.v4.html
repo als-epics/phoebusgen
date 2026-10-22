@@ -6065,21 +6065,21 @@ to a .bob file which can be opened immeditaely into Phoebus</p>
 <dl>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">phoebusgen.v4.screen</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">phoebusgen.v4.widgets</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">my_screen</span> <span class="o">=</span> <span class="n">phoebusgen</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">Screen</span><span class="p">(</span><span class="s2">&quot;my screen&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_screen</span> <span class="o">=</span> <span class="n">phoebusgen</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">Screen</span><span class="p">(</span><span class="s2">"my screen"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_screen</span><span class="p">)</span>
-<span class="go">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
-<span class="go">&lt;display version=&quot;2.0.0&quot;&gt;</span>
+<span class="go">&lt;?xml version="1.0" ?&gt;</span>
+<span class="go">&lt;display version="2.0.0"&gt;</span>
 <span class="go">  &lt;name&gt;my screen&lt;/name&gt;</span>
 <span class="go">&lt;/display&gt;</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_widget</span> <span class="o">=</span> <span class="n">phoebusgen</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">TextUpdate</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;test:PV&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span> <span class="p">,</span><span class="mi">10</span> <span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_widget</span> <span class="o">=</span> <span class="n">phoebusgen</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">TextUpdate</span><span class="p">(</span><span class="s2">"test"</span><span class="p">,</span> <span class="s2">"test:PV"</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span> <span class="p">,</span><span class="mi">10</span> <span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">my_screen</span><span class="o">.</span><span class="n">add_widget</span><span class="p">(</span><span class="n">my_widget</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">my_screen</span><span class="p">)</span>
-<span class="go">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
-<span class="go">&lt;display version=&quot;2.0.0&quot;&gt;</span>
+<span class="go">&lt;?xml version="1.0" ?&gt;</span>
+<span class="go">&lt;display version="2.0.0"&gt;</span>
 <span class="go">  &lt;name&gt;my screen&lt;/name&gt;</span>
-<span class="go">  &lt;widget type=&quot;textupdate&quot; version=&quot;2.0.0&quot;&gt;</span>
+<span class="go">  &lt;widget type="textupdate" version="2.0.0"&gt;</span>
 <span class="go">    &lt;name&gt;test&lt;/name&gt;</span>
 <span class="go">    &lt;x&gt;10&lt;/x&gt;</span>
 <span class="go">    &lt;y&gt;10&lt;/y&gt;</span>
