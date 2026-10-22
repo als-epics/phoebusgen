@@ -391,60 +391,12 @@ def test_template_instance_with_instances_and_macros():
 
 
 def test_template_instance_add_and_remove_widgets():
+    # The Phoebus template widget references an external file per instance and
+    # does not contain top-level child widgets, so TemplateInstance exposes no
+    # 'widgets' property.
     tmpl = TemplateInstance(name='T', file='t.bob', x=0, y=0, width=300, height=200)
-
-    # Add several widgets
-    tmpl.widgets.append(Label(name='L1', text='First', x=0, y=0, width=80, height=20))
-    tmpl.widgets.append(Label(name='L2', text='Second', x=0, y=30, width=80, height=20))
-    tmpl.widgets.append(Rectangle(name='R1', x=0, y=60, width=100, height=50))
-    tmpl.widgets.append(TextUpdate(name='TU1', pv_name='PV:VAL', x=0, y=120, width=100, height=25))
-
-    assert len(tmpl.widgets) == 4
-    assert tmpl.widgets[0].name == 'L1'
-    assert tmpl.widgets[1].name == 'L2'
-    assert tmpl.widgets[2].name == 'R1'
-    assert tmpl.widgets[3].name == 'TU1'
-
-    # Remove middle widget
-    del tmpl.widgets[1]
-    assert len(tmpl.widgets) == 3
-    assert tmpl.widgets[0].name == 'L1'
-    assert tmpl.widgets[1].name == 'R1'
-    assert tmpl.widgets[2].name == 'TU1'
-
-    # Remove first widget
-    del tmpl.widgets[0]
-    assert len(tmpl.widgets) == 2
-    assert tmpl.widgets[0].name == 'R1'
-    assert tmpl.widgets[1].name == 'TU1'
-
-    assert tmpl == """<?xml version="1.0" ?>
-<widget type="template" version="2.0.0">
-  <name>T</name>
-  <x>0</x>
-  <y>0</y>
-  <width>300</width>
-  <height>200</height>
-  <file>t.bob</file>
-  <widgets>
-    <widget type="rectangle" version="2.0.0">
-      <name>R1</name>
-      <x>0</x>
-      <y>60</y>
-      <width>100</width>
-      <height>50</height>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>TU1</name>
-      <x>0</x>
-      <y>120</y>
-      <width>100</width>
-      <height>25</height>
-      <pv_name>PV:VAL</pv_name>
-    </widget>
-  </widgets>
-</widget>
-"""
+    assert 'widgets' not in tmpl.get_property_names()
+    assert not hasattr(tmpl, 'widgets')
 
 
 def test_template_instance_from_xml():
@@ -469,23 +421,6 @@ def test_template_instance_from_xml():
       </macros>
     </instance>
   </instances>
-  <widgets>
-    <widget type="label" version="2.0.0">
-      <name>L1</name>
-      <x>0</x>
-      <y>0</y>
-      <width>50</width>
-      <height>20</height>
-      <text>Hi</text>
-    </widget>
-    <widget type="rectangle" version="2.0.0">
-      <name>R1</name>
-      <x>0</x>
-      <y>30</y>
-      <width>50</width>
-      <height>20</height>
-    </widget>
-  </widgets>
 </widget>"""
     tmpl = TemplateInstance.from_element(fromstring(tmpl_xml))
     assert tmpl is not None
@@ -498,12 +433,8 @@ def test_template_instance_from_xml():
     assert dict(tmpl.instances[0].macros) == {'P': 'IOC1', 'R': 'Motor1'}
     assert dict(tmpl.instances[1].macros) == {'P': 'IOC2', 'R': 'Motor2'}
 
-    # Verify child widgets
-    assert len(tmpl.widgets) == 2
-    assert tmpl.widgets[0].name == 'L1'
-    assert isinstance(tmpl.widgets[0], Label)
-    assert tmpl.widgets[1].name == 'R1'
-    assert isinstance(tmpl.widgets[1], Rectangle)
+    # The template widget does not expose top-level child widgets.
+    assert not hasattr(tmpl, 'widgets')
 
 
 def test_group_remove_widget():

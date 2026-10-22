@@ -1,4 +1,4 @@
-""" phoebusgen.screen Module
+"""phoebusgen.screen Module
 
 This module contains a Python class representation of a Phoebus screen. A screen
 can be created via the Screen class and then widgets from Phoebusgen.widget can be
@@ -53,7 +53,8 @@ from phoebusgen.v4.widgets.structure import EmbeddedDisplay, TemplateInstance
 
 
 def _strip_indentation_whitespace(elem: ET.Element) -> None:
-    """Remove whitespace-only text and tail nodes left by pretty-printing.
+    """
+    Remove whitespace-only text and tail nodes left by pretty-printing.
 
     Preserves real leaf text (e.g. multi-line tooltips) that would otherwise be
     mangled by naive line stripping.
@@ -67,7 +68,7 @@ def _strip_indentation_whitespace(elem: ET.Element) -> None:
 
 
 class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
-    """ Phoebus Screen object that holds widgets and can be written to .bob file """
+    """Phoebus Screen object that holds widgets and can be written to .bob file."""
 
     width: int = 800
     height: int = 600
@@ -163,13 +164,15 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         # Collect from TemplateInstance widgets
         for widget in all_widgets:
             if isinstance(widget, TemplateInstance) and widget.file is not None:
-                macros = {}
-                macros.update(screen_macros)
-                macros.update(widget.macros)
-                transitions.append(ScreenTransition(
-                    target=Path(widget.file),
-                    macros=macros,
-                ))
+                # A template references a single file; each instance supplies its own macros.
+                for instance in widget.instances:
+                    macros = {}
+                    macros.update(screen_macros)
+                    macros.update(instance.macros)
+                    transitions.append(ScreenTransition(
+                        target=Path(widget.file),
+                        macros=macros,
+                    ))
 
         # Collect from NavigationTabs widgets
         for widget in all_widgets:

@@ -15,13 +15,15 @@ from .types import (
 
 class HasPVName(HasToolTip):
     pv_name: str = ''
-    tool_tip: str = '$(pv_name)\n$(pv_value)'
 
 class HasMacros(PropertyBase):
     macros: Dict[str, str]
 
 class HasName(PropertyBase):
     name: str = ''
+
+class HasWidgetClass(PropertyBase):
+    widget_class: str = 'DEFAULT'
 
 class HasFile(PropertyBase):
     file: Optional[Union[Path, str]] = None

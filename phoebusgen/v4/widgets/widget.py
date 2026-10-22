@@ -8,9 +8,8 @@ from phoebusgen.v4.properties.behavior import HasActionsRulesAndScripts, HasTool
 from phoebusgen.v4.properties.display import HasVisible
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import PropertyBase
-from phoebusgen.v4.properties.widget import HasName
+from phoebusgen.v4.properties.widget import HasName, HasWidgetClass
 from phoebusgen.v4.utils import PhoebusElement, prettify_xml
-
 # Populated at runtime on import of phoebusgen.v4
 widget_versions = {}
 
@@ -98,9 +97,8 @@ PropertyT = TypeVar('PropertyT', bound=PropertyBase)
 class HasParent:
     parent: Optional['HasWidgets'] = None
 
-class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasActionsRulesAndScripts, HasToolTip):
+class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasWidgetClass, HasPosition, HasActionsRulesAndScripts, HasToolTip):
     """Base Class for all Phoebus widgets."""
-
     def __init__(self, name: str = '', x_pos: int = 0, y_pos: int = 0,
                  width: int = 100, height: int = 20) -> None:
         """Base Class for all Phoebus widgets
@@ -225,6 +223,10 @@ class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasPosition, HasAct
 
     def __repr__(self):
         return prettify_xml(self.root)
+
+
+# Phoebus stores the widget class name under the reserved <class> XML tag.
+Widget._override_property_tag_name('widget_class', 'class')
 
 
 class HasWidgets(PhoebusElement, PropertyBase):
@@ -415,7 +417,6 @@ def _widgets_getter_with_parent(self: HasWidgets) -> List[Widget]:
 
     :return: List of Widget instances with their parent set to the container
     """
-
     if _widgets_fget is None:
         raise AttributeError('Cannot get widgets property; no getter defined.')
 
