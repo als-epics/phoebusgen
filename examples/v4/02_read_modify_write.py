@@ -52,8 +52,9 @@ def modify(in_path: str, out_path: str) -> None:
         tu.pv_name = tu.pv_name.replace('SIM:01', 'SIM:02')
 
     # Write the edited screen back out to a new file.
-    # Note, if opened with `overwrite=True`, calling `write_screen()` with
-    # no arguments will overwrite the original file. Here we write to a new file.
+    # Calling write_screen() with no arguments overwrites the file passed as f_name.
+    # Keep overwrite=False when loading it; overwrite=True starts a fresh display.
+    # Here we write to a new file instead.
     screen.write_screen(out_path)
 
 

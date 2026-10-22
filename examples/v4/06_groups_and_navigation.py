@@ -50,7 +50,7 @@ def main() -> None:
     # --- Query helpers ---
     print('Direct children:', [w.name for w in screen.get_widgets()])
     print('All widgets (recursive):', [w.name for w in screen.get_all_widgets()])
-    print('All TextUpdates:', [w.name for w in screen.get_widgets_by_type(TextUpdate)])
+    print('All TextUpdates:', [w.name for w in screen.get_all_widgets() if isinstance(w, TextUpdate)])
 
     # --- Navigation discovery ---
     for transition in screen.get_linked_screens():

@@ -46,7 +46,10 @@ def main() -> None:
         Rule(
             name='Visible When Nonzero',
             prop_id='visible',
-            expressions=[RuleExpression(bool_exp='pv0 != 0', value=True, value_as_expression=False)],
+            expressions=[
+                RuleExpression(bool_exp='pv0 != 0', value=True, value_as_expression=False),
+                RuleExpression(bool_exp='pv0 == 0', value=False, value_as_expression=False),
+            ],
             pv_names={'SIM:01:ALARM': True},
             out_exp=False,
         ),
