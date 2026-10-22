@@ -30,6 +30,8 @@ except ImportError:
 from .types import (
     Action,
     Color,
+    EmbeddedScript,
+    EmbeddedScriptType,
     Font,
     ObservableDataclass,
     ObservableDict,
@@ -37,6 +39,7 @@ from .types import (
     Rule,
     RuleExpression,
     PropertyType,
+    Script,
     ValidListTypeT,
 )
 
@@ -532,6 +535,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
             return getattr(cls, method_name)
         elif issubclass(property_type, Action):
             return getattr(cls, f'_{prefix}_action_property')
+        elif issubclass(property_type, Script):
+            return getattr(cls, f'_{prefix}_script_property')
         elif property_type is RuleExpression:
             return getattr(cls, f'_{prefix}_rule_expression_property')
         elif issubclass(property_type, PhoebusElement):
@@ -740,6 +745,9 @@ class PropertyBase(metaclass=PropertyMetaclass):
                     raise TypeError(f"Only primitive types and enums are supported as element attributes, got {field_type} for field '{property_type.__name__}.{field_name}'")
                 field_values[field_name] = _str_to_primitive(element.attrib[field_name] or '', cast(Type[Primitive], field_type))
             elif field_elem is not None and (field_elem.text is not None or field_type not in (int, float, str, bool, Path)):
+                if get_origin(field_type) is list:
+                    field_values[field_name] = cls._get_list_property(field_name, field_elem, get_args(field_type)[0])
+                    continue
                 typed_getter = cls._find_getter_by_type(field_type)
                 getter_args = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
@@ -779,7 +787,11 @@ class PropertyBase(metaclass=PropertyMetaclass):
                         raise TypeError(f'Only primitive types or enums can be set as attributes, got {field_type}')
                 else:
                     typed_setter = cls._find_setter_by_type(field_type)
-                    sub_elem = typed_setter(field_name, field_value)
+                    # List setters also take the tag name of the element wrapping the list items
+                    if get_origin(field_type) is list:
+                        sub_elem = typed_setter(field_name, field_name, field_value)
+                    else:
+                        sub_elem = typed_setter(field_name, field_value)
                     element.append(sub_elem)
             else:
                 raise TypeError(f"Value {field_value} is of invalid type for field '{field_name}' of dataclass '{property_cls.__name__}': must be of type {field_type}")
@@ -818,6 +830,72 @@ class PropertyBase(metaclass=PropertyMetaclass):
         element = cls._set_dataclass_property('action', value)
         action_type = ''.join(['_' + c.lower() if c.isupper() and i != 0 else c.lower() for i, c in enumerate(type(value).__name__[:-6])])
         element.attrib['type'] = action_type
+        return element
+
+
+    @classmethod
+    def _get_script_property(cls, element: Element) -> Script:
+        """Given an XML element representing a script property, parse the value and return a Script or EmbeddedScript.
+
+        Phoebus stores the script location in the 'file' attribute, reserving the EmbeddedScriptType
+        values for scripts whose source is embedded in the display instead of being stored separately.
+
+        :param element: The XML element to parse the script from
+        :return: An EmbeddedScript if the file attribute names an embedded script type, otherwise a Script
+        """
+
+        file_attrib = element.attrib.get('file', None)
+        if file_attrib is None:
+            raise ValueError("Script element is missing required 'file' attribute!")
+
+        check_connections = element.attrib.get('check_connections', 'true') == 'true'
+
+        pv_names: ObservableDict[str, bool] = ObservableDict()
+        for pv_elem in element.findall('pv_name'):
+            if pv_elem.text is None:
+                raise ValueError('Script pv_name element is missing text value!')
+            pv_names[pv_elem.text] = pv_elem.attrib.get('trigger', 'true') == 'true'
+
+        try:
+            script_type = EmbeddedScriptType(file_attrib)
+        except ValueError:
+            return Script(file=Path(file_attrib), pv_names=pv_names, check_connections=check_connections)
+
+        text_elem = element.find('text')
+        text = text_elem.text or '' if text_elem is not None else ''
+        return EmbeddedScript(file=script_type, pv_names=pv_names, check_connections=check_connections, text=text)
+
+
+    @classmethod
+    def _set_script_property(cls, prop_name: str, value: Script) -> Element:
+        """Given a Script or EmbeddedScript, create an XML element representing the script property.
+
+        :param prop_name: The name of the property
+        :param value: The Script to set
+        :return: The XML element representing the script property
+        """
+
+        element = _create_element(prop_name)
+
+        if isinstance(value, EmbeddedScript):
+            element.attrib['file'] = str(_coerce_enum_value(value.file, EmbeddedScriptType).value)
+        elif value.file is None:
+            raise ValueError(f"Script set for property '{prop_name}' is missing a file!")
+        else:
+            element.attrib['file'] = str(value.file)
+
+        # Phoebus treats a missing check_connections attribute as true
+        if not value.check_connections:
+            element.attrib['check_connections'] = 'false'
+
+        if isinstance(value, EmbeddedScript):
+            element.append(_create_element('text', value.text))
+
+        for pv_name, trigger in value.pv_names.items():
+            pv_elem = _create_element('pv_name', pv_name)
+            pv_elem.attrib['trigger'] = str(trigger).lower()
+            element.append(pv_elem)
+
         return element
 
 

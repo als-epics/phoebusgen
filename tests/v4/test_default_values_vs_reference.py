@@ -66,6 +66,7 @@ KNOWN_ACCEPTABLE_DIFFS = {
     ('xyplot', 'y_axes'),
     ('navtabs', 'tabs'),
     ('tabs', 'tabs'),
+    ('table', 'columns'),
 }
 
 

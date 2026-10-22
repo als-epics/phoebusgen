@@ -243,7 +243,7 @@ class TabDirection(int, Enum):
 
 class EmbeddedScriptType(str, Enum):
     PYTHON = 'EmbeddedPy'
-    JAVASCRIPT = 'EmbeddedJS'
+    JAVASCRIPT = 'EmbeddedJs'
 
 class Format(int, Enum):
     DEFAULT = 0
@@ -256,7 +256,6 @@ class Format(int, Enum):
     SEXAGESIMAL_HMS_24H_RAD = 7
     SEXAGESIMAL_DMS_360D_RAD = 8
     BINARY = 9
-
 
 KT = TypeVar('KT')
 VT = TypeVar('VT')
@@ -311,7 +310,6 @@ class ObservableDict(Dict[KT, VT]):
         result = super().__ior__(other)
         self._notify_change()
         return result
-
 
 @dataclass
 class ObservableDataclass:
@@ -427,10 +425,6 @@ class ObservableList(List[ValidListTypeT]):
         self._notify_change()
         return result
 
-
-
-
-
 @dataclass
 class Font(ObservableDataclass):
     family: str = 'Liberation Sans'
@@ -516,7 +510,8 @@ class NavTab(ObservableDataclass):
 @dataclass
 class Script(ObservableDataclass):
     file: Optional[Union[Path, str]] = None
-    pv_names: List[str] = field(default_factory=ObservableList[str])
+    pv_names: Dict[str, bool] = field(default_factory=ObservableDict)
+    check_connections: bool = True
 
 @dataclass
 class EmbeddedScript(Script):
@@ -560,7 +555,6 @@ class RuleExpression(ObservableDataclass):
     value: Optional[PropertyType] = None
     value_as_expression: bool = False
 
-
 @dataclass
 class Rule(ObservableDataclass):
     name: str = 'New Rule'
@@ -572,7 +566,6 @@ class Rule(ObservableDataclass):
 @dataclass
 class Instance(ObservableDataclass):
     macros: Dict[str, str] = field(default_factory=ObservableDict)
-
 
 @dataclass
 class Point(ObservableDataclass):
