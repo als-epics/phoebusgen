@@ -100,8 +100,8 @@ def test_create_image_widget():
   <data_height>480</data_height>
   <interpolation>1</interpolation>
   <log_scale>true</log_scale>
-  <unsigned_data>true</unsigned_data>
-  <auto_scale>true</auto_scale>
+  <unsigned>true</unsigned>
+  <autoscale>true</autoscale>
   <minimum>0.0</minimum>
   <maximum>4095.0</maximum>
 </widget>
@@ -120,8 +120,8 @@ def test_image_from_xml():
   <data_height>768</data_height>
   <color_map>JET</color_map>
   <interpolation>2</interpolation>
-  <unsigned_data>true</unsigned_data>
-  <auto_scale>true</auto_scale>
+  <unsigned>true</unsigned>
+  <autoscale>true</autoscale>
   <minimum>10.0</minimum>
   <maximum>1000.0</maximum>
 </widget>"""
@@ -409,7 +409,7 @@ def test_xyplot_with_y_axes_and_markers():
       </color>
     </y_axis>
   </y_axes>
-  <markers>
+  <marker>
     <marker>
       <pv_name>MARK:THRESHOLD</pv_name>
       <color>
@@ -424,7 +424,7 @@ def test_xyplot_with_y_axes_and_markers():
       </color>
       <interactive>true</interactive>
     </marker>
-  </markers>
+  </marker>
   <traces>
     <trace>
       <name>Temp Data</name>
@@ -505,7 +505,7 @@ def test_xyplot_y_axes_and_markers_from_xml():
       </color>
     </y_axis>
   </y_axes>
-  <markers>
+  <marker>
     <marker>
       <pv_name>MARK:PV1</pv_name>
       <color>
@@ -520,7 +520,7 @@ def test_xyplot_y_axes_and_markers_from_xml():
       </color>
       <interactive>false</interactive>
     </marker>
-  </markers>
+  </marker>
   <traces>
     <trace>
       <name>Signal</name>

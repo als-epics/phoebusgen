@@ -6,7 +6,7 @@ import pytest
 from phoebusgen.v4.properties.widget import HasPVName
 from phoebusgen.v4.properties.types import Color, OpenDisplayAction, OpenDisplayTarget, ObservableDict
 from phoebusgen.v4.screen import Screen, ScreenTransition, NavigationGraph, NavigationEdge
-from phoebusgen.v4.widgets import ActionButton, EmbeddedDisplay, Label, NavigationTabs, TextUpdate, Widget, WidgetType
+from phoebusgen.v4.widgets import ActionButton, EmbeddedDisplay, Label, NavigationTabs, TextUpdate, Widget, WidgetType, XYPlot
 
 
 @pytest.fixture
@@ -320,6 +320,20 @@ def test_get_used_macros_excludes_widget_properties_in_tooltip(sample_screen):
     # pv_name is a property of TextUpdate, pv_value is a runtime macro for PV widgets
     assert 'pv_name' not in macros
     assert 'pv_value' not in macros
+    # PREFIX is a real user macro
+    assert 'PREFIX' in macros
+
+
+def test_get_used_macros_excludes_list_property_references(sample_screen):
+    """References into list properties (e.g. $(traces[0].y_pv)) are excluded."""
+    plot = XYPlot(name='plot', x=0, y=0, width=400, height=300)
+    plot.tooltip = '$(traces[0].y_pv) on $(PREFIX)'
+    sample_screen.add_widget(plot)
+    macros, _ = sample_screen.get_used_macros()
+    # 'traces' is a list property of XYPlot; the indexed/sub-field reference
+    # must not be reported as a user macro.
+    assert 'traces' not in macros
+    assert 'traces[0].y_pv' not in macros
     # PREFIX is a real user macro
     assert 'PREFIX' in macros
 

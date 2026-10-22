@@ -21,7 +21,7 @@ from phoebusgen.v4.properties.widget import (
     (HasFile, None, Path('new/file/path.bob')),
     (HasUrl, '', 'http://new.url'),
     (HasBit, 0, 1),
-    (HasLabel, '', 'New Label'),
+    (HasLabel, 'Label', 'New Label'),
 ])
 def test_widget_primitive_properties(property_cls, initial_value, new_value, property_factory):
     prop = property_factory(property_cls)

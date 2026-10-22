@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 from phoebusgen.v4.properties.behavior import HasWrapWords
 from phoebusgen.v4.properties.display import (
@@ -24,7 +24,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
-from phoebusgen.v4.properties.types import Color, VerticalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, HorizontalAlignment, IntEnumType, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasFile, HasMacros
 
 from .widget import Widget
@@ -37,11 +37,11 @@ LIGHT_BLUE = Color((30, 144, 255)) # Light blue used for shape bg color
 class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
     """Arc Phoebus Widget"""
 
+    line_color: ColorType = BLUE
+    background_color: ColorType = LIGHT_BLUE
     height: int = 100
-    line_color: Color = BLUE
-    background_color: Color = LIGHT_BLUE
 
-    def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 100) -> None:
         """
         Create Arc Widget
 
@@ -56,11 +56,11 @@ class Arc(Widget, HasMacros, HasAngle, HasLineWidth, HasLineColor, HasLineStyle,
 class Ellipse(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent):
     """Ellipse Phoebus Widget"""
 
+    line_color: ColorType = BLUE
+    background_color: ColorType = LIGHT_BLUE
     height: int = 50
-    line_color: Color = BLUE
-    background_color: Color = LIGHT_BLUE
 
-    def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 50) -> None:
         """
         Create Ellipse Widget
 
@@ -76,13 +76,14 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
             HasVerticalAlignment, HasRotationStep, HasWrapWords, HasAutoSize, HasBorder):
     """Label Phoebus Widget"""
 
-    background_color: Color = Color((255, 255, 255))
-    width: int = 100
-    height: int = 20
+    background_color: ColorType = Color((255, 255, 255))
     text: str = 'Label text'
-    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.LEFT
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.TOP
+    transparent: bool = True  # Labels are transparent by default.
+    tooltip: str = ''
 
-    def __init__(self, name: str, text: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', text: str = 'Label text', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Label Widget
 
@@ -99,7 +100,10 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
 class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpacity):
     """Picture Phoebus Widget"""
 
-    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
+    width: int = 150
+    height: int = 100
+
+    def __init__(self, name: str = '', file: Optional[Union[Path, str]] = '', x: int = 0, y: int = 0, width: int = 150, height: int = 100) -> None:
         """
         Create Picture Widget
 
@@ -116,10 +120,10 @@ class Picture(Widget, HasMacros, HasFile, HasStretchToFit, HasRotation, HasOpaci
 class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTransparent, HasPoints, HasBackgroundColor):
     """Polygon Phoebus Widget"""
 
-    line_color: Color = BLUE
-    background_color: Color = POLY_BLUE
+    line_color: ColorType = BLUE
+    background_color: ColorType = POLY_BLUE
 
-    def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Polygon Widget
 
@@ -134,9 +138,9 @@ class Polygon(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasTr
 class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasArrows, HasPoints):
     """Polyline Phoebus Widget"""
 
-    line_color: Color = BLUE
+    line_color: ColorType = BLUE
 
-    def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Polyline Widget
 
@@ -151,10 +155,10 @@ class Polyline(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasA
 class Rectangle(Widget, HasMacros, HasLineWidth, HasLineColor, HasLineStyle, HasBackgroundColor, HasTransparent, HasCorners):
     """Rectangle Phoebus Widget"""
 
-    line_color: Color = BLUE
-    background_color: Color = LIGHT_BLUE
+    line_color: ColorType = BLUE
+    background_color: ColorType = LIGHT_BLUE
 
-    def __init__(self, name: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:
         """
         Create Rectangle Widget
 

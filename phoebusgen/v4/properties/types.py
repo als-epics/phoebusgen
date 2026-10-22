@@ -1,10 +1,30 @@
-from collections.abc import MutableMapping, MutableSequence
-from dataclasses import dataclass, field
+from dataclasses import Field, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, Generic, List, Optional, Tuple, TypeVar, Union
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple, TypeVar, Union, TYPE_CHECKING
 
-Primitive = Union[int, float, str, bool]
+# SupportsIndex was added to typing in Python 3.8. Use the real type for the
+# type checker, but fall back to int at runtime on 3.6/3.7.
+if TYPE_CHECKING:
+    from typing import SupportsIndex
+else:
+    try:
+        from typing import SupportsIndex
+    except ImportError:
+        SupportsIndex = int
+
+PropertyType = Union[
+    int, float, str, bool,
+    Tuple,
+    Enum,
+    'Color',
+    'Font',
+    'ObservableDict',
+    'ObservableList',
+    'ObservableDataclass',
+    'Rule',
+    'RuleExpression',
+]
 
 class Color(tuple):
 
@@ -19,8 +39,7 @@ class Color(tuple):
         # TODO: validate predefined color names
         return False
 
-    def __new__(cls, color=None):
-        # type: (Union[Tuple[int, int, int], Tuple[int, int, int, int], str]) -> Color
+    def __new__(cls, color: Optional[Union[Tuple[int, int, int], Tuple[int, int, int, int], str]] = None):
         if color is None:
             color = (0, 0, 0)
         red = 0
@@ -57,7 +76,9 @@ class Color(tuple):
             color_tuple += (alpha,)
         return super().__new__(cls, tuple(color_tuple))
 
+
     def as_hex(self) -> str:
+        """Returns the color as a hex string in the format #RRGGBB or #RRGGBBAA."""
         if len(self) == 3:
             return '#{:02X}{:02X}{:02X}'.format(self[0], self[1], self[2])
         elif len(self) == 4:
@@ -66,16 +87,25 @@ class Color(tuple):
             raise ValueError('Color tuple must be of length 3 (RGB) or 4 (RGBA)')
 
 
-    def __eq__(self, other: object) -> bool:
+    def __eq__(self, other: Any) -> bool:
+        """Check equality with another Color instance or a compatible color representation."""
         if not isinstance(other, Color):
             try:
-                other = Color(other)  # type: ignore
+                other = Color(other)
             except ValueError:
                 return False
         return tuple(self) == tuple(other)
 
 
 ColorType = Union[Color, Tuple[int, int, int, int], Tuple[int, int, int], str]
+
+EnumT = TypeVar('EnumT', bound=Enum)
+
+# Enum properties can be set using the member itself, the name of the member, or the value of the member,
+# so use these aliases when annotating them. For example, StrEnumType[FontStyle] allows FontStyle.BOLD_AND_ITALIC,
+# 'BOLD_AND_ITALIC' (the member name), and 'BOLD_ITALIC' (the member value) to all be used interchangeably.
+StrEnumType = Union[EnumT, str]
+IntEnumType = Union[EnumT, str, int]
 
 class FontStyle(str, Enum):
     REGULAR = 'REGULAR'
@@ -213,7 +243,7 @@ class TabDirection(int, Enum):
 
 class EmbeddedScriptType(str, Enum):
     PYTHON = 'EmbeddedPy'
-    JAVASCRIPT = 'EmbeddedJS'
+    JAVASCRIPT = 'EmbeddedJs'
 
 class Format(int, Enum):
     DEFAULT = 0
@@ -227,57 +257,59 @@ class Format(int, Enum):
     SEXAGESIMAL_DMS_360D_RAD = 8
     BINARY = 9
 
+KT = TypeVar('KT')
+VT = TypeVar('VT')
 
-class ObservableDict(MutableMapping):
+class ObservableDict(Dict[KT, VT]):
 
-    _on_change_callback = None  # type: Optional[Callable[['ObservableDict'], None]]
+    _on_change_callback: Optional[Callable[['ObservableDict[KT, VT]'], None]] = None
 
-    def __init__(self, *args, **kwargs):
-        self._dict = dict(*args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initializes the observable dictionary."""
+        super().__init__(*args, **kwargs)
 
-    def _notify_change(self):
+    def _notify_change(self) -> None:
+        """Notify the callback function that the dictionary has changed."""
         if self._on_change_callback:
             self._on_change_callback(self)
 
-    def __setitem__(self, key , value):
-        self._dict[key] = value
+    def __setitem__(self, key: KT, value: VT) -> None:
+        """Update the value for the given key and notify the callback."""
+        super().__setitem__(key, value)
         self._notify_change()
 
-    def __len__(self):
-        return len(self._dict)
-
-    def __getitem__(self, key):
-        return self._dict[key]
-
-    def __iter__(self):
-        return iter(self._dict)
-
-    def __delitem__(self, key):
-        del self._dict[key]
+    def __delitem__(self, key: KT) -> None:
+        """Delete the item with the given key and notify the callback."""
+        super().__delitem__(key)
         self._notify_change()
 
-    def clear(self):
-        self._dict.clear()
+    def clear(self) -> None:
+        """Remove all items from the dictionary and notify the callback."""
+        super().clear()
         self._notify_change()
 
-    def pop(self, key, default=None):
-        result = self._dict.pop(key, default)
+    def pop(self, *args: Any) -> Any:
+        """Remove the specified key and return the corresponding value, notifying the callback."""
+        result = super().pop(*args)
         self._notify_change()
         return result
 
-    def update(self, other=(), **kwargs):
-        self._dict.update(other, **kwargs)
+    def update(self, other: Any = (), **kwargs: Any) -> None:
+        """Update the dictionary with the key/value pairs from other, overwriting existing keys, and notify the callback."""
+        super().update(other, **kwargs)
         self._notify_change()
 
-    def __repr__(self):
-        return repr(self._dict)
+    def setdefault(self, key: KT, default: Any = None) -> VT:
+        """Set the default value for the given key and notify the callback if the key was not present."""
+        if key not in self:
+            self[key] = default
+        return self[key]
 
-    def __eq__(self, other):
-        if isinstance(other, ObservableDict):
-            return self._dict.__eq__(other._dict)
-        else:
-            return other.__eq__(self._dict)
-
+    def __ior__(self, other: Any) -> 'ObservableDict[KT, VT]':
+        """Update the dictionary with the key/value pairs from other, overwriting existing keys, and notify the callback."""
+        result = super().__ior__(other)
+        self._notify_change()
+        return result
 
 @dataclass
 class ObservableDataclass:
@@ -286,19 +318,24 @@ class ObservableDataclass:
     _attrib_fields: List[str] = field(init=False, default_factory=list, repr=False)
 
     def __setattr__(self, name: str, value: Any) -> None:
+        """Set the attribute and notify the callback if applicable."""
         super().__setattr__(name, value)
         if name != '_on_change_callback' and self._on_change_callback:
             self._on_change_callback(self)
 
     @classmethod
-    def fields(cls):
-        fields = {}
+    def fields(cls) -> Dict[str, Field]:
+        """Return a dictionary of the dataclass fields, excluding private fields."""
+        fields: Dict[str, Field] = {}
         for dcls_field in cls.__dataclass_fields__:
             if not dcls_field.startswith('_'):
                 fields[dcls_field] = cls.__dataclass_fields__[dcls_field]
         return fields
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
+        """Check equality with another ObservableDataclass instance based on the values of its fields."""
+        if not isinstance(other, ObservableDataclass):
+            return NotImplemented
         for dcls_field in self.fields():
             if getattr(self, dcls_field) != getattr(other, dcls_field):
                 return False
@@ -307,53 +344,92 @@ class ObservableDataclass:
 ValidListType = Union[int, float, str, bool, Enum, ObservableDataclass]
 ValidListTypeT = TypeVar('ValidListTypeT', bound=ValidListType)
 
-class ObservableList(MutableSequence, Generic[ValidListTypeT]):
-    _on_change_callback = None  # type: Optional[Callable[['ObservableList'], None]]
+class ObservableList(List[ValidListTypeT]):
+    _on_change_callback: Optional[Callable[['ObservableList[ValidListTypeT]'], None]] = None
 
-    def __init__(self, *args, **kwargs):
-        self._list = list(*args, **kwargs)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialize an observable list."""
+        super().__init__(*args, **kwargs)
 
-    def __getitem__(self, i):
-        return self._list[i]
-
-    def __len__(self):
-        return len(self._list)
-
-    def __delitem__(self, i):
-        self._list.__delitem__(i)
-        self._notify_change()
-
-    def __setitem__(self, i, val):
-        if hasattr(val, '_on_change_callback'):
-            val._on_change_callback = lambda _self: self._notify_change()
-        self._list.__setitem__(i, val)
-        self._notify_change()
-
-    def insert(self, index, value):
-        if hasattr(value, '_on_change_callback'):
-            value._on_change_callback = lambda _self: self._notify_change()
-        self._list.insert(index, value)
-        self._notify_change()
-
-    def __repr__(self):
-        return repr(self._list)
-
-    def __eq__(self, value):
-        return self._list.__eq__(value)
-
-    # Other modifying methods like append, pop, extend are provided by MutableSequence
-    # and will call insert or __delitem__, triggering the callback implicitly.
-
-    def _notify_change(self):
+    def _notify_change(self) -> None:
+        """Notify the callback function that the list has changed."""
         if self._on_change_callback:
             self._on_change_callback(self)
 
+    def __setitem__(self, i: Any, val: Any) -> None:
+        """Set the item at index i to val and notify the callback."""
+        if hasattr(val, '_on_change_callback'):
+            val._on_change_callback = lambda _self: self._notify_change()
+        super().__setitem__(i, val)
+        self._notify_change()
+
+    def __delitem__(self, i: Any) -> None:
+        """Delete the item at index i and notify the callback."""
+        super().__delitem__(i)
+        self._notify_change()
+
+    def insert(self, index: SupportsIndex, value: ValidListTypeT) -> None:
+        """Insert value before index and notify the callback."""
+        if hasattr(value, '_on_change_callback'):
+            value._on_change_callback = lambda _self: self._notify_change()
+        super().insert(index, value)
+        self._notify_change()
+
+    def append(self, value: ValidListTypeT) -> None:
+        """Append value to the end of the list and notify the callback."""
+        if hasattr(value, '_on_change_callback'):
+            value._on_change_callback = lambda _self: self._notify_change()
+        super().append(value)
+        self._notify_change()
+
+    def extend(self, values: Iterable[ValidListTypeT]) -> None:
+        """Extend the list with the given values and notify the callback."""
+        for val in values:
+            if hasattr(val, '_on_change_callback'):
+                val._on_change_callback = lambda _self: self._notify_change()
+        super().extend(values)
+        self._notify_change()
+
+    def pop(self, index: SupportsIndex = -1) -> ValidListTypeT:
+        """Remove and return the item at the given index, notifying the callback."""
+        result = super().pop(index)
+        self._notify_change()
+        return result
+
+    def remove(self, value: ValidListTypeT) -> None:
+        """Remove the first occurrence of value and notify the callback."""
+        super().remove(value)
+        self._notify_change()
+
+    def clear(self) -> None:
+        """Remove all items from the list and notify the callback."""
+        super().clear()
+        self._notify_change()
+
+    def sort(self, *args: Any, **kwargs: Any) -> None:
+        """Sort the list in place and notify the callback."""
+        super().sort(*args, **kwargs)
+        self._notify_change()
+
+    def reverse(self) -> None:
+        """Reverse the list in place and notify the callback."""
+        super().reverse()
+        self._notify_change()
+
+    def __iadd__(self, values: Iterable[ValidListTypeT]) -> 'ObservableList[ValidListTypeT]':
+        """Extend the list in place with the given values and notify the callback."""
+        for val in values:
+            if hasattr(val, '_on_change_callback'):
+                val._on_change_callback = lambda _self: self._notify_change()
+        result = super().__iadd__(values)
+        self._notify_change()
+        return result
 
 @dataclass
 class Font(ObservableDataclass):
     family: str = 'Liberation Sans'
     size: int = 14
-    style: FontStyle = FontStyle.REGULAR
+    style: StrEnumType[FontStyle] = FontStyle.REGULAR
     _attrib_fields: List[str] = field(init=False, default_factory=lambda: ['family', 'size', 'style'], repr=False)
 
 
@@ -416,30 +492,31 @@ class Trace(ObservableDataclass):
     y_pv: str = ''
     error_pv: str = ''
     y_axis: int = 0
-    trace_type: TraceType = TraceType.LINE
+    trace_type: IntEnumType[TraceType] = TraceType.LINE
     color: ColorType = field(default_factory=lambda: Color((0, 0, 255)))
     line_width: int = 1
-    line_style: LineStyle = LineStyle.SOLID
-    point_type: PointType = PointType.NONE
+    line_style: IntEnumType[LineStyle] = LineStyle.SOLID
+    point_type: IntEnumType[PointType] = PointType.NONE
     point_size: int = 10
     visible: bool = True
 
 @dataclass
 class NavTab(ObservableDataclass):
     name: str = ''
-    file: Optional[Path] = None
+    file: Optional[Union[Path, str]] = None
     macros: Dict[str, str] = field(default_factory=ObservableDict)
     group_name: str = ''
 
 @dataclass
 class Script(ObservableDataclass):
-    file: Optional[Path] = None
-    pv_names: List[str] = field(default_factory=ObservableList[str])
+    file: Optional[Union[Path, str]] = None
+    pv_names: Dict[str, bool] = field(default_factory=ObservableDict)
+    check_connections: bool = True
 
 @dataclass
 class EmbeddedScript(Script):
+    file: StrEnumType[EmbeddedScriptType]
     text: str = ''
-    file: EmbeddedScriptType
 
 @dataclass
 class Action(ObservableDataclass):
@@ -447,8 +524,8 @@ class Action(ObservableDataclass):
 
 @dataclass
 class OpenDisplayAction(Action):
-    file: Optional[Path] = None
-    target: OpenDisplayTarget = OpenDisplayTarget.REPLACE
+    file: Optional[Union[Path, str]] = None
+    target: StrEnumType[OpenDisplayTarget] = OpenDisplayTarget.REPLACE
     macros: Dict[str, str] = field(default_factory=ObservableDict)
 
 @dataclass
@@ -466,7 +543,7 @@ class CommandAction(Action):
 
 @dataclass
 class OpenFileAction(Action):
-    file: Optional[Path] = None
+    file: Optional[Union[Path, str]] = None
 
 @dataclass
 class OpenWebpageAction(Action):
@@ -475,26 +552,20 @@ class OpenWebpageAction(Action):
 @dataclass
 class RuleExpression(ObservableDataclass):
     bool_exp: str = ''
-    value: Optional[ValidListTypeT] = None
+    value: Optional[PropertyType] = None
     value_as_expression: bool = False
-
-@dataclass
-class RulePvName(ObservableDataclass):
-    name: str = ''
-    trigger: bool = True
 
 @dataclass
 class Rule(ObservableDataclass):
     name: str = 'New Rule'
     prop_id: str = 'name'
     expressions: List[RuleExpression] = field(default_factory=ObservableList[RuleExpression])
-    pv_names: Dict[str, RulePvName] = field(default_factory=ObservableDict)
+    pv_names: Dict[str, bool] = field(default_factory=ObservableDict)
     out_exp: bool = False
 
 @dataclass
 class Instance(ObservableDataclass):
     macros: Dict[str, str] = field(default_factory=ObservableDict)
-
 
 @dataclass
 class Point(ObservableDataclass):
