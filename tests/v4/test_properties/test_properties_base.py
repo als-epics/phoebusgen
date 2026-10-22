@@ -25,6 +25,7 @@ from phoebusgen.v4.properties.misc import HasMarkers
 from phoebusgen.v4.properties.position import HasPosition
 from phoebusgen.v4.properties.property_helpers import (
     PropertyBase,
+    _coerce_enum_value,
     _create_element,
     _make_default_prop_val,
     _normalize_property_type,
@@ -35,10 +36,12 @@ from phoebusgen.v4.properties.types import (
     ArrowTypes,
     Axis,
     Color,
+    ColorMap,
     ColorType,
     FileComponent,
     Font,
     FontStyle,
+    HorizontalAlignment,
     ObservableDict,
     ObservableList,
     OpenDisplayAction,
@@ -194,6 +197,90 @@ def test_set_enum_property(value, prop_type, expected_text):
     assert elem.tag == 'test'
     assert elem.text == expected_text
     assert PropertyBase._get_enum_property(elem, prop_type) == value
+
+
+@pytest.mark.parametrize('value, prop_type, expected_member',
+[
+    # The enum member itself
+    (TraceType.STEP, TraceType, TraceType.STEP),
+    (ArrowTypes.BOTH, ArrowTypes, ArrowTypes.BOTH),
+    # The name of the member, case insensitive
+    ('STEP', TraceType, TraceType.STEP),
+    ('step', TraceType, TraceType.STEP),
+    ('BOTH', ArrowTypes, ArrowTypes.BOTH),
+    ('both', ArrowTypes, ArrowTypes.BOTH),
+    ('BOLD_AND_ITALIC', FontStyle, FontStyle.BOLD_AND_ITALIC),
+    ('GRAYSCALE', ColorMap, ColorMap.GRAYSCALE),
+    # The value of the member, case insensitive for string valued enums
+    (2, TraceType, TraceType.STEP),
+    ('Both', ArrowTypes, ArrowTypes.BOTH),
+    ('replace', OpenDisplayTarget, OpenDisplayTarget.REPLACE),
+    ('BOLD_ITALIC', FontStyle, FontStyle.BOLD_AND_ITALIC),
+    ('gray', ColorMap, ColorMap.GRAYSCALE),
+])
+def test_coerce_enum_value(value, prop_type, expected_member):
+    assert _coerce_enum_value(value, prop_type) is expected_member
+
+
+@pytest.mark.parametrize('value, prop_type',
+[
+    ('NOT_A_MEMBER', TraceType),
+    ('NOT_A_MEMBER', ArrowTypes),
+    (99, TraceType),
+    (1, ArrowTypes),
+    (None, TraceType),
+])
+def test_coerce_enum_value_invalid(value, prop_type):
+    with pytest.raises(ValueError):
+        _coerce_enum_value(value, prop_type)
+
+
+@pytest.mark.parametrize('value', [HorizontalAlignment.RIGHT, 'RIGHT', 'right', 2])
+def test_set_enum_property_accepts_member_name_or_value(value):
+    label = Label('test')
+    label.horizontal_alignment = value
+    _check_elem_val(label.root, 'horizontal_alignment', '2')
+    assert label.horizontal_alignment is HorizontalAlignment.RIGHT
+
+
+@pytest.mark.parametrize('value', ['NOT_A_MEMBER', 99, 1.5, None])
+def test_set_enum_property_rejects_invalid_value(value):
+    label = Label('test')
+    with pytest.raises(TypeError):
+        label.horizontal_alignment = value
+
+
+@pytest.mark.parametrize('style', [FontStyle.BOLD_AND_ITALIC, 'BOLD_AND_ITALIC', 'BOLD_ITALIC'])
+def test_set_enum_dataclass_field_accepts_member_name_or_value(style):
+    label = Label('test')
+    label.font = Font(family='Arial', size=12, style=style)
+    font_elem = _get_elem(_get_elem(label.root, 'font'), 'font')
+    assert font_elem.attrib['style'] == 'BOLD_ITALIC'
+    assert label.font.style is FontStyle.BOLD_AND_ITALIC
+
+
+def test_set_enum_list_dataclass_field_accepts_member_name_or_value():
+    plot = XYPlot('plot')
+    plot.traces = [Trace(name='trace', trace_type='STEP', line_style='DASHED', point_type=2)]
+    trace_elem = _get_elem(_get_elem(plot.root, 'traces'), 'trace')
+    _check_elem_val(trace_elem, 'trace_type', '2')
+    _check_elem_val(trace_elem, 'line_style', '1')
+    _check_elem_val(trace_elem, 'point_type', '2')
+
+
+def test_set_enum_rule_expression_accepts_member_name():
+    label = Label('test')
+    label.rules = [Rule(name='rule', prop_id='horizontal_alignment', pv_names={'pv': True},
+                        expressions=[RuleExpression(bool_exp='pv0 > 1', value='RIGHT')])]
+    exp_elem = _get_elem(_get_elem(_get_elem(label.root, 'rules'), 'rule'), 'exp')
+    _check_elem_val(exp_elem, 'value', '2')
+
+
+def test_set_enum_rule_expression_rejects_invalid_value():
+    label = Label('test')
+    with pytest.raises(TypeError):
+        label.rules = [Rule(name='rule', prop_id='horizontal_alignment', pv_names={'pv': True},
+                            expressions=[RuleExpression(bool_exp='pv0 > 1', value='NOT_A_MEMBER')])]
 
 
 def test_get_color_property():

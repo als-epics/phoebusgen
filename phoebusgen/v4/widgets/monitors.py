@@ -54,7 +54,7 @@ from phoebusgen.v4.properties.misc import (
     HasSelectionPV,
     HasSelectRows,
 )
-from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment, VerticalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment, IntEnumType, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasBit, HasPVName, HasSymbols
 
 from .widget import Widget, STANDARD_TOOLTIP
@@ -163,7 +163,7 @@ class Meter(Widget, HasPVName, HasForegroundColor, HasBackgroundColor, HasFont, 
 
     needle_color: ColorType = Color((255, 5, 7))
     knob_color: ColorType = Color((177, 166, 155))
-    format: Format = Format.DEFAULT
+    format: IntEnumType[Format] = Format.DEFAULT
     show_limits: bool = True
     tooltip: str = STANDARD_TOOLTIP
     width: int = 240
@@ -281,8 +281,8 @@ class TextSymbol(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
                  HasAlarmBorder, HasEnabled, HasArrayIndex, HasSymbols):
     """ TextSymbol Phoebus Widget """
 
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.CENTER
-    vertical_alignment: VerticalAlignment = VerticalAlignment.MIDDLE
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.CENTER
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.MIDDLE
     transparent: bool = True
     tooltip: str = '$(pv_name)\n$(pv_value)\n$(symbol_value)'
     width: int = 32
@@ -308,9 +308,9 @@ class TextUpdate(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCo
     """TextUpdate Phoebus Widget"""
 
     background_color: ColorType = Color((240, 240, 240))
-    format: Format = Format.DEFAULT
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
-    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
+    format: IntEnumType[Format] = Format.DEFAULT
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.LEFT
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.TOP
     tooltip: str = STANDARD_TOOLTIP
 
     def __init__(self, name: str = '', pv_name: str = '', x: int = 0, y: int = 0, width: int = 100, height: int = 20) -> None:

@@ -151,6 +151,44 @@ def _str_to_primitive(value: str, property_type: Type[PrimitiveT]) -> PrimitiveT
     except ValueError as e:
         raise ValueError(f"could not convert '{value}' to {property_type.__name__}") from e
 
+
+def _coerce_enum_value(value: Any, enum_type: Type[Enum]) -> Enum:
+    """Resolve an enum member, the name of a member, or the value of a member into a member of the given Enum type.
+
+    Name lookups are case-insensitive, as are value lookups for enums with string values.
+
+    :param value: The Enum member, member name, or member value to resolve
+    :param enum_type: The Enum type to resolve the value against
+    :return: The matching Enum member
+    """
+
+    if isinstance(value, enum_type):
+        return value
+
+    if isinstance(value, str):
+        member = enum_type.__members__.get(value, enum_type.__members__.get(value.upper()))
+        if member is not None:
+            return member
+
+    try:
+        return enum_type(value)
+    except ValueError:
+        pass
+
+    if isinstance(value, str):
+        for member in enum_type:
+            if isinstance(member.value, str) and member.value.lower() == value.lower():
+                return member
+
+    raise ValueError(f"'{value}' is not a valid member name or value for enum '{enum_type.__name__}'!")
+
+
+def _is_enum_type(property_type: Any) -> bool:
+    """Return True if the given property type is an Enum subclass."""
+
+    return isinstance(property_type, type) and issubclass(property_type, Enum)
+
+
 class PropertyMetaclass(type):
     def __new__(mcs, name: str, bases: Tuple[Type['PropertyBase'], ...], attrs: Dict[str, object]) -> Type:
 
@@ -201,6 +239,10 @@ class PropertyMetaclass(type):
 
             if not self._is_set_value_valid(value, property_type):
                 raise TypeError(f"Value {value} is of invalid type for property '{prop_name}': must be of type {property_type}")
+
+            # Enum properties may be set using the member itself, its name, or its value
+            if _is_enum_type(property_type):
+                value = _coerce_enum_value(value, cast(Type[Enum], property_type))
 
             tag = self.root.find(tag_name) if tag_name is not None else None
             # Remove existing property element if found
@@ -589,11 +631,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
     def _set_enum_property(cls, prop_name: str, value: Enum) -> Element:
         """Given an Enum member, create an XML element with the enum value as text.
 
+        Member names and values are resolved to a member by the caller, which knows the expected Enum type.
+
         :param prop_name: The name of the property
         :param value: The Enum member to set
         :return: The XML element representing the enum property
         """
-        return _create_element(prop_name, value.value)
+        return _create_element(prop_name, str(value.value))
 
 
     @classmethod
@@ -724,6 +768,8 @@ class PropertyBase(metaclass=PropertyMetaclass):
             valid = cls._is_set_value_valid(field_value, field_type)
 
             if valid:
+                if _is_enum_type(field_type):
+                    field_value = _coerce_enum_value(field_value, cast(Type[Enum], field_type))
                 if field_name in value._attrib_fields:
                     if field_type in get_args(Primitive):
                         element.attrib[field_name] = str(field_value)
@@ -883,6 +929,10 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 continue
             if not cls._is_set_value_valid(exp.value, property_type):
                 raise TypeError(f"Rule {value.name} has expression with value {exp.value} that is of invalid type for property '{value.prop_id}'. Is {type(exp.value)} must be of type {property_type}")
+            if _is_enum_type(property_type):
+                coerced = _coerce_enum_value(exp.value, cast(Type[Enum], property_type))
+                if coerced is not exp.value:
+                    exp.value = coerced
 
         # Disallow mix-and-match of value_as_expression True and False within the same rule
         if set(exp.value_as_expression for exp in value.expressions) == {False, True}:
@@ -1027,6 +1077,13 @@ class PropertyBase(metaclass=PropertyMetaclass):
                 return isinstance(value, (float, int))
             elif expected_type is Path:
                 return isinstance(value, (Path, str, type(None)))
+            elif _is_enum_type(expected_type):
+                # Enums may be set using the member itself, its name, or its value
+                try:
+                    _coerce_enum_value(value, cast(Type[Enum], expected_type))
+                    return True
+                except (TypeError, ValueError):
+                    return False
             else:
                 return isinstance(value, expected_type)
 

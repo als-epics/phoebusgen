@@ -44,7 +44,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
-from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, Format, HorizontalAlignment, IntEnumType
 from phoebusgen.v4.properties.widget import HasBit, HasFileComponent, HasLabel, HasPVName
 
 from .widget import Widget, STANDARD_TOOLTIP
@@ -306,8 +306,8 @@ class TextEntry(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundCol
     """TextEntry Phoebus Widget"""
 
     background_color: ColorType = Color((128, 255, 255))
-    format: Format = Format.DEFAULT
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
+    format: IntEnumType[Format] = Format.DEFAULT
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.LEFT
     wrap_words: bool = False
     tooltip: str = STANDARD_TOOLTIP
 

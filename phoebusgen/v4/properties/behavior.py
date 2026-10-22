@@ -9,6 +9,7 @@ from .types import (
     Color,
     ColorMode,
     ColorType,
+    IntEnumType,
     InterpolationType,
     ObservableList,
     Rule,
@@ -50,7 +51,7 @@ class HasConfirmation(PropertyBase):
     password: str
 
 class HasButtonMode(PropertyBase):
-    mode: ButtonMode
+    mode: IntEnumType[ButtonMode]
 
 class HasMinMax(PropertyBase):
     minimum: float = 0.0
@@ -102,10 +103,10 @@ class HasDataWidthAndHeight(PropertyBase):
     data_height: int = 100
 
 class HasInterpolation(PropertyBase):
-    interpolation: InterpolationType = InterpolationType.AUTOMATIC
+    interpolation: IntEnumType[InterpolationType] = InterpolationType.AUTOMATIC
 
 class HasColorMode(PropertyBase):
-    color_mode: ColorMode = ColorMode.TYPE_MONO
+    color_mode: IntEnumType[ColorMode] = ColorMode.TYPE_MONO
 
 class HasItems(PropertyBase):
     items: List[str]

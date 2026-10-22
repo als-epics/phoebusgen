@@ -8,6 +8,7 @@ from .property_helpers import PropertyBase
 from .types import (
     FileComponent,
     Instance,
+    IntEnumType,
     NavTab,
     TabDirection,
 )
@@ -32,7 +33,7 @@ class HasBit(PropertyBase):
     bit: int = 0
 
 class HasFileComponent(PropertyBase):
-    file_component: FileComponent = FileComponent.FULL_PATH
+    file_component: IntEnumType[FileComponent] = FileComponent.FULL_PATH
 
 class HasLabel(PropertyBase):
     label: str = 'Label'
@@ -41,7 +42,7 @@ class HasNavTabs(HasTabActiveHeightDirection):
     tabs: List[NavTab]
     tab_spacing: int = 2
     tab_width: int = 100
-    direction: TabDirection = TabDirection.VERTICAL # Navtabs use vertical tabs by default
+    direction: IntEnumType[TabDirection] = TabDirection.VERTICAL # Navtabs use vertical tabs by default
     active_tab: int = 0 # NavTabs use 0-based indexing for active tab, while Tabs use 1-based indexing
 
 class HasInstances(PropertyBase):

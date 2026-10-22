@@ -99,6 +99,14 @@ class Color(tuple):
 
 ColorType = Union[Color, Tuple[int, int, int, int], Tuple[int, int, int], str]
 
+EnumT = TypeVar('EnumT', bound=Enum)
+
+# Enum properties can be set using the member itself, the name of the member, or the value of the member,
+# so use these aliases when annotating them. For example, StrEnumType[FontStyle] allows FontStyle.BOLD_AND_ITALIC,
+# 'BOLD_AND_ITALIC' (the member name), and 'BOLD_ITALIC' (the member value) to all be used interchangeably.
+StrEnumType = Union[EnumT, str]
+IntEnumType = Union[EnumT, str, int]
+
 class FontStyle(str, Enum):
     REGULAR = 'REGULAR'
     ITALIC = 'ITALIC'
@@ -427,7 +435,7 @@ class ObservableList(List[ValidListTypeT]):
 class Font(ObservableDataclass):
     family: str = 'Liberation Sans'
     size: int = 14
-    style: FontStyle = FontStyle.REGULAR
+    style: StrEnumType[FontStyle] = FontStyle.REGULAR
     _attrib_fields: List[str] = field(init=False, default_factory=lambda: ['family', 'size', 'style'], repr=False)
 
 
@@ -490,11 +498,11 @@ class Trace(ObservableDataclass):
     y_pv: str = ''
     error_pv: str = ''
     y_axis: int = 0
-    trace_type: TraceType = TraceType.LINE
+    trace_type: IntEnumType[TraceType] = TraceType.LINE
     color: ColorType = field(default_factory=lambda: Color((0, 0, 255)))
     line_width: int = 1
-    line_style: LineStyle = LineStyle.SOLID
-    point_type: PointType = PointType.NONE
+    line_style: IntEnumType[LineStyle] = LineStyle.SOLID
+    point_type: IntEnumType[PointType] = PointType.NONE
     point_size: int = 10
     visible: bool = True
 
@@ -512,7 +520,7 @@ class Script(ObservableDataclass):
 
 @dataclass
 class EmbeddedScript(Script):
-    file: EmbeddedScriptType
+    file: StrEnumType[EmbeddedScriptType]
     text: str = ''
 
 @dataclass
@@ -522,7 +530,7 @@ class Action(ObservableDataclass):
 @dataclass
 class OpenDisplayAction(Action):
     file: Optional[Union[Path, str]] = None
-    target: OpenDisplayTarget = OpenDisplayTarget.REPLACE
+    target: StrEnumType[OpenDisplayTarget] = OpenDisplayTarget.REPLACE
     macros: Dict[str, str] = field(default_factory=ObservableDict)
 
 @dataclass

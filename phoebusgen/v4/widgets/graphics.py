@@ -24,7 +24,7 @@ from phoebusgen.v4.properties.display import (
     HasVerticalAlignment,
 )
 from phoebusgen.v4.properties.misc import HasBorder
-from phoebusgen.v4.properties.types import Color, ColorType, HorizontalAlignment, VerticalAlignment
+from phoebusgen.v4.properties.types import Color, ColorType, HorizontalAlignment, IntEnumType, VerticalAlignment
 from phoebusgen.v4.properties.widget import HasFile, HasMacros
 
 from .widget import Widget
@@ -78,8 +78,8 @@ class Label(Widget, HasText, HasMacros, HasFont, HasForegroundColor, HasBackgrou
 
     background_color: ColorType = Color((255, 255, 255))
     text: str = 'Label text'
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
-    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.LEFT
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.TOP
     transparent: bool = True  # Labels are transparent by default.
     tooltip: str = ''
 

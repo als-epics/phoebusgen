@@ -13,12 +13,14 @@ from .types import (
     Format,
     GroupStyle,
     HorizontalAlignment,
+    IntEnumType,
     LinearMeterColors,
     LineStyle,
     ObservableList,
     Point,
     ResizeBehavior,
     RotationStep,
+    StrEnumType,
     TabDirection,
     VerticalAlignment,
 )
@@ -31,11 +33,11 @@ class HasFont(PropertyBase):
     font: Font
 
 class HasArrows(PropertyBase):
-    arrows: ArrowTypes = ArrowTypes.NONE
+    arrows: StrEnumType[ArrowTypes] = ArrowTypes.NONE
     arrow_length: int = 20
 
 class HasLineStyle(PropertyBase):
-    line_style: LineStyle = LineStyle.SOLID
+    line_style: IntEnumType[LineStyle] = LineStyle.SOLID
 
 class HasWrapWords(PropertyBase):
     wrap_words: bool = True
@@ -69,16 +71,16 @@ class HasAngle(PropertyBase):
     total_angle: float = 90.0
 
 class HasHorizontalAlignment(PropertyBase):
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.CENTER
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.CENTER
 
 class HasVerticalAlignment(PropertyBase):
-    vertical_alignment: VerticalAlignment = VerticalAlignment.MIDDLE
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.MIDDLE
 
 class HasRotation(PropertyBase):
     rotation: float = 0.0
 
 class HasRotationStep(PropertyBase):
-    rotation_step: RotationStep
+    rotation_step: IntEnumType[RotationStep]
 
 class HasLineColor(PropertyBase):
     line_color: ColorType
@@ -100,7 +102,7 @@ class HasTransparent(PropertyBase):
     transparent: bool = False
 
 class HasFormat(PropertyBase):
-    format: Format = Format.DECIMAL
+    format: IntEnumType[Format] = Format.DECIMAL
 
 class HasPrecision(PropertyBase):
     precision: int = -1
@@ -202,16 +204,16 @@ class HasGroupName(PropertyBase):
     group_name: str
 
 class HasResizeBehavior(PropertyBase):
-    resize_behavior: ResizeBehavior
+    resize_behavior: IntEnumType[ResizeBehavior]
 
 class HasGroupStyle(PropertyBase):
-    style: GroupStyle
+    style: IntEnumType[GroupStyle]
 
 class HasColorBar(PropertyBase):
     color_bar: ColorBar
 
 class HasColorMap(PropertyBase):
-    color_map: ColorMap = ColorMap.VIRIDIS
+    color_map: StrEnumType[ColorMap] = ColorMap.VIRIDIS
 
 class HasScaleFont(PropertyBase):
     scale_font: Font
@@ -256,7 +258,7 @@ class HasKnobAndNeedleSize(PropertyBase):
 
 class HasTabActiveHeightDirection(PropertyBase):
     tab_height: int = 30
-    direction: TabDirection = TabDirection.HORIZONTAL
+    direction: IntEnumType[TabDirection] = TabDirection.HORIZONTAL
     active_tab: int = 0
 
 class HasShowLimits(PropertyBase):
