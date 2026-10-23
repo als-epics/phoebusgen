@@ -778,7 +778,7 @@ class _Actions(object):
         """
         if not description:
             description = 'Open Display'
-        possible_targets = ['tab', 'replace', 'window']
+        possible_targets = ['tab', 'replace', 'window', 'standalone']
         if target.lower() not in possible_targets:
             print('Target must be one of {}, not: {}'.format(possible_targets, target))
             return
