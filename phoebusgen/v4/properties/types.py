@@ -205,6 +205,7 @@ class OpenDisplayTarget(str, Enum):
     REPLACE = 'replace'
     NEW_TAB = 'tab'
     NEW_WINDOW = 'window'
+    STANDALONE = 'standalone'
 
 
 class TabDirection(int, Enum):
