@@ -157,7 +157,7 @@ class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasWidgetClass, Has
 
 
         # If using the Widget class directly, try to find the correct subclass based on the type attribute
-        instance_cls = cls
+        instance_cls: Type[Widget] = cls
         if instance_cls == Widget:
             for subcls in Widget.__subclasses__():
                 try:
@@ -174,7 +174,7 @@ class Widget(PhoebusElement, HasParent, HasVisible, HasName, HasWidgetClass, Has
 
         # Wrap the existing element directly, then fill in defaults only for the
         # __init__ kwargs whose property is not already present in the XML.
-        instance = instance_cls.__new__(instance_cls)
+        instance = object.__new__(instance_cls)
         instance.root = element
         for param_name in inspect.signature(instance_cls.__init__).parameters:
             if param_name == 'self':

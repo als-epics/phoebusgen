@@ -265,7 +265,7 @@ class Tank(Widget, HasPVName, HasFont, HasForegroundColor, HasBackgroundColor,
     background_color: ColorType = Color((240, 240, 240))
     fill_color: ColorType = Color((0, 0, 255))
     empty_color: ColorType = Color((192, 192, 192))
-    format: Format = Format.DEFAULT
+    format: IntEnumType[Format] = Format.DEFAULT
     precision: int = 2
     level_lolo: float = float('nan')
     level_low: float = float('nan')

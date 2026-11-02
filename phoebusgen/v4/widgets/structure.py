@@ -139,7 +139,7 @@ class Tab(HasWidgets, HasName):
         if children_elem is None:
             children_elem = SubElement(self.root, 'children')
 
-        HasTabs.__init__(self)
+        PropertyBase.__init__(self)
         HasWidgets.__init__(self, widgets_tag_name='children')
 
     @classmethod

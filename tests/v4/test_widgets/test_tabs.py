@@ -69,7 +69,7 @@ def test_create_tabs_widget():
     # Now add widgets to the first tab
     label = Label(name='Test Label', text = 'Hello World', x=10, y=10, width=100, height=30)
     button = BooleanButton(name='Test Button', pv_name='Test:PV', x=10, y=50, width=100, height=30)
-    tabs.tabs[0].widgets == []
+    assert tabs.tabs[0].widgets == []
     tabs.tabs[0].widgets.append(label)
     tabs.tabs[0].widgets.append(button)
     assert len(tabs.tabs[0].widgets) == 2

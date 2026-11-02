@@ -31,7 +31,7 @@ dev = [
   "pre-commit",
   "pytest",
   "pytest-cov",
-  "ty; python_version >= '3.11'",
+  "pyright; python_version >= '3.11'",
 ]
 docs = [
   "sphinx",

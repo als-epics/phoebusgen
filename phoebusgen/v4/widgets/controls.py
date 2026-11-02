@@ -287,8 +287,8 @@ class Spinner(Widget, HasPVName, HasFont, HasFormat, HasPrecision, HasShowUnits,
     """Spinner Phoebus Widget"""
 
     show_units: bool = False
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.LEFT
-    vertical_alignment: VerticalAlignment = VerticalAlignment.TOP
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.LEFT
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.TOP
     background_color: ColorType = Color((128, 255, 255))
     tooltip: str = STANDARD_TOOLTIP
 

@@ -371,14 +371,14 @@ class ObservableList(List[ValidListTypeT]):
     def insert(self, index: SupportsIndex, value: ValidListTypeT) -> None:
         """Insert value before index and notify the callback."""
         if hasattr(value, '_on_change_callback'):
-            value._on_change_callback = lambda _self: self._notify_change()
+            setattr(value, '_on_change_callback', lambda _self: self._notify_change())
         super().insert(index, value)
         self._notify_change()
 
     def append(self, value: ValidListTypeT) -> None:
         """Append value to the end of the list and notify the callback."""
         if hasattr(value, '_on_change_callback'):
-            value._on_change_callback = lambda _self: self._notify_change()
+            setattr(value, '_on_change_callback', lambda _self: self._notify_change())
         super().append(value)
         self._notify_change()
 
@@ -386,7 +386,7 @@ class ObservableList(List[ValidListTypeT]):
         """Extend the list with the given values and notify the callback."""
         for val in values:
             if hasattr(val, '_on_change_callback'):
-                val._on_change_callback = lambda _self: self._notify_change()
+                setattr(val, '_on_change_callback', lambda _self: self._notify_change())
         super().extend(values)
         self._notify_change()
 
@@ -420,7 +420,7 @@ class ObservableList(List[ValidListTypeT]):
         """Extend the list in place with the given values and notify the callback."""
         for val in values:
             if hasattr(val, '_on_change_callback'):
-                val._on_change_callback = lambda _self: self._notify_change()
+                setattr(val, '_on_change_callback', lambda _self: self._notify_change())
         result = super().__iadd__(values)
         self._notify_change()
         return result
@@ -515,7 +515,7 @@ class Script(ObservableDataclass):
 
 @dataclass
 class EmbeddedScript(Script):
-    file: StrEnumType[EmbeddedScriptType]
+    file: StrEnumType[EmbeddedScriptType]  # type: ignore
     text: str = ''
 
 @dataclass

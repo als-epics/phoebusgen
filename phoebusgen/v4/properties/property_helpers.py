@@ -14,7 +14,7 @@ from phoebusgen.v4.utils import PhoebusElement
 try:
     from typing import get_args, get_origin  # novermin
 except ImportError:
-    def get_origin(tp):
+    def get_origin(tp: Any) -> Any:
         origin = getattr(tp, '__origin__', None)
         # On 3.6, subscripting a generic alias (e.g. Union[T, str][X]) sets __origin__ to the alias, not the root
         while getattr(origin, '__origin__', None) is not None:
@@ -27,7 +27,7 @@ except ImportError:
             return tuple
         return origin
 
-    def get_args(tp):
+    def get_args(tp: Any) -> Tuple[Any, ...]:
         return getattr(tp, '__args__', ())
 
 from .types import (
@@ -752,7 +752,7 @@ class PropertyBase(metaclass=PropertyMetaclass):
                     field_values[field_name] = cls._get_list_property(field_name, field_elem, get_args(field_type)[0])
                     continue
                 typed_getter = cls._find_getter_by_type(field_type)
-                getter_args = [field_elem]
+                getter_args: List[Any] = [field_elem]
                 if len(inspect.signature(typed_getter).parameters) > 1:
                     getter_args.append(field_type)
                 field_values[field_name] = typed_getter(*getter_args)
