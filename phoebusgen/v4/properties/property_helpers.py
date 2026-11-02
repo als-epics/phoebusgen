@@ -16,6 +16,9 @@ try:
 except ImportError:
     def get_origin(tp):
         origin = getattr(tp, '__origin__', None)
+        # On 3.6, subscripting a generic alias (e.g. Union[T, str][X]) sets __origin__ to the alias, not the root
+        while getattr(origin, '__origin__', None) is not None:
+            origin = origin.__origin__
         if origin == List:
             return list
         elif origin == Dict:
