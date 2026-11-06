@@ -258,6 +258,7 @@ class Format(int, Enum):
     SEXAGESIMAL_HMS_24H_RAD = 8
     SEXAGESIMAL_DMS_360D_RAD = 9
     BINARY = 10
+    SIGNIFICANT = 11
 
 KT = TypeVar('KT')
 VT = TypeVar('VT')
