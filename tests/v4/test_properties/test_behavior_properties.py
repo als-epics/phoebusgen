@@ -36,10 +36,14 @@ from phoebusgen.v4.properties.types import (
     ColorMap,
     ColorMode,
     CommandAction,
+    EmbeddedScript,
+    EmbeddedScriptType,
+    ExecuteAction,
     InterpolationType,
     OpenDisplayAction,
     OpenFileAction,
     OpenWebpageAction,
+    Script,
     State,
 )
 from phoebusgen.v4.properties.widget import HasSymbols
@@ -174,3 +178,79 @@ def test_states_property(property_factory):
     assert state_elems[0].find('label').text == 'State2'
     assert state_elems[1].find('value').text == '10'
     assert state_elems[1].find('label').text == 'State3'
+
+
+def _get_script_elems(prop):
+    scripts_elem = prop.root.find('scripts')
+    assert scripts_elem is not None
+    return scripts_elem.findall('script')
+
+
+def test_external_script_property(property_factory):
+    prop = property_factory(HasActionsRulesAndScripts)
+    assert prop.scripts == []
+    prop.scripts = [Script(file='/path/to/script.py', pv_names={'PV:A': True, 'PV:B': False})]
+
+    script_elem = _get_script_elems(prop)[0]
+    # Phoebus stores the script location as an attribute, and omits check_connections when it is true
+    assert script_elem.attrib == {'file': '/path/to/script.py'}
+    assert script_elem.find('text') is None
+
+    pv_elems = script_elem.findall('pv_name')
+    assert [(pv.text, pv.attrib['trigger']) for pv in pv_elems] == [('PV:A', 'true'), ('PV:B', 'false')]
+
+    assert prop.scripts == [Script(file=Path('/path/to/script.py'), pv_names={'PV:A': True, 'PV:B': False})]
+
+
+@pytest.mark.parametrize('script_type, expected_file', [
+    (EmbeddedScriptType.PYTHON, 'EmbeddedPy'),
+    (EmbeddedScriptType.JAVASCRIPT, 'EmbeddedJs'),
+    ('PYTHON', 'EmbeddedPy'),
+    ('EmbeddedJs', 'EmbeddedJs'),
+])
+def test_embedded_script_property(property_factory, script_type, expected_file):
+    prop = property_factory(HasActionsRulesAndScripts)
+    prop.scripts = [EmbeddedScript(file=script_type, text='print("hello")', pv_names={'PV:A': True})]
+
+    script_elem = _get_script_elems(prop)[0]
+    assert script_elem.attrib['file'] == expected_file
+    assert script_elem.find('text').text == 'print("hello")'
+
+    script = prop.scripts[0]
+    assert isinstance(script, EmbeddedScript)
+    assert script.file is EmbeddedScriptType(expected_file)
+    assert script.text == 'print("hello")'
+    assert script.pv_names == {'PV:A': True}
+
+
+def test_script_check_connections(property_factory):
+    prop = property_factory(HasActionsRulesAndScripts)
+    prop.scripts = [Script(file='s.py', check_connections=False)]
+    assert _get_script_elems(prop)[0].attrib['check_connections'] == 'false'
+    assert prop.scripts[0].check_connections is False
+
+
+def test_multiple_scripts_property(property_factory):
+    prop = property_factory(HasActionsRulesAndScripts)
+    prop.scripts = [Script(file='s.py'), EmbeddedScript(file=EmbeddedScriptType.PYTHON, text='pass')]
+    assert len(_get_script_elems(prop)) == 2
+    assert not isinstance(prop.scripts[0], EmbeddedScript)
+    assert isinstance(prop.scripts[1], EmbeddedScript)
+
+
+def test_script_without_file_is_rejected(property_factory):
+    prop = property_factory(HasActionsRulesAndScripts)
+    with pytest.raises(ValueError):
+        prop.scripts = [Script()]
+
+
+def test_execute_action_embedded_script(property_factory):
+    prop = property_factory(HasActionsRulesAndScripts)
+    prop.actions = [ExecuteAction(description='Run', script=EmbeddedScript(file=EmbeddedScriptType.PYTHON, text='pass'))]
+
+    script_elem = prop.root.find('actions').find('action').find('script')
+    assert script_elem is not None
+    assert script_elem.attrib['file'] == 'EmbeddedPy'
+
+    assert isinstance(prop.actions[0].script, EmbeddedScript)
+    assert prop.actions[0].script.text == 'pass'

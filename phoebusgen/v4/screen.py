@@ -1,4 +1,4 @@
-""" phoebusgen.screen Module
+"""phoebusgen.screen Module
 
 This module contains a Python class representation of a Phoebus screen. A screen
 can be created via the Screen class and then widgets from Phoebusgen.widget can be
@@ -52,8 +52,23 @@ from phoebusgen.v4.widgets import HasWidgets, Widget
 from phoebusgen.v4.widgets.structure import EmbeddedDisplay, TemplateInstance
 
 
+def _strip_indentation_whitespace(elem: ET.Element) -> None:
+    """
+    Remove whitespace-only text and tail nodes left by pretty-printing.
+
+    Preserves real leaf text (e.g. multi-line tooltips) that would otherwise be
+    mangled by naive line stripping.
+    """
+    if elem.text is not None and not elem.text.strip():
+        elem.text = None
+    if elem.tail is not None and not elem.tail.strip():
+        elem.tail = None
+    for child in elem:
+        _strip_indentation_whitespace(child)
+
+
 class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, HasGrid, HasActionsRulesAndScripts):
-    """ Phoebus Screen object that holds widgets and can be written to .bob file """
+    """Phoebus Screen object that holds widgets and can be written to .bob file."""
 
     width: int = 800
     height: int = 600
@@ -70,8 +85,8 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         self.bob_file = f_name
         if f_name is not None and os.path.exists(f_name) and not overwrite:
             with open(f_name, 'r') as f:
-                rough_string = ''.join([line.strip() for line in f.readlines()])
-            root = ET.fromstring(rough_string)
+                root = ET.fromstring(f.read())
+            _strip_indentation_whitespace(root)
         else:
             root = ET.Element('display', attrib={'version': '2.0.0'})
 
@@ -149,13 +164,15 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         # Collect from TemplateInstance widgets
         for widget in all_widgets:
             if isinstance(widget, TemplateInstance) and widget.file is not None:
-                macros = {}
-                macros.update(screen_macros)
-                macros.update(widget.macros)
-                transitions.append(ScreenTransition(
-                    target=Path(widget.file),
-                    macros=macros,
-                ))
+                # A template references a single file; each instance supplies its own macros.
+                for instance in widget.instances:
+                    macros = {}
+                    macros.update(screen_macros)
+                    macros.update(instance.macros)
+                    transitions.append(ScreenTransition(
+                        target=Path(widget.file),
+                        macros=macros,
+                    ))
 
         # Collect from NavigationTabs widgets
         for widget in all_widgets:
@@ -226,8 +243,12 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
                 else:
                     name = match
                     has_default = False
+                # List property references may index into the list, e.g.
+                # $(traces[0].y_pv); the token before the '[' is the widget
+                # property name Phoebus resolves against.
+                root_name = name.split('[', 1)[0]
                 # Exclude widget property references and built-in macros
-                if name in widget_property_names or name in self.BUILTIN_MACROS:
+                if name in widget_property_names or root_name in widget_property_names or name in self.BUILTIN_MACROS:
                     continue
                 if has_default:
                     macros_with_defaults.add(name)
@@ -275,7 +296,7 @@ class Screen(HasWidgets, HasPosition, HasBackgroundColor, HasMacros, HasName, Ha
         start_path = Path(self.bob_file) if self.bob_file else Path(self.name + '.bob')
         visited = set()  # type: Set[Path]
 
-        def _visit(screen_path: Path, screen: 'Screen', screen_dir: Path = None):
+        def _visit(screen_path: Path, screen: 'Screen', screen_dir: Optional[Path] = None):
             if screen_dir is None:
                 screen_dir = Path(screen_path).resolve().parent
 

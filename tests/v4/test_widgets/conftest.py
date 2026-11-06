@@ -29,7 +29,7 @@ def widget_factory() -> Callable[..., Widget]:
                     params.append(kwargs[param_name])
                 else:
                     params.append('')
-        return widget_cls(*params)
+        return widget_cls(*params)  # type: ignore
     return _factory
 
 @pytest.fixture

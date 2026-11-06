@@ -100,7 +100,7 @@ def test_text_update_from_xml():
     assert tu.pv_name == 'MY:PV'
     assert tu.precision == 2
     assert tu.show_units
-    assert tu.format == Format.DECIMAL  # Default format
+    assert tu.format == Format.DEFAULT  # Default format
 
 
 def test_create_led_widget():
@@ -258,8 +258,8 @@ def test_create_byte_monitor_widget():
   <width>200</width>
   <height>30</height>
   <pv_name>TEST:BYTE</pv_name>
-  <start_bit>0</start_bit>
-  <num_bits>8</num_bits>
+  <startBit>0</startBit>
+  <numBits>8</numBits>
   <horizontal>true</horizontal>
 </widget>
 """
@@ -273,8 +273,8 @@ def test_byte_monitor_from_xml():
   <width>160</width>
   <height>20</height>
   <pv_name>SYS:BITS</pv_name>
-  <num_bits>16</num_bits>
-  <start_bit>0</start_bit>
+  <numBits>16</numBits>
+  <startBit>0</startBit>
 </widget>"""
     bm = ByteMonitor.from_element(fromstring(bm_xml))
     assert bm is not None

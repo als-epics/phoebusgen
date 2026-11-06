@@ -205,6 +205,18 @@ def test_action_button_from_xml():
     assert btn.actions[0].value == '42'
 
 
+def test_action_button_from_xml_uses_default_height_when_omitted():
+    btn_xml = """<widget type="action_button" version="3.0.0">
+  <name>Btn 1</name>
+  <x>5</x>
+  <y>5</y>
+  <pv_name>SYS:CMD</pv_name>
+  <text>Execute</text>
+</widget>"""
+    btn = ActionButton.from_element(fromstring(btn_xml))
+    assert btn.height == 30
+
+
 def test_create_boolean_button_widget():
     btn = BooleanButton(name='Test Bool', pv_name='TEST:TOGGLE', x=10, y=10, width=80, height=40)
     assert btn is not None

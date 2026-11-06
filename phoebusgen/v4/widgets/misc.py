@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Union
+from typing import Optional, Union
 
 from phoebusgen.v4.properties.display import HasShowToolbar
 from phoebusgen.v4.properties.widget import HasFile, HasUrl
@@ -13,7 +13,7 @@ class ThreeDViewer(Widget, HasFile):
     width: int = 600
     height: int = 600
 
-    def __init__(self, name: str, file: Union[Path, str], x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', file: Optional[Union[Path, str]] = '', x: int = 0, y: int = 0, width: int = 600, height: int = 600) -> None:
         """
         Create ThreeDViewer Widget
 
@@ -30,11 +30,11 @@ class ThreeDViewer(Widget, HasFile):
 class WebBrowser(Widget, HasUrl, HasShowToolbar):
     """WebBrowser Phoebus Widget"""
 
+    show_toolbar: bool = True
     width: int = 800
     height: int = 600
-    show_toolbar: bool = True
 
-    def __init__(self, name: str, url: str, x: int, y: int, width: int, height: int) -> None:
+    def __init__(self, name: str = '', url: str = '', x: int = 0, y: int = 0, width: int = 800, height: int = 600) -> None:
         """
         Create WebBrowser Widget
 

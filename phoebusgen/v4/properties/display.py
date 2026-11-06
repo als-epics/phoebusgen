@@ -13,12 +13,14 @@ from .types import (
     Format,
     GroupStyle,
     HorizontalAlignment,
+    IntEnumType,
     LinearMeterColors,
     LineStyle,
     ObservableList,
     Point,
     ResizeBehavior,
     RotationStep,
+    StrEnumType,
     TabDirection,
     VerticalAlignment,
 )
@@ -31,11 +33,11 @@ class HasFont(PropertyBase):
     font: Font
 
 class HasArrows(PropertyBase):
-    arrows: ArrowTypes = ArrowTypes.NONE
+    arrows: StrEnumType[ArrowTypes] = ArrowTypes.NONE
     arrow_length: int = 20
 
 class HasLineStyle(PropertyBase):
-    line_style: LineStyle = LineStyle.SOLID
+    line_style: IntEnumType[LineStyle] = LineStyle.SOLID
 
 class HasWrapWords(PropertyBase):
     wrap_words: bool = True
@@ -69,16 +71,16 @@ class HasAngle(PropertyBase):
     total_angle: float = 90.0
 
 class HasHorizontalAlignment(PropertyBase):
-    horizontal_alignment: HorizontalAlignment = HorizontalAlignment.CENTER
+    horizontal_alignment: IntEnumType[HorizontalAlignment] = HorizontalAlignment.CENTER
 
 class HasVerticalAlignment(PropertyBase):
-    vertical_alignment: VerticalAlignment = VerticalAlignment.MIDDLE
+    vertical_alignment: IntEnumType[VerticalAlignment] = VerticalAlignment.MIDDLE
 
 class HasRotation(PropertyBase):
     rotation: float = 0.0
 
 class HasRotationStep(PropertyBase):
-    rotation_step: RotationStep
+    rotation_step: IntEnumType[RotationStep]
 
 class HasLineColor(PropertyBase):
     line_color: ColorType
@@ -100,7 +102,7 @@ class HasTransparent(PropertyBase):
     transparent: bool = False
 
 class HasFormat(PropertyBase):
-    format: Format = Format.DECIMAL
+    format: IntEnumType[Format] = Format.DECIMAL
 
 class HasPrecision(PropertyBase):
     precision: int = -1
@@ -121,7 +123,7 @@ class HasHeightPV(PropertyBase):
     height_pv: str
 
 class HasItemsFromPV(PropertyBase):
-    items_from_pv: bool
+    items_from_pv: bool = True
 
 class HasSelectionValuePV(PropertyBase):
     selection_value_pv: str
@@ -139,7 +141,7 @@ class HasHorizontal(PropertyBase):
     horizontal: bool = True
 
 class HasShowLED(PropertyBase):
-    show_led: bool
+    show_led: bool = True
 
 class HasSelectedColor(PropertyBase):
     selected_color: Color
@@ -148,7 +150,7 @@ class HasDeselectedColor(PropertyBase):
     deselected_color: Color
 
 class HasShowValueTip(PropertyBase):
-    show_value_tip: bool
+    show_value_tip: bool = True
 
 class HasButtonsOnLeft(PropertyBase):
     buttons_on_left: bool
@@ -193,25 +195,24 @@ class HasColumns(PropertyBase):
     columns: List[Column] = ObservableList([Column()])
 
 class HasScaleVisible(PropertyBase):
-    scale_visible: bool
+    scale_visible: bool = True
 
 class HasEmptyColor(PropertyBase):
     empty_color: ColorType
-
 class HasGroupName(PropertyBase):
     group_name: str
 
 class HasResizeBehavior(PropertyBase):
-    resize_behavior: ResizeBehavior
+    resize_behavior: IntEnumType[ResizeBehavior]
 
 class HasGroupStyle(PropertyBase):
-    style: GroupStyle
+    style: IntEnumType[GroupStyle]
 
 class HasColorBar(PropertyBase):
     color_bar: ColorBar
 
 class HasColorMap(PropertyBase):
-    color_map: ColorMap = ColorMap.VIRIDIS
+    color_map: StrEnumType[ColorMap] = ColorMap.VIRIDIS
 
 class HasScaleFont(PropertyBase):
     scale_font: Font
@@ -220,7 +221,7 @@ class HasLabelFont(PropertyBase):
     label_font: Font
 
 class HasTimeRange(PropertyBase):
-    start: str
+    start: str = '1 minute'
     end: str
 
 class HasTitle(PropertyBase):
@@ -236,7 +237,7 @@ class HasShowLegend(PropertyBase):
     show_legend: bool
 
 class HasGap(PropertyBase):
-    gap: int
+    gap: int = 10
 
 class HasWrapCount(PropertyBase):
     wrap_count: int
@@ -256,8 +257,8 @@ class HasKnobAndNeedleSize(PropertyBase):
 
 class HasTabActiveHeightDirection(PropertyBase):
     tab_height: int = 30
-    direction: TabDirection = TabDirection.HORIZONTAL
-    active_tab: int = 1
+    direction: IntEnumType[TabDirection] = TabDirection.HORIZONTAL
+    active_tab: int = 0
 
 class HasShowLimits(PropertyBase):
     show_limits: bool = True
@@ -272,3 +273,15 @@ class HasStatusColors(PropertyBase):
     normal_status_color: ColorType = Color((194, 198, 195))
     minor_warning_color: ColorType = Color((242, 148, 141))
     major_warning_color: ColorType = Color((240, 60, 46))
+
+class HasEnablePerTabColors(PropertyBase):
+    enable_per_tab_colors: bool = False
+
+class HasTankScale(PropertyBase):
+    show_alarm_limits: bool = False
+    alarm_limits_from_pv: bool = True
+    minor_alarm_color: ColorType = Color((255, 128, 0))
+    major_alarm_color: ColorType = Color((255, 0, 0))
+    opposite_scale_visible: bool = False
+    perpendicular_tick_labels: bool = False
+    tank_border_width: int = 0

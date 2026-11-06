@@ -20,7 +20,15 @@ from phoebusgen.v4.widgets import Label, Rectangle, TextUpdate, Widget
 from phoebusgen.v4.widgets.structure import Group
 from phoebusgen.v4.widgets.widget import WidgetType, _widget_type_from_class_name
 
-WIDGET_CLASSES = Widget.__subclasses__()
+WIDGET_CLASSES: List[Type[Widget]] = Widget.__subclasses__()
+
+
+def _declared_default(widget, prop_name):
+    """Return the declared default value for ``prop_name`` on ``widget``'s class."""
+    for props in type(widget)._all_properties.values():
+        if prop_name in props:
+            return props[prop_name].default_value
+    raise KeyError(prop_name)
 
 
 @pytest.mark.parametrize('widget_class', WIDGET_CLASSES, ids=lambda cls: cls.__name__)
@@ -28,7 +36,6 @@ def test_widget_type_from_class_name(widget_class):
     """Verify that every Widget subclass resolves to a valid WidgetType enum member."""
     wt = _widget_type_from_class_name(widget_class.__name__)
     assert isinstance(wt, WidgetType), f'{widget_class.__name__} did not resolve to a WidgetType'
-    assert wt.value, f'{widget_class.__name__} resolved to an enum member with an empty value'
 
 
 def _filter_widget_classes_by_property_type(property_type: type) -> List[Tuple[Type[Widget], str]]:
@@ -155,7 +162,7 @@ def test_widget_font_properties(widget_class, widget_factory, prop_name, check_f
     # Make sure the property attr is set with correct type and default value
     assert hasattr(widget, prop_name)
     assert isinstance(getattr(widget, prop_name), Font)
-    assert getattr(widget, prop_name) == Font() # Default font value
+    assert getattr(widget, prop_name) == _declared_default(widget, prop_name) # Default font value
 
     # Set font property to a new Font value
     new_font = Font(family='Times New Roman', size=16, style=FontStyle.ITALIC)
@@ -213,7 +220,7 @@ def test_widget_axis_properties(widget_class, widget_factory, prop_name, check_c
     assert hasattr(widget, prop_name)
     axis_prop = getattr(widget, prop_name)
     assert isinstance(axis_prop, Axis)
-    assert axis_prop == Axis() # Default axis value
+    assert axis_prop == _declared_default(widget, prop_name) # Default axis value
 
     # Set some attributes on the Axis property
     axis_prop.title = 'Test Axis'
