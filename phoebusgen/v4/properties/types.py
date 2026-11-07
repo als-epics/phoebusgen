@@ -249,14 +249,16 @@ class EmbeddedScriptType(str, Enum):
 class Format(int, Enum):
     DEFAULT = 0
     DECIMAL = 1
-    ENGINEERING = 2
-    HEXADECIMAL = 3
-    COMPACT = 4
-    STRING = 5
-    SEXAGESIMAL_HH_MM_SS = 6
-    SEXAGESIMAL_HMS_24H_RAD = 7
-    SEXAGESIMAL_DMS_360D_RAD = 8
-    BINARY = 9
+    EXPONENTIAL = 2
+    ENGINEERING = 3
+    HEXADECIMAL = 4
+    COMPACT = 5
+    STRING = 6
+    SEXAGESIMAL_HH_MM_SS = 7
+    SEXAGESIMAL_HMS_24H_RAD = 8
+    SEXAGESIMAL_DMS_360D_RAD = 9
+    BINARY = 10
+    SIGNIFICANT = 11
 
 KT = TypeVar('KT')
 VT = TypeVar('VT')
