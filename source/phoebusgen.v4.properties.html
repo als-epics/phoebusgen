@@ -1469,10 +1469,12 @@
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.DECIMAL"><code class="docutils literal notranslate"><span class="pre">Format.DECIMAL</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.DEFAULT"><code class="docutils literal notranslate"><span class="pre">Format.DEFAULT</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.ENGINEERING"><code class="docutils literal notranslate"><span class="pre">Format.ENGINEERING</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.EXPONENTIAL"><code class="docutils literal notranslate"><span class="pre">Format.EXPONENTIAL</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.HEXADECIMAL"><code class="docutils literal notranslate"><span class="pre">Format.HEXADECIMAL</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_DMS_360D_RAD"><code class="docutils literal notranslate"><span class="pre">Format.SEXAGESIMAL_DMS_360D_RAD</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HH_MM_SS"><code class="docutils literal notranslate"><span class="pre">Format.SEXAGESIMAL_HH_MM_SS</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HMS_24H_RAD"><code class="docutils literal notranslate"><span class="pre">Format.SEXAGESIMAL_HMS_24H_RAD</span></code></a></li>
+<li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.SIGNIFICANT"><code class="docutils literal notranslate"><span class="pre">Format.SIGNIFICANT</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.STRING"><code class="docutils literal notranslate"><span class="pre">Format.STRING</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.as_integer_ratio"><code class="docutils literal notranslate"><span class="pre">Format.as_integer_ratio()</span></code></a></li>
 <li><a class="reference internal" href="#phoebusgen.v4.properties.types.Format.bit_count"><code class="docutils literal notranslate"><span class="pre">Format.bit_count()</span></code></a></li>
@@ -13538,12 +13540,12 @@ left untouched.  Characters mapped to None are deleted.</p>
 <p>An enumeration.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.BINARY">
-<span class="sig-name descname"><span class="pre">BINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.BINARY" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BINARY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.BINARY" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.COMPACT">
-<span class="sig-name descname"><span class="pre">COMPACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.COMPACT" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">COMPACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.COMPACT" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -13558,32 +13560,42 @@ left untouched.  Characters mapped to None are deleted.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.ENGINEERING">
-<span class="sig-name descname"><span class="pre">ENGINEERING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.ENGINEERING" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ENGINEERING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.ENGINEERING" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.EXPONENTIAL">
+<span class="sig-name descname"><span class="pre">EXPONENTIAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.EXPONENTIAL" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.HEXADECIMAL">
-<span class="sig-name descname"><span class="pre">HEXADECIMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.HEXADECIMAL" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">HEXADECIMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.HEXADECIMAL" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.SEXAGESIMAL_DMS_360D_RAD">
-<span class="sig-name descname"><span class="pre">SEXAGESIMAL_DMS_360D_RAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_DMS_360D_RAD" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SEXAGESIMAL_DMS_360D_RAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_DMS_360D_RAD" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HH_MM_SS">
-<span class="sig-name descname"><span class="pre">SEXAGESIMAL_HH_MM_SS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HH_MM_SS" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SEXAGESIMAL_HH_MM_SS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HH_MM_SS" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HMS_24H_RAD">
-<span class="sig-name descname"><span class="pre">SEXAGESIMAL_HMS_24H_RAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HMS_24H_RAD" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">SEXAGESIMAL_HMS_24H_RAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SEXAGESIMAL_HMS_24H_RAD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.SIGNIFICANT">
+<span class="sig-name descname"><span class="pre">SIGNIFICANT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.SIGNIFICANT" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="phoebusgen.v4.properties.types.Format.STRING">
-<span class="sig-name descname"><span class="pre">STRING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.STRING" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">STRING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#phoebusgen.v4.properties.types.Format.STRING" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
